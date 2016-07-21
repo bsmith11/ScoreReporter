@@ -1,0 +1,51 @@
+PODS:
+  - Alamofire (3.4.1)
+  - Anchorage (2.0.1)
+  - Expecta (1.0.5)
+  - OCMock (3.3.1)
+  - OHHTTPStubs (5.1.0):
+    - OHHTTPStubs/Default (= 5.1.0)
+  - OHHTTPStubs/Core (5.1.0)
+  - OHHTTPStubs/Default (5.1.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (5.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (5.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (5.1.0)
+  - pop (1.0.9)
+  - RZImport (3.0.1)
+  - RZVinyl (3.0.1):
+    - RZVinyl/Extensions (= 3.0.1)
+  - RZVinyl/Core (3.0.1)
+  - RZVinyl/Extensions (3.0.1):
+    - RZImport (~> 3.0)
+    - RZVinyl/Core
+  - Specta (1.0.5)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - Anchorage (~> 2.0)
+  - Expecta
+  - OCMock
+  - OHHTTPStubs
+  - pop (~> 1.0)
+  - RZImport (~> 3.0)
+  - RZVinyl (~> 3.0)
+  - Specta
+
+SPEC CHECKSUMS:
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Anchorage: e5def1173d2a3e2371373a9f054d3364e8b8ec17
+  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
+  OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
+  OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  RZImport: ac35279cf1be1aa79bef08508dba72487e841189
+  RZVinyl: 90724cafcf7cd97c8b5db1cecec4804acac3c4d3
+  Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
+
+COCOAPODS: 0.39.0

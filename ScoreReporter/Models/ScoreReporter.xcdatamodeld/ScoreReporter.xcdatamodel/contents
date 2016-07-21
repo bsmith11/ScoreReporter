@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Xcode 7.0">
+    <entity name="Bracket" representedClassName=".Bracket" syncable="YES">
+        <attribute name="bracketID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="brackets" inverseEntity="Round" syncable="YES"/>
+        <relationship name="stages" toMany="YES" deletionRule="Cascade" destinationEntity="Stage" inverseName="bracket" inverseEntity="Stage" syncable="YES"/>
+    </entity>
+    <entity name="Cluster" representedClassName=".Cluster" syncable="YES">
+        <attribute name="clusterID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="Game" inverseName="cluster" inverseEntity="Game" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="clusters" inverseEntity="Round" syncable="YES"/>
+    </entity>
+    <entity name="Event" representedClassName=".Event" syncable="YES">
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="eventID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="logoPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="typeName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="groups" toMany="YES" deletionRule="Cascade" destinationEntity="Group" inverseName="event" inverseEntity="Group" syncable="YES"/>
+    </entity>
+    <entity name="Game" representedClassName=".Game" syncable="YES">
+        <attribute name="awayTeamName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="awayTeamScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fieldName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="homeTeamName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="homeTeamScore" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="startDateFull" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cluster" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cluster" inverseName="games" inverseEntity="Cluster" syncable="YES"/>
+        <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pool" inverseName="games" inverseEntity="Pool" syncable="YES"/>
+        <relationship name="stage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stage" inverseName="games" inverseEntity="Stage" syncable="YES"/>
+    </entity>
+    <entity name="Group" representedClassName=".Group" syncable="YES">
+        <attribute name="division" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="divisionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="groupID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="teamCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="groups" inverseEntity="Event" syncable="YES"/>
+        <relationship name="rounds" toMany="YES" deletionRule="Cascade" destinationEntity="Round" inverseName="group" inverseEntity="Round" syncable="YES"/>
+    </entity>
+    <entity name="Pool" representedClassName=".Pool" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="poolID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="Game" inverseName="pool" inverseEntity="Game" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="pools" inverseEntity="Round" syncable="YES"/>
+        <relationship name="standings" toMany="YES" deletionRule="Cascade" destinationEntity="Standing" inverseName="pool" inverseEntity="Standing" syncable="YES"/>
+    </entity>
+    <entity name="Round" representedClassName=".Round" syncable="YES">
+        <attribute name="roundID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="brackets" toMany="YES" deletionRule="Cascade" destinationEntity="Bracket" inverseName="round" inverseEntity="Bracket" syncable="YES"/>
+        <relationship name="clusters" toMany="YES" deletionRule="Cascade" destinationEntity="Cluster" inverseName="round" inverseEntity="Cluster" syncable="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="rounds" inverseEntity="Group" syncable="YES"/>
+        <relationship name="pools" toMany="YES" deletionRule="Cascade" destinationEntity="Pool" inverseName="round" inverseEntity="Pool" syncable="YES"/>
+    </entity>
+    <entity name="Stage" representedClassName=".Stage" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stageID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="bracket" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bracket" inverseName="stages" inverseEntity="Bracket" syncable="YES"/>
+        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="Game" inverseName="stage" inverseEntity="Game" syncable="YES"/>
+    </entity>
+    <entity name="Standing" representedClassName=".Standing" syncable="YES">
+        <attribute name="losses" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="seed" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="teamName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wins" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pool" inverseName="standings" inverseEntity="Pool" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Event" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="Group" positionX="-54" positionY="63" width="128" height="165"/>
+        <element name="Round" positionX="-36" positionY="72" width="128" height="120"/>
+        <element name="Bracket" positionX="-18" positionY="81" width="128" height="120"/>
+        <element name="Cluster" positionX="0" positionY="90" width="128" height="105"/>
+        <element name="Pool" positionX="18" positionY="99" width="128" height="120"/>
+        <element name="Stage" positionX="36" positionY="108" width="128" height="105"/>
+        <element name="Game" positionX="-9" positionY="54" width="128" height="240"/>
+        <element name="Standing" positionX="0" positionY="63" width="128" height="135"/>
+    </elements>
+</model>
