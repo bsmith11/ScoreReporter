@@ -26,4 +26,17 @@ extension NSDate {
 
         return calendar.dateFromComponents(dateComponents)
     }
+    
+    static func enclosingDatesForCurrentWeek() -> (NSDate, NSDate) {
+        let calendar = NSCalendar.currentCalendar()
+        calendar.firstWeekday = 2
+        
+        var startDate: NSDate? = nil
+        var interval: NSTimeInterval = 0.0
+        calendar.rangeOfUnit(.WeekOfYear, startDate: &startDate, interval: &interval, forDate: NSDate())
+        
+        let endDate = startDate?.dateByAddingTimeInterval(interval)
+        
+        return (startDate ?? NSDate(), endDate ?? NSDate())
+    }
 }

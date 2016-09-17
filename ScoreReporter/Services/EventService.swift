@@ -8,13 +8,10 @@
 
 import Foundation
 import Alamofire
-import RZVinyl
 
 typealias DownloadCompletion = (NSError?) -> Void
 
-struct EventService {
-    private let baseURL = NSURL(string: "http://play.usaultimate.org/ajax/api.aspx")!
-    
+struct EventService {    
     let client: APIClient
 }
 
@@ -22,20 +19,11 @@ struct EventService {
 
 extension EventService {
     func downloadEventListWithCompletion(completion: DownloadCompletion?) {
-        let encoding = ParameterEncoding.URL
-        let request = NSMutableURLRequest(URL: baseURL)
-        request.HTTPMethod = Method.GET.rawValue
         let parameters = [
             "f": "GETALLEVENTS"
         ]
-        let result = encoding.encode(request, parameters: parameters)
-
-        guard result.1 == nil else {
-            completion?(result.1)
-            return
-        }
-
-        client.request(result.0) { (result: Result<AnyObject, NSError>) in
+        
+        let requestCompletion = { (result: Result<AnyObject, NSError>) in
             if result.isSuccess {
                 self.handleSuccessfulEventListResponse(result.value, completion: completion)
             }
@@ -43,24 +31,17 @@ extension EventService {
                 completion?(result.error)
             }
         }
+        
+        client.request(.GET, path: "", encoding: .URL, parameters: parameters, completion: requestCompletion)
     }
 
     func downloadEventWithEventID(eventID: NSNumber, completion: DownloadCompletion?) {
-        let encoding = ParameterEncoding.URL
-        let request = NSMutableURLRequest(URL: baseURL)
-        request.HTTPMethod = Method.GET.rawValue
         let parameters = [
             "f": "GETGAMESBYEVENT",
             "EventId": eventID
         ]
-        let result = encoding.encode(request, parameters: parameters)
 
-        guard result.1 == nil else {
-            completion?(result.1)
-            return
-        }
-
-        client.request(result.0) { (result: Result<AnyObject, NSError>) in
+        let requestCompletion = { (result: Result<AnyObject, NSError>) in
             if result.isSuccess {
                 self.handleSuccessfulEventResponse(result.value, completion: completion)
             }
@@ -68,6 +49,8 @@ extension EventService {
                 completion?(result.error)
             }
         }
+        
+        client.request(.GET, path: "", encoding: .URL, parameters: parameters, completion: requestCompletion)
     }
 }
 
@@ -82,11 +65,7 @@ private extension EventService {
                 return
         }
 
-        let block = { (context: NSManagedObjectContext) -> Void in
-            Event.rzi_objectsFromArray(eventArray, inContext: context)
-        }
-
-        CoreDataStack.defaultStack().performBlockUsingBackgroundContext(block, completion: completion)
+        Event.eventsFromArrayWithCompletion(eventArray, completion: completion)
     }
 
     func handleSuccessfulEventResponse(response: AnyObject?, completion: DownloadCompletion?) {
@@ -97,10 +76,6 @@ private extension EventService {
                 return
         }
 
-        let block = { (context: NSManagedObjectContext) -> Void in
-            Group.rzi_objectsFromArray(groupArray, inContext: context)
-        }
-
-        CoreDataStack.defaultStack().performBlockUsingBackgroundContext(block, completion: completion)
+        Group.groupsFromArrayWithCompletion(groupArray, completion: completion)
     }
 }

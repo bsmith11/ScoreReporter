@@ -9,7 +9,7 @@
 import CoreData
 
 enum FetchedChangeType: UInt {
-    case Insert
+    case Insert = 1
     case Delete
     case Move
     case Update

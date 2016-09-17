@@ -9,14 +9,6 @@
 import UIKit
 
 extension UIColor {
-    class func rgb(r: Int, _ g: Int, _ b: Int) -> UIColor {
-        return UIColor.rgba(r, g, b, 1.0)
-    }
-
-    class func rgba(r: Int, _ g: Int, _ b: Int, _ a: CGFloat) -> UIColor {
-        return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: a)
-    }
-
     convenience init(hexString: String) {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
@@ -66,8 +58,15 @@ extension UIColor {
 }
 
 extension UIColor {
-    static func navyColor() -> UIColor {
+    static func USAUNavyColor() -> UIColor {
         return UIColor(hexString: "#001E42")
-//        return UIColor(hexString: "#162031")
+    }
+    
+    static func USAURedColor() -> UIColor {
+        return UIColor(hexString: "#B20838")
+    }
+    
+    static func messageGreenColor() -> UIColor {
+        return UIColor(hexString: "#32B92D")
     }
 }

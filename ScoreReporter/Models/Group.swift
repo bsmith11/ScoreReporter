@@ -53,6 +53,18 @@ class Group: NSManagedObject {
 
 }
 
+//MARK: - Public
+
+extension Group {
+    static func groupsFromArrayWithCompletion(array: [[String: AnyObject]], completion: DownloadCompletion?) {
+        let block = { (context: NSManagedObjectContext) -> Void in
+            Group.rzi_objectsFromArray(array, inContext: context)
+        }
+        
+        rzv_coreDataStack().performBlockUsingBackgroundContext(block, completion: completion)
+    }
+}
+
 // MARK: - RZVinyl
 
 extension Group {

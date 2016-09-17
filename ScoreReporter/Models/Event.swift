@@ -17,8 +17,46 @@ class Event: NSManagedObject {
 // MARK: - Public
 
 extension Event {
+    static func eventsFromArrayWithCompletion(array: [[String: AnyObject]], completion: DownloadCompletion?) {
+        let block = { (context: NSManagedObjectContext) -> Void in
+            Event.rzi_objectsFromArray(array, inContext: context)
+        }
+        
+        rzv_coreDataStack().performBlockUsingBackgroundContext(block, completion: completion)
+    }
+    
+    static func fetchedEventsThisWeek() -> NSFetchedResultsController {
+        let datesTuple = NSDate.enclosingDatesForCurrentWeek()
+        
+        let predicates = [
+            NSPredicate(format: "%K == %@", "type", "Tournament"),
+            NSPredicate(format: "%K > %@ AND %K < %@", "startDate", datesTuple.0, "startDate", datesTuple.1)
+        ]
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "startDate", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        let request = NSFetchRequest(entityName: rzv_entityName())
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        request.sortDescriptors = sortDescriptors
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch let error as NSError {
+            print("Failed to fetch events with error: \(error)")
+        }
+        
+        return fetchedResultsController
+    }
+    
     static func fetchedEvents() -> NSFetchedResultsController {
         let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        
         let sortDescriptors = [
             NSSortDescriptor(key: "startDate", ascending: true),
             NSSortDescriptor(key: "name", ascending: true)
@@ -38,6 +76,21 @@ extension Event {
         }
 
         return fetchedResultsController
+    }
+    
+    static func searchPredicateWithText(text: String?) -> NSPredicate {
+        let typePredicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        
+        guard let text = text where !text.isEmpty else {
+            return typePredicate
+        }
+        
+        let predicates = [
+            typePredicate,
+            NSPredicate(format: "%K contains[cd] %@", "name", text)
+        ]
+        
+        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }
 

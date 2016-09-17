@@ -43,11 +43,11 @@ extension UICollectionView {
 extension UICollectionView {
     func handleChanges(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
         let updates = { [weak self] in
-            for change in changes {
+            changes.forEach({ change in
                 switch change {
                 case .Section(let type, let index):
                     let indexSet = NSIndexSet(index: index)
-
+                    
                     switch type {
                     case .Insert:
                         self?.insertSections(indexSet)
@@ -56,7 +56,6 @@ extension UICollectionView {
                     default:
                         break
                     }
-                    break
                 case .Object(let type, let indexPath, let newIndexPath):
                     switch type {
                     case .Insert:
@@ -76,9 +75,8 @@ extension UICollectionView {
                             self?.reloadItemsAtIndexPaths([indexPath])
                         }
                     }
-                    break
                 }
-            }
+            })
         }
 
         performBatchUpdates(updates, completion: completion)

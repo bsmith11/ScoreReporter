@@ -12,8 +12,9 @@ struct EventViewModel {
     let name: String
     let location: String
     let logoURL: NSURL?
-    let startMonth: String
     let startDay: String
+    let startMonth: String
+    let eventDate: String
 
     init(event: Event?) {
         name = event?.name ?? "No Name"
@@ -26,7 +27,8 @@ struct EventViewModel {
         logoURL = event?.logoPath.flatMap({NSURL(string: "\(baseURL)\($0)")})
 
         let startDate = event?.startDate ?? NSDate()
-        startMonth = DateService.monthDateFormatter.stringFromDate(startDate)
         startDay = DateService.dayDateFormatter.stringFromDate(startDate)
+        startMonth = DateService.monthDateFormatter.stringFromDate(startDate)
+        eventDate = DateService.eventDateFormatter.stringFromDate(startDate)
     }
 }

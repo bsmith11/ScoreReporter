@@ -9,5 +9,20 @@
 import UIKit
 
 class EventViewController: UIViewController {
+    init(viewModel: EventViewModel) {
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+    }
 }

@@ -19,20 +19,25 @@ extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         CoreDataStack.configureStack()
 
-        UINavigationBar.appearance().barTintColor = UIColor.navyColor()
+        UINavigationBar.appearance().barTintColor = UIColor.USAUNavyColor()
         UINavigationBar.appearance().translucent = false
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().titleTextAttributes = [
             NSFontAttributeName: UIFont.systemFontOfSize(18.0, weight: UIFontWeightLight),
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
+        
+        let titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]
+        UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, forState: .Normal)
 
-        let eventListViewModel = EventListViewModel()
-        let eventListViewController = EventListViewController(viewModel: eventListViewModel)
-        let eventListNavigationController = BaseNavigationController(rootViewController: eventListViewController)
+        let homeViewModel = HomeViewModel()
+        let homeViewController = HomeViewController(viewModel: homeViewModel)
+        let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
 
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = eventListNavigationController
+        window?.rootViewController = homeNavigationController
         window?.makeKeyAndVisible()
 
         return true

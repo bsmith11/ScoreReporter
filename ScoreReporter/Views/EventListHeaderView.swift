@@ -54,12 +54,12 @@ private extension EventListHeaderView {
 
         monthLabel.numberOfLines = 1
         monthLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightLight)
-        monthLabel.textColor = UIColor.navyColor()
+        monthLabel.textColor = UIColor.USAUNavyColor()
         contentStackView.addArrangedSubview(monthLabel)
 
         dayLabel.numberOfLines = 1
         dayLabel.font = UIFont.systemFontOfSize(24.0, weight: UIFontWeightLight)
-        dayLabel.textColor = UIColor.navyColor()
+        dayLabel.textColor = UIColor.USAUNavyColor()
         contentStackView.addArrangedSubview(dayLabel)
     }
 

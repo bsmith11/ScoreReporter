@@ -15,9 +15,10 @@ class APIClient {
     static let sharedInstance = APIClient()
 
     private let manager: Manager
+    private let baseURL = NSURL(string: "http://play.usaultimate.org/ajax/api.aspx")!
 
     init() {
-        let config: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         manager = Manager(configuration: config, serverTrustPolicyManager: nil)
     }
 }
@@ -25,9 +26,21 @@ class APIClient {
 // MARK: - Public
 
 extension APIClient {
-    func request(route: URLRequestConvertible, completion: APICompletion?) {
-        manager.request(route).validate(statusCode: 200...399).responseJSON { response -> Void in
-            completion?(response.result)
+    func request(method: Alamofire.Method, path: String, encoding: ParameterEncoding = .URL, parameters: [String: AnyObject]? = nil, completion: APICompletion?) {
+        let URL = baseURL.URLByAppendingPathComponent(path)
+        let request = NSMutableURLRequest(URL: URL)
+        request.HTTPMethod = method.rawValue
+        
+        let resultTuple = encoding.encode(request, parameters: parameters)
+        
+        if let error = resultTuple.1 {
+            let result = Result<AnyObject, NSError>.Failure(error)
+            completion?(result)
+        }
+        else {
+            manager.request(resultTuple.0).validate(statusCode: 200...399).responseJSON { (response: Response<AnyObject, NSError>) -> Void in
+                completion?(response.result)
+            }
         }
     }
 }

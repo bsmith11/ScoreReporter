@@ -9,12 +9,12 @@
 import CoreData
 
 class EventListViewModel: FetchedDataSource {
-    typealias ModalType = Event
+    typealias ModelType = Event
 
     private let eventService = EventService(client: APIClient.sharedInstance)
     private let fetchedChangeService = FetchedChangeService()
 
-    var fetchedResultsController = Event.fetchedEvents()
+    private(set) var fetchedResultsController = Event.fetchedEvents()
 
     var changeHandler: ChangeHandler? {
         get {

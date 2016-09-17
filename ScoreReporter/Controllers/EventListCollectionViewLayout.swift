@@ -134,14 +134,14 @@ class EventListCollectionViewLayout: UICollectionViewLayout {
         return !CGSizeEqualToSize(originalAttributes.size, preferredAttributes.size)
     }
 
-    override func invalidationContextForPreferredLayoutAttributes(preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
-        let context = super.invalidationContextForPreferredLayoutAttributes(preferredAttributes, withOriginalAttributes: originalAttributes)
-
-        context.invalidateItemsAtIndexPaths(Array(itemLayoutAttributesCache.keys))
-        context.invalidateSupplementaryElementsOfKind(UICollectionElementKindSectionHeader, atIndexPaths: Array(headerLayoutAttributesCache.keys))
-
-        return context
-    }
+//    override func invalidationContextForPreferredLayoutAttributes(preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
+//        let context = super.invalidationContextForPreferredLayoutAttributes(preferredAttributes, withOriginalAttributes: originalAttributes)
+//
+//        context.invalidateItemsAtIndexPaths(Array(itemLayoutAttributesCache.keys))
+//        context.invalidateSupplementaryElementsOfKind(UICollectionElementKindSectionHeader, atIndexPaths: Array(headerLayoutAttributesCache.keys))
+//
+//        return context
+//    }
 
     override func invalidationContextForBoundsChange(newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
         let context = super.invalidationContextForBoundsChange(newBounds)

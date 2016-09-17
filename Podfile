@@ -5,19 +5,14 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 use_frameworks!
 
+target 'ScoreReporter'
 pod 'RZVinyl', '~> 3.0'
 pod 'RZImport', '~> 3.0'
 pod 'Alamofire', '~> 3.4'
 pod 'Anchorage', '~> 2.0'
 pod 'pop', '~> 1.0'
-
-target :unit_tests, :exclusive => true do
-  link_with 'UnitTests'
-  pod 'Specta'
-  pod 'Expecta'
-  pod 'OCMock'
-  pod 'OHHTTPStubs'
-end
+pod 'PINRemoteImage', '~> 2.1'
+pod 'KVOController', '~> 1.1'
 
 # Copy acknowledgements to the Settings.bundle
 
