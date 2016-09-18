@@ -8,6 +8,8 @@
 
 import CoreData
 
+typealias RefreshBlock = () -> Void
+
 protocol DataSource {
     associatedtype ModelType
 

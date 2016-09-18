@@ -10,14 +10,14 @@ import UIKit
 import Anchorage
 
 class EventSearchViewController: UIViewController {
-    private let viewModel: EventSearchViewModel
+    private let dataSource: EventSearchDataSource
     private let tableView = UITableView(frame: .zero, style: .Plain)
     private let defaultView = DefaultView(frame: .zero)
     
     var searchBar: UISearchBar?
     
-    init(viewModel: EventSearchViewModel) {
-        self.viewModel = viewModel
+    init(dataSource: EventSearchDataSource) {
+        self.dataSource = dataSource
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,7 +38,7 @@ class EventSearchViewController: UIViewController {
         
         configureObservers()
         
-        viewModel.refreshBlock = { [weak self] in
+        dataSource.refreshBlock = { [weak self] in
             self?.tableView.reloadData()
         }
     }
@@ -70,8 +70,8 @@ private extension EventSearchViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(HomeEventCell.self)
-        tableView.registerHeaderFooterClass(HomeHeaderView.self)
+        tableView.registerClass(HomeEventCell)
+        tableView.registerHeaderFooterClass(HomeSectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -103,7 +103,7 @@ private extension EventSearchViewController {
             self?.defaultView.empty = empty
         }
         
-        KVOController.observe(viewModel, keyPath: "empty", options: options, block: emptyBlock)
+        KVOController.observe(dataSource, keyPath: "empty", options: options, block: emptyBlock)
     }
 }
 
@@ -111,16 +111,16 @@ private extension EventSearchViewController {
 
 extension EventSearchViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return viewModel.numberOfSections()
+        return dataSource.numberOfSections()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfItemsInSection(section)
+        return dataSource.numberOfItemsInSection(section)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as HomeEventCell
-        let event = viewModel.itemAtIndexPath(indexPath)
+        let event = dataSource.itemAtIndexPath(indexPath)
         let eventViewModel = EventViewModel(event: event)
         
         cell.configureWithViewModel(eventViewModel)
@@ -133,21 +133,22 @@ extension EventSearchViewController: UITableViewDataSource {
 
 extension EventSearchViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as HomeHeaderView
-        let indexPath = NSIndexPath(forRow: 0, inSection: section)
-        let event = viewModel.itemAtIndexPath(indexPath)
-        let eventViewModel = EventViewModel(event: event)
+        let headerView = tableView.dequeueHeaderFooterView() as HomeSectionHeaderView
+        let title = dataSource.titleForSection(section)
         
-        headerView.configureWithViewModel(eventViewModel)
+        headerView.configureWithTitle(title)
         
         return headerView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let event = viewModel.itemAtIndexPath(indexPath)
-        let eventViewModel = EventViewModel(event: event)
-        let eventViewController = EventViewController(viewModel: eventViewModel)
+        guard let event = dataSource.itemAtIndexPath(indexPath) else {
+            return
+        }
         
-        navigationController?.pushViewController(eventViewController, animated: true)
+        let eventDetailsViewModel = EventDetailsViewModel(event: event)
+        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel)
+        
+        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 }

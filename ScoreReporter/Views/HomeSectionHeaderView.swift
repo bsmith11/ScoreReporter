@@ -1,5 +1,5 @@
 //
-//  HomeHeaderView.swift
+//  HomeSectionHeaderView.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 9/5/16.
@@ -9,7 +9,7 @@
 import UIKit
 import Anchorage
 
-class HomeHeaderView: UITableViewHeaderFooterView {
+class HomeSectionHeaderView: UITableViewHeaderFooterView {
     private let titleLabel = UILabel(frame: .zero)
     
     override init(reuseIdentifier: String?) {
@@ -28,8 +28,8 @@ class HomeHeaderView: UITableViewHeaderFooterView {
 
 // MARK: - Public
 
-extension HomeHeaderView {
-    func configureWithTitle(title: String) {
+extension HomeSectionHeaderView {
+    func configureWithTitle(title: String?) {
         titleLabel.text = title
     }
     
@@ -40,7 +40,7 @@ extension HomeHeaderView {
 
 // MARK: - Private
 
-private extension HomeHeaderView {
+private extension HomeSectionHeaderView {
     func configureViews() {
         titleLabel.numberOfLines = 1
         titleLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightBold)

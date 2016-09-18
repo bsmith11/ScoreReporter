@@ -17,7 +17,9 @@ extension Event {
     @NSManaged var city: String?
     @NSManaged var endDate: NSDate?
     @NSManaged var eventID: NSNumber?
+    @NSManaged var latitude: NSNumber?
     @NSManaged var logoPath: String?
+    @NSManaged var longitude: NSNumber?
     @NSManaged var name: String?
     @NSManaged var startDate: NSDate?
     @NSManaged var state: String?

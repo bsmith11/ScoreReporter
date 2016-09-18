@@ -41,7 +41,7 @@ private extension UIView {
                 
                 heightConstraint.constant = max(0.0, frameInWindow.maxY - keyboardFrame.minY)
                 
-                sself.layoutIfNeeded()
+                sself.superview?.layoutIfNeeded()
             }
         }
         

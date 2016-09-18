@@ -27,7 +27,10 @@ class APIClient {
 
 extension APIClient {
     func request(method: Alamofire.Method, path: String, encoding: ParameterEncoding = .URL, parameters: [String: AnyObject]? = nil, completion: APICompletion?) {
-        let URL = baseURL.URLByAppendingPathComponent(path)
+        guard let URL = baseURL.URLByAppendingPathComponent(path) else {
+            preconditionFailure("Failed to append path: \(path) to baseURL: \(baseURL)")
+        }
+        
         let request = NSMutableURLRequest(URL: URL)
         request.HTTPMethod = method.rawValue
         

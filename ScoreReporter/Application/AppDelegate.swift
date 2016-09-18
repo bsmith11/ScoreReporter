@@ -33,7 +33,8 @@ extension AppDelegate: UIApplicationDelegate {
         UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, forState: .Normal)
 
         let homeViewModel = HomeViewModel()
-        let homeViewController = HomeViewController(viewModel: homeViewModel)
+        let homeDataSource = HomeDataSource()
+        let homeViewController = HomeViewController(viewModel: homeViewModel, dataSource: homeDataSource)
         let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
 
         window = UIWindow(frame: UIScreen.mainScreen().bounds)

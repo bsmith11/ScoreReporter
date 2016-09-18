@@ -1,11 +1,12 @@
 //
-//  FetchedChangeService.swift
+//  FetchedChangeObject.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 7/21/16.
+//  Created by Bradley Smith on 9/17/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
+import Foundation
 import CoreData
 
 enum FetchedChangeType: UInt {
@@ -20,40 +21,41 @@ enum FetchedChange {
     case Object(type: FetchedChangeType, indexPath: NSIndexPath?, newIndexPath: NSIndexPath?)
 }
 
-typealias ChangeHandler = ([FetchedChange]) -> Void
-
-class FetchedChangeService: NSObject {
+class FetchedChangeObject: NSObject {
+    static var associatedKey = "com.bradsmith.scorereporter.fetchedChangeObjectAssociatedKey"
+    
     private var fetchedChanges = [FetchedChange]()
-
-    var changeHandler: ChangeHandler?
+    
+    weak var owner: FetchedChangable?
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
 
-extension FetchedChangeService: NSFetchedResultsControllerDelegate {
+extension FetchedChangeObject: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         fetchedChanges.removeAll()
     }
-
+    
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
         guard let changeType = FetchedChangeType(rawValue: type.rawValue) else {
             return
         }
-
+        
         let sectionChange = FetchedChange.Section(type: changeType, index: sectionIndex)
         fetchedChanges.append(sectionChange)
     }
-
+    
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         guard let changeType = FetchedChangeType(rawValue: type.rawValue) else {
             return
         }
-
+        
         let objectChange = FetchedChange.Object(type: changeType, indexPath: indexPath, newIndexPath: newIndexPath)
         fetchedChanges.append(objectChange)
     }
-
+    
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        changeHandler?(fetchedChanges)
+        owner?.empty = controller.fetchedObjects?.isEmpty ?? true
+        owner?.fetchedChangeHandler?(fetchedChanges)
     }
 }

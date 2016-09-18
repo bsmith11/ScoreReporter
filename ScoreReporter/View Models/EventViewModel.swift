@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct EventViewModel {
     let name: String
     let location: String
+    let address: String
+    let coordinate: CLLocationCoordinate2D?
     let logoURL: NSURL?
-    let startDay: String
-    let startMonth: String
     let eventDate: String
 
     init(event: Event?) {
@@ -22,13 +23,23 @@ struct EventViewModel {
         let city = event?.city ?? "City"
         let state = event?.state ?? "State"
         location = "\(city), \(state)"
+        
+        address = location
+        
+        if let latitude = event?.latitude,
+               longitude = event?.longitude {
+            coordinate = CLLocationCoordinate2D(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
+        }
+        else {
+            coordinate = nil
+        }
 
         let baseURL = "http://play.usaultimate.org/"
         logoURL = event?.logoPath.flatMap({NSURL(string: "\(baseURL)\($0)")})
 
         let startDate = event?.startDate ?? NSDate()
-        startDay = DateService.dayDateFormatter.stringFromDate(startDate)
-        startMonth = DateService.monthDateFormatter.stringFromDate(startDate)
-        eventDate = DateService.eventDateFormatter.stringFromDate(startDate)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .ShortStyle
+        eventDate = dateFormatter.stringFromDate(startDate)
     }
 }

@@ -1,6 +1,6 @@
 PODS:
-  - Alamofire (3.4.1)
-  - Anchorage (2.0.1)
+  - Alamofire (3.5.0)
+  - Anchorage (2.0.0)
   - FLAnimatedImage (1.0.12)
   - KVOController (1.1.0)
   - PINCache (2.3)
@@ -21,17 +21,27 @@ PODS:
     - RZVinyl/Core
 
 DEPENDENCIES:
-  - Alamofire (~> 3.4)
-  - Anchorage (~> 2.0)
+  - Alamofire (~> 3.5)
+  - Anchorage (from `https://github.com/Raizlabs/Anchorage`, commit `23d49eab06e583866ae9de0624147506d1777137`)
   - KVOController (~> 1.1)
   - PINRemoteImage (~> 2.1)
   - pop (~> 1.0)
   - RZImport (~> 3.0)
   - RZVinyl (~> 3.0)
 
+EXTERNAL SOURCES:
+  Anchorage:
+    :commit: 23d49eab06e583866ae9de0624147506d1777137
+    :git: https://github.com/Raizlabs/Anchorage
+
+CHECKOUT OPTIONS:
+  Anchorage:
+    :commit: 23d49eab06e583866ae9de0624147506d1777137
+    :git: https://github.com/Raizlabs/Anchorage
+
 SPEC CHECKSUMS:
-  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
-  Anchorage: e5def1173d2a3e2371373a9f054d3364e8b8ec17
+  Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
+  Anchorage: 3fb9d1ca397ac68b7ce9857792660a0d683f2e11
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   KVOController: 321b5fc59300fcaabd42c0f679baa7a27efbb2fd
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
@@ -40,6 +50,6 @@ SPEC CHECKSUMS:
   RZImport: ac35279cf1be1aa79bef08508dba72487e841189
   RZVinyl: 90724cafcf7cd97c8b5db1cecec4804acac3c4d3
 
-PODFILE CHECKSUM: bcfef3d2a02eb6d1c8ccdb3d4e55b86763ba6768
+PODFILE CHECKSUM: e9929da90e82288a3657e3b60810471965533175
 
 COCOAPODS: 1.0.1

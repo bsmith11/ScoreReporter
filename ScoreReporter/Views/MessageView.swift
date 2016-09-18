@@ -9,6 +9,11 @@
 import UIKit
 import Anchorage
 
+enum MessageViewStyle {
+    case Info
+    case Error
+}
+
 class MessageView: UIView {
     private let titleLabel = UILabel(frame: .zero)
     

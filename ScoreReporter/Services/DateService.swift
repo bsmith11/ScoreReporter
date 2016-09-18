@@ -37,18 +37,4 @@ struct DateService {
 
         return dateFormatter
     }()
-
-    static let monthDateFormatter: NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MMM"
-
-        return dateFormatter
-    }()
-
-    static let dayDateFormatter: NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "d"
-
-        return dateFormatter
-    }()
 }

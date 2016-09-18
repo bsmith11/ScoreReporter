@@ -12,7 +12,9 @@ import KVOController
 
 class HomeViewController: UIViewController, MessageDisplayable {
     private let viewModel: HomeViewModel
-    private let searchViewModel: EventSearchViewModel
+    private let dataSource: HomeDataSource
+    
+    private let searchDataSource: EventSearchDataSource
     private let searchViewController: EventSearchViewController
     
     private let tableView = UITableView(frame: .zero, style: .Plain)
@@ -25,10 +27,12 @@ class HomeViewController: UIViewController, MessageDisplayable {
         return messageLayoutGuide
     }
     
-    init(viewModel: HomeViewModel) {
+    init(viewModel: HomeViewModel, dataSource: HomeDataSource) {
         self.viewModel = viewModel
-        searchViewModel = EventSearchViewModel()
-        searchViewController = EventSearchViewController(viewModel: searchViewModel)
+        self.dataSource = dataSource
+        
+        searchDataSource = EventSearchDataSource()
+        searchViewController = EventSearchViewController(dataSource: searchDataSource)
         searchViewController.searchBar = searchBar
 
         super.init(nibName: nil, bundle: nil)
@@ -51,7 +55,7 @@ class HomeViewController: UIViewController, MessageDisplayable {
         configureLayout()
         configureObservers()
         
-        viewModel.changeHandler = { [weak self] (changes: [FetchedChange]) in
+        dataSource.fetchedChangeHandler = { [weak self] changes in
             self?.tableView.handleChanges(changes)
         }
         
@@ -63,6 +67,16 @@ class HomeViewController: UIViewController, MessageDisplayable {
         
         deselectRowsInTableView(tableView, animated: animated)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let animation = { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
+            print("")
+        }
+        
+        transitionCoordinator()?.animateAlongsideTransition(animation, completion: nil)
+    }
 }
 
 // MARK: - Private
@@ -71,8 +85,8 @@ private extension HomeViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(HomeEventCell.self)
-        tableView.registerHeaderFooterClass(HomeHeaderView.self)
+        tableView.registerClass(HomeEventCell)
+        tableView.registerHeaderFooterClass(HomeSectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -82,7 +96,7 @@ private extension HomeViewController {
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
-//        view.addSubview(defaultView)
+        view.addSubview(defaultView)
         
         searchBar.placeholder = "Find events"
         searchBar.tintColor = UIColor.USAUNavyColor()
@@ -92,8 +106,8 @@ private extension HomeViewController {
     
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-        
-//        defaultView.edgeAnchors == tableView.edgeAnchors
+
+        defaultView.edgeAnchors == tableView.edgeAnchors
     }
     
     func configureObservers() {
@@ -120,10 +134,13 @@ private extension HomeViewController {
         
         let errorBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
             let error = change[NSKeyValueChangeNewKey] as? NSError
-            self?.defaultView.error = error
+            
+            if let _ = error {
+                self?.displayMessage("Error", animated: true)
+            }
         }
         
-        KVOController.observe(viewModel, keyPath: "empty", options: options, block: emptyBlock)
+        KVOController.observe(dataSource, keyPath: "empty", options: options, block: emptyBlock)
         KVOController.observe(viewModel, keyPath: "loading", options: options, block: loadingBlock)
         KVOController.observe(viewModel, keyPath: "error", options: options, block: errorBlock)
     }
@@ -133,16 +150,16 @@ private extension HomeViewController {
 
 extension HomeViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return viewModel.numberOfSections()
+        return dataSource.numberOfSections()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfItemsInSection(section)
+        return dataSource.numberOfItemsInSection(section)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as HomeEventCell
-        let event = viewModel.itemAtIndexPath(indexPath)
+        let event = dataSource.itemAtIndexPath(indexPath)
         let eventViewModel = EventViewModel(event: event)
         
         cell.configureWithViewModel(eventViewModel)
@@ -155,8 +172,8 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as HomeHeaderView
-        let title = viewModel.titleForSection(section)
+        let headerView = tableView.dequeueHeaderFooterView() as HomeSectionHeaderView
+        let title = dataSource.titleForSection(section)
         
         headerView.configureWithTitle(title)
         
@@ -164,11 +181,14 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let event = viewModel.itemAtIndexPath(indexPath)
-        let eventViewModel = EventViewModel(event: event)
-        let eventViewController = EventViewController(viewModel: eventViewModel)
+        guard let event = dataSource.itemAtIndexPath(indexPath) else {
+            return
+        }
         
-        navigationController?.pushViewController(eventViewController, animated: true)
+        let eventDetailsViewModel = EventDetailsViewModel(event: event)
+        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel)
+        
+        navigationController?.pushViewController(eventDetailsViewController, animated: true)        
     }
 }
 
@@ -196,7 +216,7 @@ extension HomeViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
         
-        searchViewModel.searchWithText(nil)
+        searchDataSource.searchWithText(nil)
         
         searchViewController.willMoveToParentViewController(nil)
         searchViewController.view.removeFromSuperview()
@@ -204,6 +224,6 @@ extension HomeViewController: UISearchBarDelegate {
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        searchViewModel.searchWithText(searchText)
+        searchDataSource.searchWithText(searchText)
     }
 }
