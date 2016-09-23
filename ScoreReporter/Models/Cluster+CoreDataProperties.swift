@@ -14,7 +14,7 @@ import CoreData
 
 extension Cluster {
 
-    @NSManaged var clusterID: NSNumber?
+    @NSManaged var clusterID: NSNumber
     @NSManaged var name: String?
     @NSManaged var games: NSSet
     @NSManaged var round: Round?

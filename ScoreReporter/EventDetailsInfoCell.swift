@@ -18,7 +18,9 @@ class EventDetailsInfoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.whiteColor()
-        
+        preservesSuperviewLayoutMargins = false
+        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
         accessoryType = .DisclosureIndicator
         
         configureViews()
@@ -33,9 +35,10 @@ class EventDetailsInfoCell: UITableViewCell {
 // MARK: - Public
 
 extension EventDetailsInfoCell {
-    func configureWithType(type: EventDetailsInfoType?) {
-        iconImageView.image = type?.image
-        titleLabel.text = type?.title
+    func configureWithInfo(info: EventDetailsInfo?) {
+        iconImageView.image = info?.image
+        iconImageView.hidden = iconImageView.image == nil
+        titleLabel.text = info?.title
     }
 }
 

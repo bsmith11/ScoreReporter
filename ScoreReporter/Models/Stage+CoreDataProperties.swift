@@ -15,7 +15,7 @@ import CoreData
 extension Stage {
 
     @NSManaged var name: String?
-    @NSManaged var stageID: NSNumber?
+    @NSManaged var stageID: NSNumber
     @NSManaged var bracket: Bracket?
     @NSManaged var games: NSSet
 

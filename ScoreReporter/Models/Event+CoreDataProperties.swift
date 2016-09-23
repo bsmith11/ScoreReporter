@@ -14,9 +14,10 @@ import CoreData
 
 extension Event {
 
+    @NSManaged var bookmarked: NSNumber
     @NSManaged var city: String?
     @NSManaged var endDate: NSDate?
-    @NSManaged var eventID: NSNumber?
+    @NSManaged var eventID: NSNumber
     @NSManaged var latitude: NSNumber?
     @NSManaged var logoPath: String?
     @NSManaged var longitude: NSNumber?

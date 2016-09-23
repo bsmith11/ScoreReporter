@@ -54,6 +54,33 @@ extension Event {
         return fetchedResultsController
     }
     
+    static func fetchedBookmarkedEvents() -> NSFetchedResultsController {
+        let predicates = [
+            NSPredicate(format: "%K == %@", "type", "Tournament"),
+            NSPredicate(format: "%K == YES", "bookmarked")
+        ]
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "startDate", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        let request = NSFetchRequest(entityName: rzv_entityName())
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        request.sortDescriptors = sortDescriptors
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch let error as NSError {
+            print("Failed to fetch events with error: \(error)")
+        }
+        
+        return fetchedResultsController
+    }
+    
     static func fetchedEvents() -> NSFetchedResultsController {
         let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
         

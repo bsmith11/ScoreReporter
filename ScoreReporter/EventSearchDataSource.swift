@@ -59,7 +59,7 @@ extension EventSearchDataSource {
         let event = itemAtIndexPath(indexPath)
         let eventViewModel = EventViewModel(event: event)
         
-        return eventViewModel.eventDate
+        return eventViewModel.eventStartDate
     }
 }
 

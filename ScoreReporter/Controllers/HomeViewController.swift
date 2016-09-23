@@ -37,7 +37,11 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
         super.init(nibName: nil, bundle: nil)
         
-        title = "Events"
+        title = "Home"
+        
+        let image = UIImage(named: "icn-home")
+        let selectedImage = UIImage(named: "icn-home-selected")
+        tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -66,16 +70,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        let animation = { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
-            print("")
-        }
-        
-        transitionCoordinator()?.animateAlongsideTransition(animation, completion: nil)
     }
 }
 
@@ -186,7 +180,8 @@ extension HomeViewController: UITableViewDelegate {
         }
         
         let eventDetailsViewModel = EventDetailsViewModel(event: event)
-        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel)
+        let eventDetailsDataSource = EventDetailsDataSource(event: event)
+        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
         
         navigationController?.pushViewController(eventDetailsViewController, animated: true)        
     }

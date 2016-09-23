@@ -14,7 +14,7 @@ import CoreData
 
 extension Round {
 
-    @NSManaged var roundID: NSNumber?
+    @NSManaged var roundID: NSNumber
     @NSManaged var brackets: NSSet
     @NSManaged var clusters: NSSet
     @NSManaged var group: Group?

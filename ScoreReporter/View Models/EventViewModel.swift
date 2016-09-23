@@ -15,7 +15,9 @@ struct EventViewModel {
     let address: String
     let coordinate: CLLocationCoordinate2D?
     let logoURL: NSURL?
-    let eventDate: String
+    let eventStartDate: String
+    let eventDates: String
+    let groups: [Group]
 
     init(event: Event?) {
         name = event?.name ?? "No Name"
@@ -40,6 +42,12 @@ struct EventViewModel {
         let startDate = event?.startDate ?? NSDate()
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
-        eventDate = dateFormatter.stringFromDate(startDate)
+        eventStartDate = dateFormatter.stringFromDate(startDate)
+        
+        let endDate = event?.endDate ?? NSDate()
+        eventDates = "\(dateFormatter.stringFromDate(startDate)) - \(dateFormatter.stringFromDate(endDate))"
+        
+        let groups = event?.groups as? Set<Group> ?? []
+        self.groups = groups.sort({$0.0.groupID.integerValue < $0.1.groupID.integerValue})
     }
 }

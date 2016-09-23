@@ -15,7 +15,7 @@ import CoreData
 extension Pool {
 
     @NSManaged var name: String?
-    @NSManaged var poolID: NSNumber?
+    @NSManaged var poolID: NSNumber
     @NSManaged var games: NSSet?
     @NSManaged var round: Round?
     @NSManaged var standings: NSSet

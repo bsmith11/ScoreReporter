@@ -34,7 +34,7 @@ extension HomeSectionHeaderView {
     }
     
     func configureWithViewModel(viewModel: EventViewModel) {
-        titleLabel.text = viewModel.eventDate
+        titleLabel.text = viewModel.eventStartDate
     }
 }
 

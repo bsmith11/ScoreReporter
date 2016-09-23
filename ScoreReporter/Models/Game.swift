@@ -46,7 +46,7 @@ extension Game {
             }
 
             return false
-        case "EndDate":
+        case "StartTime":
             if let value = value as? String {
                 startTime = DateService.gameTimeFormatter.dateFromString(value)
             }

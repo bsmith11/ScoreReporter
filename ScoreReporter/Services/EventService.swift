@@ -35,10 +35,10 @@ extension EventService {
         client.request(.GET, path: "", encoding: .URL, parameters: parameters, completion: requestCompletion)
     }
 
-    func downloadEventWithEventID(eventID: NSNumber, completion: DownloadCompletion?) {
+    func downloadDetailsForEvent(event: Event, completion: DownloadCompletion?) {
         let parameters = [
             "f": "GETGAMESBYEVENT",
-            "EventId": eventID
+            "EventId": event.eventID
         ]
 
         let requestCompletion = { (result: Result<AnyObject, NSError>) in

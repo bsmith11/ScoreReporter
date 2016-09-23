@@ -14,7 +14,7 @@ import CoreData
 
 extension Bracket {
 
-    @NSManaged var bracketID: NSNumber?
+    @NSManaged var bracketID: NSNumber
     @NSManaged var name: String?
     @NSManaged var sortOrder: NSNumber?
     @NSManaged var round: Round?

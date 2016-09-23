@@ -10,42 +10,40 @@ import Foundation
 import CoreData
 
 enum GroupType: String {
-    case Unknown = "Unknown"
     case Club = "Club"
     case College = "College"
     case Masters = "Masters"
     case HighSchool = "High School"
     case MiddleSchool = "Middle School"
 
-    static func typeFromAPIString(string: String?) -> GroupType {
+    static func typeFromAPIString(string: String?) -> GroupType? {
         let components = string?.componentsSeparatedByString("-")
         let set = NSCharacterSet.whitespaceAndNewlineCharacterSet()
 
         guard let trimmedString = components?.first?.stringByTrimmingCharactersInSet(set) where components?.count > 1 else {
-            return .Unknown
+            return nil
         }
 
-        return GroupType(rawValue: trimmedString) ?? .Unknown
+        return GroupType(rawValue: trimmedString)
     }
 }
 
 enum GroupDivision: String {
-    case Unknown = "Unknown"
     case Mens = "Men"
     case Womens = "Women"
     case Mixed = "Mixed"
     case Boys = "Boys"
     case Girls = "Girls"
 
-    static func divisionFromAPIString(string: String?) -> GroupDivision {
+    static func divisionFromAPIString(string: String?) -> GroupDivision? {
         let components = string?.componentsSeparatedByString("-")
         let set = NSCharacterSet.whitespaceAndNewlineCharacterSet()
 
         guard let trimmedString = components?.last?.stringByTrimmingCharactersInSet(set).stringByReplacingOccurrencesOfString("'s", withString: "") where components?.count > 1 else {
-            return .Unknown
+            return nil
         }
 
-        return GroupDivision(rawValue: trimmedString) ?? .Unknown
+        return GroupDivision(rawValue: trimmedString)
     }
 }
 
@@ -102,8 +100,8 @@ extension Group {
 
             return false
         case "GroupName":
-            type = GroupType.typeFromAPIString(value as? String).rawValue
-            division = GroupDivision.divisionFromAPIString(value as? String).rawValue
+            type = GroupType.typeFromAPIString(value as? String)?.rawValue
+            division = GroupDivision.divisionFromAPIString(value as? String)?.rawValue
 
             return false
         default:

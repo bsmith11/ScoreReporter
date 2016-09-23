@@ -16,7 +16,7 @@ extension Group {
 
     @NSManaged var division: String?
     @NSManaged var divisionName: String?
-    @NSManaged var groupID: NSNumber?
+    @NSManaged var groupID: NSNumber
     @NSManaged var name: String?
     @NSManaged var teamCount: String?
     @NSManaged var type: String?

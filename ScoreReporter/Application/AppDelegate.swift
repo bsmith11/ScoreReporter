@@ -31,14 +31,15 @@ extension AppDelegate: UIApplicationDelegate {
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
         UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, forState: .Normal)
-
-        let homeViewModel = HomeViewModel()
-        let homeDataSource = HomeDataSource()
-        let homeViewController = HomeViewController(viewModel: homeViewModel, dataSource: homeDataSource)
-        let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
+        
+        UITabBar.appearance().barTintColor = UIColor.USAUNavyColor()
+        UITabBar.appearance().translucent = false
+        UITabBar.appearance().tintColor = UIColor.whiteColor()
+        
+        let tabBarController = TabBarController(nibName: nil, bundle: nil)
 
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = homeNavigationController
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
 
         return true

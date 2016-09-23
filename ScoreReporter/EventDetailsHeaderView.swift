@@ -57,7 +57,7 @@ private extension EventDetailsHeaderView {
         logoImageView.contentMode = .ScaleAspectFit
         infoStackView.addArrangedSubview(logoImageView)
         
-        nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
+        nameLabel.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightSemibold)
         nameLabel.textColor = UIColor.USAUNavyColor()
         nameLabel.numberOfLines = 0
         nameLabel.lineBreakMode = .ByWordWrapping

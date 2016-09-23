@@ -1,45 +1,55 @@
 //
-//  EventSearchViewController.swift
+//  BookmarksViewController.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/5/16.
+//  Created by Bradley Smith on 9/18/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
 import UIKit
 import Anchorage
 
-class EventSearchViewController: UIViewController {
-    private let dataSource: EventSearchDataSource
+class BookmarksViewController: UIViewController, MessageDisplayable {
+    private let dataSource: BookmarksDataSource
+    
     private let tableView = UITableView(frame: .zero, style: .Plain)
     private let defaultView = DefaultView(frame: .zero)
     
-    var searchBar: UISearchBar?
+    override var topLayoutGuide: UILayoutSupport {
+        configureMessageView(super.topLayoutGuide)
+        
+        return messageLayoutGuide
+    }
     
-    init(dataSource: EventSearchDataSource) {
+    init(dataSource: BookmarksDataSource) {
         self.dataSource = dataSource
         
         super.init(nibName: nil, bundle: nil)
+        
+        title = "Bookmarks"
+        
+        let image = UIImage(named: "icn-star")
+        let selectedImage = UIImage(named: "icn-star-selected")
+        tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func loadView() {
-        view = UIView()
-        
-        configureViews()
-        configureLayout()
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureViews()
+        configureLayout()
         configureObservers()
         
-        dataSource.refreshBlock = { [weak self] in
-            self?.tableView.reloadData()
+        dataSource.fetchedChangeHandler = { [weak self] changes in
+            self?.tableView.handleChanges(changes)
         }
     }
     
@@ -47,47 +57,33 @@ class EventSearchViewController: UIViewController {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
-        
-        let completion = { [weak self] (context: UIViewControllerTransitionCoordinatorContext) in
-            if !context.isCancelled() {
-                self?.searchBar?.becomeFirstResponder()
-            }
-        }
-        
-        transitionCoordinator()?.animateAlongsideTransition(nil, completion: completion)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        searchBar?.resignFirstResponder()
     }
 }
 
 // MARK: - Private
 
-private extension EventSearchViewController {
+private extension BookmarksViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerClass(HomeEventCell)
-        tableView.registerHeaderFooterClass(HomeSectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
+        let emptyImage = UIImage(named: "icn-star")
+        let emptyTitle = "No Events"
+        let emptyMessage = "Bookmark events for easy access"
+        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
+        defaultView.setInfo(emptyInfo, state: .Empty)
         view.addSubview(defaultView)
     }
     
     func configureLayout() {
-        tableView.topAnchor == topLayoutGuide.bottomAnchor
-        tableView.horizontalAnchors == horizontalAnchors
-        tableView.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor
+        tableView.edgeAnchors == edgeAnchors
         
         defaultView.edgeAnchors == tableView.edgeAnchors
     }
@@ -109,7 +105,7 @@ private extension EventSearchViewController {
 
 // MARK: - UITableViewDataSource
 
-extension EventSearchViewController: UITableViewDataSource {
+extension BookmarksViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
@@ -131,16 +127,7 @@ extension EventSearchViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension EventSearchViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as HomeSectionHeaderView
-        let title = dataSource.titleForSection(section)
-        
-        headerView.configureWithTitle(title)
-        
-        return headerView
-    }
-    
+extension BookmarksViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard let event = dataSource.itemAtIndexPath(indexPath) else {
             return
