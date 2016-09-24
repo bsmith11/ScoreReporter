@@ -66,15 +66,15 @@ private extension HomeEventCell {
         infoStackView.spacing = 5.0
         contentStackView.addArrangedSubview(infoStackView)
         
-        nameLabel.numberOfLines = 0
-        nameLabel.lineBreakMode = .ByWordWrapping
         nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
         nameLabel.textColor = UIColor.USAUNavyColor()
+        nameLabel.numberOfLines = 0
+        nameLabel.lineBreakMode = .ByWordWrapping
         infoStackView.addArrangedSubview(nameLabel)
         
-        locationLabel.numberOfLines = 1
         locationLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
         locationLabel.textColor = UIColor.grayColor()
+        locationLabel.numberOfLines = 1
         infoStackView.addArrangedSubview(locationLabel)
     }
     
