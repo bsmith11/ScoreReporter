@@ -9,8 +9,35 @@
 import Foundation
 import CoreData
 
-class Round: NSManagedObject {
+enum RoundType: Int {
+    case Pools
+    case Clusters
+    case Brackets
+    
+    var title: String {
+        switch self {
+        case .Pools:
+            return "Pools"
+        case .Clusters:
+            return "Crossovers"
+        case .Brackets:
+            return "Bracket"
+        }
+    }
+}
 
+class Round: NSManagedObject {
+    var type: RoundType {
+        if pools.count > 0 {
+            return .Pools
+        }
+        else if clusters.count > 0 {
+            return .Clusters
+        }
+        else {
+            return .Brackets
+        }
+    }    
 }
 
 // MARK: - RZVinyl

@@ -10,7 +10,28 @@ import Foundation
 import CoreData
 
 class Pool: NSManagedObject {
-
+    static func fetchedPoolsForRound(round: Round) -> NSFetchedResultsController {
+        let predicate = NSPredicate(format: "%K == %@", "round", round)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "poolID", ascending: true),
+        ]
+        
+        let request = NSFetchRequest(entityName: rzv_entityName())
+        request.predicate = predicate
+        request.sortDescriptors = sortDescriptors
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch let error as NSError {
+            print("Failed to fetch pools with error: \(error)")
+        }
+        
+        return fetchedResultsController
+    }
 }
 
 // MARK: - RZVinyl

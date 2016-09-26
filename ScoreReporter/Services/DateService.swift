@@ -12,7 +12,7 @@ struct DateService {
     private static let eventDateFormat = "M/d/y h:mm:ss a"
     private static let gameDateFormat = "M/d/y"
     private static let gameTimeFormat = "h:mm a"
-//    static NSString * const kSTKEventGameDisplayDateFormat = @"E h:mm a";
+    private static let gameStartDateFullFormat = "E h:mm a"
 
     static let eventDateFormatter: NSDateFormatter = {
         let dateFormatter = NSDateFormatter()
@@ -35,6 +35,14 @@ struct DateService {
         dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = gameTimeFormat
 
+        return dateFormatter
+    }()
+    
+    static let gameStartDateFullFormatter: NSDateFormatter = {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = gameStartDateFullFormat
+        
         return dateFormatter
     }()
 }

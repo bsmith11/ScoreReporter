@@ -92,6 +92,9 @@ private extension HomeViewController {
         
         view.addSubview(defaultView)
         
+        searchBar.autocapitalizationType = .None
+        searchBar.autocorrectionType = .No
+        searchBar.spellCheckingType = .No
         searchBar.placeholder = "Find events"
         searchBar.tintColor = UIColor.USAUNavyColor()
         searchBar.delegate = self

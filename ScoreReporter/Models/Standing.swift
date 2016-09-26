@@ -10,7 +10,28 @@ import Foundation
 import CoreData
 
 class Standing: NSManagedObject {
-
+    static func fetchedStandingsForPool(pool: Pool) -> NSFetchedResultsController {
+        let predicate = NSPredicate(format: "%K == %@", "pool", pool)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "sortOrder", ascending: true),
+        ]
+        
+        let request = NSFetchRequest(entityName: rzv_entityName())
+        request.predicate = predicate
+        request.sortDescriptors = sortDescriptors
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch let error as NSError {
+            print("Failed to fetch standings with error: \(error)")
+        }
+        
+        return fetchedResultsController
+    }
 }
 
 // MARK: - RZVinyl
@@ -47,7 +68,7 @@ extension Standing {
     override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
         switch key {
         case "TeamName":
-            if let value = value as? String {
+            if var value = value as? String {
                 let pattern = "([0-9]+)"
 
                 if let seedValue = value.stringMatchingRegexPattern(pattern) where !seedValue.isEmpty {
@@ -56,11 +77,18 @@ extension Standing {
                 else {
                     seed = 0
                 }
+                
+                if let range = seed.flatMap({value.rangeOfString("(\($0))")}) {
+                    value.removeRange(range)
+                }
+                
+                teamName = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             }
             else {
                 seed = 0
+                teamName = nil
             }
-
+            
             return false
         default:
             return super.rzi_shouldImportValue(value, forKey: key)

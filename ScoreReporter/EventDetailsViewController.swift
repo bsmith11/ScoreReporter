@@ -40,6 +40,9 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         unfavoriteButton = UIBarButtonItem(image: unfavoriteImage, style: .Plain, target: self, action: #selector(unfavoriteButtonTapped))
         
         navigationItem.rightBarButtonItem = dataSource.event.bookmarked.boolValue ? unfavoriteButton : favoriteButton
+        
+        let backButton = UIBarButtonItem(title: "Back", style: .Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -198,7 +201,10 @@ extension EventDetailsViewController: UITableViewDelegate {
         case .Date(let date):
             return
         case .Division(let group):
-            return
+            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
+            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
+            
+            navigationController?.pushViewController(groupDetailsViewController, animated: true)
         }
     }
 }

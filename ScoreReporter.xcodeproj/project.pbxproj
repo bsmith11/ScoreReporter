@@ -60,6 +60,16 @@
 		48400E961D8F5D6100927EB6 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E951D8F5D6100927EB6 /* BookmarksViewController.swift */; };
 		48400E9E1D90C7CA00927EB6 /* BookmarksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E9D1D90C7CA00927EB6 /* BookmarksDataSource.swift */; };
 		48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */; };
+		484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951741D964A6600C95F2F /* GroupDetailsViewController.swift */; };
+		484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */; };
+		4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951791D9653E600C95F2F /* PoolsDataSource.swift */; };
+		4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517B1D9657AA00C95F2F /* PoolsViewController.swift */; };
+		4849517E1D96F1CF00C95F2F /* PoolsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517D1D96F1CF00C95F2F /* PoolsSectionHeaderView.swift */; };
+		484951801D96FBFE00C95F2F /* StandingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517F1D96FBFE00C95F2F /* StandingCell.swift */; };
+		487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3751D985A230082D6FC /* GameListViewController.swift */; };
+		487BF3781D985BEA0082D6FC /* GameListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3771D985BEA0082D6FC /* GameListCell.swift */; };
+		487BF37D1D9880F20082D6FC /* GameListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37C1D9880F20082D6FC /* GameListDataSource.swift */; };
+		487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37E1D98C8510082D6FC /* GameViewModel.swift */; };
 		488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA631D7E367600C3E597 /* HomeViewController.swift */; };
 		488CAA661D7E3C7500C3E597 /* HomeEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA651D7E3C7500C3E597 /* HomeEventCell.swift */; };
 		488CAA681D7E414B00C3E597 /* HomeSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA671D7E414B00C3E597 /* HomeSectionHeaderView.swift */; };
@@ -141,6 +151,16 @@
 		48400E951D8F5D6100927EB6 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		48400E9D1D90C7CA00927EB6 /* BookmarksDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksDataSource.swift; sourceTree = "<group>"; };
 		48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
+		484951741D964A6600C95F2F /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
+		484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsDataSource.swift; sourceTree = "<group>"; };
+		484951791D9653E600C95F2F /* PoolsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsDataSource.swift; sourceTree = "<group>"; };
+		4849517B1D9657AA00C95F2F /* PoolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsViewController.swift; sourceTree = "<group>"; };
+		4849517D1D96F1CF00C95F2F /* PoolsSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsSectionHeaderView.swift; sourceTree = "<group>"; };
+		4849517F1D96FBFE00C95F2F /* StandingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingCell.swift; sourceTree = "<group>"; };
+		487BF3751D985A230082D6FC /* GameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListViewController.swift; sourceTree = "<group>"; };
+		487BF3771D985BEA0082D6FC /* GameListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListCell.swift; sourceTree = "<group>"; };
+		487BF37C1D9880F20082D6FC /* GameListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameListDataSource.swift; path = Protocols/GameListDataSource.swift; sourceTree = "<group>"; };
+		487BF37E1D98C8510082D6FC /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		488CAA631D7E367600C3E597 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Controllers/HomeViewController.swift; sourceTree = "<group>"; };
 		488CAA651D7E3C7500C3E597 /* HomeEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeEventCell.swift; path = Views/HomeEventCell.swift; sourceTree = "<group>"; };
 		488CAA671D7E414B00C3E597 /* HomeSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeSectionHeaderView.swift; path = Views/HomeSectionHeaderView.swift; sourceTree = "<group>"; };
@@ -268,6 +288,37 @@
 			name = Bookmarks;
 			sourceTree = "<group>";
 		};
+		484951731D9649D700C95F2F /* Group Details */ = {
+			isa = PBXGroup;
+			children = (
+				484951741D964A6600C95F2F /* GroupDetailsViewController.swift */,
+				484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */,
+			);
+			name = "Group Details";
+			sourceTree = "<group>";
+		};
+		484951781D9653D600C95F2F /* Pools */ = {
+			isa = PBXGroup;
+			children = (
+				4849517B1D9657AA00C95F2F /* PoolsViewController.swift */,
+				484951791D9653E600C95F2F /* PoolsDataSource.swift */,
+				4849517D1D96F1CF00C95F2F /* PoolsSectionHeaderView.swift */,
+				4849517F1D96FBFE00C95F2F /* StandingCell.swift */,
+			);
+			name = Pools;
+			sourceTree = "<group>";
+		};
+		487BF3721D9856760082D6FC /* Game List */ = {
+			isa = PBXGroup;
+			children = (
+				487BF3751D985A230082D6FC /* GameListViewController.swift */,
+				487BF37C1D9880F20082D6FC /* GameListDataSource.swift */,
+				487BF3771D985BEA0082D6FC /* GameListCell.swift */,
+				487BF37E1D98C8510082D6FC /* GameViewModel.swift */,
+			);
+			name = "Game List";
+			sourceTree = "<group>";
+		};
 		5363831774D6338F6F435C47 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +410,9 @@
 		BDCB23798C38F5C0642B2160 /* ScoreReporter */ = {
 			isa = PBXGroup;
 			children = (
+				487BF3721D9856760082D6FC /* Game List */,
+				484951781D9653D600C95F2F /* Pools */,
+				484951731D9649D700C95F2F /* Group Details */,
 				48400E941D8F5D5000927EB6 /* Bookmarks */,
 				48400E891D8EF94F00927EB6 /* Login */,
 				483453BF1D8D8A6000F0918A /* Event Search */,
@@ -624,6 +678,7 @@
 				48400E881D8EE6B700927EB6 /* EventDetailsInfoCell.swift in Sources */,
 				068034781D3ECD53006BD4C1 /* UICollectionView+Extensions.swift in Sources */,
 				0680348F1D4094AC006BD4C1 /* DataSource.swift in Sources */,
+				4849517E1D96F1CF00C95F2F /* PoolsSectionHeaderView.swift in Sources */,
 				0665DF1C1D3DD4C8006D2070 /* Pool+CoreDataProperties.swift in Sources */,
 				483453C11D8D8E8200F0918A /* EventSearchDataSource.swift in Sources */,
 				0665DF1F1D3DD4C8006D2070 /* Group.swift in Sources */,
@@ -634,12 +689,14 @@
 				0665DF281D3DD4C8006D2070 /* Bracket+CoreDataProperties.swift in Sources */,
 				0680348B1D407C7A006BD4C1 /* DefaultView.swift in Sources */,
 				48E541301D810F2D008E4DEE /* MessageView.swift in Sources */,
+				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
 				488CAA681D7E414B00C3E597 /* HomeSectionHeaderView.swift in Sources */,
 				488CAA6E1D7E5E0500C3E597 /* EventSearchViewController.swift in Sources */,
 				0665DF221D3DD4C8006D2070 /* Cluster+CoreDataProperties.swift in Sources */,
 				0665DF071D3DC7B6006D2070 /* ScoreReporter.xcdatamodeld in Sources */,
 				0665DF201D3DD4C8006D2070 /* Round+CoreDataProperties.swift in Sources */,
 				488CAA721D7E68C300C3E597 /* KeyboardObservable.swift in Sources */,
+				484951801D96FBFE00C95F2F /* StandingCell.swift in Sources */,
 				481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */,
 				48400E811D8E1B2A00927EB6 /* MapService.swift in Sources */,
 				0665DF2B1D3DD4C8006D2070 /* Standing.swift in Sources */,
@@ -657,14 +714,18 @@
 				488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */,
 				483453BC1D8D083D00F0918A /* FetchedChangeObject.swift in Sources */,
 				0665DF2F1D3DE92E006D2070 /* String+Extensions.swift in Sources */,
+				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
 				0680347E1D3F121F006BD4C1 /* UIColor+Extensions.swift in Sources */,
 				48400E831D8E1B5B00927EB6 /* MKMapSnapshotter+Extensions.swift in Sources */,
 				0665DF271D3DD4C8006D2070 /* Game.swift in Sources */,
 				0665DF231D3DD4C8006D2070 /* Cluster.swift in Sources */,
+				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,
 				0665DF291D3DD4C8006D2070 /* Bracket.swift in Sources */,
 				488CAA661D7E3C7500C3E597 /* HomeEventCell.swift in Sources */,
 				0665DF041D3DBCF1006D2070 /* APIClient.swift in Sources */,
+				487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */,
 				0665DF251D3DD4C8006D2070 /* Stage.swift in Sources */,
+				487BF3781D985BEA0082D6FC /* GameListCell.swift in Sources */,
 				0665DEFE1D3DBB6F006D2070 /* CoreDataStack.swift in Sources */,
 				48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */,
 				48400E8F1D8F4B5D00927EB6 /* EventDetailsDataSource.swift in Sources */,
@@ -673,7 +734,10 @@
 				483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */,
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
 				0665DF211D3DD4C8006D2070 /* Round.swift in Sources */,
+				487BF37D1D9880F20082D6FC /* GameListDataSource.swift in Sources */,
 				48400E851D8E1E7A00927EB6 /* UIImageView+Map.swift in Sources */,
+				487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */,
+				484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */,
 				0665DF241D3DD4C8006D2070 /* Stage+CoreDataProperties.swift in Sources */,
 				068034821D3F1BBC006BD4C1 /* EventViewModel.swift in Sources */,
 				48400E7F1D8E196800927EB6 /* EventDetailsHeaderView.swift in Sources */,
