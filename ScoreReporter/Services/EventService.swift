@@ -59,10 +59,10 @@ extension EventService {
 private extension EventService {
     func handleSuccessfulEventListResponse(response: AnyObject?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject],
-            eventArray = responseObject["Events"] as? [[String: AnyObject]] else {
-                let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
-                completion?(error)
-                return
+                  eventArray = responseObject["Events"] as? [[String: AnyObject]] else {
+            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+            completion?(error)
+            return
         }
 
         Event.eventsFromArrayWithCompletion(eventArray, completion: completion)
@@ -70,10 +70,10 @@ private extension EventService {
 
     func handleSuccessfulEventResponse(response: AnyObject?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject],
-            groupArray = responseObject["EventGroups"] as? [[String: AnyObject]] else {
-                let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
-                completion?(error)
-                return
+                  groupArray = responseObject["EventGroups"] as? [[String: AnyObject]] else {
+            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+            completion?(error)
+            return
         }
 
         Group.groupsFromArrayWithCompletion(groupArray, completion: completion)

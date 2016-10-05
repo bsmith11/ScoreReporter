@@ -57,6 +57,38 @@ class Game: NSManagedObject {
         
         return fetchedResultsController
     }
+    
+    static func fetchedActiveGamesForEvent(event: Event) -> NSFetchedResultsController {
+        let gamePredicates = [
+            NSPredicate(format: "%K == %@", "pool.round.group.event", event),
+            NSPredicate(format: "%K == %@", "cluster.round.group.event", event),
+            NSPredicate(format: "%K == %@", "stage.bracket.round.group.event", event)
+        ]
+        
+        let gamePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: gamePredicates)
+        let activePredicate = NSPredicate(format: "%K == %@", "status", "In Progress")
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [gamePredicate, activePredicate])
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "sortOrder", ascending: true),
+            NSSortDescriptor(key: "startDateFull", ascending: true)
+        ]
+        
+        let request = NSFetchRequest(entityName: rzv_entityName())
+        request.predicate = predicate
+        request.sortDescriptors = sortDescriptors
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch let error as NSError {
+            print("Failed to fetch games with error: \(error)")
+        }
+        
+        return fetchedResultsController
+    }
 }
 
 // MARK: - RZVinyl

@@ -28,7 +28,7 @@ class GameListCell: UITableViewCell {
         contentView.backgroundColor = UIColor.whiteColor()
         preservesSuperviewLayoutMargins = false
         layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
+        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
         configureLayout()
@@ -59,11 +59,11 @@ extension GameListCell {
 private extension GameListCell {
     func configureViews() {
         contentStackView.axis = .Vertical
-        contentStackView.spacing = 5.0
+        contentStackView.spacing = 4.0
         contentView.addSubview(contentStackView)
         
         homeStackView.axis = .Horizontal
-        homeStackView.spacing = 10.0
+        homeStackView.spacing = 16.0
         contentStackView.addArrangedSubview(homeStackView)
         
         homeNameLabel.textColor = UIColor.USAUNavyColor()
@@ -74,7 +74,7 @@ private extension GameListCell {
         homeStackView.addArrangedSubview(homeScoreLabel)
         
         awayStackView.axis = .Horizontal
-        awayStackView.spacing = 10.0
+        awayStackView.spacing = 16.0
         contentStackView.addArrangedSubview(awayStackView)
         
         awayNameLabel.textColor = UIColor.USAUNavyColor()
@@ -85,7 +85,7 @@ private extension GameListCell {
         awayStackView.addArrangedSubview(awayScoreLabel)
         
         infoStackView.axis = .Horizontal
-        infoStackView.spacing = 10.0
+        infoStackView.spacing = 16.0
         contentStackView.addArrangedSubview(infoStackView)
         
         fieldLabel.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightThin)
@@ -99,6 +99,6 @@ private extension GameListCell {
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 10.0
+        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

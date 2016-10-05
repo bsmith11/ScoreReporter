@@ -52,6 +52,15 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dataSource.refreshBlock = { [weak self] in
+            self?.reloadSegmentedControl()
+            
+            if self?.segmentedControl.numberOfSegments > 0 {
+                self?.segmentedControl.selectedSegmentIndex = 0
+                self?.segmentedControlValueChanged()
+            }
+        }
+        
         if segmentedControl.numberOfSegments > 0 {
             segmentedControl.selectedSegmentIndex = 0
             segmentedControlValueChanged()
@@ -66,9 +75,7 @@ private extension GroupDetailsViewController {
         segmentedControlContainerView.backgroundColor = UIColor.USAUNavyColor()
         view.addSubview(segmentedControlContainerView)
         
-        for (index, viewController) in dataSource.items.enumerate() {
-            segmentedControl.insertSegmentWithTitle(viewController.title, atIndex: index, animated: false)
-        }
+        reloadSegmentedControl()
         
         segmentedControl.tintColor = UIColor.whiteColor()
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), forControlEvents: .ValueChanged)
@@ -81,11 +88,19 @@ private extension GroupDetailsViewController {
         segmentedControlContainerView.topAnchor == topLayoutGuide.bottomAnchor
         segmentedControlContainerView.horizontalAnchors == horizontalAnchors
         
-        segmentedControl.edgeAnchors == segmentedControlContainerView.edgeAnchors + 10.0
+        segmentedControl.edgeAnchors == segmentedControlContainerView.edgeAnchors + 16.0
         
         contentView.topAnchor == segmentedControlContainerView.bottomAnchor
         contentView.horizontalAnchors == horizontalAnchors
         contentView.bottomAnchor == bottomLayoutGuide.topAnchor
+    }
+    
+    func reloadSegmentedControl() {
+        segmentedControl.removeAllSegments()
+        
+        for (index, viewController) in dataSource.items.enumerate() {
+            segmentedControl.insertSegmentWithTitle(viewController.title, atIndex: index, animated: false)
+        }
     }
     
     @objc func segmentedControlValueChanged() {

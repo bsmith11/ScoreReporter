@@ -37,9 +37,14 @@ private extension TabBarController {
         let bookmarksViewController = BookmarksViewController(dataSource: bookmarksDataSource)
         let bookmarksNavigationController = BaseNavigationController(rootViewController: bookmarksViewController)
         
+        let settingsDataSource = SettingsDataSource()
+        let settingsViewController = SettingsViewController(dataSource: settingsDataSource)
+        let settingsNavigationController = BaseNavigationController(rootViewController: settingsViewController)
+        
         let navigationControllers = [
             homeNavigationController,
-            bookmarksNavigationController
+            bookmarksNavigationController,
+            settingsNavigationController
         ]
         
         setViewControllers(navigationControllers, animated: false)

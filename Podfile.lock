@@ -3,6 +3,8 @@ PODS:
   - Anchorage (2.0.0)
   - FLAnimatedImage (1.0.12)
   - KVOController (1.1.0)
+  - MapSnap (0.1.0):
+    - PINCache (~> 2.3)
   - PINCache (2.3)
   - PINRemoteImage (2.1.4):
     - PINRemoteImage/FLAnimatedImage (= 2.1.4)
@@ -24,6 +26,7 @@ DEPENDENCIES:
   - Alamofire (~> 3.5)
   - Anchorage (from `https://github.com/Raizlabs/Anchorage`, commit `23d49eab06e583866ae9de0624147506d1777137`)
   - KVOController (~> 1.1)
+  - MapSnap
   - PINRemoteImage (~> 2.1)
   - pop (~> 1.0)
   - RZImport (~> 3.0)
@@ -44,12 +47,13 @@ SPEC CHECKSUMS:
   Anchorage: 3fb9d1ca397ac68b7ce9857792660a0d683f2e11
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   KVOController: 321b5fc59300fcaabd42c0f679baa7a27efbb2fd
+  MapSnap: 95862bbf764c067e5533e01bca467b448ccbdce6
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   RZImport: ac35279cf1be1aa79bef08508dba72487e841189
   RZVinyl: 90724cafcf7cd97c8b5db1cecec4804acac3c4d3
 
-PODFILE CHECKSUM: e9929da90e82288a3657e3b60810471965533175
+PODFILE CHECKSUM: 99134a9c58b16597e7ae698442d56ffa1515d7d2
 
 COCOAPODS: 1.0.1

@@ -1,17 +1,15 @@
 //
-//  EventDetailsInfoCell.swift
+//  BracketListCell.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/18/16.
+//  Created by Bradley Smith on 9/26/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
 import UIKit
 import Anchorage
 
-class EventDetailsInfoCell: UITableViewCell {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let iconImageView = UIImageView(frame: .zero)
+class BracketListCell: UITableViewCell {
     private let titleLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -34,35 +32,24 @@ class EventDetailsInfoCell: UITableViewCell {
 
 // MARK: - Public
 
-extension EventDetailsInfoCell {
-    func configureWithInfo(info: EventDetailsInfo?) {
-        iconImageView.image = info?.image
-        iconImageView.hidden = iconImageView.image == nil
-        titleLabel.text = info?.title
+extension BracketListCell {
+    func configureWithTitle(title: String?) {
+        titleLabel.text = title
     }
 }
 
 // MARK: - Private
 
-private extension EventDetailsInfoCell {
+private extension BracketListCell {
     func configureViews() {
-        contentStackView.axis = .Horizontal
-        contentStackView.spacing = 16.0
-        contentStackView.alignment = .Center
-        contentView.addSubview(contentStackView)
-        
-        iconImageView.contentMode = .Center
-        iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        contentStackView.addArrangedSubview(iconImageView)
-        
         titleLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
         titleLabel.textColor = UIColor.USAUNavyColor()
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .ByWordWrapping
-        contentStackView.addArrangedSubview(titleLabel)
+        contentView.addSubview(titleLabel)
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
+        titleLabel.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

@@ -1,15 +1,15 @@
 //
-//  EventDetailsInfoCell.swift
+//  SettingsCell.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/18/16.
+//  Created by Bradley Smith on 10/4/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
 import UIKit
 import Anchorage
 
-class EventDetailsInfoCell: UITableViewCell {
+class SettingsCell: UITableViewCell {
     private let contentStackView = UIStackView(frame: .zero)
     private let iconImageView = UIImageView(frame: .zero)
     private let titleLabel = UILabel(frame: .zero)
@@ -34,17 +34,23 @@ class EventDetailsInfoCell: UITableViewCell {
 
 // MARK: - Public
 
-extension EventDetailsInfoCell {
-    func configureWithInfo(info: EventDetailsInfo?) {
-        iconImageView.image = info?.image
+extension SettingsCell {
+    func configureWithItem(item: SettingsItem?) {
+        iconImageView.image = item?.image
         iconImageView.hidden = iconImageView.image == nil
-        titleLabel.text = info?.title
+        titleLabel.text = item?.title
+    }
+    
+    func configureWithTitle(title: String?) {
+        iconImageView.image = nil
+        iconImageView.hidden = true
+        titleLabel.text = title
     }
 }
 
 // MARK: - Private
 
-private extension EventDetailsInfoCell {
+private extension SettingsCell {
     func configureViews() {
         contentStackView.axis = .Horizontal
         contentStackView.spacing = 16.0

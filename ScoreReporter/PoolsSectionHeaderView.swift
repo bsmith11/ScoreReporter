@@ -50,7 +50,7 @@ extension PoolsSectionHeaderView {
 private extension PoolsSectionHeaderView {
     func configureViews() {
         contentStackView.axis = .Horizontal
-        contentStackView.spacing = 10.0
+        contentStackView.spacing = 16.0
         contentView.addSubview(contentStackView)
         
         titleLabel.numberOfLines = 1
@@ -66,7 +66,7 @@ private extension PoolsSectionHeaderView {
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 10.0
+        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
     }
     
     @objc func handleTap() {

@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import CoreLocation
+import MapSnap
 
 protocol EventDetailsHeaderViewDelegate: class {
     func headerViewDidSelectMap(headerView: EventDetailsHeaderView)
@@ -50,7 +51,7 @@ extension EventDetailsHeaderView {
 private extension EventDetailsHeaderView {
     func configureViews() {
         infoStackView.axis = .Horizontal
-        infoStackView.spacing = 10.0
+        infoStackView.spacing = 16.0
         infoStackView.alignment = .Center
         addSubview(infoStackView)
         
@@ -72,14 +73,14 @@ private extension EventDetailsHeaderView {
     }
     
     func configureLayout() {
-        infoStackView.topAnchor == topAnchor + 10.0
-        infoStackView.horizontalAnchors == horizontalAnchors + 10.0
+        infoStackView.topAnchor == topAnchor + 16.0
+        infoStackView.horizontalAnchors == horizontalAnchors + 16.0
         
         logoImageView.heightAnchor == 50.0
         logoImageView.widthAnchor == 50.0
         
         mapImageView.heightAnchor == 150.0
-        mapImageView.topAnchor == infoStackView.bottomAnchor + 10.0
+        mapImageView.topAnchor == infoStackView.bottomAnchor + 16.0
         mapImageView.horizontalAnchors == horizontalAnchors
         mapImageView.bottomAnchor == bottomAnchor
         

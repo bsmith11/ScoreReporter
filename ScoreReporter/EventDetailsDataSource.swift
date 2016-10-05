@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import UIKit
+import CoreData
 
 struct EventDetailsSection {
     let title: String?
@@ -19,6 +20,7 @@ enum EventDetailsInfo {
     case Address(String)
     case Date(String)
     case Division(Group)
+    case ActiveGame(Game)
     
     var image: UIImage? {
         switch self {
@@ -27,6 +29,8 @@ enum EventDetailsInfo {
         case .Date:
             return UIImage(named: "icn-calendar")
         case .Division:
+            return nil
+        default:
             return nil
         }
     }
@@ -40,17 +44,27 @@ enum EventDetailsInfo {
         case .Division(let group):
             let groupViewModel = GroupViewModel(group: group)
             return groupViewModel.fullName
+        default:
+            return ""
         }
     }
 }
 
-class EventDetailsDataSource {
+class EventDetailsDataSource: NSObject {
+    private let activeGamesFetchedResultsController: NSFetchedResultsController
+    
     private var sections = [EventDetailsSection]()
     
     let event: Event
     
+    var refreshBlock: RefreshBlock?
+    
     init(event: Event) {
         self.event = event
+        
+        activeGamesFetchedResultsController = Game.fetchedActiveGamesForEvent(event)
+        
+        super.init()
         
         calculateCoordinates()
         configureSections()
@@ -99,10 +113,14 @@ private extension EventDetailsDataSource {
         sections.append(EventDetailsSection(title: "Info", items: [
             .Address(eventViewModel.address),
             .Date(eventViewModel.eventDates)
-            ]))
+        ]))
         
         let divisions = eventViewModel.groups.map({EventDetailsInfo.Division($0)})
         sections.append(EventDetailsSection(title: "Divisions", items: divisions))
+        
+        if let activeGames = activeGamesFetchedResultsController.fetchedObjects as? [Game] where !activeGames.isEmpty {
+            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map({.ActiveGame($0)})))
+        }
     }
     
     func calculateCoordinates() {
@@ -128,5 +146,14 @@ private extension EventDetailsDataSource {
                 print("Failed to save with error: \(error)")
             }
         }
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension EventDetailsDataSource: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        configureSections()
+        refreshBlock?()
     }
 }

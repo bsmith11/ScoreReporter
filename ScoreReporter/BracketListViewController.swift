@@ -1,36 +1,26 @@
 //
-//  BookmarksViewController.swift
+//  BracketListViewController.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/18/16.
+//  Created by Bradley Smith on 9/26/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
 import UIKit
 import Anchorage
+import KVOController
 
-class BookmarksViewController: UIViewController, MessageDisplayable {
-    private let dataSource: BookmarksDataSource
-    
+class BracketListViewController: UIViewController {
+    private let dataSource: BracketListDataSource
     private let tableView = UITableView(frame: .zero, style: .Plain)
     private let defaultView = DefaultView(frame: .zero)
     
-    override var topLayoutGuide: UILayoutSupport {
-        configureMessageView(super.topLayoutGuide)
-        
-        return messageLayoutGuide
-    }
-    
-    init(dataSource: BookmarksDataSource) {
+    init(dataSource: BracketListDataSource) {
         self.dataSource = dataSource
         
         super.init(nibName: nil, bundle: nil)
         
-        title = "Bookmarks"
-        
-        let image = UIImage(named: "icn-star")
-        let selectedImage = UIImage(named: "icn-star-selected")
-        tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        title = "Brackets"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,11 +57,11 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
 
 // MARK: - Private
 
-private extension BookmarksViewController {
+private extension BracketListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(HomeEventCell)
+        tableView.registerClass(BracketListCell)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.whiteColor()
@@ -79,11 +69,6 @@ private extension BookmarksViewController {
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
-        let emptyImage = UIImage(named: "icn-star")
-        let emptyTitle = "No Events"
-        let emptyMessage = "Bookmark events for easy access"
-        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .Empty)
         view.addSubview(defaultView)
     }
     
@@ -110,7 +95,7 @@ private extension BookmarksViewController {
 
 // MARK: - UITableViewDataSource
 
-extension BookmarksViewController: UITableViewDataSource {
+extension BracketListViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
@@ -120,11 +105,10 @@ extension BookmarksViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as HomeEventCell
-        let event = dataSource.itemAtIndexPath(indexPath)
-        let eventViewModel = EventViewModel(event: event)
+        let cell = tableView.dequeueCellForIndexPath(indexPath) as BracketListCell
+        let bracket = dataSource.itemAtIndexPath(indexPath)
         
-        cell.configureWithViewModel(eventViewModel)
+        cell.configureWithTitle(bracket?.name)
         
         return cell
     }
@@ -132,16 +116,8 @@ extension BookmarksViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension BookmarksViewController: UITableViewDelegate {
+extension BracketListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let event = dataSource.itemAtIndexPath(indexPath) else {
-            return
-        }
         
-        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-        
-        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 }

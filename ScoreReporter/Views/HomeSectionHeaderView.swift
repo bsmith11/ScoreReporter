@@ -49,6 +49,6 @@ private extension HomeSectionHeaderView {
     }
     
     func configureLayout() {
-        titleLabel.edgeAnchors == contentView.edgeAnchors + 10.0
+        titleLabel.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

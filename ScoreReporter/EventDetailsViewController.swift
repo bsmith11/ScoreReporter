@@ -19,6 +19,8 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     private var favoriteButton: UIBarButtonItem?
     private var unfavoriteButton: UIBarButtonItem?
     
+    private var viewDidAppear = false
+    
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
         
@@ -64,6 +66,10 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dataSource.refreshBlock = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
         viewModel.downloadEventDetails()
     }
     
@@ -82,6 +88,16 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         headerView.frame.size = size
         tableView.tableHeaderView = headerView
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !viewDidAppear {
+            viewDidAppear = true
+            
+            configureObservers()
+        }
+    }
 }
 
 // MARK: - Private
@@ -91,6 +107,7 @@ private extension EventDetailsViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerClass(EventDetailsInfoCell)
+        tableView.registerClass(GameListCell)
         tableView.registerHeaderFooterClass(HomeSectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -108,6 +125,35 @@ private extension EventDetailsViewController {
     
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
+    }
+    
+    func configureObservers() {
+        let options: NSKeyValueObservingOptions = [
+            .Initial,
+            .New
+        ]
+        
+        let loadingBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
+            let loading = change[NSKeyValueChangeNewKey] as? Bool ?? false
+            
+            if loading {
+                self?.displayMessage("Loading...", animated: true)
+            }
+            else {
+                self?.hideMessageAnimated(true)
+            }
+        }
+        
+        let errorBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
+            let error = change[NSKeyValueChangeNewKey] as? NSError
+            
+            if let _ = error {
+                self?.displayMessage("Error", animated: true)
+            }
+        }
+        
+        KVOController.observe(viewModel, keyPath: "loading", options: options, block: loadingBlock)
+        KVOController.observe(viewModel, keyPath: "error", options: options, block: errorBlock)
     }
     
     @objc func favoriteButtonTapped() {
@@ -151,12 +197,19 @@ extension EventDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as EventDetailsInfoCell
-        let item = dataSource.itemAtIndexPath(indexPath)
+        let item = dataSource.itemAtIndexPath(indexPath)!
         
-        cell.configureWithInfo(item)
-        
-        return cell
+        switch item {
+        case .ActiveGame(let game):
+            let cell = tableView.dequeueCellForIndexPath(indexPath) as GameListCell
+            let gameViewModel = GameViewModel(game: game)
+            cell.configureWithViewModel(gameViewModel)
+            return cell
+        default:
+            let cell = tableView.dequeueCellForIndexPath(indexPath) as EventDetailsInfoCell
+            cell.configureWithInfo(item)
+            return cell
+        }
     }
 }
 
@@ -205,6 +258,8 @@ extension EventDetailsViewController: UITableViewDelegate {
             let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
             
             navigationController?.pushViewController(groupDetailsViewController, animated: true)
+        default:
+            break
         }
     }
 }

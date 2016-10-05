@@ -52,11 +52,16 @@ class HomeViewController: UIViewController, MessageDisplayable {
         return .LightContent
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        view = UIView()
         
         configureViews()
         configureLayout()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in

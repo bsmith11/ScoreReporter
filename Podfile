@@ -13,6 +13,7 @@ pod 'Anchorage', :git => 'https://github.com/Raizlabs/Anchorage', :commit => '23
 pod 'pop', '~> 1.0'
 pod 'PINRemoteImage', '~> 2.1'
 pod 'KVOController', '~> 1.1'
+pod 'MapSnap'
 
 # Copy acknowledgements to the Settings.bundle
 

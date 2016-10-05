@@ -10,7 +10,28 @@ import Foundation
 import CoreData
 
 class Bracket: NSManagedObject {
-
+    static func fetchedBracketsForGroup(group: Group) -> NSFetchedResultsController {
+        let predicate = NSPredicate(format: "%K == %@", "round.group", group)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "bracketID", ascending: true)
+        ]
+        
+        let request = NSFetchRequest(entityName: rzv_entityName())
+        request.predicate = predicate
+        request.sortDescriptors = sortDescriptors
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        }
+        catch let error as NSError {
+            print("Failed to fetch brackets with error: \(error)")
+        }
+        
+        return fetchedResultsController
+    }
 }
 
 // MARK: - RZVinyl

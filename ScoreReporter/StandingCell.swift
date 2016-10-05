@@ -21,7 +21,7 @@ class StandingCell: UITableViewCell {
         contentView.backgroundColor = UIColor.whiteColor()
         preservesSuperviewLayoutMargins = false
         layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
+        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
         configureLayout()
@@ -51,7 +51,7 @@ extension StandingCell {
 private extension StandingCell {
     func configureViews() {
         contentStackView.axis = .Horizontal
-        contentStackView.spacing = 10.0
+        contentStackView.spacing = 16.0
         contentView.addSubview(contentStackView)
         
         nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
@@ -65,6 +65,6 @@ private extension StandingCell {
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 10.0
+        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

@@ -23,7 +23,7 @@ class HomeEventCell: UITableViewCell {
         contentView.backgroundColor = UIColor.whiteColor()
         preservesSuperviewLayoutMargins = false
         layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
+        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
         configureLayout()
@@ -55,7 +55,7 @@ extension HomeEventCell {
 private extension HomeEventCell {
     func configureViews() {
         contentStackView.axis = .Horizontal
-        contentStackView.spacing = 10.0
+        contentStackView.spacing = 16.0
         contentStackView.alignment = .Center
         contentView.addSubview(contentStackView)
         
@@ -63,7 +63,7 @@ private extension HomeEventCell {
         contentStackView.addArrangedSubview(logoImageView)
         
         infoStackView.axis = .Vertical
-        infoStackView.spacing = 5.0
+        infoStackView.spacing = 4.0
         contentStackView.addArrangedSubview(infoStackView)
         
         nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
@@ -79,7 +79,7 @@ private extension HomeEventCell {
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 10.0
+        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
         
         logoImageView.heightAnchor == 50.0
         logoImageView.widthAnchor == 50.0

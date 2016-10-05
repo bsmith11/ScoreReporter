@@ -27,11 +27,16 @@ class PoolsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        view = UIView()
         
         configureViews()
         configureLayout()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         configureObservers()
     }
     

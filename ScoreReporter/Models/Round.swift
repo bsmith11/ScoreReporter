@@ -37,7 +37,7 @@ class Round: NSManagedObject {
         else {
             return .Brackets
         }
-    }    
+    }
 }
 
 // MARK: - RZVinyl

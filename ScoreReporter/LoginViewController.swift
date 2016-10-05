@@ -68,7 +68,7 @@ private extension LoginViewController {
         
         contentStackView.addArrangedSubview(spacerView)
         
-        skipButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        skipButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         skipButton.setTitle("Login Later", forState: .Normal)
         skipButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         skipButton.titleLabel?.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightThin)
