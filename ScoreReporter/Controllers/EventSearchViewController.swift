@@ -82,6 +82,11 @@ private extension EventSearchViewController {
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
+        let emptyImage = UIImage(named: "icn-search")
+        let emptyTitle = "No Events"
+        let emptyMessage = "No events exist by that name"
+        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
+        defaultView.setInfo(emptyInfo, state: .Empty)
         view.addSubview(defaultView)
     }
     

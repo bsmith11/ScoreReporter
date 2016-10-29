@@ -84,11 +84,11 @@ extension Group: CoreDataImportable {
         }
         
         group.groupID = groupID
-        group.name = dictionary["EventGroupName"] as? String
         group.divisionName = dictionary["DivisionName"] as? String
         group.teamCount = dictionary["TeamCount"] as? String
         
-        let groupName = dictionary["GroupName"] as? String
+        let groupName = dictionary["EventGroupName"] as? String
+        group.name = groupName
         group.type = GroupType.typeFromAPIString(groupName)?.rawValue
         group.division = GroupDivision.divisionFromAPIString(groupName)?.rawValue
         

@@ -107,10 +107,10 @@ extension Event: CoreDataImportable {
         
         event.eventID = eventID
         event.name = dictionary["EventName"] as? String
-        event.type = dictionary["type"] as? String
-        event.typeName = dictionary["typeName"] as? String
-        event.city = dictionary["city"] as? String
-        event.state = dictionary["state"] as? String
+        event.type = dictionary["EventType"] as? String
+        event.typeName = dictionary["EventTypeName"] as? String
+        event.city = dictionary["City"] as? String
+        event.state = dictionary["State"] as? String
         
         let startDate = dictionary["StartDate"] as? String
         event.startDate = startDate.flatMap { DateService.eventDateFormatter.dateFromString($0) }
