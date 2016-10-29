@@ -54,7 +54,7 @@ private extension PoolsViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerClass(StandingCell)
-        tableView.registerHeaderFooterClass(PoolsSectionHeaderView)
+        tableView.registerHeaderFooterClass(SectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -74,17 +74,9 @@ private extension PoolsViewController {
     }
     
     func configureObservers() {
-        let options: NSKeyValueObservingOptions = [
-            .Initial,
-            .New
-        ]
-        
-        let emptyBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let empty = change[NSKeyValueChangeNewKey] as? Bool ?? false
+        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
-        
-        KVOController.observe(dataSource, keyPath: "empty", options: options, block: emptyBlock)
     }
 }
 
@@ -113,10 +105,10 @@ extension PoolsViewController: UITableViewDataSource {
 
 extension PoolsViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as PoolsSectionHeaderView
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let poolSection = dataSource.poolSectionAtSection(section)
         
-        headerView.configureWithTitle(poolSection?.title)
+        headerView.configureWithTitle(poolSection?.title, tappable: true)
         headerView.delegate = self
         headerView.tag = section
         
@@ -128,10 +120,10 @@ extension PoolsViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - PoolsSectionHeaderViewDelegate
+// MARK: - SectionHeaderViewDelegate
 
-extension PoolsViewController: PoolsSectionHeaderViewDelegate {
-    func didSelectSectionHeader(headerView: PoolsSectionHeaderView) {
+extension PoolsViewController: SectionHeaderViewDelegate {
+    func didSelectSectionHeader(headerView: SectionHeaderView) {
         guard let pool = dataSource.poolSectionAtSection(headerView.tag)?.pool else {
             return
         }

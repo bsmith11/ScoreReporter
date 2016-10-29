@@ -15,7 +15,7 @@ class APIClient {
     static let sharedInstance = APIClient()
 
     private let manager: Manager
-    private let baseURL = NSURL(string: "http://play.usaultimate.org/ajax/api.aspx")!
+    private let baseURL = NSURL(string: "https://play.usaultimate.org/ajax/api.aspx")!
 
     init() {
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()

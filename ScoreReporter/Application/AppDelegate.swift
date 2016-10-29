@@ -23,14 +23,16 @@ extension AppDelegate: UIApplicationDelegate {
         UINavigationBar.appearance().translucent = false
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         UINavigationBar.appearance().titleTextAttributes = [
-            NSFontAttributeName: UIFont.systemFontOfSize(18.0, weight: UIFontWeightLight),
+            NSFontAttributeName: UIFont.systemFontOfSize(17.0, weight: UIFontWeightBlack),
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
         
         let titleTextAttributes = [
+            NSFontAttributeName: UIFont.systemFontOfSize(17.0, weight: UIFontWeightBlack),
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
         UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, forState: .Normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, forState: .Normal)
         
         UITabBar.appearance().barTintColor = UIColor.USAUNavyColor()
         UITabBar.appearance().translucent = false

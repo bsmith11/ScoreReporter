@@ -72,7 +72,7 @@ private extension MessageView {
     func configureLayout() {
         heightConstraint = heightAnchor == 0.0
         
-        titleLabel.verticalAnchors == verticalAnchors + 16.0 ~ UILayoutPriorityDefaultLow
+        titleLabel.verticalAnchors == verticalAnchors + 8.0 ~ UILayoutPriorityDefaultLow
         titleLabel.horizontalAnchors == horizontalAnchors + 16.0 ~ UILayoutPriorityDefaultHigh - 1.0
     }
 }

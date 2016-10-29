@@ -8,6 +8,7 @@
 
 import UIKit
 import Anchorage
+import KVOController
 
 class EventSearchViewController: UIViewController {
     private let dataSource: EventSearchDataSource
@@ -71,7 +72,7 @@ private extension EventSearchViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerClass(HomeEventCell)
-        tableView.registerHeaderFooterClass(HomeSectionHeaderView)
+        tableView.registerHeaderFooterClass(SectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -93,17 +94,9 @@ private extension EventSearchViewController {
     }
     
     func configureObservers() {
-        let options: NSKeyValueObservingOptions = [
-            .Initial,
-            .New
-        ]
-        
-        let emptyBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let empty = change[NSKeyValueChangeNewKey] as? Bool ?? false
+        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
-        
-        KVOController.observe(dataSource, keyPath: "empty", options: options, block: emptyBlock)
     }
 }
 
@@ -133,7 +126,7 @@ extension EventSearchViewController: UITableViewDataSource {
 
 extension EventSearchViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as HomeSectionHeaderView
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleForSection(section)
         
         headerView.configureWithTitle(title)

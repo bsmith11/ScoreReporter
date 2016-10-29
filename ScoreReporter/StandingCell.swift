@@ -61,6 +61,7 @@ private extension StandingCell {
         resultsLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
         resultsLabel.textColor = UIColor.USAUNavyColor()
         resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         contentStackView.addArrangedSubview(resultsLabel)
     }
     

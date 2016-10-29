@@ -18,7 +18,7 @@ struct GameViewModel {
     let status: String?
     
     private let winnerAttributes = [
-        NSFontAttributeName: UIFont.systemFontOfSize(16.0, weight: UIFontWeightBold)
+        NSFontAttributeName: UIFont.systemFontOfSize(16.0, weight: UIFontWeightBlack)
     ]
     
     private let loserAttributes = [

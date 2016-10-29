@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import MapKit
+import KVOController
 
 class EventDetailsViewController: UIViewController, MessageDisplayable {
     private let viewModel: EventDetailsViewModel
@@ -108,7 +109,7 @@ private extension EventDetailsViewController {
         tableView.delegate = self
         tableView.registerClass(EventDetailsInfoCell)
         tableView.registerClass(GameListCell)
-        tableView.registerHeaderFooterClass(HomeSectionHeaderView)
+        tableView.registerHeaderFooterClass(SectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -128,14 +129,7 @@ private extension EventDetailsViewController {
     }
     
     func configureObservers() {
-        let options: NSKeyValueObservingOptions = [
-            .Initial,
-            .New
-        ]
-        
-        let loadingBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let loading = change[NSKeyValueChangeNewKey] as? Bool ?? false
-            
+        KVOController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
             if loading {
                 self?.displayMessage("Loading...", animated: true)
             }
@@ -144,16 +138,9 @@ private extension EventDetailsViewController {
             }
         }
         
-        let errorBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let error = change[NSKeyValueChangeNewKey] as? NSError
-            
-            if let _ = error {
-                self?.displayMessage("Error", animated: true)
-            }
+        KVOController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
+            self?.displayMessage("Error", animated: true)
         }
-        
-        KVOController.observe(viewModel, keyPath: "loading", options: options, block: loadingBlock)
-        KVOController.observe(viewModel, keyPath: "error", options: options, block: errorBlock)
     }
     
     @objc func favoriteButtonTapped() {
@@ -221,7 +208,7 @@ extension EventDetailsViewController: UITableViewDelegate {
             return nil
         }
         
-        let headerView = tableView.dequeueHeaderFooterView() as HomeSectionHeaderView
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         
         headerView.configureWithTitle(title)
         

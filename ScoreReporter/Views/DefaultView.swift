@@ -131,7 +131,7 @@ private extension DefaultView {
         labelStackView.spacing = 8.0
         contentStackView.addArrangedSubview(labelStackView)
         
-        titleLabel.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+        titleLabel.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBlack)
         titleLabel.textColor = tintColor
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .ByWordWrapping

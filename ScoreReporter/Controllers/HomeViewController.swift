@@ -85,7 +85,7 @@ private extension HomeViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerClass(HomeEventCell)
-        tableView.registerHeaderFooterClass(HomeSectionHeaderView)
+        tableView.registerHeaderFooterClass(SectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -113,19 +113,11 @@ private extension HomeViewController {
     }
     
     func configureObservers() {
-        let options: NSKeyValueObservingOptions = [
-            .Initial,
-            .New
-        ]
-        
-        let emptyBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let empty = change[NSKeyValueChangeNewKey] as? Bool ?? false
+        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
         
-        let loadingBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let loading = change[NSKeyValueChangeNewKey] as? Bool ?? false
-            
+        KVOController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
             if loading {
                 self?.displayMessage("Loading...", animated: true)
             }
@@ -134,17 +126,9 @@ private extension HomeViewController {
             }
         }
         
-        let errorBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let error = change[NSKeyValueChangeNewKey] as? NSError
-            
-            if let _ = error {
-                self?.displayMessage("Error", animated: true)
-            }
+        KVOController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
+            self?.displayMessage("Error", animated: true)
         }
-        
-        KVOController.observe(dataSource, keyPath: "empty", options: options, block: emptyBlock)
-        KVOController.observe(viewModel, keyPath: "loading", options: options, block: loadingBlock)
-        KVOController.observe(viewModel, keyPath: "error", options: options, block: errorBlock)
     }
 }
 
@@ -174,7 +158,7 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as HomeSectionHeaderView
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleForSection(section)
         
         headerView.configureWithTitle(title)

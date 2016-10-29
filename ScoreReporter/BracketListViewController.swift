@@ -79,17 +79,9 @@ private extension BracketListViewController {
     }
     
     func configureObservers() {
-        let options: NSKeyValueObservingOptions = [
-            .Initial,
-            .New
-        ]
-        
-        let emptyBlock = { [weak self] (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            let empty = change[NSKeyValueChangeNewKey] as? Bool ?? false
+        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
-        
-        KVOController.observe(dataSource, keyPath: "empty", options: options, block: emptyBlock)
     }
 }
 

@@ -44,6 +44,7 @@ private extension AcknowledgementViewController {
         textView.text = acknowledgement.info
         textView.textContainer.lineFragmentPadding = 0.0
         textView.textContainerInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        textView.alwaysBounceVertical = true
         view.addSubview(textView)
     }
     
