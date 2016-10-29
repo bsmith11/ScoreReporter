@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreData
-import RZImport
 
 class Event: NSManagedObject {
     

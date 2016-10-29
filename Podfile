@@ -6,13 +6,11 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'ScoreReporter'
-pod 'RZVinyl', '~> 3.0'
-pod 'RZImport', '~> 3.0'
 pod 'Alamofire', '~> 3.5'
-pod 'Anchorage', :git => 'https://github.com/Raizlabs/Anchorage', :commit => '23d49eab06e583866ae9de0624147506d1777137'
+pod 'Anchorage', '~> 3.0'
 pod 'pop', '~> 1.0'
 pod 'PINRemoteImage', '~> 2.1'
-pod 'KVOController', '~> 1.1'
+pod 'KVOController', '~> 1.2'
 pod 'MapSnap'
 
 # Copy acknowledgements to the Settings.bundle

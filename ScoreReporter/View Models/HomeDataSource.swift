@@ -34,7 +34,11 @@ class HomeDataSource: NSObject, FetchedDataSource, FetchedChangable {
 // MARK: - Public
 
 extension HomeDataSource {
-    func titleForSection(section: Int) -> String {
+    func titleForSection(section: Int) -> String? {
+        guard !(fetchedResultsController.fetchedObjects?.isEmpty ?? true) else {
+            return nil
+        }
+        
         return "This Week"
     }
 }

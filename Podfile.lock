@@ -1,8 +1,8 @@
 PODS:
-  - Alamofire (3.5.0)
-  - Anchorage (2.0.0)
+  - Alamofire (3.5.1)
+  - Anchorage (3.0.0)
   - FLAnimatedImage (1.0.12)
-  - KVOController (1.1.0)
+  - KVOController (1.2.0)
   - MapSnap (0.1.0):
     - PINCache (~> 2.3)
   - PINCache (2.3)
@@ -14,46 +14,25 @@ PODS:
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - pop (1.0.9)
-  - RZImport (3.0.1)
-  - RZVinyl (3.0.1):
-    - RZVinyl/Extensions (= 3.0.1)
-  - RZVinyl/Core (3.0.1)
-  - RZVinyl/Extensions (3.0.1):
-    - RZImport (~> 3.0)
-    - RZVinyl/Core
 
 DEPENDENCIES:
   - Alamofire (~> 3.5)
-  - Anchorage (from `https://github.com/Raizlabs/Anchorage`, commit `23d49eab06e583866ae9de0624147506d1777137`)
-  - KVOController (~> 1.1)
+  - Anchorage (~> 3.0)
+  - KVOController (~> 1.2)
   - MapSnap
   - PINRemoteImage (~> 2.1)
   - pop (~> 1.0)
-  - RZImport (~> 3.0)
-  - RZVinyl (~> 3.0)
-
-EXTERNAL SOURCES:
-  Anchorage:
-    :commit: 23d49eab06e583866ae9de0624147506d1777137
-    :git: https://github.com/Raizlabs/Anchorage
-
-CHECKOUT OPTIONS:
-  Anchorage:
-    :commit: 23d49eab06e583866ae9de0624147506d1777137
-    :git: https://github.com/Raizlabs/Anchorage
 
 SPEC CHECKSUMS:
-  Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
-  Anchorage: 3fb9d1ca397ac68b7ce9857792660a0d683f2e11
+  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  Anchorage: 0b7244e31069ebc61a4e9611bc670feb7f24a3e2
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  KVOController: 321b5fc59300fcaabd42c0f679baa7a27efbb2fd
+  KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
   MapSnap: 95862bbf764c067e5533e01bca467b448ccbdce6
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  RZImport: ac35279cf1be1aa79bef08508dba72487e841189
-  RZVinyl: 90724cafcf7cd97c8b5db1cecec4804acac3c4d3
 
-PODFILE CHECKSUM: 99134a9c58b16597e7ae698442d56ffa1515d7d2
+PODFILE CHECKSUM: 90918fda24d4d91ae4c085e7d5efb7e736358a6f
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

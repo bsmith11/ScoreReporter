@@ -88,13 +88,17 @@ private extension HomeViewController {
         tableView.registerHeaderFooterClass(SectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
+        let emptyImage = UIImage(named: "icn-home")
+        let emptyTitle = "No Events"
+        let emptyMessage = "Nothing is happening this week"
+        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
+        defaultView.setInfo(emptyInfo, state: .Empty)
         view.addSubview(defaultView)
         
         searchBar.autocapitalizationType = .None
@@ -157,10 +161,20 @@ extension HomeViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension HomeViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let title = dataSource.titleForSection(section)
+    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        guard let _ = dataSource.titleForSection(section) else {
+            return 0.0
+        }
         
+        return 44.0
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let title = dataSource.titleForSection(section) else {
+            return nil
+        }
+        
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configureWithTitle(title)
         
         return headerView
