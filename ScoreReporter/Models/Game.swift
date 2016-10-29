@@ -10,6 +10,12 @@ import Foundation
 import CoreData
 
 class Game: NSManagedObject {
+    
+}
+
+// MARK: - Public
+
+extension Game {
     static func fetchedGamesForPool(pool: Pool) -> NSFetchedResultsController {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
@@ -18,20 +24,7 @@ class Game: NSManagedObject {
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: "startDateFull", cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch games with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
     static func fetchedGamesForCluster(cluster: Cluster) -> NSFetchedResultsController {
@@ -42,20 +35,7 @@ class Game: NSManagedObject {
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: "startDateFull", cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch games with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
     static func fetchedActiveGamesForEvent(event: Event) -> NSFetchedResultsController {
@@ -74,76 +54,46 @@ class Game: NSManagedObject {
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch games with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Game {
-    override class func rzv_shouldAlwaysCreateNewObjectOnImport() -> Bool {
-        return true
+extension Game: Fetchable {
+    static var primaryKey: String {
+        return "gameID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Game {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "HomeTeamName": "homeTeamName",
-            "HomeTeamScore": "homeTeamScore",
-            "AwayTeamName": "awayTeamName",
-            "AwayTeamScore": "awayTeamScore",
-            "GameStatus": "status",
-            "FieldName": "fieldName"
-        ]
-    }
-    
-    override class func rzi_orderedKeys() -> [String] {
-        return [
-            "StartDate",
-            "StartTime"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "StartDate":
-            if let value = value as? String {
-                startDate = DateService.gameDateFormatter.dateFromString(value)
-            }
-            else {
-                startDate = nil
-            }
-
-            return false
-        case "StartTime":
-            if let value = value as? String {
-                startTime = DateService.gameTimeFormatter.dateFromString(value)
-            }
-            else {
-                startTime = nil
-            }
-            
-            startDateFull = NSDate.dateWithDate(startDate, time: startTime)
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Game: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
+        guard let gameID = dictionary["EventGameId"] as? Int else {
+            return nil
         }
+        
+        guard let game = objectWithPrimaryKey(gameID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        game.gameID = gameID
+        game.homeTeamName = dictionary["HomeTeamName"] as? String
+        game.homeTeamScore = dictionary["HomeTeamScore"] as? String
+        game.awayTeamName = dictionary["AwayTeamName"] as? String
+        game.awayTeamScore = dictionary["AwayTeamScore"] as? String
+        game.fieldName = dictionary["FieldName"] as? String
+        game.status = dictionary["GameStatus"] as? String
+        
+        let startDate = dictionary["StartDate"] as? String
+        game.startDate = startDate.flatMap { DateService.gameDateFormatter.dateFromString($0) }
+        
+        let startTime = dictionary["StartTime"] as? String
+        game.startTime = startTime.flatMap { DateService.gameTimeFormatter.dateFromString($0) }
+        
+        game.startDateFull = NSDate.dateWithDate(game.startDate, time: game.startTime)
+        
+        return game
     }
 }

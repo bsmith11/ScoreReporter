@@ -17,6 +17,7 @@ extension Game {
     @NSManaged var awayTeamName: String?
     @NSManaged var awayTeamScore: String?
     @NSManaged var fieldName: String?
+    @NSManaged var gameID: NSNumber
     @NSManaged var homeTeamName: String?
     @NSManaged var homeTeamScore: String?
     @NSManaged var sortOrder: NSNumber?

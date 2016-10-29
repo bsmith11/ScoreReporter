@@ -31,5 +31,5 @@ extension String {
 
             return nil
         }
-    }
+    }    
 }

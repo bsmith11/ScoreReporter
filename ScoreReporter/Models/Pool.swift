@@ -10,6 +10,12 @@ import Foundation
 import CoreData
 
 class Pool: NSManagedObject {
+    
+}
+
+// MARK: - Public
+
+extension Pool {
     static func fetchedPoolsForRound(round: Round) -> NSFetchedResultsController {
         let predicate = NSPredicate(format: "%K == %@", "round", round)
         
@@ -17,70 +23,45 @@ class Pool: NSManagedObject {
             NSSortDescriptor(key: "poolID", ascending: true),
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch pools with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Pool {
-    override class func rzv_externalPrimaryKey() -> String {
-        return "PoolId"
-    }
-
-    override class func rzv_primaryKey() -> String {
+extension Pool: Fetchable {
+    static var primaryKey: String {
         return "poolID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Pool {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "PoolId": "poolID",
-            "Name": "name"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "Games":
-            if let value = value as? [[String: AnyObject]],
-                gamesArray = Game.rzi_objectsFromArray(value, inContext: managedObjectContext!) as? [Game] {
-                gamesArray.forEach({$0.startDateFull = NSDate.dateWithDate($0.startDate, time: $0.startTime)})
-
-                games = NSSet(array: gamesArray)
-            }
-            else {
-                games = NSSet()
-            }
-
-            return false
-        case "Standings":
-            if let value = value as? [[String: AnyObject]] {
-                standings = NSSet(array: Standing.rzi_objectsFromArray(value, inContext: managedObjectContext!))
-            }
-            else {
-                standings = NSSet()
-            }
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Pool: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
+        guard let poolID = dictionary["PoolId"] as? Int else {
+            return nil
         }
+        
+        guard let pool = objectWithPrimaryKey(poolID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        pool.poolID = poolID
+        pool.name = dictionary["Name"] as? String
+        
+        let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
+        let gamesArray = Game.objectsFromArray(games, context: context)
+        
+        for (index, game) in gamesArray.enumerate() {
+            game.sortOrder = index
+        }
+        
+        pool.games = NSSet(array: gamesArray)
+        
+        let standings = dictionary["Standings"] as? [[String: AnyObject]] ?? []
+        pool.standings = NSSet(array: Standing.objectsFromArray(standings, context: context))
+        
+        return pool
     }
 }

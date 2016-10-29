@@ -150,7 +150,7 @@ private extension EventDetailsViewController {
         event.bookmarked = true
         
         do {
-            try event.managedObjectContext?.rzv_saveToStoreAndWait()
+            try event.managedObjectContext?.save()
         }
         catch(let error) {
             print("Error: \(error)")
@@ -164,7 +164,7 @@ private extension EventDetailsViewController {
         event.bookmarked = false
         
         do {
-            try event.managedObjectContext?.rzv_saveToStoreAndWait()
+            try event.managedObjectContext?.save()
         }
         catch(let error) {
             print("Error: \(error)")
@@ -238,8 +238,8 @@ extension EventDetailsViewController: UITableViewDelegate {
             mapItem.openInMapsWithLaunchOptions(options)
             
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        case .Date(let date):
-            return
+        case .Date:
+            break
         case .Division(let group):
             let groupDetailsDataSource = GroupDetailsDataSource(group: group)
             let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)

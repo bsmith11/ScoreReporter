@@ -56,56 +56,45 @@ class Group: NSManagedObject {
 extension Group {
     static func groupsFromArrayWithCompletion(array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Group.rzi_objectsFromArray(array, inContext: context)
+            Group.objectsFromArray(array, context: context)
         }
         
-        rzv_coreDataStack().performBlockUsingBackgroundContext(block, completion: completion)
+        coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)        
     }
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Group {
-    override class func rzv_externalPrimaryKey() -> String {
-        return "EventGroupId"
-    }
-
-    override class func rzv_primaryKey() -> String {
+extension Group: Fetchable {
+    static var primaryKey: String {
         return "groupID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Group {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "EventGroupId": "groupID",
-            "EventGroupName": "name",
-            "GroupName": "name",
-            "DivisionName": "divisionName",
-            "TeamCount": "teamCount"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "EventRounds":
-            if let value = value as? [[String: AnyObject]] {
-                rounds = NSSet(array: Round.rzi_objectsFromArray(value, inContext: managedObjectContext!))
-            }
-            else {
-                rounds = NSSet()
-            }
-
-            return false
-        case "GroupName":
-            type = GroupType.typeFromAPIString(value as? String)?.rawValue
-            division = GroupDivision.divisionFromAPIString(value as? String)?.rawValue
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Group: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Group? {
+        guard let groupID = dictionary["EventGroupId"] as? Int else {
+            return nil
         }
+        
+        guard let group = objectWithPrimaryKey(groupID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        group.groupID = groupID
+        group.name = dictionary["EventGroupName"] as? String
+        group.divisionName = dictionary["DivisionName"] as? String
+        group.teamCount = dictionary["TeamCount"] as? String
+        
+        let groupName = dictionary["GroupName"] as? String
+        group.type = GroupType.typeFromAPIString(groupName)?.rawValue
+        group.division = GroupDivision.divisionFromAPIString(groupName)?.rawValue
+        
+        let rounds = dictionary["EventRounds"] as? [[String: AnyObject]] ?? []
+        group.rounds = NSSet(array: Round.objectsFromArray(rounds, context: context))
+        
+        return group
     }
 }

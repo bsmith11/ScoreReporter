@@ -13,47 +13,38 @@ class Stage: NSManagedObject {
 
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Stage {
-    override class func rzv_externalPrimaryKey() -> String {
-        return "StageId"
-    }
-
-    override class func rzv_primaryKey() -> String {
+extension Stage: Fetchable {
+    static var primaryKey: String {
         return "stageID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Stage {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "StageId": "stageID",
-            "StageName": "name"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "Games":
-            if let value = value as? [[String: AnyObject]],
-                gamesArray = Game.rzi_objectsFromArray(value, inContext: managedObjectContext!) as? [Game] {
-                for (index, game) in gamesArray.enumerate() {
-                    game.startDateFull = NSDate.dateWithDate(game.startDate, time: game.startTime)
-                    game.sortOrder = index
-                }
-
-                games = NSSet(array: gamesArray)
-            }
-            else {
-                games = NSSet()
-            }
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Stage: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Stage? {
+        guard let stageID = dictionary["StageId"] as? Int else {
+            return nil
         }
+        
+        guard let stage = objectWithPrimaryKey(stageID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        stage.stageID = stageID
+        stage.name = dictionary["StageName"] as? String
+        
+        let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
+        let gamesArray = Game.objectsFromArray(games, context: context)
+    
+        for (index, game) in gamesArray.enumerate() {
+            game.sortOrder = index
+        }
+        
+        stage.games = NSSet(array: gamesArray)
+        
+        return stage
     }
 }

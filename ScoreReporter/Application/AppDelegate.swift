@@ -17,7 +17,7 @@ class AppDelegate: UIResponder {
 
 extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        CoreDataStack.configureStack()
+        CoreDataStack.sharedInstance
 
         UINavigationBar.appearance().barTintColor = UIColor.USAUNavyColor()
         UINavigationBar.appearance().translucent = false

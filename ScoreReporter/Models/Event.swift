@@ -11,7 +11,7 @@ import CoreData
 import RZImport
 
 class Event: NSManagedObject {
-
+    
 }
 
 // MARK: - Public
@@ -19,10 +19,10 @@ class Event: NSManagedObject {
 extension Event {
     static func eventsFromArrayWithCompletion(array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Event.rzi_objectsFromArray(array, inContext: context)
+            Event.objectsFromArray(array, context: context)
         }
         
-        rzv_coreDataStack().performBlockUsingBackgroundContext(block, completion: completion)
+        coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
     static func fetchedEventsThisWeek() -> NSFetchedResultsController {
@@ -33,25 +33,14 @@ extension Event {
             NSPredicate(format: "%K > %@ AND %K < %@", "startDate", datesTuple.0, "startDate", datesTuple.1)
         ]
         
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
         let sortDescriptors = [
             NSSortDescriptor(key: "startDate", ascending: true),
             NSSortDescriptor(key: "name", ascending: true)
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch events with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedBookmarkedEvents() -> NSFetchedResultsController {
@@ -60,25 +49,14 @@ extension Event {
             NSPredicate(format: "%K == YES", "bookmarked")
         ]
         
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
         let sortDescriptors = [
             NSSortDescriptor(key: "startDate", ascending: true),
             NSSortDescriptor(key: "name", ascending: true)
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch events with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedEvents() -> NSFetchedResultsController {
@@ -88,21 +66,8 @@ extension Event {
             NSSortDescriptor(key: "startDate", ascending: true),
             NSSortDescriptor(key: "name", ascending: true)
         ]
-
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: "startDate", cacheName: nil)
-
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch events with error: \(error)")
-        }
-
-        return fetchedResultsController
+        
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
     }
     
     static func searchPredicateWithText(text: String?) -> NSPredicate {
@@ -121,81 +86,55 @@ extension Event {
     }
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Event {
-    override class func rzv_externalPrimaryKey() -> String {
-        return "EventId"
-    }
-
-    override class func rzv_primaryKey() -> String {
+extension Event: Fetchable {
+    static var primaryKey: String {
         return "eventID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Event {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "EventId": "eventID",
-            "EventName": "name",
-            "EventType": "type",
-            "EventTypeName": "typeName",
-            "City": "city",
-            "State": "state"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "CompetitionGroup":
-            if let value = value as? [[String: AnyObject]] {
-                groups = NSSet(array: Group.rzi_objectsFromArray(value, inContext: managedObjectContext!))
-            }
-            else {
-                groups = NSSet()
-            }
-
-            return false
-        case "StartDate":
-            if let value = value as? String {
-                startDate = DateService.eventDateFormatter.dateFromString(value)
-            }
-            else {
-                startDate = nil
-            }
-
-            return false
-        case "EndDate":
-            if let value = value as? String {
-                endDate = DateService.eventDateFormatter.dateFromString(value)
-            }
-            else {
-                endDate = nil
-            }
-
-            return false
-        case "EventLogo":
-            if let value = value as? String {
-                var components = value.componentsSeparatedByString("\\")
-                
-                if components.count > 2 {
-                    components.insert("1", atIndex: 1)
-
-                    logoPath = components.joinWithSeparator("/")
-                }
-                else {
-                    logoPath = nil
-                }
-            }
-            else {
-                logoPath = nil
-            }
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Event: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Event? {
+        guard let eventID = dictionary["EventId"] as? Int else {
+            return nil
         }
+        
+        guard let event = objectWithPrimaryKey(eventID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        event.eventID = eventID
+        event.name = dictionary["EventName"] as? String
+        event.type = dictionary["type"] as? String
+        event.typeName = dictionary["typeName"] as? String
+        event.city = dictionary["city"] as? String
+        event.state = dictionary["state"] as? String
+        
+        let startDate = dictionary["StartDate"] as? String
+        event.startDate = startDate.flatMap { DateService.eventDateFormatter.dateFromString($0) }
+        
+        let endDate = dictionary["EndDate"] as? String
+        event.endDate = endDate.flatMap { DateService.eventDateFormatter.dateFromString($0) }
+        
+        let logoPath = dictionary["EventLogo"] as? String
+        event.logoPath = logoPathFromString(logoPath)
+
+        let groups = dictionary["CompetitionGroup"] as? [[String: AnyObject]] ?? []
+        event.groups = NSSet(array: Group.objectsFromArray(groups, context: context))
+        
+        return event
+    }
+    
+    static func logoPathFromString(string: String?) -> String? {
+        var components = string?.componentsSeparatedByString("\\")
+        
+        if components?.count > 2 {
+            components?.insert("1", atIndex: 1)
+        }
+        
+        return components?.joinWithSeparator("/")
     }
 }

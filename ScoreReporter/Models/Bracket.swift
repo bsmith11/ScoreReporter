@@ -10,6 +10,12 @@ import Foundation
 import CoreData
 
 class Bracket: NSManagedObject {
+    
+}
+
+// MARK: - Public
+
+extension Bracket {
     static func fetchedBracketsForGroup(group: Group) -> NSFetchedResultsController {
         let predicate = NSPredicate(format: "%K == %@", "round.group", group)
         
@@ -17,58 +23,36 @@ class Bracket: NSManagedObject {
             NSSortDescriptor(key: "bracketID", ascending: true)
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch brackets with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Bracket {
-    override class func rzv_externalPrimaryKey() -> String {
-        return "BracketId"
-    }
-
-    override class func rzv_primaryKey() -> String {
+extension Bracket: Fetchable {
+    static var primaryKey: String {
         return "bracketID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Bracket {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "BracketId": "bracketID",
-            "BracketName": "name"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "Stage":
-            if let value = value as? [[String: AnyObject]] {
-                stages = NSSet(array: Stage.rzi_objectsFromArray(value, inContext: managedObjectContext!))
-            }
-            else {
-                stages = NSSet()
-            }
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Bracket: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Bracket? {
+        guard let bracketID = dictionary["BracketId"] as? Int else {
+            return nil
         }
+        
+        guard let bracket = objectWithPrimaryKey(bracketID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        bracket.bracketID = bracketID
+        bracket.name = dictionary["BracketName"] as? String
+        
+        let stages = dictionary["Stage"] as? [[String: AnyObject]] ?? []
+        bracket.stages = NSSet(array: Stage.objectsFromArray(stages, context: context))
+        
+        return bracket
     }
 }

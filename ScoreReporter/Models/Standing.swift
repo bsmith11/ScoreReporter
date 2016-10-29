@@ -10,6 +10,12 @@ import Foundation
 import CoreData
 
 class Standing: NSManagedObject {
+    
+}
+
+// MARK: - Public
+
+extension Standing {
     static func fetchedStandingsForPool(pool: Pool) -> NSFetchedResultsController {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
@@ -17,81 +23,48 @@ class Standing: NSManagedObject {
             NSSortDescriptor(key: "sortOrder", ascending: true),
         ]
         
-        let request = NSFetchRequest(entityName: rzv_entityName())
-        request.predicate = predicate
-        request.sortDescriptors = sortDescriptors
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: rzv_coreDataStack().mainManagedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            print("Failed to fetch standings with error: \(error)")
-        }
-        
-        return fetchedResultsController
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Standing {
-    override class func rzv_shouldAlwaysCreateNewObjectOnImport() -> Bool {
-        return true
+extension Standing: Fetchable {
+    static var primaryKey: String {
+        return ""
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Standing {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "TeamName": "teamName",
-            "Wins": "wins",
-            "Losses": "losses",
-            "SortOrder": "sortOrder"
-        ]
+extension Standing: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Standing? {
+        guard let standing = createObjectInContext(context) else {
+            return nil
+        }
+
+        standing.wins = dictionary["Wins"] as? NSNumber
+        standing.losses = dictionary["Losses"] as? NSNumber
+        standing.sortOrder = dictionary["SortOrder"] as? NSNumber
+        
+        let teamName = dictionary["TeamName"] as? String
+        let seed = seedFromTeamName(teamName)
+        standing.seed = seed
+        
+        let seedString = "(\(seed))"
+        standing.teamName = teamName?.stringByReplacingOccurrencesOfString(seedString, withString: "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        
+        return standing
     }
-
-    override static func rzi_ignoredKeys() -> [String] {
-        return [
-            "Points",
-            "TieBreaker",
-            "GoalsFor",
-            "GoalDifferential",
-            "Ties",
-            "GoalsAgainst"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "TeamName":
-            if var value = value as? String {
-                let pattern = "([0-9]+)"
-
-                if let seedValue = value.stringMatchingRegexPattern(pattern) where !seedValue.isEmpty {
-                    seed = Int(seedValue)
-                }
-                else {
-                    seed = 0
-                }
-                
-                if let range = seed.flatMap({value.rangeOfString("(\($0))")}) {
-                    value.removeRange(range)
-                }
-                
-                teamName = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            }
-            else {
-                seed = 0
-                teamName = nil
-            }
-            
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+    
+    static func seedFromTeamName(teamName: String?) -> Int {
+        let pattern = "([0-9]+)"
+        
+        if let seed = teamName?.stringMatchingRegexPattern(pattern) where !seed.isEmpty {
+            return Int(seed) ?? 0
+        }
+        else {
+            return 0
         }
     }
 }

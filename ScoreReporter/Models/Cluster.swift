@@ -13,44 +13,38 @@ class Cluster: NSManagedObject {
 
 }
 
-// MARK: - RZVinyl
+// MARK: - Fetchable
 
-extension Cluster {
-    override class func rzv_externalPrimaryKey() -> String {
-        return "ClusterId"
-    }
-
-    override class func rzv_primaryKey() -> String {
+extension Cluster: Fetchable {
+    static var primaryKey: String {
         return "clusterID"
     }
 }
 
-// MARK: - RZImport
+// MARK: - CoreDataImportable
 
-extension Cluster {
-    override class func rzi_customMappings() -> [String: String] {
-        return [
-            "ClusterId": "clusterID",
-            "Name": "name"
-        ]
-    }
-
-    override func rzi_shouldImportValue(value: AnyObject, forKey key: String) -> Bool {
-        switch key {
-        case "Games":
-            if let value = value as? [[String: AnyObject]],
-                gamesArray = Game.rzi_objectsFromArray(value, inContext: managedObjectContext!) as? [Game] {
-                gamesArray.forEach({$0.startDateFull = NSDate.dateWithDate($0.startDate, time: $0.startTime)})
-
-                games = NSSet(array: gamesArray)
-            }
-            else {
-                games = NSSet()
-            }
-
-            return false
-        default:
-            return super.rzi_shouldImportValue(value, forKey: key)
+extension Cluster: CoreDataImportable {
+    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Cluster? {
+        guard let clusterID = dictionary["ClusterId"] as? Int else {
+            return nil
         }
+        
+        guard let cluster = objectWithPrimaryKey(clusterID, context: context, createNew: true) else {
+            return nil
+        }
+        
+        cluster.clusterID = clusterID
+        cluster.name = dictionary["Name"] as? String
+        
+        let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
+        let gamesArray = Game.objectsFromArray(games, context: context)
+        
+        for (index, game) in gamesArray.enumerate() {
+            game.sortOrder = index
+        }
+        
+        cluster.games = NSSet(array: gamesArray)
+        
+        return cluster
     }
 }

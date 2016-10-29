@@ -140,9 +140,9 @@ private extension EventDetailsDataSource {
             self.event.longitude = coordinate.longitude
             
             do {
-                try Event.rzv_coreDataStack().mainManagedObjectContext.rzv_saveToStoreAndWait()
+                try Event.coreDataStack.mainContext.save()
             }
-            catch (let error) {
+            catch(let error) {
                 print("Failed to save with error: \(error)")
             }
         }
