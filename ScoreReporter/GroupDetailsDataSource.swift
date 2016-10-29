@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 import CoreData
 
-class GroupDetailsDataSource: ArrayDataSource {
+class GroupDetailsDataSource: NSObject, ArrayDataSource {
     typealias ModelType = UIViewController
     
     private let groupObserver: ManagedObjectObserver
     
     private(set) var items = [UIViewController]()
+    
+    private(set) dynamic var empty = false
     
     let group: Group
     
@@ -25,6 +27,9 @@ class GroupDetailsDataSource: ArrayDataSource {
         self.group = group
         
         groupObserver = ManagedObjectObserver(objects: [group])
+        
+        super.init()
+        
         groupObserver.delegate = self
         
         configureItems()
@@ -39,18 +44,21 @@ private extension GroupDetailsDataSource {
         let rounds = roundsSet.flatMap({Array($0)})?.sort({$0.0.type.rawValue < $0.1.type.rawValue}) ?? []
         
         var poolsViewController: UIViewController?
-        var clustersViewController: UIViewController?
         var bracketsViewController: UIViewController?
+        
+        var clusters = [UIViewController]()
         
         rounds.forEach { round in
             switch round.type {
             case .Pools:
-                let poolsDataSource = PoolsDataSource(round: round)
-                poolsViewController = PoolsViewController(dataSource: poolsDataSource)
+                if poolsViewController == nil {
+                    let poolsDataSource = PoolsDataSource(group: group)
+                    poolsViewController = PoolsViewController(dataSource: poolsDataSource)
+                }
             case .Clusters:
                 let cluster = Array(round.clusters as? Set<Cluster> ?? []).first
                 let gameListDataSource = GameListDataSource(cluster: cluster!)
-                clustersViewController = GameListViewController(dataSource: gameListDataSource)
+                clusters.append(GameListViewController(dataSource: gameListDataSource))
             case .Brackets:
                 if bracketsViewController == nil {
                     let bracketListDataSource = BracketListDataSource(group: group)
@@ -59,11 +67,17 @@ private extension GroupDetailsDataSource {
             }
         }
         
-        items = [
-            poolsViewController,
-            clustersViewController,
-            bracketsViewController
-        ].flatMap({$0})
+        if let poolsViewController = poolsViewController {
+            items.append(poolsViewController)
+        }
+        
+        items.appendContentsOf(clusters)
+        
+        if let bracketsViewController = bracketsViewController {
+            items.append(bracketsViewController)
+        }
+        
+        empty = items.isEmpty
     }
 }
 

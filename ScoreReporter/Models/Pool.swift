@@ -25,6 +25,16 @@ extension Pool {
         
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
+    
+    static func fetchedPoolsForGroup(group: Group) -> NSFetchedResultsController {
+        let predicate = NSPredicate(format: "%K == %@", "round.group", group)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "poolID", ascending: true),
+        ]
+        
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
+    }
 }
 
 // MARK: - Fetchable

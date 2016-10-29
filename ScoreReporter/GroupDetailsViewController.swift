@@ -8,14 +8,16 @@
 
 import UIKit
 import Anchorage
-import MapKit
+import KVOController
 
 class GroupDetailsViewController: UIViewController, MessageDisplayable {
     private let dataSource: GroupDetailsDataSource
     private let segmentedControlContainerView = UIView(frame: .zero)
     private let segmentedControl = UISegmentedControl(frame: .zero)
     private let contentView = UIView(frame: .zero)
+    private let defaultView = DefaultView(frame: .zero)
     
+    private var segmentedControlContainerViewHeight: NSLayoutConstraint?
     private var currentChildViewController: UIViewController?
     
     override var topLayoutGuide: UILayoutSupport {
@@ -52,6 +54,8 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureObservers()
+        
         dataSource.refreshBlock = { [weak self] in
             self?.reloadSegmentedControl()
             
@@ -60,6 +64,8 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
                 self?.segmentedControlValueChanged()
             }
         }
+        
+        reloadSegmentedControl()
         
         if segmentedControl.numberOfSegments > 0 {
             segmentedControl.selectedSegmentIndex = 0
@@ -75,24 +81,40 @@ private extension GroupDetailsViewController {
         segmentedControlContainerView.backgroundColor = UIColor.USAUNavyColor()
         view.addSubview(segmentedControlContainerView)
         
-        reloadSegmentedControl()
-        
         segmentedControl.tintColor = UIColor.whiteColor()
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), forControlEvents: .ValueChanged)
         segmentedControlContainerView.addSubview(segmentedControl)
         
         view.addSubview(contentView)
+        
+        let emptyImage = UIImage(named: "icn-search")
+        let emptyTitle = "No Schedule Available"
+        let emptyMessage = "No pools, crossovers, or brackets have been created for this event"
+        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
+        defaultView.setInfo(emptyInfo, state: .Empty)
+        view.addSubview(defaultView)
     }
     
     func configureLayout() {
         segmentedControlContainerView.topAnchor == topLayoutGuide.bottomAnchor
         segmentedControlContainerView.horizontalAnchors == horizontalAnchors
+        segmentedControlContainerViewHeight = segmentedControlContainerView.heightAnchor == 0.0
+        segmentedControlContainerViewHeight?.active = false
         
-        segmentedControl.edgeAnchors == segmentedControlContainerView.edgeAnchors + 16.0
+        segmentedControl.edgeAnchors == segmentedControlContainerView.edgeAnchors + 16.0 ~ UILayoutPriorityDefaultHigh
         
         contentView.topAnchor == segmentedControlContainerView.bottomAnchor
         contentView.horizontalAnchors == horizontalAnchors
         contentView.bottomAnchor == bottomLayoutGuide.topAnchor
+        
+        defaultView.edgeAnchors == contentView.edgeAnchors
+    }
+    
+    func configureObservers() {
+        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+            self?.defaultView.empty = empty
+            self?.segmentedControlContainerViewHeight?.active = empty
+        }
     }
     
     func reloadSegmentedControl() {

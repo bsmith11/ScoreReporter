@@ -9,44 +9,6 @@
 import Foundation
 import CoreData
 
-enum GroupType: String {
-    case Club = "Club"
-    case College = "College"
-    case Masters = "Masters"
-    case HighSchool = "High School"
-    case MiddleSchool = "Middle School"
-
-    static func typeFromAPIString(string: String?) -> GroupType? {
-        let components = string?.componentsSeparatedByString("-")
-        let set = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-
-        guard let trimmedString = components?.first?.stringByTrimmingCharactersInSet(set) where components?.count > 1 else {
-            return nil
-        }
-
-        return GroupType(rawValue: trimmedString)
-    }
-}
-
-enum GroupDivision: String {
-    case Mens = "Men"
-    case Womens = "Women"
-    case Mixed = "Mixed"
-    case Boys = "Boys"
-    case Girls = "Girls"
-
-    static func divisionFromAPIString(string: String?) -> GroupDivision? {
-        let components = string?.componentsSeparatedByString("-")
-        let set = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-
-        guard let trimmedString = components?.last?.stringByTrimmingCharactersInSet(set).stringByReplacingOccurrencesOfString("'s", withString: "") where components?.count > 1 else {
-            return nil
-        }
-
-        return GroupDivision(rawValue: trimmedString)
-    }
-}
-
 class Group: NSManagedObject {
 
 }
@@ -84,17 +46,36 @@ extension Group: CoreDataImportable {
         }
         
         group.groupID = groupID
-        group.divisionName = dictionary["DivisionName"] as? String
-        group.teamCount = dictionary["TeamCount"] as? String
         
-        let groupName = dictionary["EventGroupName"] as? String
+        if let divisionName = dictionary["DivisionName"] {
+            group.divisionName = divisionName as? String
+        }
+        
+        if let teamCount = dictionary["TeamCount"] {
+            group.teamCount = teamCount as? String
+        }
+        
+        let groupName = (dictionary["GroupName"] as? String) ?? dictionary["EventGroupName"] as? String
         group.name = groupName
-        group.type = GroupType.typeFromAPIString(groupName)?.rawValue
-        group.division = GroupDivision.divisionFromAPIString(groupName)?.rawValue
         
-        let rounds = dictionary["EventRounds"] as? [[String: AnyObject]] ?? []
-        group.rounds = NSSet(array: Round.objectsFromArray(rounds, context: context))
+        let typeDivision = typeDivisionFromString(groupName)
+        group.type = typeDivision.0
+        group.division = typeDivision.1
+        
+        if let rounds = dictionary["EventRounds"] {
+            let roundsArray = rounds as? [[String: AnyObject]] ?? []
+            group.rounds = NSSet(array: Round.objectsFromArray(roundsArray, context: context))
+        }
         
         return group
+    }
+    
+    static func typeDivisionFromString(string: String?) -> (String?, String?) {
+        let components = string?.componentsSeparatedByString("-")
+        let set = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        let type = components?.first?.stringByTrimmingCharactersInSet(set)
+        let division = components?.last?.stringByTrimmingCharactersInSet(set)
+        
+        return (type, division)
     }
 }

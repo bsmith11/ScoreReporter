@@ -24,7 +24,7 @@ post_install do | installer |
       end
   end
 
-  pods_acknowledgements_path = 'Pods/Target Support Files/Pods/Pods-Acknowledgements.plist'
+  pods_acknowledgements_path = 'Pods/Target Support Files/Pods-ScoreReporter/Pods-ScoreReporter-acknowledgements.plist'
   settings_bundle_path = Dir.glob("**/*Settings.bundle*").first
 
   if File.file?(pods_acknowledgements_path)

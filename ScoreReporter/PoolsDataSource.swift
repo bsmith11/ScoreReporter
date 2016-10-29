@@ -41,8 +41,8 @@ class PoolsDataSource: NSObject, DataSource {
     
     private(set) dynamic var empty = false
         
-    init(round: Round) {
-        fetchedResultsController = Pool.fetchedPoolsForRound(round)
+    init(group: Group) {
+        fetchedResultsController = Pool.fetchedPoolsForGroup(group)
         
         super.init()
         
