@@ -134,50 +134,65 @@ extension NavigationBarAnimatorView {
         if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {
             let x = leadingMargin + (incomingNavigationItemButtonView.layer.bounds.width / 2.0)
             let y = incomingNavigationItemButtonView.layer.position.y
-            let positionAnimation = springAnimationWithKeyPath("position", toValue: NSValue(CGPoint: CGPoint(x: x, y: y)))
-            let opacityAnimation = animationWithKeyPath("opacity", toValue: 1.0)
+            let position = CGPoint(x: x, y: y)
+            
+            let positionAnimation = springAnimationWithKeyPath("position", fromValue: NSValue(CGPoint: incomingNavigationItemButtonView.layer.position))
+            let opacityAnimation = animationWithKeyPath("opacity", fromValue: incomingNavigationItemButtonView.layer.opacity)
             opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
             
             incomingNavigationItemButtonView.layer.addAnimation(positionAnimation, forKey: "position")
+            incomingNavigationItemButtonView.layer.position = position
             incomingNavigationItemButtonView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            incomingNavigationItemButtonView.layer.opacity = 1.0
         }
         
         if let leftNavigationItemButtonView = leftNavigationItemButtonView {
             let position = leftNavigationItemButtonView.centerPosition
-            let positionAnimation = springAnimationWithKeyPath("position", toValue: NSValue(CGPoint: position))
-            let opacityAnimation = animationWithKeyPath("opacity", toValue: 0.0)
+            
+            let positionAnimation = springAnimationWithKeyPath("position", fromValue: NSValue(CGPoint: leftNavigationItemButtonView.layer.position))
+            let opacityAnimation = animationWithKeyPath("opacity", fromValue: leftNavigationItemButtonView.layer.opacity)
             opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
             
             leftNavigationItemButtonView.layer.addAnimation(positionAnimation, forKey: "position")
+            leftNavigationItemButtonView.layer.position = position
             leftNavigationItemButtonView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            leftNavigationItemButtonView.layer.opacity = 0.0
         }
         
         if let leftNavigationItemView = leftNavigationItemView {
             let position = leftNavigationItemView.centerPosition
-            let positionAnimation = springAnimationWithKeyPath("position", toValue: NSValue(CGPoint: position))
-            let opacityAnimation = animationWithKeyPath("opacity", toValue: 1.0)
+            
+            let positionAnimation = springAnimationWithKeyPath("position", fromValue: NSValue(CGPoint: leftNavigationItemView.layer.position))
+            let opacityAnimation = animationWithKeyPath("opacity", fromValue: leftNavigationItemView.layer.opacity)
             opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
             
             leftNavigationItemView.layer.addAnimation(positionAnimation, forKey: "position")
+            leftNavigationItemView.layer.position = position
             leftNavigationItemView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            leftNavigationItemView.layer.opacity = 1.0
         }
         
         if let centerNavigationItemView = centerNavigationItemView {
             let x = navigationBar.frame.maxX + (centerNavigationItemView.layer.bounds.width / 2.0)
             let y = centerNavigationItemView.layer.position.y
-            let positionAnimation = springAnimationWithKeyPath("position", toValue: NSValue(CGPoint: CGPoint(x: x, y: y)))
-            let opacityAnimation = animationWithKeyPath("opacity", toValue: 0.0)
+            let position = CGPoint(x: x, y: y)
+            
+            let positionAnimation = springAnimationWithKeyPath("position", fromValue: NSValue(CGPoint: centerNavigationItemView.layer.position))
+            let opacityAnimation = animationWithKeyPath("opacity", fromValue: centerNavigationItemView.layer.opacity)
             opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
             
             centerNavigationItemView.layer.addAnimation(positionAnimation, forKey: "position")
+            centerNavigationItemView.layer.position = position
             centerNavigationItemView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            centerNavigationItemView.layer.opacity = 0.0
         }
         
         if toViewController.navigationController?.viewControllers.first == toViewController {
-            let opacityAnimation = animationWithKeyPath("opacity", toValue: 0.0)
+            let opacityAnimation = springAnimationWithKeyPath("opacity", fromValue: backButtonImageView.layer.opacity)
             opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
             
             backButtonImageView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            backButtonImageView.layer.opacity = 0.0
         }
     }
     
@@ -191,25 +206,25 @@ extension NavigationBarAnimatorView {
 // MARK: - Private
 
 private extension NavigationBarAnimatorView {
-    func springAnimationWithKeyPath(keyPath: String, toValue: NSValue) -> CASpringAnimation {
+    func springAnimationWithKeyPath(keyPath: String, fromValue: NSValue? = nil, toValue: NSValue? = nil) -> CASpringAnimation {
         let animation = CASpringAnimation(keyPath: keyPath)
+        animation.fromValue = fromValue
         animation.toValue = toValue
         animation.fillMode = kCAFillModeBoth
         animation.duration = 0.5
         animation.damping = 500.0
         animation.stiffness = 1000.0
         animation.mass = 3.0
-        animation.removedOnCompletion = false
         
         return animation
     }
     
-    func animationWithKeyPath(keyPath: String, toValue: NSValue) -> CABasicAnimation {
+    func animationWithKeyPath(keyPath: String, fromValue: NSValue? = nil, toValue: NSValue? = nil) -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: keyPath)
+        animation.fromValue = fromValue
         animation.toValue = toValue
         animation.fillMode = kCAFillModeBoth
         animation.duration = 0.35
-        animation.removedOnCompletion = false
         
         return animation
     }
