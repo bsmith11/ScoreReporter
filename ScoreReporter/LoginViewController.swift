@@ -45,7 +45,7 @@ private extension LoginViewController {
         ]
         
         emailTextField.delegate = self
-        emailTextField.font = UIFont.systemFontOfSize(20.0, weight: UIFontWeightThin)
+        emailTextField.font = UIFont.systemFontOfSize(20.0, weight: UIFontWeightBlack)
         emailTextField.textColor = UIColor.whiteColor()
         emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: placeholderAttributes)
         emailTextField.tintColor = UIColor.whiteColor()
@@ -59,7 +59,7 @@ private extension LoginViewController {
         contentStackView.addArrangedSubview(separatorView)
         
         passwordTextField.delegate = self
-        passwordTextField.font = UIFont.systemFontOfSize(20.0, weight: UIFontWeightThin)
+        passwordTextField.font = UIFont.systemFontOfSize(20.0, weight: UIFontWeightBlack)
         passwordTextField.textColor = UIColor.whiteColor()
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
         passwordTextField.tintColor = UIColor.whiteColor()
@@ -69,20 +69,20 @@ private extension LoginViewController {
         contentStackView.addArrangedSubview(spacerView)
         
         skipButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        skipButton.setTitle("Login Later", forState: .Normal)
+        skipButton.setTitle("Later", forState: .Normal)
         skipButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        skipButton.titleLabel?.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightThin)
+        skipButton.titleLabel?.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBlack)
         skipButton.addTarget(self, action: #selector(skipButtonTapped), forControlEvents: .TouchUpInside)
         view.addSubview(skipButton)
     }
     
     func configureLayout() {
-        contentStackView.horizontalAnchors == horizontalAnchors + 60.0
+        contentStackView.horizontalAnchors == horizontalAnchors + 48.0
         contentStackView.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor - 100.0
         
         emailTextField.heightAnchor == 44.0
         
-        separatorView.heightAnchor == 1.0//(1.0 / UIScreen.mainScreen().scale)
+        separatorView.heightAnchor == 1.0
         
         passwordTextField.heightAnchor == 44.0
         

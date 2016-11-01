@@ -27,11 +27,12 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         let container = transitionContext.containerView()
         
         guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-                  toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) else {
+                  toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
+                  navigationBar = fromViewController.navigationController?.navigationBar else {
             transitionContext.completeTransition(true)
             return
         }
-        
+                
         let capInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: 1.0)
         let shadowImage = UIImage(named: "navigation-shadow")?.resizableImageWithCapInsets(capInsets)
         shadowImageView.image = shadowImage
@@ -65,6 +66,10 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         fromContainerView.layer.position = fromPositionBegin
         toContainerView.layer.position = toPositionBegin
         
+        let navigationBarAnimatorView = NavigationBarAnimatorView(fromViewController: fromViewController, toViewController: toViewController, navigationBar: navigationBar)
+        container.addSubview(navigationBarAnimatorView)
+        navigationBarAnimatorView.prepareForAnimation()
+        
         let completion = {
             let finished = !transitionContext.transitionWasCancelled()
             
@@ -79,6 +84,8 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
                 self.dimmingView.removeFromSuperview()
             }
             
+            navigationBarAnimatorView.finishAnimation()
+            
             transitionContext.completeTransition(finished)
         }
         
@@ -88,6 +95,8 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
                 self.toContainerView.center = toPositionEnd
                 self.dimmingView.alpha = 0.0
                 self.shadowImageView.alpha = 0.0
+                
+                navigationBarAnimatorView.interactiveAnimate()
             }
             
             UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear, animations: animations, completion: { _ in
@@ -107,6 +116,8 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
             toContainerView.layer.addAnimation(toAnimation, forKey: "position")
             dimmingView.layer.addAnimation(dimmingAnimation, forKey: "opacity")
             shadowImageView.layer.addAnimation(shadowDimmingAnimation, forKey: "opacity")
+            
+            navigationBarAnimatorView.animate()
             
             CATransaction.commit()
         }

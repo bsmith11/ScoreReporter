@@ -107,7 +107,7 @@ private extension HomeViewController {
         searchBar.placeholder = "Find events"
         searchBar.tintColor = UIColor.USAUNavyColor()
         searchBar.delegate = self
-        navigationItem.titleView = searchBar
+//        navigationItem.titleView = searchBar
     }
     
     func configureLayout() {

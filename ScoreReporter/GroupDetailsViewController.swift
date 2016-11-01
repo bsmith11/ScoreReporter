@@ -72,6 +72,12 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
             segmentedControlValueChanged()
         }
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        
+    }
 }
 
 // MARK: - Private
