@@ -11,6 +11,10 @@ import UIKit
 class NavigationItemView: UIView {
     private let titleLabel = UILabel(frame: .zero)
     
+    var title: String? {
+        return titleLabel.text
+    }
+    
     var centerPosition: CGPoint {
         let x = (superview?.bounds.width ?? 0.0) / 2.0
         let y = layer.position.y

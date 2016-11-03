@@ -43,6 +43,7 @@
 		4815808B1DC86A50008F141B /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808A1DC86A50008F141B /* NavigationButton.swift */; };
 		4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808C1DC86A5A008F141B /* NavigationItemView.swift */; };
 		4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */; };
+		481580971DCAC0CE008F141B /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481580961DCAC0CE008F141B /* CALayer+Extensions.swift */; };
 		481A97C01D88E6720066B749 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */; };
 		481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */; };
 		482045471DB5AAEA00739E73 /* KVOController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */; };
@@ -147,6 +148,7 @@
 		4815808A1DC86A50008F141B /* NavigationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		4815808C1DC86A5A008F141B /* NavigationItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
 		4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemButtonView.swift; sourceTree = "<group>"; };
+		481580961DCAC0CE008F141B /* CALayer+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+KeyboardLayoutGuide.swift"; sourceTree = "<group>"; };
 		482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KVOController+Extensions.swift"; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 				481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */,
 				482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */,
 				48F8B5341DC672F20031DB5B /* UINavigationBar+Extensions.swift */,
+				481580961DCAC0CE008F141B /* CALayer+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				0665DF2D1D3DD8A6006D2070 /* DateService.swift in Sources */,
 				0665DF2A1D3DD4C8006D2070 /* Standing+CoreDataProperties.swift in Sources */,
 				483453B81D8D009200F0918A /* HomeDataSource.swift in Sources */,
+				481580971DCAC0CE008F141B /* CALayer+Extensions.swift in Sources */,
 				0665DF281D3DD4C8006D2070 /* Bracket+CoreDataProperties.swift in Sources */,
 				48A2E71B1DA4B02200B7B422 /* AcknowledgementListDataSource.swift in Sources */,
 				0680348B1D407C7A006BD4C1 /* DefaultView.swift in Sources */,

@@ -20,7 +20,7 @@ class BaseNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        self.delegate = self
+        delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
