@@ -74,73 +74,75 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
             let finished = !transitionContext.transitionWasCancelled()
             
             if finished {
-                self.toContainerView.layer.position = toPositionEnd
-                
                 container.addSubview(toViewController.view)
-                container.setNeedsDisplay()
-                
-                self.fromContainerView.removeFromSuperview()
-                self.toContainerView.removeFromSuperview()
-                self.dimmingView.removeFromSuperview()
             }
+            else {
+                container.addSubview(fromViewController.view)
+            }
+            
+            container.setNeedsDisplay()
+            
+            self.fromContainerView.removeFromSuperview()
+            self.toContainerView.removeFromSuperview()
+            self.dimmingView.removeFromSuperview()
             
             navigationBarAnimatorView.finishAnimation()
             
             transitionContext.completeTransition(finished)
         }
         
+        let fromAnimation: CABasicAnimation
+        let toAnimation: CABasicAnimation
+        let dimmingAnimation: CABasicAnimation
+        let shadowAnimation: CABasicAnimation
+        
         if transitionContext.isInteractive() {
-            let animations = {
-                self.fromContainerView.center = fromPositionEnd
-                self.toContainerView.center = toPositionEnd
-                self.dimmingView.alpha = 0.0
-                self.shadowImageView.alpha = 0.0
-                
-                navigationBarAnimatorView.interactiveAnimate()
-            }
+            let timingFunctionName = kCAMediaTimingFunctionLinear
             
-            UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear, animations: animations, completion: { _ in
-                completion()
-            })
+            fromAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
+            toAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
+            dimmingAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: timingFunctionName, duration: duration)
+            shadowAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: timingFunctionName, duration: duration)
         }
         else {
-            let fromAnimation = springAnimationWithKeyPath("position", toValue: NSValue(CGPoint: fromPositionEnd))
-            let toAnimation = springAnimationWithKeyPath("position", toValue: NSValue(CGPoint: toPositionEnd))
-            let dimmingAnimation = springAnimationWithKeyPath("opacity", toValue: 0.0)
-            let shadowDimmingAnimation = springAnimationWithKeyPath("opacity", toValue: 0.0)
+            let springDuration = 0.5
             
-            CATransaction.begin()
-            CATransaction.setCompletionBlock(completion)
-            
-            fromContainerView.layer.addAnimation(fromAnimation, forKey: "position")
-            toContainerView.layer.addAnimation(toAnimation, forKey: "position")
-            dimmingView.layer.addAnimation(dimmingAnimation, forKey: "opacity")
-            shadowImageView.layer.addAnimation(shadowDimmingAnimation, forKey: "opacity")
-            
-            navigationBarAnimatorView.animate()
-            
-            CATransaction.commit()
+            fromAnimation = CASpringAnimation(keyPath: "position", duration: springDuration)
+            toAnimation = CASpringAnimation(keyPath: "position", duration: springDuration)
+            dimmingAnimation = CASpringAnimation(keyPath: "opacity", duration: springDuration)
+            shadowAnimation = CASpringAnimation(keyPath: "opacity", duration: springDuration)
         }
-    }
-}
-
-// MARK: - Private
-
-private extension BackAnimationController {
-    func springAnimationWithKeyPath(keyPath: String, toValue: NSValue) -> CASpringAnimation {
-        let animation = CASpringAnimation(keyPath: keyPath)
-        animation.toValue = toValue
-        animation.fillMode = kCAFillModeBoth
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation.duration = 0.5
-        animation.damping = 500.0
-        animation.stiffness = 1000.0
-        animation.mass = 3.0
-        animation.removedOnCompletion = false
         
-        return animation
+        fromAnimation.toValue = NSValue(CGPoint: fromPositionEnd)
+        fromAnimation.removedOnCompletion = false
+        toAnimation.toValue = NSValue(CGPoint: toPositionEnd)
+        toAnimation.removedOnCompletion = false
+        dimmingAnimation.toValue = 0.0
+        dimmingAnimation.removedOnCompletion = false
+        shadowAnimation.toValue = 0.0
+        shadowAnimation.removedOnCompletion = false
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        
+        fromContainerView.layer.addAnimation(fromAnimation, forKey: "position")
+        toContainerView.layer.addAnimation(toAnimation, forKey: "position")
+        dimmingView.layer.addAnimation(dimmingAnimation, forKey: "opacity")
+        shadowImageView.layer.addAnimation(shadowAnimation, forKey: "opacity")
+        
+        navigationBarAnimatorView.animateWithDuration(duration, interactive: transitionContext.isInteractive())
+        
+        CATransaction.commit()
     }
 }
+
+//// MARK: - UIViewControllerInteractiveTransitioning
+//
+//extension BackAnimationController: UIViewControllerInteractiveTransitioning {
+//    func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+//        
+//    }
+//}
 
 // MARK: - DimmingView
 

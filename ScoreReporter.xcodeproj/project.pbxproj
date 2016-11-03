@@ -44,6 +44,7 @@
 		4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808C1DC86A5A008F141B /* NavigationItemView.swift */; };
 		4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */; };
 		481580971DCAC0CE008F141B /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481580961DCAC0CE008F141B /* CALayer+Extensions.swift */; };
+		481580991DCAE16E008F141B /* CAAnimation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481580981DCAE16E008F141B /* CAAnimation+Extensions.swift */; };
 		481A97C01D88E6720066B749 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */; };
 		481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */; };
 		482045471DB5AAEA00739E73 /* KVOController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */; };
@@ -149,6 +150,7 @@
 		4815808C1DC86A5A008F141B /* NavigationItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
 		4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemButtonView.swift; sourceTree = "<group>"; };
 		481580961DCAC0CE008F141B /* CALayer+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
+		481580981DCAE16E008F141B /* CAAnimation+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAAnimation+Extensions.swift"; sourceTree = "<group>"; };
 		481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+KeyboardLayoutGuide.swift"; sourceTree = "<group>"; };
 		482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KVOController+Extensions.swift"; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */,
 				48F8B5341DC672F20031DB5B /* UINavigationBar+Extensions.swift */,
 				481580961DCAC0CE008F141B /* CALayer+Extensions.swift */,
+				481580981DCAE16E008F141B /* CAAnimation+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -777,6 +780,7 @@
 				0680348B1D407C7A006BD4C1 /* DefaultView.swift in Sources */,
 				48E541301D810F2D008E4DEE /* MessageView.swift in Sources */,
 				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
+				481580991DCAE16E008F141B /* CAAnimation+Extensions.swift in Sources */,
 				488CAA6E1D7E5E0500C3E597 /* EventSearchViewController.swift in Sources */,
 				0665DF221D3DD4C8006D2070 /* Cluster+CoreDataProperties.swift in Sources */,
 				0665DF071D3DC7B6006D2070 /* ScoreReporter.xcdatamodeld in Sources */,

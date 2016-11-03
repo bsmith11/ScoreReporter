@@ -93,56 +93,22 @@ extension NavigationBarAnimatorView {
         addSubview(backButtonImageView)
     }
     
-    func interactiveAnimate() {
-        if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {
-            let x = leadingMargin + (incomingNavigationItemButtonView.layer.bounds.width / 2.0)
-            let y = incomingNavigationItemButtonView.layer.position.y
-            
-            incomingNavigationItemButtonView.center = CGPoint(x: x, y: y)
-            incomingNavigationItemButtonView.alpha = 1.0
-        }
+    func animateWithDuration(duration: CFTimeInterval, interactive: Bool) {
+        let timingFunctionName = interactive ? kCAMediaTimingFunctionLinear : kCAMediaTimingFunctionDefault
         
-        if let leftNavigationItemButtonView = leftNavigationItemButtonView {
-            var position = leftNavigationItemButtonView.centerPosition
-            position.x -= (backIconWidth / 2.0) + (backIconSpacing / 2.0)
-            
-            leftNavigationItemButtonView.center = position
-            leftNavigationItemButtonView.alpha = 0.0
-        }
-        
-        if let leftNavigationItemView = leftNavigationItemView {
-            let position = leftNavigationItemView.centerPosition
-            
-            leftNavigationItemView.center = position
-            leftNavigationItemView.alpha = 1.0
-        }
-        
-        if let centerNavigationItemView = centerNavigationItemView {
-            let x = navigationBar.frame.maxX + (centerNavigationItemView.layer.bounds.width / 2.0)
-            let y = centerNavigationItemView.layer.position.y
-            
-            centerNavigationItemView.center = CGPoint(x: x, y: y)
-            centerNavigationItemView.alpha = 0.0
-        }
-        
-        if toViewController.navigationController?.viewControllers.first == toViewController {
-            backButtonImageView.alpha = 0.0
-        }
-    }
-    
-    func animate() {
         if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {
             let x = leadingMargin + (incomingNavigationItemButtonView.layer.bounds.width / 2.0)
             let y = incomingNavigationItemButtonView.layer.position.y
             let position = CGPoint(x: x, y: y)
             
-            let positionAnimation = animationWithKeyPath("position", fromValue: NSValue(CGPoint: incomingNavigationItemButtonView.layer.position))
-            positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
-            let opacityAnimation = animationWithKeyPath("opacity", fromValue: incomingNavigationItemButtonView.layer.opacity)
-            opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
-            
+            let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
+            positionAnimation.fromValue = NSValue(CGPoint: incomingNavigationItemButtonView.layer.position)
             incomingNavigationItemButtonView.layer.addAnimation(positionAnimation, forKey: "position")
             incomingNavigationItemButtonView.layer.position = position
+            
+            let timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
+            opacityAnimation.fromValue = incomingNavigationItemButtonView.layer.opacity
             incomingNavigationItemButtonView.layer.addAnimation(opacityAnimation, forKey: "opacity")
             incomingNavigationItemButtonView.layer.opacity = 1.0
         }
@@ -150,13 +116,14 @@ extension NavigationBarAnimatorView {
         if let leftNavigationItemButtonView = leftNavigationItemButtonView {
             let position = leftNavigationItemButtonView.centerPosition
             
-            let positionAnimation = animationWithKeyPath("position", fromValue: NSValue(CGPoint: leftNavigationItemButtonView.layer.position))
-            positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
-            let opacityAnimation = animationWithKeyPath("opacity", fromValue: leftNavigationItemButtonView.layer.opacity)
-            opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
-            
+            let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
+            positionAnimation.fromValue = NSValue(CGPoint: leftNavigationItemButtonView.layer.position)
             leftNavigationItemButtonView.layer.addAnimation(positionAnimation, forKey: "position")
             leftNavigationItemButtonView.layer.position = position
+            
+            let timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
+            opacityAnimation.fromValue = leftNavigationItemButtonView.layer.opacity
             leftNavigationItemButtonView.layer.addAnimation(opacityAnimation, forKey: "opacity")
             leftNavigationItemButtonView.layer.opacity = 0.0
         }
@@ -164,13 +131,14 @@ extension NavigationBarAnimatorView {
         if let leftNavigationItemView = leftNavigationItemView {
             let position = leftNavigationItemView.centerPosition
             
-            let positionAnimation = animationWithKeyPath("position", fromValue: NSValue(CGPoint: leftNavigationItemView.layer.position))
-            positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
-            let opacityAnimation = animationWithKeyPath("opacity", fromValue: leftNavigationItemView.layer.opacity)
-            opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
-            
+            let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
+            positionAnimation.fromValue = NSValue(CGPoint: leftNavigationItemView.layer.position)
             leftNavigationItemView.layer.addAnimation(positionAnimation, forKey: "position")
             leftNavigationItemView.layer.position = position
+            
+            let timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
+            opacityAnimation.fromValue = leftNavigationItemView.layer.opacity
             leftNavigationItemView.layer.addAnimation(opacityAnimation, forKey: "opacity")
             leftNavigationItemView.layer.opacity = 1.0
         }
@@ -180,21 +148,22 @@ extension NavigationBarAnimatorView {
             let y = centerNavigationItemView.layer.position.y
             let position = CGPoint(x: x, y: y)
             
-            let positionAnimation = animationWithKeyPath("position", fromValue: NSValue(CGPoint: centerNavigationItemView.layer.position))
-            positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
-            let opacityAnimation = animationWithKeyPath("opacity", fromValue: centerNavigationItemView.layer.opacity)
-            opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
-            
+            let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
+            positionAnimation.fromValue = NSValue(CGPoint: centerNavigationItemView.layer.position)
             centerNavigationItemView.layer.addAnimation(positionAnimation, forKey: "position")
             centerNavigationItemView.layer.position = position
+            
+            let timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
+            opacityAnimation.fromValue = centerNavigationItemView.layer.opacity
             centerNavigationItemView.layer.addAnimation(opacityAnimation, forKey: "opacity")
             centerNavigationItemView.layer.opacity = 0.0
         }
         
         if toViewController.navigationController?.viewControllers.first == toViewController {
-            let opacityAnimation = animationWithKeyPath("opacity", fromValue: backButtonImageView.layer.opacity)
-            opacityAnimation.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
-            
+            let timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
+            opacityAnimation.fromValue = backButtonImageView.layer.opacity
             backButtonImageView.layer.addAnimation(opacityAnimation, forKey: "opacity")
             backButtonImageView.layer.opacity = 0.0
         }
@@ -210,29 +179,6 @@ extension NavigationBarAnimatorView {
 // MARK: - Private
 
 private extension NavigationBarAnimatorView {
-    func springAnimationWithKeyPath(keyPath: String, fromValue: NSValue? = nil, toValue: NSValue? = nil) -> CASpringAnimation {
-        let animation = CASpringAnimation(keyPath: keyPath)
-        animation.fromValue = fromValue
-        animation.toValue = toValue
-        animation.fillMode = kCAFillModeBoth
-        animation.duration = 0.5
-        animation.damping = 500.0
-        animation.stiffness = 1000.0
-        animation.mass = 3.0
-        
-        return animation
-    }
-    
-    func animationWithKeyPath(keyPath: String, fromValue: NSValue? = nil, toValue: NSValue? = nil) -> CABasicAnimation {
-        let animation = CABasicAnimation(keyPath: keyPath)
-        animation.fromValue = fromValue
-        animation.toValue = toValue
-        animation.fillMode = kCAFillModeBoth
-        animation.duration = 0.35
-        
-        return animation
-    }
-    
     var incomingBackViewController: UIViewController? {
         guard let navigationController = fromViewController.navigationController else {
             return nil
