@@ -31,9 +31,6 @@ extension CABasicAnimation {
         
         fillMode = kCAFillModeBoth
         timingFunction = CAMediaTimingFunction(name: timingFunctionName)
-//        beginTime = CACurrentMediaTime()
-//        timeOffset = 0.0
-//        speed = 1.0
     }
     
     convenience init(keyPath: String, timingFunction: CAMediaTimingFunction, duration: CFTimeInterval) {
@@ -43,8 +40,5 @@ extension CABasicAnimation {
         self.timingFunction = timingFunction
         
         fillMode = kCAFillModeBoth
-//        beginTime = CACurrentMediaTime()
-//        timeOffset = 0.0
-//        speed = 1.0
     }
 }

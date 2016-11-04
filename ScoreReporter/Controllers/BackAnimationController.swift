@@ -74,13 +74,12 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
             let finished = !transitionContext.transitionWasCancelled()
             
             if finished {
+                container.addSubview(fromViewController.view)
                 container.addSubview(toViewController.view)
             }
             else {
                 container.addSubview(fromViewController.view)
             }
-            
-            container.setNeedsDisplay()
             
             self.fromContainerView.removeFromSuperview()
             self.toContainerView.removeFromSuperview()
@@ -114,12 +113,13 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         }
         
         fromAnimation.toValue = NSValue(CGPoint: fromPositionEnd)
-        fromAnimation.removedOnCompletion = false
         toAnimation.toValue = NSValue(CGPoint: toPositionEnd)
-        toAnimation.removedOnCompletion = false
         dimmingAnimation.toValue = 0.0
-        dimmingAnimation.removedOnCompletion = false
         shadowAnimation.toValue = 0.0
+        
+        fromAnimation.removedOnCompletion = false
+        toAnimation.removedOnCompletion = false
+        dimmingAnimation.removedOnCompletion = false
         shadowAnimation.removedOnCompletion = false
         
         CATransaction.begin()
@@ -135,14 +135,6 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         CATransaction.commit()
     }
 }
-
-//// MARK: - UIViewControllerInteractiveTransitioning
-//
-//extension BackAnimationController: UIViewControllerInteractiveTransitioning {
-//    func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
-//        
-//    }
-//}
 
 // MARK: - DimmingView
 

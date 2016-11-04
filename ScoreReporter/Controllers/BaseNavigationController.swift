@@ -9,12 +9,14 @@
 import UIKit
 
 class BaseNavigationController: UINavigationController {
-    private var panGestureRecognizer: UIPanGestureRecognizer?
-    private var interactionController: UIPercentDrivenInteractiveTransition?
+    private let interactionController = BackInteractionController()
+    
+    private var animationController: BackAnimationController?
     
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         
+        interactionController.delegate = self
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -34,40 +36,15 @@ class BaseNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        view.addGestureRecognizer(panRecognizer)
+        view.addGestureRecognizer(interactionController.panGestureRecognizer)
     }
 }
 
-// MARK: - Private
+// MARK: - BackInteractionControllerDelegate
 
-private extension BaseNavigationController {
-    @objc func handlePan(panRecognizer: UIPanGestureRecognizer) {
-        switch panRecognizer.state {
-        case .Began:
-            interactionController = UIPercentDrivenInteractiveTransition()
-            popViewControllerAnimated(true)
-        case .Changed:
-            let translation = panRecognizer.translationInView(view)
-            if translation.x > 0.0 {
-                let percent = translation.x / view.bounds.width
-                interactionController?.updateInteractiveTransition(percent)
-            }
-            else {
-                interactionController?.updateInteractiveTransition(0.0)
-            }
-        case .Ended:
-            if panRecognizer.velocityInView(view).x > 200.0 || panRecognizer.translationInView(view).x > view.bounds.midX {
-                interactionController?.finishInteractiveTransition()
-            }
-            else {
-                interactionController?.cancelInteractiveTransition()
-            }
-            
-            interactionController = nil
-        default:
-            break
-        }
+extension BaseNavigationController: BackInteractionControllerDelegate {
+    func interactionDidBegin() {
+        popViewControllerAnimated(true)
     }
 }
 
@@ -75,10 +52,14 @@ private extension BaseNavigationController {
 
 extension BaseNavigationController: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return operation == .Pop ? BackAnimationController() : nil
+        animationController = BackAnimationController()
+        
+        return operation == .Pop ? animationController : nil
     }
     
     func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
+        interactionController.animationController = animationController
+        
+        return interactionController.interactive ? interactionController : nil
     }
 }
