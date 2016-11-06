@@ -627,7 +627,7 @@
 			attributes = {
 				CLASSPREFIX = "";
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Brad Smith";
 				TargetAttributes = {
 					BD6C1FD2302B8FE50C967CE7 = {

@@ -23,6 +23,12 @@ class NavigationBarAnimatorView: UIView {
     private var leftNavigationItemView: NavigationItemView?
     private var centerNavigationItemView: NavigationItemView?
     
+    private var leftFromNavigationButton: NavigationButton?
+    private var leftToNavigationButton: NavigationButton?
+    
+    private var rightFromNavigationButton: NavigationButton?
+    private var rightToNavigationButton: NavigationButton?
+    
     init(fromViewController: UIViewController, toViewController: UIViewController, navigationBar: UINavigationBar) {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
@@ -59,7 +65,7 @@ extension NavigationBarAnimatorView {
         
         incomingNavigationItemButtonView = incomingBackViewController.flatMap { NavigationItemButtonView(viewController: $0, backImageWidth: backIconWidth) }
         
-        if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {
+        if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {            
             incomingNavigationItemButtonView.alpha = 0.3
             incomingNavigationItemButtonView.center = boundsCenter
             incomingNavigationItemButtonView.frame.origin.x = -incomingNavigationItemButtonView.bounds.width
@@ -89,7 +95,24 @@ extension NavigationBarAnimatorView {
             centerNavigationItemView.center = boundsCenter
             addSubview(centerNavigationItemView)
         }
+        
+        rightFromNavigationButton = NavigationButton(viewController: fromViewController, position: .Right)
+        
+        if let rightFromNavigationButton = rightFromNavigationButton {
+            rightFromNavigationButton.center = boundsCenter
+            rightFromNavigationButton.frame.origin.x = navigationBar.bounds.width - (5.0 + rightFromNavigationButton.bounds.width)
+            addSubview(rightFromNavigationButton)
+        }
+        
+        rightToNavigationButton = NavigationButton(viewController: toViewController, position: .Right)
 
+        if let rightToNavigationButton = rightToNavigationButton {
+            rightToNavigationButton.alpha = 0.0
+            rightToNavigationButton.center = boundsCenter
+            rightToNavigationButton.frame.origin.x = navigationBar.bounds.width - (5.0 + rightToNavigationButton.bounds.width)
+            addSubview(rightToNavigationButton)
+        }
+        
         addSubview(backButtonImageView)
     }
     
@@ -160,9 +183,22 @@ extension NavigationBarAnimatorView {
             centerNavigationItemView.layer.opacity = 0.0
         }
         
+        if let rightFromNavigationButton = rightFromNavigationButton {
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: kCAMediaTimingFunctionDefault, duration: duration)
+            opacityAnimation.fromValue = rightFromNavigationButton.layer.opacity
+            rightFromNavigationButton.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            rightFromNavigationButton.layer.opacity = 0.0
+        }
+        
+        if let rightToNavigationButton = rightToNavigationButton {
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: kCAMediaTimingFunctionLinear, duration: duration)
+            opacityAnimation.fromValue = rightToNavigationButton.layer.opacity
+            rightToNavigationButton.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            rightToNavigationButton.layer.opacity = 1.0
+        }
+        
         if toViewController.navigationController?.viewControllers.first == toViewController {
-            let timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
-            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: kCAMediaTimingFunctionLinear, duration: duration)
             opacityAnimation.fromValue = backButtonImageView.layer.opacity
             backButtonImageView.layer.addAnimation(opacityAnimation, forKey: "opacity")
             backButtonImageView.layer.opacity = 0.0

@@ -22,7 +22,7 @@ class BaseNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        delegate = self
+//        delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,7 +36,7 @@ class BaseNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addGestureRecognizer(interactionController.panGestureRecognizer)
+//        view.addGestureRecognizer(interactionController.panGestureRecognizer)
     }
 }
 

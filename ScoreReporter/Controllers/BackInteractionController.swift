@@ -124,15 +124,16 @@ private extension BackInteractionController {
         displayLink?.invalidate()
         
         let layer = transitionContext.containerView().layer
-        layer.speed = 1.0 
+        layer.speed = 1.0
+        layer.timeOffset = 0.0
         
         if !transitionContext.transitionWasCancelled() {
-            let pausedTime = layer.timeOffset
-            layer.timeOffset = 0.0
-            layer.beginTime = 0.0
-            
-            let timeSincePause = layer.convertTime(CACurrentMediaTime(), fromLayer: nil) - pausedTime
-            layer.beginTime = timeSincePause
+//            let pausedTime = layer.timeOffset
+//            layer.timeOffset = 0.0
+//            layer.beginTime = 0.0
+//            
+//            let timeSincePause = layer.convertTime(CACurrentMediaTime(), fromLayer: nil) - pausedTime
+//            layer.beginTime = timeSincePause
         }
     }
     
@@ -146,12 +147,10 @@ private extension BackInteractionController {
         
         var offset = timeOffset
         offset += transitionContext.transitionWasCancelled() ? -tick : tick
+        timeOffset = min(max(offset, 0.0), duration)
         
-        if offset < 0.0 || offset > duration {
+        if offset <= 0.0 || offset >= duration {
             transitionFinished()
-        }
-        else {
-            timeOffset = offset
         }
     }
 }
