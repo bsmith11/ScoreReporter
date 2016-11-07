@@ -130,6 +130,14 @@ extension EventSearchViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension EventSearchViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        guard let _ = dataSource.titleForSection(section) else {
+            return 0.0
+        }
+        
+        return 44.0
+    }
+    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleForSection(section)

@@ -10,6 +10,7 @@ import UIKit
 import Anchorage
 
 class LoginViewController: UIViewController {
+    private let viewModel: LoginViewModel
     private let contentStackView = UIStackView(frame: .zero)
     private let emailTextField = UITextField(frame: .zero)
     private let separatorView = UIView(frame: .zero)
@@ -19,6 +20,16 @@ class LoginViewController: UIViewController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+    
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -100,6 +111,19 @@ private extension LoginViewController {
     @objc func skipButtonTapped() {
         
     }
+    
+    func login() {
+        guard let username = emailTextField.text,
+                  password = passwordTextField.text where !username.isEmpty && !password.isEmpty else {
+            return
+        }
+        
+        let credentials = Credentials(username: username, password: password)
+        
+        viewModel.loginWithCredentials(credentials) { error in
+            
+        }
+    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -110,7 +134,8 @@ extension LoginViewController: UITextFieldDelegate {
         case emailTextField:
             passwordTextField.becomeFirstResponder()
         case passwordTextField:
-            //TODO: - Login
+            print("\(User.currentUser)")
+            login()
             break
         default:
             break

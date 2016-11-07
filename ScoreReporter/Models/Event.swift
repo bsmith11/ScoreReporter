@@ -16,7 +16,7 @@ class Event: NSManagedObject {
 // MARK: - Public
 
 extension Event {
-    static func eventsFromArrayWithCompletion(array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func eventsFromArray(array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Event.objectsFromArray(array, context: context)
         }

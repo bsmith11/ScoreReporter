@@ -39,7 +39,8 @@ extension AppDelegate: UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.whiteColor()
         
         let tabBarController = TabBarController(nibName: nil, bundle: nil)
-//        let loginViewController = LoginViewController(nibName: nil, bundle: nil)
+//        let loginViewModel = LoginViewModel()
+//        let loginViewController = LoginViewController(viewModel: loginViewModel)
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = tabBarController

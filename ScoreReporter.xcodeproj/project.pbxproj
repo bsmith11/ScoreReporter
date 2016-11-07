@@ -48,6 +48,7 @@
 		481A97C01D88E6720066B749 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */; };
 		481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */; };
 		482045471DB5AAEA00739E73 /* KVOController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */; };
+		482E43BF1DD00050005790F2 /* HomeSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43BE1DD00050005790F2 /* HomeSectionHeaderView.swift */; };
 		483453B81D8D009200F0918A /* HomeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453B71D8D009200F0918A /* HomeDataSource.swift */; };
 		483453BA1D8D02DD00F0918A /* FetchedChangable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453B91D8D02DD00F0918A /* FetchedChangable.swift */; };
 		483453BC1D8D083D00F0918A /* FetchedChangeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453BB1D8D083D00F0918A /* FetchedChangeObject.swift */; };
@@ -71,6 +72,19 @@
 		484951801D96FBFE00C95F2F /* StandingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517F1D96FBFE00C95F2F /* StandingCell.swift */; };
 		485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */; };
 		485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */; };
+		4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */; };
+		4864A8B31DCFAA10001561D4 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B21DCFAA10001561D4 /* LoginService.swift */; };
+		4864A8B51DCFAD7A001561D4 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B41DCFAD7A001561D4 /* KeychainService.swift */; };
+		4864A8B71DCFAFA5001561D4 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B61DCFAFA5001561D4 /* User+CoreDataProperties.swift */; };
+		4864A8B91DCFAFE5001561D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B81DCFAFE5001561D4 /* User.swift */; };
+		4864A8BC1DCFBD1E001561D4 /* TeamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8BB1DCFBD1E001561D4 /* TeamService.swift */; };
+		4864A8BE1DCFBFF5001561D4 /* Team+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8BD1DCFBFF5001561D4 /* Team+CoreDataProperties.swift */; };
+		4864A8C01DCFBFFE001561D4 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8BF1DCFBFFE001561D4 /* Team.swift */; };
+		4864A8C31DCFC2D1001561D4 /* TeamSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C21DCFC2D1001561D4 /* TeamSearchViewController.swift */; };
+		4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */; };
+		4864A8C71DCFC349001561D4 /* TeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C61DCFC349001561D4 /* TeamViewModel.swift */; };
+		4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */; };
+		4864A8CB1DCFC59B001561D4 /* TeamSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8CA1DCFC59B001561D4 /* TeamSearchCell.swift */; };
 		487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3751D985A230082D6FC /* GameListViewController.swift */; };
 		487BF3781D985BEA0082D6FC /* GameListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3771D985BEA0082D6FC /* GameListCell.swift */; };
 		487BF37D1D9880F20082D6FC /* GameListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37C1D9880F20082D6FC /* GameListDataSource.swift */; };
@@ -155,6 +169,7 @@
 		481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+KeyboardLayoutGuide.swift"; sourceTree = "<group>"; };
 		482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KVOController+Extensions.swift"; sourceTree = "<group>"; };
+		482E43BE1DD00050005790F2 /* HomeSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeSectionHeaderView.swift; sourceTree = "<group>"; };
 		483453B71D8D009200F0918A /* HomeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeDataSource.swift; path = "View Models/HomeDataSource.swift"; sourceTree = "<group>"; };
 		483453B91D8D02DD00F0918A /* FetchedChangable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangable.swift; sourceTree = "<group>"; };
 		483453BB1D8D083D00F0918A /* FetchedChangeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangeObject.swift; sourceTree = "<group>"; };
@@ -178,6 +193,20 @@
 		4849517F1D96FBFE00C95F2F /* StandingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingCell.swift; sourceTree = "<group>"; };
 		485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarAnimatorView.swift; sourceTree = "<group>"; };
 		485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackInteractionController.swift; sourceTree = "<group>"; };
+		4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		4864A8B21DCFAA10001561D4 /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		4864A8B41DCFAD7A001561D4 /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		4864A8B61DCFAFA5001561D4 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4864A8B81DCFAFE5001561D4 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScoreReporter.entitlements; sourceTree = "<group>"; };
+		4864A8BB1DCFBD1E001561D4 /* TeamService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamService.swift; sourceTree = "<group>"; };
+		4864A8BD1DCFBFF5001561D4 /* Team+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Team+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4864A8BF1DCFBFFE001561D4 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		4864A8C21DCFC2D1001561D4 /* TeamSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchViewController.swift; sourceTree = "<group>"; };
+		4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchDataSource.swift; sourceTree = "<group>"; };
+		4864A8C61DCFC349001561D4 /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
+		4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchViewModel.swift; sourceTree = "<group>"; };
+		4864A8CA1DCFC59B001561D4 /* TeamSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchCell.swift; sourceTree = "<group>"; };
 		487BF3751D985A230082D6FC /* GameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListViewController.swift; sourceTree = "<group>"; };
 		487BF3771D985BEA0082D6FC /* GameListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListCell.swift; sourceTree = "<group>"; };
 		487BF37C1D9880F20082D6FC /* GameListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameListDataSource.swift; path = Protocols/GameListDataSource.swift; sourceTree = "<group>"; };
@@ -277,6 +306,7 @@
 				488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */,
 				483453B71D8D009200F0918A /* HomeDataSource.swift */,
 				488CAA651D7E3C7500C3E597 /* HomeEventCell.swift */,
+				482E43BE1DD00050005790F2 /* HomeSectionHeaderView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -308,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				48400E8A1D8EFAB400927EB6 /* LoginViewController.swift */,
+				4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -338,6 +369,18 @@
 				4849517F1D96FBFE00C95F2F /* StandingCell.swift */,
 			);
 			name = Pools;
+			sourceTree = "<group>";
+		};
+		4864A8C11DCFC2BC001561D4 /* Team Search */ = {
+			isa = PBXGroup;
+			children = (
+				4864A8C21DCFC2D1001561D4 /* TeamSearchViewController.swift */,
+				4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */,
+				4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */,
+				4864A8C61DCFC349001561D4 /* TeamViewModel.swift */,
+				4864A8CA1DCFC59B001561D4 /* TeamSearchCell.swift */,
+			);
+			name = "Team Search";
 			sourceTree = "<group>";
 		};
 		487BF3721D9856760082D6FC /* Game List */ = {
@@ -465,9 +508,12 @@
 		9F6628FE0A446E00A7F2DD6E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				0665DF011D3DBCC3006D2070 /* EventService.swift */,
 				0665DF031D3DBCF1006D2070 /* APIClient.swift */,
+				4864A8B21DCFAA10001561D4 /* LoginService.swift */,
+				0665DF011D3DBCC3006D2070 /* EventService.swift */,
+				4864A8BB1DCFBD1E001561D4 /* TeamService.swift */,
 				0665DF2C1D3DD8A6006D2070 /* DateService.swift */,
+				4864A8B41DCFAD7A001561D4 /* KeychainService.swift */,
 				487BF38B1D9A18F50082D6FC /* ManagedObjectObserver.swift */,
 			);
 			path = Services;
@@ -490,6 +536,7 @@
 		BDCB23798C38F5C0642B2160 /* ScoreReporter */ = {
 			isa = PBXGroup;
 			children = (
+				4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */,
 				48A2E70E1DA49CF200B7B422 /* Settings */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
 				487BF3721D9856760082D6FC /* Game List */,
@@ -499,6 +546,7 @@
 				48400E891D8EF94F00927EB6 /* Login */,
 				483453BF1D8D8A6000F0918A /* Event Search */,
 				483453BE1D8D8A3700F0918A /* Event Details */,
+				4864A8C11DCFC2BC001561D4 /* Team Search */,
 				483453BD1D8D8A0D00F0918A /* Home */,
 				E2E5ED9D04AACD67F94ABF4E /* Application */,
 				5363831774D6338F6F435C47 /* Extensions */,
@@ -554,6 +602,8 @@
 			children = (
 				0665DF051D3DC7B6006D2070 /* ScoreReporter.xcdatamodeld */,
 				0665DEFD1D3DBB6F006D2070 /* CoreDataStack.swift */,
+				4864A8B61DCFAFA5001561D4 /* User+CoreDataProperties.swift */,
+				4864A8B81DCFAFE5001561D4 /* User.swift */,
 				0665DF081D3DC8B3006D2070 /* Event+CoreDataProperties.swift */,
 				0665DF091D3DC8B3006D2070 /* Event.swift */,
 				0665DF0E1D3DD4C7006D2070 /* Group+CoreDataProperties.swift */,
@@ -572,6 +622,8 @@
 				0665DF171D3DD4C8006D2070 /* Game.swift */,
 				0665DF1A1D3DD4C8006D2070 /* Standing+CoreDataProperties.swift */,
 				0665DF1B1D3DD4C8006D2070 /* Standing.swift */,
+				4864A8BD1DCFBFF5001561D4 /* Team+CoreDataProperties.swift */,
+				4864A8BF1DCFBFFE001561D4 /* Team.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -632,6 +684,11 @@
 				TargetAttributes = {
 					BD6C1FD2302B8FE50C967CE7 = {
 						DevelopmentTeam = Q9WZ7ZSJK2;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -760,15 +817,18 @@
 				48400E931D8F573300927EB6 /* TabBarController.swift in Sources */,
 				48E541321D81169C008E4DEE /* MessageDisplayable.swift in Sources */,
 				4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */,
+				4864A8BC1DCFBD1E001561D4 /* TeamService.swift in Sources */,
 				48400E881D8EE6B700927EB6 /* EventDetailsInfoCell.swift in Sources */,
 				48F8B5351DC672F20031DB5B /* UINavigationBar+Extensions.swift in Sources */,
 				068034781D3ECD53006BD4C1 /* UICollectionView+Extensions.swift in Sources */,
 				0680348F1D4094AC006BD4C1 /* DataSource.swift in Sources */,
 				4849517E1D96F1CF00C95F2F /* SectionHeaderView.swift in Sources */,
+				4864A8C01DCFBFFE001561D4 /* Team.swift in Sources */,
 				0665DF1C1D3DD4C8006D2070 /* Pool+CoreDataProperties.swift in Sources */,
 				487BF3861D9A0A340082D6FC /* BracketListDataSource.swift in Sources */,
 				48F8B52F1DC4603D0031DB5B /* Importable.swift in Sources */,
 				48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */,
+				4864A8CB1DCFC59B001561D4 /* TeamSearchCell.swift in Sources */,
 				483453C11D8D8E8200F0918A /* EventSearchDataSource.swift in Sources */,
 				485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */,
 				0665DF1F1D3DD4C8006D2070 /* Group.swift in Sources */,
@@ -789,41 +849,52 @@
 				0665DF071D3DC7B6006D2070 /* ScoreReporter.xcdatamodeld in Sources */,
 				482045471DB5AAEA00739E73 /* KVOController+Extensions.swift in Sources */,
 				0665DF201D3DD4C8006D2070 /* Round+CoreDataProperties.swift in Sources */,
+				4864A8B91DCFAFE5001561D4 /* User.swift in Sources */,
 				488CAA721D7E68C300C3E597 /* KeyboardObservable.swift in Sources */,
 				484951801D96FBFE00C95F2F /* StandingCell.swift in Sources */,
 				481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */,
 				0665DF2B1D3DD4C8006D2070 /* Standing.swift in Sources */,
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
+				4864A8C31DCFC2D1001561D4 /* TeamSearchViewController.swift in Sources */,
 				48400E961D8F5D6100927EB6 /* BookmarksViewController.swift in Sources */,
 				481A97C01D88E6720066B749 /* UIViewController+Extensions.swift in Sources */,
+				4864A8B71DCFAFA5001561D4 /* User+CoreDataProperties.swift in Sources */,
 				068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */,
+				4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */,
 				48400E8B1D8EFAB400927EB6 /* LoginViewController.swift in Sources */,
 				48400E8D1D8F3DC300927EB6 /* GroupViewModel.swift in Sources */,
+				4864A8B51DCFAD7A001561D4 /* KeychainService.swift in Sources */,
 				0665DF311D3DEA9D006D2070 /* NSDate+Extensions.swift in Sources */,
 				48400E9E1D90C7CA00927EB6 /* BookmarksDataSource.swift in Sources */,
 				48F8B5311DC460540031DB5B /* Fetchable.swift in Sources */,
 				483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */,
+				4864A8BE1DCFBFF5001561D4 /* Team+CoreDataProperties.swift in Sources */,
 				0665DF261D3DD4C8006D2070 /* Game+CoreDataProperties.swift in Sources */,
 				48A2E7191DA4B01600B7B422 /* AcknowledgementListViewController.swift in Sources */,
 				0665DF0A1D3DC8B3006D2070 /* Event+CoreDataProperties.swift in Sources */,
 				488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */,
 				483453BC1D8D083D00F0918A /* FetchedChangeObject.swift in Sources */,
 				0665DF2F1D3DE92E006D2070 /* String+Extensions.swift in Sources */,
+				482E43BF1DD00050005790F2 /* HomeSectionHeaderView.swift in Sources */,
 				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
 				0680347E1D3F121F006BD4C1 /* UIColor+Extensions.swift in Sources */,
 				487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */,
 				0665DF271D3DD4C8006D2070 /* Game.swift in Sources */,
 				0665DF231D3DD4C8006D2070 /* Cluster.swift in Sources */,
 				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,
+				4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */,
+				4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */,
 				0665DF291D3DD4C8006D2070 /* Bracket.swift in Sources */,
 				488CAA661D7E3C7500C3E597 /* HomeEventCell.swift in Sources */,
 				0665DF041D3DBCF1006D2070 /* APIClient.swift in Sources */,
 				487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */,
 				0665DF251D3DD4C8006D2070 /* Stage.swift in Sources */,
+				4864A8B31DCFAA10001561D4 /* LoginService.swift in Sources */,
 				487BF3781D985BEA0082D6FC /* GameListCell.swift in Sources */,
 				0665DEFE1D3DBB6F006D2070 /* CoreDataStack.swift in Sources */,
 				487BF3881D9A0B630082D6FC /* BracketListViewController.swift in Sources */,
 				48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */,
+				4864A8C71DCFC349001561D4 /* TeamViewModel.swift in Sources */,
 				48400E8F1D8F4B5D00927EB6 /* EventDetailsDataSource.swift in Sources */,
 				485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */,
 				488CAA6A1D7E440600C3E597 /* UITableView+Extensions.swift in Sources */,
@@ -951,6 +1022,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ScoreReporter/ScoreReporter.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Q9WZ7ZSJK2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1047,6 +1119,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ScoreReporter/ScoreReporter.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Q9WZ7ZSJK2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

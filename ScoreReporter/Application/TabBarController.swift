@@ -37,6 +37,11 @@ private extension TabBarController {
         let bookmarksViewController = BookmarksViewController(dataSource: bookmarksDataSource)
         let bookmarksNavigationController = BaseNavigationController(rootViewController: bookmarksViewController)
         
+        let teamSearchViewModel = TeamSearchViewModel()
+        let teamSearchDataSource = TeamSearchDataSource()
+        let teamSearchViewController = TeamSearchViewController(viewModel: teamSearchViewModel, dataSource: teamSearchDataSource)
+        let teamSearchNavigationController = BaseNavigationController(rootViewController: teamSearchViewController)
+        
         let settingsDataSource = SettingsDataSource()
         let settingsViewController = SettingsViewController(dataSource: settingsDataSource)
         let settingsNavigationController = BaseNavigationController(rootViewController: settingsViewController)
@@ -44,6 +49,7 @@ private extension TabBarController {
         let navigationControllers = [
             homeNavigationController,
             bookmarksNavigationController,
+            teamSearchNavigationController,
             settingsNavigationController
         ]
         

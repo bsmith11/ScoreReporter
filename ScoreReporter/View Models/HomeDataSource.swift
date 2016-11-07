@@ -39,6 +39,6 @@ extension HomeDataSource {
             return nil
         }
         
-        return "This Week"
+        return "Events This Week"
     }
 }

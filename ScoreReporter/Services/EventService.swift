@@ -65,7 +65,7 @@ private extension EventService {
             return
         }
 
-        Event.eventsFromArrayWithCompletion(eventArray, completion: completion)
+        Event.eventsFromArray(eventArray, completion: completion)
     }
 
     func handleSuccessfulEventResponse(response: AnyObject?, completion: DownloadCompletion?) {
@@ -88,6 +88,6 @@ private extension EventService {
             return
         }
 
-        Group.groupsFromArrayWithCompletion(groupArray, completion: completion)
+        Group.groupsFromArray(groupArray, completion: completion)
     }
 }
