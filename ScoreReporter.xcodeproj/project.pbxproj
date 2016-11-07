@@ -48,11 +48,14 @@
 		481A97C01D88E6720066B749 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */; };
 		481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */; };
 		482045471DB5AAEA00739E73 /* KVOController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */; };
-		482E43BF1DD00050005790F2 /* HomeSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43BE1DD00050005790F2 /* HomeSectionHeaderView.swift */; };
+		482E43C11DD03373005790F2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43C01DD03373005790F2 /* SearchViewController.swift */; };
+		482E43C31DD033BD005790F2 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43C21DD033BD005790F2 /* SearchDataSource.swift */; };
+		482E43C51DD03664005790F2 /* Searchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43C41DD03664005790F2 /* Searchable.swift */; };
+		482E43C71DD04278005790F2 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43C61DD04278005790F2 /* SearchCell.swift */; };
+		482E43CB1DD04E45005790F2 /* MyTeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E43CA1DD04E45005790F2 /* MyTeamsViewController.swift */; };
 		483453B81D8D009200F0918A /* HomeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453B71D8D009200F0918A /* HomeDataSource.swift */; };
 		483453BA1D8D02DD00F0918A /* FetchedChangable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453B91D8D02DD00F0918A /* FetchedChangable.swift */; };
 		483453BC1D8D083D00F0918A /* FetchedChangeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453BB1D8D083D00F0918A /* FetchedChangeObject.swift */; };
-		483453C11D8D8E8200F0918A /* EventSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453C01D8D8E8200F0918A /* EventSearchDataSource.swift */; };
 		483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453C21D8DA87900F0918A /* EventDetailsViewController.swift */; };
 		483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483453C61D8DBB4C00F0918A /* BackAnimationController.swift */; };
 		48400E7F1D8E196800927EB6 /* EventDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E7E1D8E196800927EB6 /* EventDetailsHeaderView.swift */; };
@@ -94,10 +97,8 @@
 		487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3891D9A0BD00082D6FC /* BracketListCell.swift */; };
 		487BF38C1D9A18F50082D6FC /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF38B1D9A18F50082D6FC /* ManagedObjectObserver.swift */; };
 		488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA631D7E367600C3E597 /* HomeViewController.swift */; };
-		488CAA661D7E3C7500C3E597 /* HomeEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA651D7E3C7500C3E597 /* HomeEventCell.swift */; };
 		488CAA6A1D7E440600C3E597 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA691D7E440600C3E597 /* UITableView+Extensions.swift */; };
 		488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */; };
-		488CAA6E1D7E5E0500C3E597 /* EventSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA6D1D7E5E0500C3E597 /* EventSearchViewController.swift */; };
 		488CAA721D7E68C300C3E597 /* KeyboardObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA711D7E68C300C3E597 /* KeyboardObservable.swift */; };
 		48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */; };
 		48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */; };
@@ -169,11 +170,14 @@
 		481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+KeyboardLayoutGuide.swift"; sourceTree = "<group>"; };
 		482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KVOController+Extensions.swift"; sourceTree = "<group>"; };
-		482E43BE1DD00050005790F2 /* HomeSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeSectionHeaderView.swift; sourceTree = "<group>"; };
+		482E43C01DD03373005790F2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		482E43C21DD033BD005790F2 /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
+		482E43C41DD03664005790F2 /* Searchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Searchable.swift; sourceTree = "<group>"; };
+		482E43C61DD04278005790F2 /* SearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		482E43CA1DD04E45005790F2 /* MyTeamsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTeamsViewController.swift; sourceTree = "<group>"; };
 		483453B71D8D009200F0918A /* HomeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeDataSource.swift; path = "View Models/HomeDataSource.swift"; sourceTree = "<group>"; };
 		483453B91D8D02DD00F0918A /* FetchedChangable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangable.swift; sourceTree = "<group>"; };
 		483453BB1D8D083D00F0918A /* FetchedChangeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangeObject.swift; sourceTree = "<group>"; };
-		483453C01D8D8E8200F0918A /* EventSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSearchDataSource.swift; sourceTree = "<group>"; };
 		483453C21D8DA87900F0918A /* EventDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		483453C61D8DBB4C00F0918A /* BackAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackAnimationController.swift; sourceTree = "<group>"; };
 		48400E7E1D8E196800927EB6 /* EventDetailsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsHeaderView.swift; sourceTree = "<group>"; };
@@ -216,10 +220,8 @@
 		487BF3891D9A0BD00082D6FC /* BracketListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BracketListCell.swift; sourceTree = "<group>"; };
 		487BF38B1D9A18F50082D6FC /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		488CAA631D7E367600C3E597 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Controllers/HomeViewController.swift; sourceTree = "<group>"; };
-		488CAA651D7E3C7500C3E597 /* HomeEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeEventCell.swift; path = Views/HomeEventCell.swift; sourceTree = "<group>"; };
 		488CAA691D7E440600C3E597 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewModel.swift; path = Controllers/HomeViewModel.swift; sourceTree = "<group>"; };
-		488CAA6D1D7E5E0500C3E597 /* EventSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventSearchViewController.swift; path = Controllers/EventSearchViewController.swift; sourceTree = "<group>"; };
 		488CAA711D7E68C300C3E597 /* KeyboardObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObservable.swift; sourceTree = "<group>"; };
 		48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
@@ -299,14 +301,30 @@
 			tabWidth = 4;
 			usesTabs = 0;
 		};
+		482E43C81DD04465005790F2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				482E43C01DD03373005790F2 /* SearchViewController.swift */,
+				482E43C21DD033BD005790F2 /* SearchDataSource.swift */,
+				482E43C61DD04278005790F2 /* SearchCell.swift */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		482E43C91DD04E11005790F2 /* My Teams */ = {
+			isa = PBXGroup;
+			children = (
+				482E43CA1DD04E45005790F2 /* MyTeamsViewController.swift */,
+			);
+			name = "My Teams";
+			sourceTree = "<group>";
+		};
 		483453BD1D8D8A0D00F0918A /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				488CAA631D7E367600C3E597 /* HomeViewController.swift */,
 				488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */,
 				483453B71D8D009200F0918A /* HomeDataSource.swift */,
-				488CAA651D7E3C7500C3E597 /* HomeEventCell.swift */,
-				482E43BE1DD00050005790F2 /* HomeSectionHeaderView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -323,15 +341,6 @@
 				48400E8C1D8F3DC300927EB6 /* GroupViewModel.swift */,
 			);
 			name = "Event Details";
-			sourceTree = "<group>";
-		};
-		483453BF1D8D8A6000F0918A /* Event Search */ = {
-			isa = PBXGroup;
-			children = (
-				488CAA6D1D7E5E0500C3E597 /* EventSearchViewController.swift */,
-				483453C01D8D8E8200F0918A /* EventSearchDataSource.swift */,
-			);
-			name = "Event Search";
 			sourceTree = "<group>";
 		};
 		48400E891D8EF94F00927EB6 /* Login */ = {
@@ -529,6 +538,7 @@
 				483453BB1D8D083D00F0918A /* FetchedChangeObject.swift */,
 				48F8B52E1DC4603D0031DB5B /* Importable.swift */,
 				48F8B5301DC460540031DB5B /* Fetchable.swift */,
+				482E43C41DD03664005790F2 /* Searchable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -536,6 +546,7 @@
 		BDCB23798C38F5C0642B2160 /* ScoreReporter */ = {
 			isa = PBXGroup;
 			children = (
+				482E43C91DD04E11005790F2 /* My Teams */,
 				4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */,
 				48A2E70E1DA49CF200B7B422 /* Settings */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
@@ -544,10 +555,10 @@
 				484951731D9649D700C95F2F /* Group Details */,
 				48400E941D8F5D5000927EB6 /* Bookmarks */,
 				48400E891D8EF94F00927EB6 /* Login */,
-				483453BF1D8D8A6000F0918A /* Event Search */,
 				483453BE1D8D8A3700F0918A /* Event Details */,
 				4864A8C11DCFC2BC001561D4 /* Team Search */,
 				483453BD1D8D8A0D00F0918A /* Home */,
+				482E43C81DD04465005790F2 /* Search */,
 				E2E5ED9D04AACD67F94ABF4E /* Application */,
 				5363831774D6338F6F435C47 /* Extensions */,
 				B2E44A6E037D1EA6EC46D8A0 /* Protocols */,
@@ -829,7 +840,6 @@
 				48F8B52F1DC4603D0031DB5B /* Importable.swift in Sources */,
 				48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */,
 				4864A8CB1DCFC59B001561D4 /* TeamSearchCell.swift in Sources */,
-				483453C11D8D8E8200F0918A /* EventSearchDataSource.swift in Sources */,
 				485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */,
 				0665DF1F1D3DD4C8006D2070 /* Group.swift in Sources */,
 				483453BA1D8D02DD00F0918A /* FetchedChangable.swift in Sources */,
@@ -842,9 +852,9 @@
 				48A2E71B1DA4B02200B7B422 /* AcknowledgementListDataSource.swift in Sources */,
 				0680348B1D407C7A006BD4C1 /* DefaultView.swift in Sources */,
 				48E541301D810F2D008E4DEE /* MessageView.swift in Sources */,
+				482E43C71DD04278005790F2 /* SearchCell.swift in Sources */,
 				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
 				481580991DCAE16E008F141B /* CAAnimation+Extensions.swift in Sources */,
-				488CAA6E1D7E5E0500C3E597 /* EventSearchViewController.swift in Sources */,
 				0665DF221D3DD4C8006D2070 /* Cluster+CoreDataProperties.swift in Sources */,
 				0665DF071D3DC7B6006D2070 /* ScoreReporter.xcdatamodeld in Sources */,
 				482045471DB5AAEA00739E73 /* KVOController+Extensions.swift in Sources */,
@@ -865,6 +875,7 @@
 				48400E8D1D8F3DC300927EB6 /* GroupViewModel.swift in Sources */,
 				4864A8B51DCFAD7A001561D4 /* KeychainService.swift in Sources */,
 				0665DF311D3DEA9D006D2070 /* NSDate+Extensions.swift in Sources */,
+				482E43C11DD03373005790F2 /* SearchViewController.swift in Sources */,
 				48400E9E1D90C7CA00927EB6 /* BookmarksDataSource.swift in Sources */,
 				48F8B5311DC460540031DB5B /* Fetchable.swift in Sources */,
 				483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */,
@@ -875,7 +886,6 @@
 				488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */,
 				483453BC1D8D083D00F0918A /* FetchedChangeObject.swift in Sources */,
 				0665DF2F1D3DE92E006D2070 /* String+Extensions.swift in Sources */,
-				482E43BF1DD00050005790F2 /* HomeSectionHeaderView.swift in Sources */,
 				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
 				0680347E1D3F121F006BD4C1 /* UIColor+Extensions.swift in Sources */,
 				487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */,
@@ -885,7 +895,6 @@
 				4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */,
 				4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */,
 				0665DF291D3DD4C8006D2070 /* Bracket.swift in Sources */,
-				488CAA661D7E3C7500C3E597 /* HomeEventCell.swift in Sources */,
 				0665DF041D3DBCF1006D2070 /* APIClient.swift in Sources */,
 				487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */,
 				0665DF251D3DD4C8006D2070 /* Stage.swift in Sources */,
@@ -895,6 +904,7 @@
 				487BF3881D9A0B630082D6FC /* BracketListViewController.swift in Sources */,
 				48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */,
 				4864A8C71DCFC349001561D4 /* TeamViewModel.swift in Sources */,
+				482E43C31DD033BD005790F2 /* SearchDataSource.swift in Sources */,
 				48400E8F1D8F4B5D00927EB6 /* EventDetailsDataSource.swift in Sources */,
 				485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */,
 				488CAA6A1D7E440600C3E597 /* UITableView+Extensions.swift in Sources */,
@@ -904,6 +914,7 @@
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
 				0665DF211D3DD4C8006D2070 /* Round.swift in Sources */,
 				487BF37D1D9880F20082D6FC /* GameListDataSource.swift in Sources */,
+				482E43CB1DD04E45005790F2 /* MyTeamsViewController.swift in Sources */,
 				487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */,
 				48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */,
 				484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */,
@@ -911,6 +922,7 @@
 				48A2E71E1DA4B55900B7B422 /* AcknowledgementViewController.swift in Sources */,
 				068034821D3F1BBC006BD4C1 /* EventViewModel.swift in Sources */,
 				48400E7F1D8E196800927EB6 /* EventDetailsHeaderView.swift in Sources */,
+				482E43C51DD03664005790F2 /* Searchable.swift in Sources */,
 				0665DF1E1D3DD4C8006D2070 /* Group+CoreDataProperties.swift in Sources */,
 				487BF38C1D9A18F50082D6FC /* ManagedObjectObserver.swift in Sources */,
 			);

@@ -1,5 +1,5 @@
 //
-//  TeamSearchDataSource.swift
+//  SearchDataSource.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/6/16.
@@ -9,10 +9,12 @@
 import Foundation
 import CoreData
 
-class TeamSearchDataSource: NSObject, FetchedDataSource {
-    typealias ModelType = Team
+class SearchDataSource<Model: Searchable>: NSObject, FetchedDataSource {
+    typealias ModelType = Model
     
-    private(set) var fetchedResultsController = Team.fetchedTeams()
+    private let searchDataSourceHelper = SearchDataSourceHelper()
+    
+    private(set) var fetchedResultsController = Model.searchFetchedResultsController
     
     private(set) dynamic var empty = false
     
@@ -21,7 +23,8 @@ class TeamSearchDataSource: NSObject, FetchedDataSource {
     override init() {
         super.init()
         
-        fetchedResultsController.delegate = self
+        searchDataSourceHelper.delegate = self
+        fetchedResultsController.delegate = searchDataSourceHelper
         
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
@@ -33,16 +36,16 @@ class TeamSearchDataSource: NSObject, FetchedDataSource {
 
 // MARK: - Public
 
-extension TeamSearchDataSource {
+extension SearchDataSource {
     func searchWithText(text: String?) {
-        let predicate = Team.predicateWithSearchText(text)
+        let predicate = Model.predicateWithSearchText(text)
         fetchedResultsController.fetchRequest.predicate = predicate
         
         do {
             try fetchedResultsController.performFetch()
         }
         catch let error as NSError {
-            print("Failed to fetch teams with error: \(error)")
+            print("Failed to fetch Searchables with error: \(error)")
         }
         
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
@@ -56,19 +59,34 @@ extension TeamSearchDataSource {
         }
         
         let indexPath = NSIndexPath(forRow: 0, inSection: section)
-        let team = itemAtIndexPath(indexPath)
-        let teamViewModel = TeamViewModel(team: team)
+        let item = itemAtIndexPath(indexPath)
         
-        return teamViewModel.state
+        return item?.searchSectionTitle
     }
 }
 
-// MARK: - NSFetchedResultsControllerDelegate
+// MARK: - SearchDataSourceHelperDelegate
 
-extension TeamSearchDataSource: NSFetchedResultsControllerDelegate {
+extension SearchDataSource: SearchDataSourceHelperDelegate {
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         empty = controller.fetchedObjects?.isEmpty ?? true
         
         refreshBlock?()
+    }
+}
+
+// MARK: - SearchDataSourceHelper
+
+protocol SearchDataSourceHelperDelegate: class {
+    func controllerDidChangeContent(controller: NSFetchedResultsController)
+}
+
+private class SearchDataSourceHelper: NSObject {
+    weak var delegate: SearchDataSourceHelperDelegate?
+}
+
+extension SearchDataSourceHelper: NSFetchedResultsControllerDelegate {
+    @objc func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        delegate?.controllerDidChangeContent(controller)
     }
 }

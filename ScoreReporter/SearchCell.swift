@@ -1,8 +1,8 @@
 //
-//  HomeEventCell.swift
+//  SearchCell.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/5/16.
+//  Created by Bradley Smith on 11/7/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
@@ -10,20 +10,15 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class HomeEventCell: UITableViewCell {
+class SearchCell: UITableViewCell {
     private let contentStackView = UIStackView(frame: .zero)
     private let logoImageView = UIImageView(frame: .zero)
     private let infoStackView = UIStackView(frame: .zero)
-    private let nameLabel = UILabel(frame: .zero)
-    private let locationLabel = UILabel(frame: .zero)
+    private let titleLabel = UILabel(frame: .zero)
+    private let subtitleLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.backgroundColor = UIColor.whiteColor()
-        preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
         configureLayout()
@@ -42,17 +37,17 @@ class HomeEventCell: UITableViewCell {
 
 // MARK: - Public
 
-extension HomeEventCell {
-    func configureWithViewModel(viewModel: EventViewModel) {
-        logoImageView.pin_setImageFromURL(viewModel.logoURL)
-        nameLabel.text = viewModel.name
-        locationLabel.text = viewModel.location
+extension SearchCell {
+    func configureWithSearchable(searchable: Searchable?) {
+        logoImageView.pin_setImageFromURL(searchable?.searchLogoURL)
+        titleLabel.text = searchable?.searchTitle
+        subtitleLabel.text = searchable?.searchSubtitle
     }
 }
 
 // MARK: - Private
 
-private extension HomeEventCell {
+private extension SearchCell {
     func configureViews() {
         contentStackView.axis = .Horizontal
         contentStackView.spacing = 16.0
@@ -63,19 +58,17 @@ private extension HomeEventCell {
         contentStackView.addArrangedSubview(logoImageView)
         
         infoStackView.axis = .Vertical
-        infoStackView.spacing = 4.0
         contentStackView.addArrangedSubview(infoStackView)
         
-        nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
-        nameLabel.textColor = UIColor.USAUNavyColor()
-        nameLabel.numberOfLines = 0
-        nameLabel.lineBreakMode = .ByWordWrapping
-        infoStackView.addArrangedSubview(nameLabel)
+        titleLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightRegular)
+        titleLabel.textColor = UIColor.USAUNavyColor()
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = .ByWordWrapping
+        infoStackView.addArrangedSubview(titleLabel)
         
-        locationLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
-        locationLabel.textColor = UIColor.grayColor()
-        locationLabel.numberOfLines = 1
-        infoStackView.addArrangedSubview(locationLabel)
+        subtitleLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
+        subtitleLabel.textColor = UIColor.grayColor()
+        infoStackView.addArrangedSubview(subtitleLabel)
     }
     
     func configureLayout() {

@@ -72,9 +72,10 @@ private extension BookmarksViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(HomeEventCell)
+        tableView.registerClass(SearchCell)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
@@ -113,11 +114,10 @@ extension BookmarksViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as HomeEventCell
+        let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
         let event = dataSource.itemAtIndexPath(indexPath)
-        let eventViewModel = EventViewModel(event: event)
         
-        cell.configureWithViewModel(eventViewModel)
+        cell.configureWithSearchable(event)
         
         return cell
     }

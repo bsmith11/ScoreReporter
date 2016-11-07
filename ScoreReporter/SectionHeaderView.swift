@@ -9,17 +9,30 @@
 import UIKit
 import Anchorage
 
-protocol SectionHeaderViewDelegate: class {
-    func didSelectSectionHeader(headerView: SectionHeaderView)
+@objc protocol SectionHeaderViewDelegate: class {
+    optional func didSelectSectionHeader(headerView: SectionHeaderView)
+    optional func headerViewDidSelectActionButton(headerView: SectionHeaderView)
 }
 
 class SectionHeaderView: UITableViewHeaderFooterView {
     private let contentStackView = UIStackView(frame: .zero)
+    private let titleContainerView = UIView(frame: .zero)
     private let titleLabel = UILabel(frame: .zero)
+    private let actionButton = UIButton(type: .System)
     private let accessoryImageView = UIImageView(frame: .zero)
     private let separatorView = UIView(frame: .zero)
     
     weak var delegate: SectionHeaderViewDelegate?
+    
+    override var frame: CGRect {
+        didSet {
+            guard let tableView = superview as? UITableView else {
+                return
+            }
+            
+            separatorView.hidden = !(frame.minY <= tableView.contentOffset.y)
+        }
+    }
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -41,16 +54,19 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 // MARK: - Public
 
 extension SectionHeaderView {
-    func configureWithTitle(title: String?, tappable: Bool = false) {
+    func configureWithTitle(title: String?, actionButtonTitle: String? = nil, tappable: Bool = false) {
         titleLabel.text = title
+        
+        actionButton.setTitle(actionButtonTitle, forState: .Normal)
+        actionButton.hidden = actionButton.titleForState(.Normal) == nil
         
         accessoryImageView.hidden = !tappable
     }
     
     func configureWithViewModel(viewModel: EventViewModel) {
-        titleLabel.text = viewModel.eventStartDate
+        let title = viewModel.eventStartDate
         
-        accessoryImageView.hidden = true
+        configureWithTitle(title)
     }
 }
 
@@ -59,13 +75,19 @@ extension SectionHeaderView {
 private extension SectionHeaderView {
     func configureViews() {
         contentStackView.axis = .Horizontal
-        contentStackView.spacing = 16.0
         contentView.addSubview(contentStackView)
         
-        titleLabel.numberOfLines = 1
-        titleLabel.font = UIFont.systemFontOfSize(24.0, weight: UIFontWeightBlack)
+        contentStackView.addArrangedSubview(titleContainerView)
+        
+        titleLabel.font = UIFont.systemFontOfSize(28.0, weight: UIFontWeightBlack)
         titleLabel.textColor = UIColor.USAUNavyColor()
-        contentStackView.addArrangedSubview(titleLabel)
+        titleContainerView.addSubview(titleLabel)
+        
+        actionButton.titleLabel?.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightRegular)
+        actionButton.setTitleColor(UIColor.USAURedColor(), forState: .Normal)
+        actionButton.addTarget(self, action: #selector(actionButtonTapped), forControlEvents: .TouchUpInside)
+        actionButton.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+        contentStackView.addArrangedSubview(actionButton)
         
         accessoryImageView.image = UIImage(named: "icn-disclosure-indicator")?.imageWithRenderingMode(.AlwaysTemplate)
         accessoryImageView.tintColor = UIColor.USAUNavyColor()
@@ -73,13 +95,17 @@ private extension SectionHeaderView {
         accessoryImageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         contentStackView.addArrangedSubview(accessoryImageView)
         
+        separatorView.hidden = true
         separatorView.backgroundColor = UIColor(hexString: "#C7C7CC")
         contentView.addSubview(separatorView)
     }
     
     func configureLayout() {
-        contentStackView.verticalAnchors == contentView.verticalAnchors + 8.0
-        contentStackView.horizontalAnchors == contentView.horizontalAnchors + 16.0
+        contentStackView.edgeAnchors == contentView.edgeAnchors
+
+        titleLabel.verticalAnchors == titleContainerView.verticalAnchors + 8.0
+        titleLabel.leadingAnchor == titleContainerView.leadingAnchor + 16.0
+        titleLabel.trailingAnchor == titleContainerView.trailingAnchor
         
         separatorView.horizontalAnchors == contentView.horizontalAnchors
         separatorView.bottomAnchor == contentView.bottomAnchor
@@ -87,6 +113,10 @@ private extension SectionHeaderView {
     }
     
     @objc func handleTap() {
-        delegate?.didSelectSectionHeader(self)
+        delegate?.didSelectSectionHeader?(self)
+    }
+    
+    @objc func actionButtonTapped() {
+        delegate?.headerViewDidSelectActionButton?(self)
     }
 }

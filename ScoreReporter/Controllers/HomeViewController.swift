@@ -13,14 +13,9 @@ import KVOController
 class HomeViewController: UIViewController, MessageDisplayable {
     private let viewModel: HomeViewModel
     private let dataSource: HomeDataSource
-    
-    private let searchDataSource: EventSearchDataSource
-    private let searchViewController: EventSearchViewController
-    
     private let tableView = UITableView(frame: .zero, style: .Plain)
     private let defaultView = DefaultView(frame: .zero)
-    private let searchBar = UISearchBar(frame: .zero)
-    
+        
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
         
@@ -30,10 +25,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
     init(viewModel: HomeViewModel, dataSource: HomeDataSource) {
         self.viewModel = viewModel
         self.dataSource = dataSource
-        
-        searchDataSource = EventSearchDataSource()
-        searchViewController = EventSearchViewController(dataSource: searchDataSource)
-        searchViewController.searchBar = searchBar
 
         super.init(nibName: nil, bundle: nil)
         
@@ -84,11 +75,12 @@ private extension HomeViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(HomeEventCell)
+        tableView.registerClass(SearchCell)
         tableView.registerHeaderFooterClass(SectionHeaderView)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
@@ -100,14 +92,6 @@ private extension HomeViewController {
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
         defaultView.setInfo(emptyInfo, state: .Empty)
         view.addSubview(defaultView)
-        
-        searchBar.autocapitalizationType = .None
-        searchBar.autocorrectionType = .No
-        searchBar.spellCheckingType = .No
-        searchBar.placeholder = "Find events"
-        searchBar.tintColor = UIColor.USAUNavyColor()
-        searchBar.delegate = self
-//        navigationItem.titleView = searchBar
     }
     
     func configureLayout() {
@@ -148,11 +132,10 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as HomeEventCell
+        let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
         let event = dataSource.itemAtIndexPath(indexPath)
-        let eventViewModel = EventViewModel(event: event)
         
-        cell.configureWithViewModel(eventViewModel)
+        cell.configureWithSearchable(event)
         
         return cell
     }
@@ -175,7 +158,8 @@ extension HomeViewController: UITableViewDelegate {
         }
         
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        headerView.configureWithTitle(title)
+        headerView.configureWithTitle(title, actionButtonTitle: "See All")
+        headerView.delegate = self
         
         return headerView
     }
@@ -193,38 +177,27 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UISearchBarDelegate
+// MARK: - SectionHeaderViewDelegate
 
-extension HomeViewController: UISearchBarDelegate {
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-        if !view.subviews.contains(searchViewController.view) {
-            addChildViewController(searchViewController)
-            searchViewController.view.frame = view.bounds
-            view.addSubview(searchViewController.view)
-            searchViewController.didMoveToParentViewController(self)
-            
-            searchViewController.view.setNeedsLayout()
-            searchViewController.view.layoutIfNeeded()
+extension HomeViewController: SectionHeaderViewDelegate {
+    func headerViewDidSelectActionButton(headerView: SectionHeaderView) {
+        let searchViewController = SearchViewController<Event>()
+        searchViewController.delegate = self
+        navigationController?.pushViewController(searchViewController, animated: true)
+    }
+}
+
+// MARK: - SearchViewControllerDelegate
+
+extension HomeViewController: SearchViewControllerDelegate {
+    func didSelectItem(item: Searchable) {
+        guard let event = item as? Event else {
+            return
         }
         
-        searchBar.setShowsCancelButton(true, animated: true)
-        
-        return true
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
-        searchBar.setShowsCancelButton(false, animated: true)
-        
-        searchDataSource.searchWithText(nil)
-        
-        searchViewController.willMoveToParentViewController(nil)
-        searchViewController.view.removeFromSuperview()
-        searchViewController.removeFromParentViewController()
-    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        searchDataSource.searchWithText(searchText)
+        let eventDetailsViewModel = EventDetailsViewModel(event: event)
+        let eventDetailsDataSource = EventDetailsDataSource(event: event)
+        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 }

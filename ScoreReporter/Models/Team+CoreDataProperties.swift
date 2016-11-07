@@ -22,6 +22,7 @@ extension Team {
     @NSManaged var name: String?
     @NSManaged var school: String?
     @NSManaged var state: String?
+    @NSManaged var stateFull: String?
     @NSManaged var teamID: NSNumber
     
 }

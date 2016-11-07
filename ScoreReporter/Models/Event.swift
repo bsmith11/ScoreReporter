@@ -68,21 +68,6 @@ extension Event {
         
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
     }
-    
-    static func searchPredicateWithText(text: String?) -> NSPredicate {
-        let typePredicate = NSPredicate(format: "%K == %@", "type", "Tournament")
-        
-        guard let text = text where !text.isEmpty else {
-            return typePredicate
-        }
-        
-        let predicates = [
-            typePredicate,
-            NSPredicate(format: "%K contains[cd] %@", "name", text)
-        ]
-        
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-    }
 }
 
 // MARK: - Fetchable
@@ -135,5 +120,71 @@ extension Event: CoreDataImportable {
         }
         
         return components?.joinWithSeparator("/")
+    }
+}
+
+// MARK: - Searchable
+
+extension Event: Searchable {
+    static var searchFetchedResultsController: NSFetchedResultsController {
+        let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "startDate", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
+    }
+    
+    static var searchBarPlaceholder: String? {
+        return "Find events"
+    }
+    
+    static var searchEmptyTitle: String? {
+        return "No Events"
+    }
+    
+    static var searchEmptyMessage: String? {
+        return "No events exist by that name"
+    }
+    
+    static func predicateWithSearchText(searchText: String?) -> NSPredicate? {
+        let typePredicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        
+        guard let searchText = searchText where !searchText.isEmpty else {
+            return typePredicate
+        }
+        
+        let predicates = [
+            typePredicate,
+            NSPredicate(format: "%K contains[cd] %@", "name", searchText)
+        ]
+        
+        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+    }
+    
+    var searchSectionTitle: String? {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        
+        return startDate.flatMap { dateFormatter.stringFromDate($0) }
+    }
+    
+    var searchLogoURL: NSURL? {
+        let baseURL = "http://play.usaultimate.org/"
+        
+        return logoPath.flatMap { NSURL(string: "\(baseURL)\($0)") }
+    }
+    
+    var searchTitle: String? {
+        return name ?? "No Name"
+    }
+    
+    var searchSubtitle: String? {
+        let cityValue = city ?? "City"
+        let stateValue = state ?? "State"
+        
+        return "\(cityValue), \(stateValue)"
     }
 }
