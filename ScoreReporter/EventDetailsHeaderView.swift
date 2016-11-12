@@ -16,11 +16,15 @@ protocol EventDetailsHeaderViewDelegate: class {
 }
 
 class EventDetailsHeaderView: UIView {
-    private let infoStackView = UIStackView(frame: .zero)
-    private let logoImageView = UIImageView(frame: .zero)
-    private let nameLabel = UILabel(frame: .zero)
+    private let eventInfoView = EventInfoView(frame: .zero)
     private let mapImageView = UIImageView(frame: .zero)
     private let mapButton = UIButton(type: .System)
+    
+    var eventInfoHidden = false {
+        didSet {
+            eventInfoView.hidden = eventInfoHidden
+        }
+    }
     
     weak var delegate: EventDetailsHeaderViewDelegate?
     
@@ -40,8 +44,7 @@ class EventDetailsHeaderView: UIView {
 
 extension EventDetailsHeaderView {
     func configureWithViewModel(viewModel: EventViewModel) {
-        logoImageView.pin_setImageFromURL(viewModel.logoURL)
-        nameLabel.text = viewModel.name
+        eventInfoView.configureWithSearchable(viewModel.searchable)
         mapImageView.setMapImageWithCoordinate(viewModel.coordinate)
     }
 }
@@ -50,19 +53,7 @@ extension EventDetailsHeaderView {
 
 private extension EventDetailsHeaderView {
     func configureViews() {
-        infoStackView.axis = .Horizontal
-        infoStackView.spacing = 16.0
-        infoStackView.alignment = .Center
-        addSubview(infoStackView)
-        
-        logoImageView.contentMode = .ScaleAspectFit
-        infoStackView.addArrangedSubview(logoImageView)
-        
-        nameLabel.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightSemibold)
-        nameLabel.textColor = UIColor.USAUNavyColor()
-        nameLabel.numberOfLines = 0
-        nameLabel.lineBreakMode = .ByWordWrapping
-        infoStackView.addArrangedSubview(nameLabel)
+        addSubview(eventInfoView)
         
         mapImageView.clipsToBounds = true
         mapImageView.contentMode = .ScaleAspectFill
@@ -73,14 +64,11 @@ private extension EventDetailsHeaderView {
     }
     
     func configureLayout() {
-        infoStackView.topAnchor == topAnchor + 16.0
-        infoStackView.horizontalAnchors == horizontalAnchors + 16.0
-        
-        logoImageView.heightAnchor == 50.0
-        logoImageView.widthAnchor == 50.0
+        eventInfoView.topAnchor == topAnchor + 16.0
+        eventInfoView.horizontalAnchors == horizontalAnchors + 16.0
         
         mapImageView.heightAnchor == 150.0
-        mapImageView.topAnchor == infoStackView.bottomAnchor + 16.0
+        mapImageView.topAnchor == eventInfoView.bottomAnchor + 16.0
         mapImageView.horizontalAnchors == horizontalAnchors
         mapImageView.bottomAnchor == bottomAnchor
         

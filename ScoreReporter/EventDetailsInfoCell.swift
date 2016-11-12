@@ -20,7 +20,7 @@ class EventDetailsInfoCell: UITableViewCell {
         contentView.backgroundColor = UIColor.whiteColor()
         preservesSuperviewLayoutMargins = false
         layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 0.0)
         accessoryType = .DisclosureIndicator
         
         configureViews()

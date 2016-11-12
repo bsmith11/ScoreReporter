@@ -20,19 +20,19 @@ class SectionHeaderView: UITableViewHeaderFooterView {
     private let titleLabel = UILabel(frame: .zero)
     private let actionButton = UIButton(type: .System)
     private let accessoryImageView = UIImageView(frame: .zero)
-    private let separatorView = UIView(frame: .zero)
+//    private let separatorView = UIView(frame: .zero)
     
     weak var delegate: SectionHeaderViewDelegate?
     
-    override var frame: CGRect {
-        didSet {
-            guard let tableView = superview as? UITableView else {
-                return
-            }
-            
-            separatorView.hidden = !(frame.minY <= tableView.contentOffset.y)
-        }
-    }
+//    override var frame: CGRect {
+//        didSet {
+//            guard let tableView = superview as? UITableView else {
+//                return
+//            }
+//            
+//            separatorView.hidden = !(frame.minY <= tableView.contentOffset.y)
+//        }
+//    }
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -54,11 +54,12 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 // MARK: - Public
 
 extension SectionHeaderView {
-    func configureWithTitle(title: String?, actionButtonTitle: String? = nil, tappable: Bool = false) {
+    func configureWithTitle(title: String?, actionButtonTitle: String? = nil, actionButtonImage: UIImage? = nil, tappable: Bool = false) {
         titleLabel.text = title
         
         actionButton.setTitle(actionButtonTitle, forState: .Normal)
-        actionButton.hidden = actionButton.titleForState(.Normal) == nil
+        actionButton.setImage(actionButtonImage, forState: .Normal)
+        actionButton.hidden = (actionButton.titleForState(.Normal) == nil) && (actionButton.imageForState(.Normal) == nil)
         
         accessoryImageView.hidden = !tappable
     }
@@ -79,7 +80,7 @@ private extension SectionHeaderView {
         
         contentStackView.addArrangedSubview(titleContainerView)
         
-        titleLabel.font = UIFont.systemFontOfSize(28.0, weight: UIFontWeightBlack)
+        titleLabel.font = UIFont.systemFontOfSize(32.0, weight: UIFontWeightBlack)
         titleLabel.textColor = UIColor.USAUNavyColor()
         titleContainerView.addSubview(titleLabel)
         
@@ -95,9 +96,9 @@ private extension SectionHeaderView {
         accessoryImageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         contentStackView.addArrangedSubview(accessoryImageView)
         
-        separatorView.hidden = true
-        separatorView.backgroundColor = UIColor(hexString: "#C7C7CC")
-        contentView.addSubview(separatorView)
+//        separatorView.hidden = true
+//        separatorView.backgroundColor = UIColor(hexString: "#C7C7CC")
+//        contentView.addSubview(separatorView)
     }
     
     func configureLayout() {
@@ -107,9 +108,9 @@ private extension SectionHeaderView {
         titleLabel.leadingAnchor == titleContainerView.leadingAnchor + 16.0
         titleLabel.trailingAnchor == titleContainerView.trailingAnchor
         
-        separatorView.horizontalAnchors == contentView.horizontalAnchors
-        separatorView.bottomAnchor == contentView.bottomAnchor
-        separatorView.heightAnchor == 1.0 / UIScreen.mainScreen().scale
+//        separatorView.horizontalAnchors == contentView.horizontalAnchors
+//        separatorView.bottomAnchor == contentView.bottomAnchor
+//        separatorView.heightAnchor == 1.0 / UIScreen.mainScreen().scale
     }
     
     @objc func handleTap() {

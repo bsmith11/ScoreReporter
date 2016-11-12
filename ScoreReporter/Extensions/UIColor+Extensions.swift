@@ -58,6 +58,14 @@ extension UIColor {
 }
 
 extension UIColor {
+    static var scRed: UIColor {
+        return UIColor(hexString: "#DF5F6D")
+    }
+    
+    static var scBlue: UIColor {
+        return UIColor(hexString: "#4C69AB")
+    }
+    
     static func USAUNavyColor() -> UIColor {
         return UIColor(hexString: "#001E42")
     }

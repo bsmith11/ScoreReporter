@@ -78,6 +78,10 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
+        
+        transitionCoordinator()?.animateAlongsideTransition(nil, completion: { [weak self] _ in
+            self?.headerView.eventInfoHidden = false
+        })
     }
     
     override func viewDidLayoutSubviews() {
@@ -122,6 +126,7 @@ private extension EventDetailsViewController {
         let eventViewModel = EventViewModel(event: dataSource.event)
         headerView.configureWithViewModel(eventViewModel)
         headerView.delegate = self
+        headerView.eventInfoHidden = true
     }
     
     func configureLayout() {

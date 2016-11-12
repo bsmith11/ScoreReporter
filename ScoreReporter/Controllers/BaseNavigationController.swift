@@ -22,7 +22,7 @@ class BaseNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-//        delegate = self
+        delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,7 +36,8 @@ class BaseNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        view.addGestureRecognizer(interactionController.panGestureRecognizer)
+        view.backgroundColor = UIColor.whiteColor()
+        view.addGestureRecognizer(interactionController.panGestureRecognizer)
     }
 }
 
@@ -52,9 +53,17 @@ extension BaseNavigationController: BackInteractionControllerDelegate {
 
 extension BaseNavigationController: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        animationController = BackAnimationController()
-        
-        return operation == .Pop ? animationController : nil
+        if let listDelegate = fromVC as? ListDetailAnimationControllerDelegate where operation == .Push {
+            let animationController = ListDetailAnimationController()
+            animationController.delegate = listDelegate
+            
+            return animationController
+        }
+        else {
+            animationController = BackAnimationController()
+            
+            return operation == .Pop ? animationController : ListDetailAnimationController()
+        }
     }
     
     func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {

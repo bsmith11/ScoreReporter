@@ -15,6 +15,8 @@ protocol MessageDisplayable {
     func hideMessageAnimated(animated: Bool)
 }
 
+// MARK: - Public
+
 extension MessageDisplayable where Self: UIViewController {
     var messageLayoutGuide: UILayoutSupport {
         return messageView

@@ -66,9 +66,9 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         fromContainerView.layer.position = fromPositionBegin
         toContainerView.layer.position = toPositionBegin
         
-        let navigationBarAnimatorView = NavigationBarAnimatorView(fromViewController: fromViewController, toViewController: toViewController, navigationBar: navigationBar)
-        container.addSubview(navigationBarAnimatorView)
-        navigationBarAnimatorView.prepareForAnimation()
+//        let navigationBarAnimatorView = NavigationBarAnimatorView(fromViewController: fromViewController, toViewController: toViewController, navigationBar: navigationBar)
+//        container.addSubview(navigationBarAnimatorView)
+//        navigationBarAnimatorView.prepareForAnimation()
         
         let completion = {
             let finished = !transitionContext.transitionWasCancelled()
@@ -85,7 +85,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
             self.toContainerView.removeFromSuperview()
             self.dimmingView.removeFromSuperview()
             
-            navigationBarAnimatorView.finishAnimation()
+//            navigationBarAnimatorView.finishAnimation()
             
             transitionContext.completeTransition(finished)
         }
@@ -130,7 +130,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         dimmingView.layer.addAnimation(dimmingAnimation, forKey: "opacity")
         shadowImageView.layer.addAnimation(shadowAnimation, forKey: "opacity")
         
-        navigationBarAnimatorView.animateWithDuration(duration, interactive: transitionContext.isInteractive())
+//        navigationBarAnimatorView.animateWithDuration(duration, interactive: transitionContext.isInteractive())
         
         CATransaction.commit()
     }
