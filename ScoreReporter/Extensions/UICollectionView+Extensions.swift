@@ -9,31 +9,31 @@
 import UIKit
 
 extension UICollectionReusableView {
-    static func reuseID() -> String {
+    static var reuseID: String {
         return NSStringFromClass(self)
     }
 }
 
 extension UICollectionView {
-    func registerClass(cellClass: UICollectionViewCell.Type) {
-        registerClass(cellClass, forCellWithReuseIdentifier: cellClass.reuseID())
+    func register(cellClass: UICollectionViewCell.Type) {
+        register(cellClass, forCellWithReuseIdentifier: cellClass.reuseID)
     }
 
-    func registerClass(supplementaryClass: UICollectionReusableView.Type, elementKind: String) {
-        registerClass(supplementaryClass, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: supplementaryClass.reuseID())
+    func register(supplementaryClass: UICollectionReusableView.Type, elementKind: String) {
+        register(supplementaryClass, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: supplementaryClass.reuseID)
     }
 
-    func dequeueCellForIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath) -> T {
-        guard let cell = dequeueReusableCellWithReuseIdentifier(T.reuseID(), forIndexPath: indexPath) as? T else {
-            preconditionFailure("Cell must of class \(T.reuseID())")
+    func dequeueCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withReuseIdentifier: T.reuseID, for: indexPath) as? T else {
+            preconditionFailure("Cell must of class \(T.reuseID)")
         }
 
         return cell
     }
 
-    func dequeueSupplementaryViewForElementKind<T: UICollectionReusableView>(elementKind: String, indexPath: NSIndexPath) -> T {
-        guard let supplementaryView = dequeueReusableSupplementaryViewOfKind(elementKind, withReuseIdentifier: T.reuseID(), forIndexPath: indexPath) as? T else {
-            preconditionFailure("Supplementary view must be of class \(T.reuseID())")
+    func dequeueSupplementaryView<T: UICollectionReusableView>(for elementKind: String, indexPath: IndexPath) -> T {
+        guard let supplementaryView = dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: T.reuseID, for: indexPath) as? T else {
+            preconditionFailure("Supplementary view must be of class \(T.reuseID)")
         }
 
         return supplementaryView
@@ -41,42 +41,42 @@ extension UICollectionView {
 }
 
 extension UICollectionView {
-    func handleChanges(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
+    func handle(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
         let updates = { [weak self] in
-            changes.forEach({ change in
+            changes.forEach { change in
                 switch change {
-                case .Section(let type, let index):
-                    let indexSet = NSIndexSet(index: index)
+                case .section(let type, let index):
+                    let indexSet = IndexSet(integer: index)
                     
                     switch type {
-                    case .Insert:
+                    case .insert:
                         self?.insertSections(indexSet)
-                    case .Delete:
+                    case .delete:
                         self?.deleteSections(indexSet)
                     default:
                         break
                     }
-                case .Object(let type, let indexPath, let newIndexPath):
+                case .object(let type, let indexPath, let newIndexPath):
                     switch type {
-                    case .Insert:
+                    case .insert:
                         if let newIndexPath = newIndexPath {
-                            self?.insertItemsAtIndexPaths([newIndexPath])
+                            self?.insertItems(at: [newIndexPath])
                         }
-                    case .Delete:
+                    case .delete:
                         if let indexPath = indexPath {
-                            self?.deleteItemsAtIndexPaths([indexPath])
+                            self?.deleteItems(at: [indexPath])
                         }
-                    case .Move:
-                        if let indexPath = indexPath, newIndexPath = newIndexPath {
-                            self?.moveItemAtIndexPath(indexPath, toIndexPath: newIndexPath)
+                    case .move:
+                        if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                            self?.moveItem(at: indexPath, to: newIndexPath)
                         }
-                    case .Update:
+                    case .update:
                         if let indexPath = indexPath {
-                            self?.reloadItemsAtIndexPaths([indexPath])
+                            self?.reloadItems(at: [indexPath])
                         }
                     }
                 }
-            })
+            }
         }
 
         performBatchUpdates(updates, completion: completion)

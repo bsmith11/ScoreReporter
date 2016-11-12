@@ -12,11 +12,11 @@ import CoreData
 class SearchDataSource<Model: Searchable>: NSObject, FetchedDataSource {
     typealias ModelType = Model
     
-    private let searchDataSourceHelper = SearchDataSourceHelper()
+    fileprivate let searchDataSourceHelper = SearchDataSourceHelper()
     
-    private(set) var fetchedResultsController = Model.searchFetchedResultsController
+    fileprivate(set) var fetchedResultsController = Model.searchFetchedResultsController
     
-    private(set) dynamic var empty = false
+    fileprivate(set) dynamic var empty = false
     
     var refreshBlock: RefreshBlock?
     
@@ -37,8 +37,8 @@ class SearchDataSource<Model: Searchable>: NSObject, FetchedDataSource {
 // MARK: - Public
 
 extension SearchDataSource {
-    func searchWithText(text: String?) {
-        let predicate = Model.predicateWithSearchText(text)
+    func search(for text: String?) {
+        let predicate = Model.predicate(with: text)
         fetchedResultsController.fetchRequest.predicate = predicate
         
         do {
@@ -53,13 +53,13 @@ extension SearchDataSource {
         refreshBlock?()
     }
     
-    func titleForSection(section: Int) -> String? {
-        guard section < fetchedResultsController.sections?.count else {
+    func title(for section: Int) -> String? {
+        guard section < fetchedResultsController.sections?.count ?? 0 else {
             return nil
         }
         
-        let indexPath = NSIndexPath(forRow: 0, inSection: section)
-        let item = itemAtIndexPath(indexPath)
+        let indexPath = IndexPath(row: 0, section: section)
+        let item = self.item(at: indexPath)
         
         return item?.searchSectionTitle
     }
@@ -68,7 +68,7 @@ extension SearchDataSource {
 // MARK: - SearchDataSourceHelperDelegate
 
 extension SearchDataSource: SearchDataSourceHelperDelegate {
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         empty = controller.fetchedObjects?.isEmpty ?? true
         
         refreshBlock?()
@@ -78,7 +78,7 @@ extension SearchDataSource: SearchDataSourceHelperDelegate {
 // MARK: - SearchDataSourceHelper
 
 protocol SearchDataSourceHelperDelegate: class {
-    func controllerDidChangeContent(controller: NSFetchedResultsController)
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)
 }
 
 private class SearchDataSourceHelper: NSObject {
@@ -86,7 +86,7 @@ private class SearchDataSourceHelper: NSObject {
 }
 
 extension SearchDataSourceHelper: NSFetchedResultsControllerDelegate {
-    @objc func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    @objc func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.controllerDidChangeContent(controller)
     }
 }

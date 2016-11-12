@@ -14,99 +14,99 @@ import Security
 //
 
 public enum KeychainValueType {
-    case AccessToken
-    case UserID
+    case accessToken
+    case userID
     
     var identifier: String {
         switch self {
-        case .AccessToken:
+        case .accessToken:
             return "access_token"
-        case .UserID:
+        case .userID:
             return "user_id"
         }
     }
 }
 
-public class KeychainService: NSObject {
-    private static let userAccount = "authenticatedUser"
+open class KeychainService: NSObject {
+    fileprivate static let userAccount = "authenticatedUser"
     
-    private static let kSecClassValue = kSecClass as String
-    private static let kSecAttrAccountValue = kSecAttrAccount as String
-    private static let kSecValueDataValue = kSecValueData as String
-    private static let kSecClassGenericPasswordValue = kSecClassGenericPassword as String
-    private static let kSecAttrServiceValue = kSecAttrService as String
-    private static let kSecMatchLimitValue = kSecMatchLimit as String
-    private static let kSecReturnDataValue = kSecReturnData as String
-    private static let kSecMatchLimitOneValue = kSecMatchLimitOne as String
+    fileprivate static let kSecClassValue = kSecClass as String
+    fileprivate static let kSecAttrAccountValue = kSecAttrAccount as String
+    fileprivate static let kSecValueDataValue = kSecValueData as String
+    fileprivate static let kSecClassGenericPasswordValue = kSecClassGenericPassword as String
+    fileprivate static let kSecAttrServiceValue = kSecAttrService as String
+    fileprivate static let kSecMatchLimitValue = kSecMatchLimit as String
+    fileprivate static let kSecReturnDataValue = kSecReturnData as String
+    fileprivate static let kSecMatchLimitOneValue = kSecMatchLimitOne as String
 }
 
 // MARK: - Public
 
 public extension KeychainService {
-    static func save(valueType: KeychainValueType, value: String) {
+    static func save(_ valueType: KeychainValueType, value: String) {
         save(valueType.identifier, string: value)
     }
     
-    static func load(valueType: KeychainValueType) -> String? {
+    static func load(_ valueType: KeychainValueType) -> String? {
         return load(valueType.identifier)
     }
     
-    static func delete(valueType: KeychainValueType) {
+    static func delete(_ valueType: KeychainValueType) {
         delete(valueType.identifier)
     }
     
     static func deleteAllStoredValues() {
-        delete(.AccessToken)
-        delete(.UserID)
+        delete(.accessToken)
+        delete(.userID)
     }
 }
 
 // MARK: - Private
 
 private extension KeychainService {
-    static func save(service: String, string: String) {
-        if let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+    static func save(_ service: String, string: String) {
+        if let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false) {
             let query = [
                 kSecClassValue: kSecClassGenericPasswordValue,
                 kSecAttrServiceValue: service,
                 kSecAttrAccountValue: userAccount,
                 kSecValueDataValue: data
-            ]
+            ] as [String : Any]
             
-            SecItemDelete(query)
-            SecItemAdd(query, nil)
+            SecItemDelete(query as CFDictionary)
+            SecItemAdd(query as CFDictionary, nil)
         }
     }
     
-    static func load(service: String) -> String? {
+    static func load(_ service: String) -> String? {
         let query = [
             kSecClassValue: kSecClassGenericPasswordValue,
             kSecAttrServiceValue: service,
             kSecAttrAccountValue: userAccount,
             kSecReturnDataValue: true,
             kSecMatchLimitValue: kSecMatchLimitOneValue
-        ]
+        ] as [String : Any]
         
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(&result) { SecItemCopyMatching(query, UnsafeMutablePointer($0)) }
+        let status = withUnsafeMutablePointer(to: &result) { SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0)) }
         
         var string: String? = nil
         if status == errSecSuccess {
-            if let data = result as? NSData {
-                string = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+            if let data = result as? Data {
+                string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
             }
         }
         
         return string
     }
     
-    static func delete(service: String) {
+    static func delete(_ service: String) {
         let query = [
             kSecClassValue: kSecClassGenericPasswordValue,
             kSecAttrServiceValue: service,
             kSecAttrAccountValue: userAccount
         ]
         
-        SecItemDelete(query)
+        SecItemDelete(query as CFDictionary)
     }
 }

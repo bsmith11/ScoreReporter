@@ -21,9 +21,9 @@ extension Game {
     @NSManaged var homeTeamName: String?
     @NSManaged var homeTeamScore: String?
     @NSManaged var sortOrder: NSNumber?
-    @NSManaged var startDate: NSDate?
-    @NSManaged var startDateFull: NSDate?
-    @NSManaged var startTime: NSDate?
+    @NSManaged var startDate: Date?
+    @NSManaged var startDateFull: Date?
+    @NSManaged var startTime: Date?
     @NSManaged var status: String?
     @NSManaged var cluster: Cluster?
     @NSManaged var pool: Pool?

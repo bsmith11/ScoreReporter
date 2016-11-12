@@ -19,19 +19,19 @@ protocol KeyboardObservable: class {
 // MARK: - Public
 
 extension KeyboardObservable {
-    func addKeyboardObserverWithAnimationBlock(keyboardAnimationBlock: KeyboardAnimationBlock?) {
+    func addKeyboardObserver(with keyboardAnimationBlock: KeyboardAnimationBlock?) {
         let object = keyboardObserverObject()
         object.keyboardAnimationBlock = keyboardAnimationBlock
         
-        NSNotificationCenter.defaultCenter().addObserver(object, selector: #selector(KeyboardObserverObject.keyboardWillUpdate(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(object, selector: #selector(KeyboardObserverObject.keyboardWillUpdate(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(object, selector: #selector(KeyboardObserverObject.keyboardWillUpdate(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(object, selector: #selector(KeyboardObserverObject.keyboardWillUpdate(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func removeKeyboardObserver() {
         let object = keyboardObserverObject()
         
-        NSNotificationCenter.defaultCenter().removeObserver(object, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(object, name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(object, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(object, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         removeKeyboardObserverObject()
     }
@@ -64,22 +64,22 @@ class KeyboardObserverObject {
     
     var keyboardAnimationBlock: KeyboardAnimationBlock?
     
-    @objc func keyboardWillUpdate(notification: NSNotification) {
+    @objc func keyboardWillUpdate(_ notification: Notification) {
         if let keyboardAnimationBlock = keyboardAnimationBlock {
-            let animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.unsignedIntegerValue ?? 0
+            let animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue ?? 0
             let animationDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0
-            let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() ?? CGRect.zero
-            let keyboardVisible = notification.name == UIKeyboardWillShowNotification
+            let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
+            let keyboardVisible = notification.name == NSNotification.Name.UIKeyboardWillShow
             let options = UIViewAnimationOptions(rawValue: animationCurve << 16)
             let animations = {
                 keyboardAnimationBlock(keyboardVisible, keyboardFrame)
             }
             
-            UIView.animateWithDuration(animationDuration, delay: 0.0, options: options, animations: animations, completion: nil)
+            UIView.animate(withDuration: animationDuration, delay: 0.0, options: options, animations: animations, completion: nil)
         }
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }

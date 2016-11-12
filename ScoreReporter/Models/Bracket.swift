@@ -16,14 +16,14 @@ class Bracket: NSManagedObject {
 // MARK: - Public
 
 extension Bracket {
-    static func fetchedBracketsForGroup(group: Group) -> NSFetchedResultsController {
+    static func fetchedBracketsForGroup(_ group: Group) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "round.group", group)
         
         let sortDescriptors = [
             NSSortDescriptor(key: "bracketID", ascending: true)
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 }
 
@@ -38,12 +38,12 @@ extension Bracket: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Bracket: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Bracket? {
-        guard let bracketID = dictionary["BracketId"] as? Int else {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Bracket? {
+        guard let bracketID = dictionary["BracketId"] as? NSNumber else {
             return nil
         }
         
-        guard let bracket = objectWithPrimaryKey(bracketID, context: context, createNew: true) else {
+        guard let bracket = object(primaryKey: bracketID, context: context, createNew: true) else {
             return nil
         }
         
@@ -51,7 +51,7 @@ extension Bracket: CoreDataImportable {
         bracket.name = dictionary["BracketName"] as? String
         
         let stages = dictionary["Stage"] as? [[String: AnyObject]] ?? []
-        bracket.stages = NSSet(array: Stage.objectsFromArray(stages, context: context))
+        bracket.stages = NSSet(array: Stage.objects(from: stages, context: context))
         
         return bracket
     }

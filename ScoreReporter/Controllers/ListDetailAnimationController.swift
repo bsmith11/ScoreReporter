@@ -13,29 +13,29 @@ protocol ListDetailAnimationControllerDelegate: class {
 }
 
 class ListDetailAnimationController: NSObject {
-    private let duration = 0.35
+    fileprivate let duration = 0.35
     
     weak var delegate: ListDetailAnimationControllerDelegate?
 }
 
 extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-                  toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-                  view = delegate?.viewToAnimate else {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+                  let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
+                  let view = delegate?.viewToAnimate else {
             transitionContext.completeTransition(true)
             return
         }
         
-        let container = transitionContext.containerView()
+        let container = transitionContext.containerView
         container.addSubview(toViewController.view)
         container.addSubview(view)
         
-        toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
+        toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
         
@@ -45,41 +45,41 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         let originalFrame = toViewController.view.frame
         toViewController.view.frame.origin.y = container.frame.maxY
         
-        let viewBoundsAnimation = boundsAnimationWithToValueFrame(endFrame)
-        let viewPositionAnimation = positionAnimationWithToValueFrame(endFrame)
+        let viewBoundsAnimation = boundsAnimation(toFrame: endFrame)
+        let viewPositionAnimation = positionAnimation(toFrame: endFrame)
         
-        let fromViewOpacityAnimation = opacityAnimationWithToValue(0.0)
+        let fromViewOpacityAnimation = opacityAnimation(toAlpha: 0.0)
         
-        let toViewBoundsAnimation = boundsAnimationWithToValueFrame(originalFrame)
-        let toViewPositionAnimation = positionAnimationWithToValueFrame(originalFrame)
+        let toViewBoundsAnimation = boundsAnimation(toFrame: originalFrame)
+        let toViewPositionAnimation = positionAnimation(toFrame: originalFrame)
         
         CATransaction.begin()
         CATransaction.setCompletionBlock {
             toViewController.view.frame = originalFrame
         
-            fromViewController.view.layer.removeAnimationForKey("opacity")
+            fromViewController.view.layer.removeAnimation(forKey: "opacity")
             
-            toViewController.view.layer.removeAnimationForKey("bounds")
-            toViewController.view.layer.removeAnimationForKey("position")
+            toViewController.view.layer.removeAnimation(forKey: "bounds")
+            toViewController.view.layer.removeAnimation(forKey: "position")
             
             view.removeFromSuperview()
             
-            let completed = !transitionContext.transitionWasCancelled()
+            let completed = !transitionContext.transitionWasCancelled
             transitionContext.completeTransition(completed)
         }
         
-        view.layer.addAnimation(viewBoundsAnimation, forKey: "bounds")
-        view.layer.addAnimation(viewPositionAnimation, forKey: "position")
+        view.layer.add(viewBoundsAnimation, forKey: "bounds")
+        view.layer.add(viewPositionAnimation, forKey: "position")
         
-        fromViewController.view.layer.addAnimation(fromViewOpacityAnimation, forKey: "opacity")
+        fromViewController.view.layer.add(fromViewOpacityAnimation, forKey: "opacity")
         
-        toViewController.view.layer.addAnimation(toViewBoundsAnimation, forKey: "bounds")
-        toViewController.view.layer.addAnimation(toViewPositionAnimation, forKey: "position")
+        toViewController.view.layer.add(toViewBoundsAnimation, forKey: "bounds")
+        toViewController.view.layer.add(toViewPositionAnimation, forKey: "position")
         
         CATransaction.commit()
     }
     
-    func springAnimationForKeyPath(keyPath: String, toValue: AnyObject) -> CASpringAnimation {
+    func springAnimation(keyPath: String, toValue: AnyObject) -> CASpringAnimation {
         let animation = CASpringAnimation(keyPath: keyPath)
         animation.toValue = toValue
         animation.fillMode = kCAFillModeBoth
@@ -88,26 +88,26 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         animation.damping = 500.0
         animation.stiffness = 1000.0
         animation.mass = 3.0
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         
         return animation
     }
     
-    func boundsAnimationWithToValueFrame(toValue: CGRect) -> CASpringAnimation {
+    func boundsAnimation(toFrame toValue: CGRect) -> CASpringAnimation {
         let rect = CGRect(origin: .zero, size: toValue.size)
-        let value = NSValue(CGRect: rect)
+        let value = NSValue(cgRect: rect)
         
-        return springAnimationForKeyPath("bounds", toValue: value)
+        return springAnimation(keyPath: "bounds", toValue: value)
     }
     
-    func positionAnimationWithToValueFrame(toValue: CGRect) -> CASpringAnimation {
+    func positionAnimation(toFrame toValue: CGRect) -> CASpringAnimation {
         let point = CGPoint(x: toValue.midX, y: toValue.midY)
-        let value = NSValue(CGPoint: point)
+        let value = NSValue(cgPoint: point)
         
-        return springAnimationForKeyPath("position", toValue: value)
+        return springAnimation(keyPath: "position", toValue: value)
     }
     
-    func opacityAnimationWithToValue(toValue: CGFloat) -> CASpringAnimation {
-        return springAnimationForKeyPath("opacity", toValue: toValue)
+    func opacityAnimation(toAlpha toValue: CGFloat) -> CASpringAnimation {
+        return springAnimation(keyPath: "opacity", toValue: toValue as AnyObject)
     }
 }

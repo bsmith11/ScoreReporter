@@ -11,14 +11,14 @@ import Anchorage
 import KVOController
 
 class GroupDetailsViewController: UIViewController, MessageDisplayable {
-    private let dataSource: GroupDetailsDataSource
-    private let segmentedControlContainerView = UIView(frame: .zero)
-    private let segmentedControl = UISegmentedControl(frame: .zero)
-    private let contentView = UIView(frame: .zero)
-    private let defaultView = DefaultView(frame: .zero)
+    fileprivate let dataSource: GroupDetailsDataSource
+    fileprivate let segmentedControlContainerView = UIView(frame: .zero)
+    fileprivate let segmentedControl = UISegmentedControl(frame: .zero)
+    fileprivate let contentView = UIView(frame: .zero)
+    fileprivate let defaultView = DefaultView(frame: .zero)
     
-    private var segmentedControlContainerViewHeight: NSLayoutConstraint?
-    private var currentChildViewController: UIViewController?
+    fileprivate var segmentedControlContainerViewHeight: NSLayoutConstraint?
+    fileprivate var currentChildViewController: UIViewController?
     
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -39,13 +39,13 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
         configureViews()
         configureLayout()
@@ -59,7 +59,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
         dataSource.refreshBlock = { [weak self] in
             self?.reloadSegmentedControl()
             
-            if self?.segmentedControl.numberOfSegments > 0 {
+            if self?.segmentedControl.numberOfSegments ?? 0 > 0 {
                 self?.segmentedControl.selectedSegmentIndex = 0
                 self?.segmentedControlValueChanged()
             }
@@ -73,7 +73,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         
@@ -84,11 +84,11 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
 
 private extension GroupDetailsViewController {
     func configureViews() {
-        segmentedControlContainerView.backgroundColor = UIColor.USAUNavyColor()
+        segmentedControlContainerView.backgroundColor = UIColor.usauNavy
         view.addSubview(segmentedControlContainerView)
         
-        segmentedControl.tintColor = UIColor.whiteColor()
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), forControlEvents: .ValueChanged)
+        segmentedControl.tintColor = UIColor.white
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
         segmentedControlContainerView.addSubview(segmentedControl)
         
         view.addSubview(contentView)
@@ -97,7 +97,7 @@ private extension GroupDetailsViewController {
         let emptyTitle = "No Schedule Available"
         let emptyMessage = "No pools, crossovers, or brackets have been created for this event"
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .Empty)
+        defaultView.setInfo(emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
     
@@ -105,9 +105,9 @@ private extension GroupDetailsViewController {
         segmentedControlContainerView.topAnchor == topLayoutGuide.bottomAnchor
         segmentedControlContainerView.horizontalAnchors == horizontalAnchors
         segmentedControlContainerViewHeight = segmentedControlContainerView.heightAnchor == 0.0
-        segmentedControlContainerViewHeight?.active = false
+        segmentedControlContainerViewHeight?.isActive = false
         
-        segmentedControl.edgeAnchors == segmentedControlContainerView.edgeAnchors + 16.0 ~ UILayoutPriorityDefaultHigh
+        segmentedControl.edgeAnchors == (segmentedControlContainerView.edgeAnchors + 16.0) ~ UILayoutPriorityDefaultHigh
         
         contentView.topAnchor == segmentedControlContainerView.bottomAnchor
         contentView.horizontalAnchors == horizontalAnchors
@@ -117,31 +117,31 @@ private extension GroupDetailsViewController {
     }
     
     func configureObservers() {
-        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
-            self?.segmentedControlContainerViewHeight?.active = empty
+            self?.segmentedControlContainerViewHeight?.isActive = empty
         }
     }
     
     func reloadSegmentedControl() {
         segmentedControl.removeAllSegments()
         
-        for (index, viewController) in dataSource.items.enumerate() {
-            segmentedControl.insertSegmentWithTitle(viewController.title, atIndex: index, animated: false)
+        for (index, viewController) in dataSource.items.enumerated() {
+            segmentedControl.insertSegment(withTitle: viewController.title, at: index, animated: false)
         }
     }
     
     @objc func segmentedControlValueChanged() {
         let index = segmentedControl.selectedSegmentIndex
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        let item = dataSource.itemAtIndexPath(indexPath)
+        let indexPath = IndexPath(row: index, section: 0)
+        let item = dataSource.item(at: indexPath)
         
         displayViewController(item)
     }
     
-    func displayViewController(viewController: UIViewController?) {
+    func displayViewController(_ viewController: UIViewController?) {
         if let currentChildViewController = currentChildViewController {
-            currentChildViewController.willMoveToParentViewController(nil)
+            currentChildViewController.willMove(toParentViewController: nil)
             currentChildViewController.view.removeFromSuperview()
             currentChildViewController.removeFromParentViewController()
         }
@@ -152,7 +152,7 @@ private extension GroupDetailsViewController {
             addChildViewController(viewController)
             contentView.addSubview(viewController.view)
             viewController.view.edgeAnchors == contentView.edgeAnchors
-            viewController.didMoveToParentViewController(self)
+            viewController.didMove(toParentViewController: self)
         }
     }
 }

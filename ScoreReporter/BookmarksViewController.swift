@@ -11,10 +11,10 @@ import Anchorage
 import KVOController
 
 class BookmarksViewController: UIViewController, MessageDisplayable {
-    private let dataSource: BookmarksDataSource
+    fileprivate let dataSource: BookmarksDataSource
     
-    private let tableView = UITableView(frame: .zero, style: .Plain)
-    private let defaultView = DefaultView(frame: .zero)
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let defaultView = DefaultView(frame: .zero)
     
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -38,8 +38,8 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
@@ -55,14 +55,14 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handleChanges(changes)
+            self?.tableView.handle(changes: changes)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -72,11 +72,11 @@ private extension BookmarksViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(SearchCell)
+        tableView.register(cellClass: SearchCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -85,7 +85,7 @@ private extension BookmarksViewController {
         let emptyTitle = "No Events"
         let emptyMessage = "Bookmark events for easy access"
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .Empty)
+        defaultView.setInfo(emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
     
@@ -96,7 +96,7 @@ private extension BookmarksViewController {
     }
     
     func configureObservers() {
-        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }
@@ -105,19 +105,19 @@ private extension BookmarksViewController {
 // MARK: - UITableViewDataSource
 
 extension BookmarksViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
-        let event = dataSource.itemAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueCell(for: indexPath) as SearchCell
+        let event = dataSource.item(at: indexPath)
         
-        cell.configureWithSearchable(event)
+        cell.configure(with: event)
         
         return cell
     }
@@ -126,8 +126,8 @@ extension BookmarksViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension BookmarksViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let event = dataSource.itemAtIndexPath(indexPath) else {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let event = dataSource.item(at: indexPath) else {
             return
         }
         

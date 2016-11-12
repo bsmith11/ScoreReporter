@@ -10,16 +10,16 @@ import UIKit
 import Anchorage
 
 class BracketListCell: UITableViewCell {
-    private let titleLabel = UILabel(frame: .zero)
+    fileprivate let titleLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
         separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-        accessoryType = .DisclosureIndicator
+        accessoryType = .disclosureIndicator
         
         configureViews()
         configureLayout()
@@ -33,7 +33,7 @@ class BracketListCell: UITableViewCell {
 // MARK: - Public
 
 extension BracketListCell {
-    func configureWithTitle(title: String?) {
+    func configure(with title: String?) {
         titleLabel.text = title
     }
 }
@@ -42,10 +42,10 @@ extension BracketListCell {
 
 private extension BracketListCell {
     func configureViews() {
-        titleLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
-        titleLabel.textColor = UIColor.USAUNavyColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+        titleLabel.textColor = UIColor.usauNavy
         titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .ByWordWrapping
+        titleLabel.lineBreakMode = .byWordWrapping
         contentView.addSubview(titleLabel)
     }
     

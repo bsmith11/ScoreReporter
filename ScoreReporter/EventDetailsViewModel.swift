@@ -9,11 +9,11 @@
 import Foundation
 
 class EventDetailsViewModel: NSObject {
-    private let event: Event
-    private let eventService = EventService(client: APIClient.sharedInstance)
+    fileprivate let event: Event
+    fileprivate let eventService = EventService(client: APIClient.sharedInstance)
     
-    private(set) dynamic var loading = false
-    private(set) dynamic var error: NSError? = nil
+    fileprivate(set) dynamic var loading = false
+    fileprivate(set) dynamic var error: NSError? = nil
     
     init(event: Event) {
         self.event = event
@@ -28,7 +28,7 @@ extension EventDetailsViewModel {
     func downloadEventDetails() {
         loading = true
         
-        eventService.downloadDetailsForEvent(event) { [weak self] error in
+        eventService.downloadDetails(for: event) { [weak self] error in
             self?.loading = false
             self?.error = error
         }

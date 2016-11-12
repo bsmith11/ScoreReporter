@@ -9,9 +9,9 @@
 import UIKit
 
 class BaseNavigationController: UINavigationController {
-    private let interactionController = BackInteractionController()
+    fileprivate let interactionController = BackInteractionController()
     
-    private var animationController: BackAnimationController?
+    fileprivate var animationController: BackAnimationController?
     
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
@@ -19,7 +19,7 @@ class BaseNavigationController: UINavigationController {
         interactionController.delegate = self
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         delegate = self
@@ -29,14 +29,14 @@ class BaseNavigationController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle : UIViewController? {
         return topViewController
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         view.addGestureRecognizer(interactionController.panGestureRecognizer)
     }
 }
@@ -45,15 +45,15 @@ class BaseNavigationController: UINavigationController {
 
 extension BaseNavigationController: BackInteractionControllerDelegate {
     func interactionDidBegin() {
-        popViewControllerAnimated(true)
+        popViewController(animated: true)
     }
 }
 
 // MARK: - UINavigationControllerDelegate
 
 extension BaseNavigationController: UINavigationControllerDelegate {
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let listDelegate = fromVC as? ListDetailAnimationControllerDelegate where operation == .Push {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let listDelegate = fromVC as? ListDetailAnimationControllerDelegate, operation == .push {
             let animationController = ListDetailAnimationController()
             animationController.delegate = listDelegate
             
@@ -62,11 +62,11 @@ extension BaseNavigationController: UINavigationControllerDelegate {
         else {
             animationController = BackAnimationController()
             
-            return operation == .Pop ? animationController : ListDetailAnimationController()
+            return operation == .pop ? animationController : nil
         }
     }
     
-    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         interactionController.animationController = animationController
         
         return interactionController.interactive ? interactionController : nil

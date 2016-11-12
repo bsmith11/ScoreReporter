@@ -11,11 +11,11 @@ import Anchorage
 import PINRemoteImage
 
 class EventInfoView: UIView {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let logoImageView = UIImageView(frame: .zero)
-    private let infoStackView = UIStackView(frame: .zero)
-    private let titleLabel = UILabel(frame: .zero)
-    private let subtitleLabel = UILabel(frame: .zero)
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let logoImageView = UIImageView(frame: .zero)
+    fileprivate let infoStackView = UIStackView(frame: .zero)
+    fileprivate let titleLabel = UILabel(frame: .zero)
+    fileprivate let subtitleLabel = UILabel(frame: .zero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,8 +32,8 @@ class EventInfoView: UIView {
 // MARK: - Public
 
 extension EventInfoView {
-    func configureWithSearchable(searchable: Searchable?) {
-        logoImageView.pin_setImageFromURL(searchable?.searchLogoURL)
+    func configure(with searchable: Searchable?) {
+        logoImageView.pin_setImage(from: searchable?.searchLogoURL)
         titleLabel.text = searchable?.searchTitle
         subtitleLabel.text = searchable?.searchSubtitle
     }
@@ -47,26 +47,26 @@ extension EventInfoView {
 
 private extension EventInfoView {
     func configureViews() {
-        contentStackView.axis = .Horizontal
-        contentStackView.alignment = .Center
+        contentStackView.axis = .horizontal
+        contentStackView.alignment = .center
         contentStackView.spacing = 8.0
         addSubview(contentStackView)
         
-        logoImageView.contentMode = .ScaleAspectFit
+        logoImageView.contentMode = .scaleAspectFit
         contentStackView.addArrangedSubview(logoImageView)
         
-        infoStackView.axis = .Vertical
+        infoStackView.axis = .vertical
         infoStackView.spacing = 2.0
         contentStackView.addArrangedSubview(infoStackView)
         
-        titleLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightBlack)
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .ByWordWrapping
+        titleLabel.lineBreakMode = .byWordWrapping
         infoStackView.addArrangedSubview(titleLabel)
         
-        subtitleLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
-        subtitleLabel.textColor = UIColor.blackColor()
+        subtitleLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
+        subtitleLabel.textColor = UIColor.black
         infoStackView.addArrangedSubview(subtitleLabel)
     }
     

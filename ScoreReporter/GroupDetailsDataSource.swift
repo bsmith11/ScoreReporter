@@ -13,11 +13,11 @@ import CoreData
 class GroupDetailsDataSource: NSObject, ArrayDataSource {
     typealias ModelType = UIViewController
     
-    private let groupObserver: ManagedObjectObserver
+    fileprivate let groupObserver: ManagedObjectObserver
     
-    private(set) var items = [UIViewController]()
+    fileprivate(set) var items = [UIViewController]()
     
-    private(set) dynamic var empty = false
+    fileprivate(set) dynamic var empty = false
     
     let group: Group
     
@@ -41,7 +41,7 @@ class GroupDetailsDataSource: NSObject, ArrayDataSource {
 private extension GroupDetailsDataSource {
     func configureItems() {
         let roundsSet = group.rounds as? Set<Round>
-        let rounds = roundsSet.flatMap({Array($0)})?.sort({$0.0.type.rawValue < $0.1.type.rawValue}) ?? []
+        let rounds = roundsSet.flatMap { Array($0) }?.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue }) ?? []
         
         var poolsViewController: UIViewController?
         var bracketsViewController: UIViewController?
@@ -50,16 +50,16 @@ private extension GroupDetailsDataSource {
         
         rounds.forEach { round in
             switch round.type {
-            case .Pools:
+            case .pools:
                 if poolsViewController == nil {
                     let poolsDataSource = PoolsDataSource(group: group)
                     poolsViewController = PoolsViewController(dataSource: poolsDataSource)
                 }
-            case .Clusters:
+            case .clusters:
                 let cluster = Array(round.clusters as? Set<Cluster> ?? []).first
                 let gameListDataSource = GameListDataSource(cluster: cluster!)
                 clusters.append(GameListViewController(dataSource: gameListDataSource))
-            case .Brackets:
+            case .brackets:
                 if bracketsViewController == nil {
                     let bracketListDataSource = BracketListDataSource(group: group)
                     bracketsViewController = BracketListViewController(dataSource: bracketListDataSource)
@@ -71,7 +71,7 @@ private extension GroupDetailsDataSource {
             items.append(poolsViewController)
         }
         
-        items.appendContentsOf(clusters)
+        items.append(contentsOf: clusters)
         
         if let bracketsViewController = bracketsViewController {
             items.append(bracketsViewController)
@@ -84,7 +84,7 @@ private extension GroupDetailsDataSource {
 // MARK: - ManagedObjectObserverDelegate
 
 extension GroupDetailsDataSource: ManagedObjectObserverDelegate {
-    func objectsDidChange(objects: [NSManagedObject]) {
+    func objectsDidChange(_ objects: [NSManagedObject]) {
         configureItems()
         refreshBlock?()
     }

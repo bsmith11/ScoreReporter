@@ -18,57 +18,57 @@ struct EventService {
 // MARK: - Public
 
 extension EventService {
-    func downloadEventListWithCompletion(completion: DownloadCompletion?) {
+    func downloadEventList(completion: DownloadCompletion?) {
         let parameters = [
             "f": "GETALLEVENTS"
         ]
         
-        let requestCompletion = { (result: Result<AnyObject, NSError>) in
+        let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
                 self.handleSuccessfulEventListResponse(result.value, completion: completion)
             }
             else {
-                completion?(result.error)
+                completion?(result.error as NSError?)
             }
         }
         
-        client.request(.GET, path: "", encoding: .URL, parameters: parameters, completion: requestCompletion)
+        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
-    func downloadDetailsForEvent(event: Event, completion: DownloadCompletion?) {
+    func downloadDetails(for event: Event, completion: DownloadCompletion?) {
         let parameters = [
             "f": "GETGAMESBYEVENT",
             "EventId": event.eventID
-        ]
+        ] as [String : Any]
 
-        let requestCompletion = { (result: Result<AnyObject, NSError>) in
+        let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
                 self.handleSuccessfulEventResponse(result.value, completion: completion)
             }
             else {
-                completion?(result.error)
+                completion?(result.error as NSError?)
             }
         }
         
-        client.request(.GET, path: "", encoding: .URL, parameters: parameters, completion: requestCompletion)
+        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 }
 
 // MARK: - Private
 
 private extension EventService {
-    func handleSuccessfulEventListResponse(response: AnyObject?, completion: DownloadCompletion?) {
+    func handleSuccessfulEventListResponse(_ response: Any?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject],
-                  eventArray = responseObject["Events"] as? [[String: AnyObject]] else {
+                  let eventArray = responseObject["Events"] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
         }
 
-        Event.eventsFromArray(eventArray, completion: completion)
+        Event.events(from: eventArray, completion: completion)
     }
 
-    func handleSuccessfulEventResponse(response: AnyObject?, completion: DownloadCompletion?) {
+    func handleSuccessfulEventResponse(_ response: Any?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
@@ -88,6 +88,6 @@ private extension EventService {
             return
         }
 
-        Group.groupsFromArray(groupArray, completion: completion)
+        Group.groups(from: groupArray, completion: completion)
     }
 }

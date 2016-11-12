@@ -10,21 +10,21 @@ import Foundation
 import CoreData
 
 enum FetchedChangeType: UInt {
-    case Insert = 1
-    case Delete
-    case Move
-    case Update
+    case insert = 1
+    case delete
+    case move
+    case update
 }
 
 enum FetchedChange {
-    case Section(type: FetchedChangeType, index: Int)
-    case Object(type: FetchedChangeType, indexPath: NSIndexPath?, newIndexPath: NSIndexPath?)
+    case section(type: FetchedChangeType, index: Int)
+    case object(type: FetchedChangeType, indexPath: IndexPath?, newIndexPath: IndexPath?)
 }
 
 class FetchedChangeObject: NSObject {
     static var associatedKey = "com.bradsmith.scorereporter.fetchedChangeObjectAssociatedKey"
     
-    private var fetchedChanges = [FetchedChange]()
+    fileprivate var fetchedChanges = [FetchedChange]()
     
     weak var owner: FetchedChangable?
 }
@@ -32,29 +32,29 @@ class FetchedChangeObject: NSObject {
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension FetchedChangeObject: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         fetchedChanges.removeAll()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         guard let changeType = FetchedChangeType(rawValue: type.rawValue) else {
             return
         }
         
-        let sectionChange = FetchedChange.Section(type: changeType, index: sectionIndex)
+        let sectionChange = FetchedChange.section(type: changeType, index: sectionIndex)
         fetchedChanges.append(sectionChange)
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         guard let changeType = FetchedChangeType(rawValue: type.rawValue) else {
             return
         }
         
-        let objectChange = FetchedChange.Object(type: changeType, indexPath: indexPath, newIndexPath: newIndexPath)
+        let objectChange = FetchedChange.object(type: changeType, indexPath: indexPath, newIndexPath: newIndexPath)
         fetchedChanges.append(objectChange)
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         owner?.empty = controller.fetchedObjects?.isEmpty ?? true
         owner?.fetchedChangeHandler?(fetchedChanges)
     }

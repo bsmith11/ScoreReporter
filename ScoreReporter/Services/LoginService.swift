@@ -16,23 +16,23 @@ struct LoginService {
 // MARK: - Public
 
 extension LoginService {
-    func loginWithCredentials(credentials: Credentials, completion: DownloadCompletion?) {
+    func login(with credentials: Credentials, completion: DownloadCompletion?) {
         let parameters = [
             "f": "MemberLogin",
             "username": credentials.username,
             "password": credentials.password
         ]
         
-        let requestCompletion = { (result: Result<AnyObject, NSError>) in
+        let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
                 self.handleSuccessfulLoginResponse(result.value, completion: completion)
             }
             else {
-                completion?(result.error)
+                completion?(result.error as NSError?)
             }
         }
         
-        client.request(.GET, path: "", encoding: .URL, parameters: parameters, completion: requestCompletion)
+        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
     
     func logout() {
@@ -45,14 +45,14 @@ extension LoginService {
 // MARK: - Private
 
 private extension LoginService {
-    func handleSuccessfulLoginResponse(response: AnyObject?, completion: DownloadCompletion?) {
+    func handleSuccessfulLoginResponse(_ response: Any?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
         }
         
-        guard let success = responseObject["success"] as? Bool where success else {
+        guard let success = responseObject["success"] as? Bool, success else {
             if let message = responseObject["message"] as? String {
                 print("Error Message: \(message)")
                 completion?(nil)
@@ -71,14 +71,14 @@ private extension LoginService {
             return
         }
         
-        User.userFromDictionary(responseObject) { user in
+        User.user(from: responseObject) { user in
             guard let userID = user?.userID else {
                 completion?(nil)
                 return
             }
             
-            KeychainService.save(.UserID, value: userID.stringValue)
-            KeychainService.save(.AccessToken, value: accessToken)
+            KeychainService.save(.userID, value: userID.stringValue)
+            KeychainService.save(.accessToken, value: accessToken)
             
             completion?(nil)
         }

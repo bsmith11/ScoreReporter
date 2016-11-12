@@ -16,35 +16,35 @@ class AppDelegate: UIResponder {
 // MARK: - UIApplicationDelegate
 
 extension AppDelegate: UIApplicationDelegate {
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        CoreDataStack.sharedInstance
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        _ = CoreDataStack.sharedInstance
 
         UINavigationBar.appearance().barTintColor = UIColor.scBlue
-        UINavigationBar.appearance().translucent = false
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().titleTextAttributes = [
-            NSFontAttributeName: UIFont.systemFontOfSize(17.0, weight: UIFontWeightBlack),
-            NSForegroundColorAttributeName: UIColor.whiteColor()
+            NSFontAttributeName: UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBlack),
+            NSForegroundColorAttributeName: UIColor.white
         ]
         
         let titleTextAttributes = [
-            NSFontAttributeName: UIFont.systemFontOfSize(17.0, weight: UIFontWeightBlack),
-            NSForegroundColorAttributeName: UIColor.whiteColor()
+            NSFontAttributeName: UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBlack),
+            NSForegroundColorAttributeName: UIColor.white
         ]
-        UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, forState: .Normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, forState: .Normal)
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, for: UIControlState())
         
         UITabBar.appearance().barTintColor = UIColor.scBlue
-        UITabBar.appearance().translucent = false
-        UITabBar.appearance().tintColor = UIColor.whiteColor()
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().tintColor = UIColor.white
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState())
         
         let tabBarController = TabBarController(nibName: nil, bundle: nil)
 //        let loginViewModel = LoginViewModel()
 //        let loginViewController = LoginViewController(viewModel: loginViewModel)
         
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = tabBarController
 //        window?.rootViewController = loginViewController
         window?.makeKeyAndVisible()

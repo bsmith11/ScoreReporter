@@ -9,26 +9,26 @@
 import UIKit
 
 extension UIViewController {
-    func deselectRowsInTableView(tableView: UITableView, animated: Bool) {
+    func deselectRows(in tableView: UITableView, animated: Bool) {
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
         
-        if let transitionCoordinator = transitionCoordinator() {
+        if let transitionCoordinator = transitionCoordinator {
             let animation = { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
-                tableView.deselectRowAtIndexPath(indexPath, animated: animated)
+                tableView.deselectRow(at: indexPath, animated: animated)
             }
             
             let completion = { (context: UIViewControllerTransitionCoordinatorContext) in
-                if context.isCancelled() {
-                    tableView.selectRowAtIndexPath(indexPath, animated: animated, scrollPosition: .None)
+                if context.isCancelled {
+                    tableView.selectRow(at: indexPath, animated: animated, scrollPosition: .none)
                 }
             }
             
-            transitionCoordinator.animateAlongsideTransition(animation, completion: completion)
+            transitionCoordinator.animate(alongsideTransition: animation, completion: completion)
         }
         else {
-            tableView.deselectRowAtIndexPath(indexPath, animated: animated)
+            tableView.deselectRow(at: indexPath, animated: animated)
         }
     }
 }

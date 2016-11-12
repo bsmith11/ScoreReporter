@@ -11,18 +11,18 @@ import Anchorage
 import PINRemoteImage
 
 class TeamSearchCell: UITableViewCell {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let logoImageView = UIImageView(frame: .zero)
-    private let infoStackView = UIStackView(frame: .zero)
-    private let nameLabel = UILabel(frame: .zero)
-    private let locationLabel = UILabel(frame: .zero)
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let logoImageView = UIImageView(frame: .zero)
+    fileprivate let infoStackView = UIStackView(frame: .zero)
+    fileprivate let nameLabel = UILabel(frame: .zero)
+    fileprivate let locationLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
         separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
@@ -43,8 +43,8 @@ class TeamSearchCell: UITableViewCell {
 // MARK: - Public
 
 extension TeamSearchCell {
-    func configureWithViewModel(viewModel: TeamViewModel) {
-        logoImageView.pin_setImageFromURL(viewModel.logoURL)
+    func configure(with viewModel: TeamViewModel) {
+        logoImageView.pin_setImage(from: viewModel.logoURL)
         nameLabel.text = viewModel.name
         locationLabel.text = viewModel.location
     }
@@ -54,26 +54,26 @@ extension TeamSearchCell {
 
 private extension TeamSearchCell {
     func configureViews() {
-        contentStackView.axis = .Horizontal
+        contentStackView.axis = .horizontal
         contentStackView.spacing = 16.0
-        contentStackView.alignment = .Center
+        contentStackView.alignment = .center
         contentView.addSubview(contentStackView)
         
-        logoImageView.contentMode = .ScaleAspectFit
+        logoImageView.contentMode = .scaleAspectFit
         contentStackView.addArrangedSubview(logoImageView)
         
-        infoStackView.axis = .Vertical
+        infoStackView.axis = .vertical
         infoStackView.spacing = 4.0
         contentStackView.addArrangedSubview(infoStackView)
         
-        nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
-        nameLabel.textColor = UIColor.USAUNavyColor()
+        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+        nameLabel.textColor = UIColor.usauNavy
         nameLabel.numberOfLines = 0
-        nameLabel.lineBreakMode = .ByWordWrapping
+        nameLabel.lineBreakMode = .byWordWrapping
         infoStackView.addArrangedSubview(nameLabel)
         
-        locationLabel.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
-        locationLabel.textColor = UIColor.grayColor()
+        locationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
+        locationLabel.textColor = UIColor.gray
         locationLabel.numberOfLines = 1
         infoStackView.addArrangedSubview(locationLabel)
     }

@@ -9,37 +9,37 @@
 import UIKit
 
 extension UITableViewCell {
-    static func reuseID() -> String {
+    static var reuseID: String {
         return NSStringFromClass(self)
     }
 }
 
 extension UITableViewHeaderFooterView {
-    static func reuseID() -> String {
+    static var reuseID: String {
         return NSStringFromClass(self)
     }
 }
 
 extension UITableView {
-    func registerClass(cellClass: UITableViewCell.Type) {
-        registerClass(cellClass, forCellReuseIdentifier: cellClass.reuseID())
+    func register(cellClass: UITableViewCell.Type) {
+        register(cellClass, forCellReuseIdentifier: cellClass.reuseID)
     }
     
-    func registerHeaderFooterClass(headerFooterClass: UITableViewHeaderFooterView.Type) {
-        registerClass(headerFooterClass, forHeaderFooterViewReuseIdentifier: headerFooterClass.reuseID())
+    func register(headerFooterClass: UITableViewHeaderFooterView.Type) {
+        register(headerFooterClass, forHeaderFooterViewReuseIdentifier: headerFooterClass.reuseID)
     }
     
-    func dequeueCellForIndexPath<T: UITableViewCell>(indexPath: NSIndexPath) -> T {
-        guard let cell = dequeueReusableCellWithIdentifier(T.reuseID(), forIndexPath: indexPath) as? T else {
-            preconditionFailure("Cell must of class \(T.reuseID())")
+    func dequeueCell<T: UITableViewCell>(for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withIdentifier: T.reuseID, for: indexPath) as? T else {
+            preconditionFailure("Cell must of class \(T.reuseID)")
         }
         
         return cell
     }
     
     func dequeueHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
-        guard let headerFooterView = dequeueReusableHeaderFooterViewWithIdentifier(T.reuseID()) as? T else {
-            preconditionFailure("Header footer view must be of class \(T.reuseID())")
+        guard let headerFooterView = dequeueReusableHeaderFooterView(withIdentifier: T.reuseID) as? T else {
+            preconditionFailure("Header footer view must be of class \(T.reuseID)")
         }
         
         return headerFooterView
@@ -47,43 +47,43 @@ extension UITableView {
 }
 
 extension UITableView {
-    func handleChanges(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
+    func handle(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
         beginUpdates()
         
-        changes.forEach({ change in
+        changes.forEach { change in
             switch change {
-            case .Section(let type, let index):
-                let indexSet = NSIndexSet(index: index)
+            case .section(let type, let index):
+                let indexSet = IndexSet(integer: index)
                 
                 switch type {
-                case .Insert:
-                    insertSections(indexSet, withRowAnimation: .None)
-                case .Delete:
-                    deleteSections(indexSet, withRowAnimation: .None)
+                case .insert:
+                    insertSections(indexSet, with: .none)
+                case .delete:
+                    deleteSections(indexSet, with: .none)
                 default:
                     break
                 }
-            case .Object(let type, let indexPath, let newIndexPath):
+            case .object(let type, let indexPath, let newIndexPath):
                 switch type {
-                case .Insert:
+                case .insert:
                     if let newIndexPath = newIndexPath {
-                        insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .None)
+                        insertRows(at: [newIndexPath], with: .none)
                     }
-                case .Delete:
+                case .delete:
                     if let indexPath = indexPath {
-                        deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                        deleteRows(at: [indexPath], with: .none)
                     }
-                case .Move:
-                    if let indexPath = indexPath, newIndexPath = newIndexPath {
-                        moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
+                case .move:
+                    if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                        moveRow(at: indexPath, to: newIndexPath)
                     }
-                case .Update:
+                case .update:
                     if let indexPath = indexPath {
-                        reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                        reloadRows(at: [indexPath], with: .none)
                     }
                 }
             }
-        })
+        }
         
         endUpdates()
         

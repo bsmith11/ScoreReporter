@@ -10,20 +10,20 @@ import Foundation
 import KVOController
 
 extension FBKVOController {
-    func observe<T>(object: NSObject, keyPath: String, block: (change: T) -> Void) {
+    func observe<T>(_ object: NSObject, keyPath: String, block: @escaping (_ change: T) -> Void) {
         let options: NSKeyValueObservingOptions = [
-            .Initial,
-            .New
+            .initial,
+            .new
         ]
         
-        let internalBlock = { (observer: AnyObject?, object: AnyObject, change: [String: AnyObject]) in
-            guard let observedValue = change[NSKeyValueChangeNewKey] as? T else {
+        let internalBlock = { (observer: Any?, object: Any, change: [String: Any]) in
+            guard let observedValue = change[NSKeyValueChangeKey.newKey.rawValue] as? T else {
                 return
             }
             
-            block(change: observedValue)
+            block(observedValue)
         }
         
-        KVOController.observe(object, keyPath: keyPath, options: options, block: internalBlock)
+        kvoController.observe(object, keyPath: keyPath, options: options, block: internalBlock)
     }    
 }

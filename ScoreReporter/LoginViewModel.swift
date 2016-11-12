@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias LoginCompletion = NSError? -> Void
+typealias LoginCompletion = (NSError?) -> Void
 
 struct Credentials {
     let username: String
@@ -16,19 +16,19 @@ struct Credentials {
 }
 
 class LoginViewModel: NSObject {
-    private let loginService = LoginService(client: APIClient.sharedInstance)
+    fileprivate let loginService = LoginService(client: APIClient.sharedInstance)
     
-    private(set) dynamic var loading = false
-    private(set) dynamic var error: NSError? = nil
+    fileprivate(set) dynamic var loading = false
+    fileprivate(set) dynamic var error: NSError? = nil
 }
 
 // MARK: - Public
 
 extension LoginViewModel {
-    func loginWithCredentials(credentials: Credentials, completion: LoginCompletion?) {
+    func login(with credentials: Credentials, completion: LoginCompletion?) {
         loading = true
         
-        loginService.loginWithCredentials(credentials) { [weak self] error in
+        loginService.login(with: credentials) { [weak self] error in
             self?.loading = false
             self?.error = error
             

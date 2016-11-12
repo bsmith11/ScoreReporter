@@ -9,10 +9,10 @@
 import Foundation
 
 class HomeViewModel: NSObject {
-    private let eventService = EventService(client: APIClient.sharedInstance)
+    fileprivate let eventService = EventService(client: APIClient.sharedInstance)
     
-    private(set) dynamic var loading = false
-    private(set) dynamic var error: NSError? = nil
+    fileprivate(set) dynamic var loading = false
+    fileprivate(set) dynamic var error: NSError? = nil
 }
 
 // MARK: - Public
@@ -21,7 +21,7 @@ extension HomeViewModel {
     func downloadEvents() {
         loading = true
         
-        eventService.downloadEventListWithCompletion { [weak self] error in
+        eventService.downloadEventList { [weak self] error in
             self?.loading = false
             self?.error = error
         }

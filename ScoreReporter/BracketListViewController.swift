@@ -11,9 +11,9 @@ import Anchorage
 import KVOController
 
 class BracketListViewController: UIViewController {
-    private let dataSource: BracketListDataSource
-    private let tableView = UITableView(frame: .zero, style: .Plain)
-    private let defaultView = DefaultView(frame: .zero)
+    fileprivate let dataSource: BracketListDataSource
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let defaultView = DefaultView(frame: .zero)
     
     init(dataSource: BracketListDataSource) {
         self.dataSource = dataSource
@@ -27,8 +27,8 @@ class BracketListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
@@ -44,14 +44,14 @@ class BracketListViewController: UIViewController {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handleChanges(changes)
+            self?.tableView.handle(changes: changes)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -61,10 +61,10 @@ private extension BracketListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(BracketListCell)
+        tableView.register(cellClass: BracketListCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -79,7 +79,7 @@ private extension BracketListViewController {
     }
     
     func configureObservers() {
-        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }
@@ -88,19 +88,19 @@ private extension BracketListViewController {
 // MARK: - UITableViewDataSource
 
 extension BracketListViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as BracketListCell
-        let bracket = dataSource.itemAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueCell(for: indexPath) as BracketListCell
+        let bracket = dataSource.item(at: indexPath)
         
-        cell.configureWithTitle(bracket?.name)
+        cell.configure(with: bracket?.name)
         
         return cell
     }
@@ -109,7 +109,7 @@ extension BracketListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension BracketListViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
 }

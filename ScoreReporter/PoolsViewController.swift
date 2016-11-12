@@ -11,9 +11,9 @@ import Anchorage
 import KVOController
 
 class PoolsViewController: UIViewController {
-    private let dataSource: PoolsDataSource
-    private let tableView = UITableView(frame: .zero, style: .Plain)
-    private let defaultView = DefaultView(frame: .zero)
+    fileprivate let dataSource: PoolsDataSource
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let defaultView = DefaultView(frame: .zero)
     
     init(dataSource: PoolsDataSource) {
         self.dataSource = dataSource
@@ -40,10 +40,10 @@ class PoolsViewController: UIViewController {
         configureObservers()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -53,13 +53,13 @@ private extension PoolsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(StandingCell)
-        tableView.registerHeaderFooterClass(SectionHeaderView)
+        tableView.register(cellClass: StandingCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -74,7 +74,7 @@ private extension PoolsViewController {
     }
     
     func configureObservers() {
-        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }
@@ -83,19 +83,19 @@ private extension PoolsViewController {
 // MARK: - UITableViewDataSource
 
 extension PoolsViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as StandingCell
-        let standing = dataSource.itemAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueCell(for: indexPath) as StandingCell
+        let standing = dataSource.item(at: indexPath)
         
-        cell.configureWithStanding(standing)
+        cell.configure(with: standing)
         
         return cell
     }
@@ -104,18 +104,18 @@ extension PoolsViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension PoolsViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let poolSection = dataSource.poolSectionAtSection(section)
+        let poolSection = dataSource.poolSection(at: section)
         
-        headerView.configureWithTitle(poolSection?.title, tappable: true)
+        headerView.configure(with: poolSection?.title, tappable: true)
         headerView.delegate = self
         headerView.tag = section
         
         return headerView
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
 }
@@ -123,8 +123,8 @@ extension PoolsViewController: UITableViewDelegate {
 // MARK: - SectionHeaderViewDelegate
 
 extension PoolsViewController: SectionHeaderViewDelegate {
-    func didSelectSectionHeader(headerView: SectionHeaderView) {
-        guard let pool = dataSource.poolSectionAtSection(headerView.tag)?.pool else {
+    func didSelectSectionHeader(_ headerView: SectionHeaderView) {
+        guard let pool = dataSource.poolSection(at: headerView.tag)?.pool else {
             return
         }
         

@@ -10,22 +10,22 @@ import UIKit
 import Anchorage
 
 @objc protocol SectionHeaderReusableViewDelegate: class {
-    optional func didSelectSectionHeader(headerView: SectionHeaderReusableView)
-    optional func headerViewDidSelectActionButton(headerView: SectionHeaderReusableView)
+    @objc optional func didSelectSectionHeader(_ headerView: SectionHeaderReusableView)
+    @objc optional func headerViewDidSelectActionButton(_ headerView: SectionHeaderReusableView)
 }
 
 class SectionHeaderReusableView: UICollectionReusableView {
-    private let titleLabel = UILabel(frame: .zero)
-    private let actionButton = UIButton(type: .System)
+    fileprivate let titleLabel = UILabel(frame: .zero)
+    fileprivate let actionButton = UIButton(type: .system)
     
-    private var actionButtonWidth: NSLayoutConstraint?
+    fileprivate var actionButtonWidth: NSLayoutConstraint?
     
     weak var delegate: SectionHeaderReusableViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         
         configureViews()
         configureLayout()
@@ -35,9 +35,9 @@ class SectionHeaderReusableView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         let targetSize = CGSize(width: layoutAttributes.bounds.width, height: UILayoutFittingCompressedSize.height)
-        let size = systemLayoutSizeFittingSize(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
+        let size = systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
         layoutAttributes.bounds.size = size
         
         return layoutAttributes
@@ -47,15 +47,15 @@ class SectionHeaderReusableView: UICollectionReusableView {
 // MARK: - Public
 
 extension SectionHeaderReusableView {
-    func configureWithTitle(title: String?, actionButtonImage: UIImage? = nil) {
+    func configure(with title: String?, actionButtonImage: UIImage? = nil) {
         titleLabel.text = title
         
-        actionButton.setImage(actionButtonImage, forState: .Normal)
-        actionButtonWidth?.active = actionButtonImage == nil
+        actionButton.setImage(actionButtonImage, for: UIControlState())
+        actionButtonWidth?.isActive = actionButtonImage == nil
     }
     
-    class func heightWithTitle(title: String?, actionButtonImage: UIImage? = nil) -> CGFloat {
-        let titleHeight = UIFont.systemFontOfSize(32.0, weight: UIFontWeightBlack).lineHeight + 16.0
+    class func height(with title: String?, actionButtonImage: UIImage? = nil) -> CGFloat {
+        let titleHeight = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack).lineHeight + 16.0
         
         if let image = actionButtonImage {
             let imageHeight = image.size.height
@@ -71,14 +71,14 @@ extension SectionHeaderReusableView {
 
 private extension SectionHeaderReusableView {
     func configureViews() {
-        titleLabel.font = UIFont.systemFontOfSize(32.0, weight: UIFontWeightBlack)
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack)
+        titleLabel.textColor = UIColor.black
         addSubview(titleLabel)
         
-        actionButton.tintColor = UIColor.USAURedColor()
+        actionButton.tintColor = UIColor.usauRed
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-        actionButton.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        actionButton.addTarget(self, action: #selector(actionButtonTapped), forControlEvents: .TouchUpInside)
+        actionButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         addSubview(actionButton)
     }
     

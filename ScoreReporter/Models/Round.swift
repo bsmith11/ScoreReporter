@@ -10,17 +10,17 @@ import Foundation
 import CoreData
 
 enum RoundType: Int {
-    case Pools
-    case Clusters
-    case Brackets
+    case pools
+    case clusters
+    case brackets
     
     var title: String {
         switch self {
-        case .Pools:
+        case .pools:
             return "Pools"
-        case .Clusters:
+        case .clusters:
             return "Crossovers"
-        case .Brackets:
+        case .brackets:
             return "Bracket"
         }
     }
@@ -29,13 +29,13 @@ enum RoundType: Int {
 class Round: NSManagedObject {
     var type: RoundType {
         if pools.count > 0 {
-            return .Pools
+            return .pools
         }
         else if clusters.count > 0 {
-            return .Clusters
+            return .clusters
         }
         else {
-            return .Brackets
+            return .brackets
         }
     }
 }
@@ -51,31 +51,31 @@ extension Round: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Round: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Round? {
-        guard let roundID = dictionary["RoundId"] as? Int else {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Round? {
+        guard let roundID = dictionary["RoundId"] as? NSNumber else {
             return nil
         }
         
-        guard let round = objectWithPrimaryKey(roundID, context: context, createNew: true) else {
+        guard let round = object(primaryKey: roundID, context: context, createNew: true) else {
             return nil
         }
         
         round.roundID = roundID
         
         let brackets = dictionary["Brackets"] as? [[String: AnyObject]] ?? []
-        let bracketsArray = Bracket.objectsFromArray(brackets, context: context)
+        let bracketsArray = Bracket.objects(from: brackets, context: context)
         
-        for (index, bracket) in bracketsArray.enumerate() {
-            bracket.sortOrder = index
+        for (index, bracket) in bracketsArray.enumerated() {
+            bracket.sortOrder = index as NSNumber
         }
         
         round.brackets = NSSet(array: bracketsArray)
         
         let clusters = dictionary["Clusters"] as? [[String: AnyObject]] ?? []
-        round.clusters = NSSet(array: Cluster.objectsFromArray(clusters, context: context))
+        round.clusters = NSSet(array: Cluster.objects(from: clusters, context: context))
         
         let pools = dictionary["Pools"] as? [[String: AnyObject]] ?? []
-        round.pools = NSSet(array: Pool.objectsFromArray(pools, context: context))
+        round.pools = NSSet(array: Pool.objects(from: pools, context: context))
         
         return round
     }

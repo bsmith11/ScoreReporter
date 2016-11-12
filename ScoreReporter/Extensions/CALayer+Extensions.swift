@@ -37,19 +37,19 @@ extension CALayer {
 //        }
 //    }
     
-    func xxx_addAnimation(animation: CAAnimation, forKey key: String) {
+    func xxx_addAnimation(_ animation: CAAnimation, forKey key: String) {
         xxx_addAnimation(animation, forKey: key)
         
         guard let delegate = delegate else {
             return
         }
         
-        let className = NSStringFromClass(delegate.dynamicType)
+        let className = NSStringFromClass(type(of: delegate))
                 
-        print("Class: \(className) \(unsafeAddressOf(delegate))")
+        print("Class: \(className) \(Unmanaged.passUnretained(delegate).toOpaque())")
         
-        if let object = delegate as? NSObject where object.respondsToSelector(Selector("title")) {
-            if let title = object.valueForKeyPath("title") {
+        if let object = delegate as? NSObject, object.responds(to: #selector(getter: NSUserActivity.title)) {
+            if let title = object.value(forKeyPath: "title") {
                 print("Title: \(title)")
             }
         }
@@ -60,7 +60,7 @@ extension CALayer {
     
     var animations: [CAAnimation] {
         return (animationKeys() ?? []).flatMap { key -> CAAnimation? in
-            return animationForKey(key)
+            return animation(forKey: key)
         }
     }
     
@@ -68,40 +68,40 @@ extension CALayer {
         var description = ""
         
         animations.forEach { animation in
-            description.appendContentsOf("\n")
-            description.appendContentsOf(NSStringFromClass(animation.dynamicType))
-            description.appendContentsOf("\n")
+            description.append("\n")
+            description.append(NSStringFromClass(type(of: animation)))
+            description.append("\n")
             
             if let basicAnimation = animation as? CABasicAnimation {
                 if let keyPath = basicAnimation.keyPath {
-                    description.appendContentsOf("keyPath: \(keyPath)\n")
+                    description.append("keyPath: \(keyPath)\n")
                 }
                 
                 if let fromValue = basicAnimation.fromValue {
-                    description.appendContentsOf("fromValue: \(fromValue)\n")
+                    description.append("fromValue: \(fromValue)\n")
                 }
                 
                 if let toValue = basicAnimation.toValue {
-                    description.appendContentsOf("toValue: \(toValue)\n")
+                    description.append("toValue: \(toValue)\n")
                 }
                 else if let keyPath = basicAnimation.keyPath {
-                    if let toValue = valueForKeyPath(keyPath) {
-                        description.appendContentsOf("toValue: \(toValue)\n")
+                    if let toValue = value(forKeyPath: keyPath) {
+                        description.append("toValue: \(toValue)\n")
                     }
                     else {
-                        description.appendContentsOf("toValue: nil\n")
+                        description.append("toValue: nil\n")
                     }
                 }
             }
             
-            description.appendContentsOf("fillMode: \(animation.fillMode)\n")
+            description.append("fillMode: \(animation.fillMode)\n")
             
             if let timingFunction = animation.timingFunction {
-                description.appendContentsOf("timingFunction: \(timingFunction)\n")
+                description.append("timingFunction: \(timingFunction)\n")
             }
             
-            description.appendContentsOf("duration: \(animation.duration)\n")
-            description.appendContentsOf("\n")
+            description.append("duration: \(animation.duration)\n")
+            description.append("\n")
         }
         
         return description

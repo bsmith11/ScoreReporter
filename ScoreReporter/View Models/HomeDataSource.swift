@@ -12,7 +12,7 @@ import CoreData
 class HomeDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Event
     
-    private(set) var fetchedResultsController = Event.fetchedEventsThisWeek()
+    fileprivate(set) var fetchedResultsController = Event.fetchedEventsThisWeek()
     
     dynamic var empty = false
     
@@ -34,7 +34,7 @@ class HomeDataSource: NSObject, FetchedDataSource, FetchedChangable {
 // MARK: - Public
 
 extension HomeDataSource {
-    func titleForSection(section: Int) -> String? {
+    func title(for section: Int) -> String? {
         guard !(fetchedResultsController.fetchedObjects?.isEmpty ?? true) else {
             return nil
         }

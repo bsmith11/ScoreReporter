@@ -10,21 +10,21 @@ import UIKit
 import Anchorage
 
 enum MessageViewStyle {
-    case Info
-    case Error
+    case info
+    case error
 }
 
 class MessageView: UIView {
-    private let titleLabel = UILabel(frame: .zero)
+    fileprivate let titleLabel = UILabel(frame: .zero)
     
-    private var heightConstraint: NSLayoutConstraint?
+    fileprivate var heightConstraint: NSLayoutConstraint?
     
     static var associatedKey = "com.bradsmith.scorereporter.messageViewAssociatedKey"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.messageGreenColor()
+        backgroundColor = UIColor.messageGreen
         
         configureViews()
         configureLayout()
@@ -38,18 +38,18 @@ class MessageView: UIView {
 // MARK: - Public
 
 extension MessageView {
-    func configureWithTitle(title: String) {
+    func configure(with title: String) {
         titleLabel.text = title
     }
     
-    func display(display: Bool, animated: Bool) {
+    func display(_ display: Bool, animated: Bool) {
         let animations = {
-            self.heightConstraint?.active = !display
+            self.heightConstraint?.isActive = !display
             self.superview?.layoutIfNeeded()
         }
         
         if animated {
-            UIView.animateWithDuration(0.3, animations: animations)
+            UIView.animate(withDuration: 0.3, animations: animations)
         }
         else {
             animations()
@@ -61,19 +61,21 @@ extension MessageView {
 
 private extension MessageView {
     func configureViews() {
-        titleLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+        titleLabel.textColor = UIColor.white
         titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .ByWordWrapping
-        titleLabel.textAlignment = .Center
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.textAlignment = .center
         addSubview(titleLabel)
     }
     
     func configureLayout() {
         heightConstraint = heightAnchor == 0.0
         
-        titleLabel.verticalAnchors == verticalAnchors + 8.0 ~ UILayoutPriorityDefaultLow
-        titleLabel.horizontalAnchors == horizontalAnchors + 16.0 ~ UILayoutPriorityDefaultHigh - 1.0
+        titleLabel.verticalAnchors == (verticalAnchors + 8.0) ~ UILayoutPriorityDefaultLow
+        
+        let priority = UILayoutPriorityDefaultHigh - 1.0
+        titleLabel.horizontalAnchors == (horizontalAnchors + 16.0) ~ priority
     }
 }
 

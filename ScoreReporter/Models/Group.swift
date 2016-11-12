@@ -16,9 +16,9 @@ class Group: NSManagedObject {
 //MARK: - Public
 
 extension Group {
-    static func groupsFromArray(array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func groups(from array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Group.objectsFromArray(array, context: context)
+            Group.objects(from: array, context: context)
         }
         
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)        
@@ -36,12 +36,12 @@ extension Group: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Group: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Group? {
-        guard let groupID = dictionary["EventGroupId"] as? Int else {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Group? {
+        guard let groupID = dictionary["EventGroupId"] as? NSNumber else {
             return nil
         }
         
-        guard let group = objectWithPrimaryKey(groupID, context: context, createNew: true) else {
+        guard let group = object(primaryKey: groupID, context: context, createNew: true) else {
             return nil
         }
         
@@ -58,23 +58,23 @@ extension Group: CoreDataImportable {
         let groupName = (dictionary["GroupName"] as? String) ?? dictionary["EventGroupName"] as? String
         group.name = groupName
         
-        let typeDivision = typeDivisionFromString(groupName)
+        let typeDivision = self.typeDivision(from: groupName)
         group.type = typeDivision.0
         group.division = typeDivision.1
         
         if let rounds = dictionary["EventRounds"] {
             let roundsArray = rounds as? [[String: AnyObject]] ?? []
-            group.rounds = NSSet(array: Round.objectsFromArray(roundsArray, context: context))
+            group.rounds = NSSet(array: Round.objects(from: roundsArray, context: context))
         }
         
         return group
     }
     
-    static func typeDivisionFromString(string: String?) -> (String?, String?) {
-        let components = string?.componentsSeparatedByString("-")
-        let set = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-        let type = components?.first?.stringByTrimmingCharactersInSet(set)
-        let division = components?.last?.stringByTrimmingCharactersInSet(set)
+    static func typeDivision(from string: String?) -> (String?, String?) {
+        let components = string?.components(separatedBy: "-")
+        let set = CharacterSet.whitespacesAndNewlines
+        let type = components?.first?.trimmingCharacters(in: set)
+        let division = components?.last?.trimmingCharacters(in: set)
         
         return (type, division)
     }

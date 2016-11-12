@@ -9,7 +9,7 @@
 import UIKit
 
 class NavigationItemView: UIView {
-    private let titleLabel = UILabel(frame: .zero)
+    fileprivate let titleLabel = UILabel(frame: .zero)
     
     var title: String? {
         return titleLabel.text

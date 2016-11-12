@@ -12,9 +12,9 @@ import CoreData
 class TeamSearchDataSource: NSObject, FetchedDataSource {
     typealias ModelType = Team
     
-    private(set) var fetchedResultsController = Team.fetchedTeams()
+    fileprivate(set) var fetchedResultsController = Team.fetchedTeams()
     
-    private(set) dynamic var empty = false
+    fileprivate(set) dynamic var empty = false
     
     var refreshBlock: RefreshBlock?
     
@@ -34,8 +34,8 @@ class TeamSearchDataSource: NSObject, FetchedDataSource {
 // MARK: - Public
 
 extension TeamSearchDataSource {
-    func searchWithText(text: String?) {
-        let predicate = Team.predicateWithSearchText(text)
+    func search(for text: String?) {
+        let predicate = Team.predicate(with: text)
         fetchedResultsController.fetchRequest.predicate = predicate
         
         do {
@@ -50,13 +50,13 @@ extension TeamSearchDataSource {
         refreshBlock?()
     }
     
-    func titleForSection(section: Int) -> String? {
-        guard section < fetchedResultsController.sections?.count else {
+    func title(for section: Int) -> String? {
+        guard section < fetchedResultsController.sections?.count ?? 0 else {
             return nil
         }
         
-        let indexPath = NSIndexPath(forRow: 0, inSection: section)
-        let team = itemAtIndexPath(indexPath)
+        let indexPath = IndexPath(row: 0, section: section)
+        let team = item(at: indexPath)
         let teamViewModel = TeamViewModel(team: team)
         
         return teamViewModel.state
@@ -66,7 +66,7 @@ extension TeamSearchDataSource {
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension TeamSearchDataSource: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         empty = controller.fetchedObjects?.isEmpty ?? true
         
         refreshBlock?()

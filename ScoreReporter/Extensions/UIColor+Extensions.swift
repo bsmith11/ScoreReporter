@@ -16,12 +16,12 @@ extension UIColor {
         var alpha: CGFloat = 1.0
 
         if hexString.hasPrefix("#") {
-            let index = hexString.startIndex.advancedBy(1)
-            let hex = hexString.substringFromIndex(index)
-            let scanner = NSScanner(string: hex)
+            let index = hexString.characters.index(hexString.startIndex, offsetBy: 1)
+            let hex = hexString.substring(from: index)
+            let scanner = Scanner(string: hex)
             var hexValue: CUnsignedLongLong = 0
 
-            if scanner.scanHexLongLong(&hexValue) {
+            if scanner.scanHexInt64(&hexValue) {
                 switch hex.characters.count {
                 case 3:
                     red = CGFloat((hexValue & 0xF00) >> 8) / 15.0
@@ -66,15 +66,15 @@ extension UIColor {
         return UIColor(hexString: "#4C69AB")
     }
     
-    static func USAUNavyColor() -> UIColor {
+    static var usauNavy: UIColor {
         return UIColor(hexString: "#001E42")
     }
     
-    static func USAURedColor() -> UIColor {
+    static var usauRed: UIColor {
         return UIColor(hexString: "#B20838")
     }
     
-    static func messageGreenColor() -> UIColor {
+    static var messageGreen: UIColor {
         return UIColor(hexString: "#32B92D")
     }
 }
