@@ -16,7 +16,7 @@ class Standing: NSManagedObject {
 // MARK: - Public
 
 extension Standing {
-    static func fetchedStandingsForPool(pool: Pool) -> NSFetchedResultsController {
+    static func fetchedStandingsForPool(_ pool: Pool) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
         let sortDescriptors = [
@@ -38,7 +38,7 @@ extension Standing: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Standing: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Standing? {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Standing? {
         guard let standing = createObjectInContext(context) else {
             return nil
         }
@@ -49,18 +49,18 @@ extension Standing: CoreDataImportable {
         
         let teamName = dictionary["TeamName"] as? String
         let seed = seedFromTeamName(teamName)
-        standing.seed = seed
+        standing.seed = seed as NSNumber
         
         let seedString = "(\(seed))"
-        standing.teamName = teamName?.stringByReplacingOccurrencesOfString(seedString, withString: "").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        standing.teamName = teamName?.replacingOccurrences(of: seedString, with: "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
         return standing
     }
     
-    static func seedFromTeamName(teamName: String?) -> Int {
+    static func seedFromTeamName(_ teamName: String?) -> Int {
         let pattern = "([0-9]+)"
         
-        if let seed = teamName?.stringMatchingRegexPattern(pattern) where !seed.isEmpty {
+        if let seed = teamName?.stringMatchingRegexPattern(pattern), !seed.isEmpty {
             return Int(seed) ?? 0
         }
         else {

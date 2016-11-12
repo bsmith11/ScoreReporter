@@ -10,8 +10,8 @@ import UIKit
 import Anchorage
 
 class AcknowledgementListViewController: UIViewController, MessageDisplayable {
-    private let dataSource: AcknowledgementListDataSource
-    private let tableView = UITableView(frame: .zero, style: .Plain)
+    fileprivate let dataSource: AcknowledgementListDataSource
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -31,8 +31,8 @@ class AcknowledgementListViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
@@ -42,7 +42,7 @@ class AcknowledgementListViewController: UIViewController, MessageDisplayable {
         configureLayout()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
@@ -55,10 +55,10 @@ private extension AcknowledgementListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(SettingsCell)
+        tableView.registerClass(SettingsCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -72,15 +72,15 @@ private extension AcknowledgementListViewController {
 // MARK: - UITableViewDataSource
 
 extension AcknowledgementListViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItemsInSection(section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as SettingsCell
         let item = dataSource.itemAtIndexPath(indexPath)
         
@@ -93,7 +93,7 @@ extension AcknowledgementListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension AcknowledgementListViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = dataSource.itemAtIndexPath(indexPath) else {
             return
         }

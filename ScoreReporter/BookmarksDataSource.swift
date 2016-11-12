@@ -12,7 +12,7 @@ import CoreData
 class BookmarksDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Event
     
-    private(set) var fetchedResultsController = Event.fetchedBookmarkedEvents()
+    fileprivate(set) var fetchedResultsController = Event.fetchedBookmarkedEvents()
     
     dynamic var empty = false
     

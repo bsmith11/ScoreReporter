@@ -14,8 +14,8 @@ protocol DataSource {
     associatedtype ModelType
 
     func numberOfSections() -> Int
-    func numberOfItemsInSection(section: Int) -> Int
-    func itemAtIndexPath(indexPath: NSIndexPath) -> ModelType?
+    func numberOfItemsInSection(_ section: Int) -> Int
+    func itemAtIndexPath(_ indexPath: IndexPath) -> ModelType?
 }
 
 protocol ArrayDataSource: DataSource {
@@ -27,7 +27,7 @@ extension ArrayDataSource {
         return 1
     }
     
-    func numberOfItemsInSection(section: Int) -> Int {
+    func numberOfItemsInSection(_ section: Int) -> Int {
         guard section == 0 else {
             return 0
         }
@@ -35,7 +35,7 @@ extension ArrayDataSource {
         return items.count
     }
     
-    func itemAtIndexPath(indexPath: NSIndexPath) -> ModelType? {
+    func itemAtIndexPath(_ indexPath: IndexPath) -> ModelType? {
         guard indexPath.section == 0 && indexPath.item < items.count else {
             return nil
         }
@@ -45,7 +45,7 @@ extension ArrayDataSource {
 }
 
 protocol FetchedDataSource: DataSource {
-    var fetchedResultsController: NSFetchedResultsController { get }
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
 }
 
 extension FetchedDataSource {
@@ -53,26 +53,26 @@ extension FetchedDataSource {
         return fetchedResultsController.sections?.count ?? 0
     }
 
-    func numberOfItemsInSection(section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections where section < sections.count else {
+    func numberOfItemsInSection(_ section: Int) -> Int {
+        guard let sections = fetchedResultsController.sections, section < sections.count else {
             return 0
         }
 
         return sections[section].numberOfObjects
     }
 
-    func itemAtIndexPath(indexPath: NSIndexPath) -> ModelType? {
+    func itemAtIndexPath(_ indexPath: IndexPath) -> ModelType? {
         guard fetchedResultsController.containsIndexPath(indexPath) else {
             return nil
         }
         
-        return fetchedResultsController.objectAtIndexPath(indexPath) as? ModelType
+        return fetchedResultsController.object(at: indexPath) as? ModelType
     }
 }
 
 extension NSFetchedResultsController {
-    func containsIndexPath(indexPath: NSIndexPath) -> Bool {
-        guard let sections = sections where indexPath.section < sections.count else {
+    func containsIndexPath(_ indexPath: IndexPath) -> Bool {
+        guard let sections = sections, indexPath.section < sections.count else {
             return false
         }
         

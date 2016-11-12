@@ -9,20 +9,20 @@
 import UIKit
 import Anchorage
 import CoreLocation
-import MapSnap
+//import MapSnap
 
 protocol EventDetailsHeaderViewDelegate: class {
-    func headerViewDidSelectMap(headerView: EventDetailsHeaderView)
+    func headerViewDidSelectMap(_ headerView: EventDetailsHeaderView)
 }
 
 class EventDetailsHeaderView: UIView {
-    private let eventInfoView = EventInfoView(frame: .zero)
-    private let mapImageView = UIImageView(frame: .zero)
-    private let mapButton = UIButton(type: .System)
+    fileprivate let eventInfoView = EventInfoView(frame: .zero)
+    fileprivate let mapImageView = UIImageView(frame: .zero)
+    fileprivate let mapButton = UIButton(type: .system)
     
     var eventInfoHidden = false {
         didSet {
-            eventInfoView.hidden = eventInfoHidden
+            eventInfoView.isHidden = eventInfoHidden
         }
     }
     
@@ -43,9 +43,9 @@ class EventDetailsHeaderView: UIView {
 // MARK: - Public
 
 extension EventDetailsHeaderView {
-    func configureWithViewModel(viewModel: EventViewModel) {
+    func configureWithViewModel(_ viewModel: EventViewModel) {
         eventInfoView.configureWithSearchable(viewModel.searchable)
-        mapImageView.setMapImageWithCoordinate(viewModel.coordinate)
+//        mapImageView.setMapImageWithCoordinate(viewModel.coordinate)
     }
 }
 
@@ -56,10 +56,10 @@ private extension EventDetailsHeaderView {
         addSubview(eventInfoView)
         
         mapImageView.clipsToBounds = true
-        mapImageView.contentMode = .ScaleAspectFill
+        mapImageView.contentMode = .scaleAspectFill
         addSubview(mapImageView)
         
-        mapButton.addTarget(self, action: #selector(mapButtonTapped), forControlEvents: .TouchUpInside)
+        mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
         addSubview(mapButton)
     }
     

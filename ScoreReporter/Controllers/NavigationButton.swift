@@ -9,8 +9,8 @@
 import UIKit
 
 enum NavigationButtonPosition {
-    case Left
-    case Right
+    case left
+    case right
 }
 
 class NavigationButton: UIButton {
@@ -18,9 +18,9 @@ class NavigationButton: UIButton {
         let item: UIBarButtonItem?
         
         switch position {
-        case .Left:
+        case .left:
             item = viewController.navigationItem.leftBarButtonItem
-        case .Right:
+        case .right:
             item = viewController.navigationItem.rightBarButtonItem
         }
         
@@ -31,14 +31,14 @@ class NavigationButton: UIButton {
         super.init(frame: .zero)
         
         if let image = barButtonItem.image {
-            setImage(image, forState: .Normal)
+            setImage(image, for: UIControlState())
             contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 11.0, bottom: 0.0, right: 11.0)
             tintColor = barButtonItem.tintColor ?? viewController.navigationController?.navigationBar.tintColor
         }
         else if let title = barButtonItem.title {
-            let attributes = barButtonItem.titleTextAttributesForState(.Normal)
+            let attributes = barButtonItem.titleTextAttributes(for: UIControlState())
             let attributedTitle = NSAttributedString(string: title, attributes: attributes)
-            setAttributedTitle(attributedTitle, forState: .Normal)
+            setAttributedTitle(attributedTitle, for: UIControlState())
         }
         
         sizeToFit()

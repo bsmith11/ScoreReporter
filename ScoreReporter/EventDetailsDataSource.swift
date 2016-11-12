@@ -17,18 +17,18 @@ struct EventDetailsSection {
 }
 
 enum EventDetailsInfo {
-    case Address(String)
-    case Date(String)
-    case Division(Group)
-    case ActiveGame(Game)
+    case address(String)
+    case date(String)
+    case division(Group)
+    case activeGame(Game)
     
     var image: UIImage? {
         switch self {
-        case .Address:
+        case .address:
             return UIImage(named: "icn-map")
-        case .Date:
+        case .date:
             return UIImage(named: "icn-calendar")
-        case .Division:
+        case .division:
             return nil
         default:
             return nil
@@ -37,11 +37,11 @@ enum EventDetailsInfo {
     
     var title: String {
         switch self {
-        case .Address(let address):
+        case .address(let address):
             return address
-        case .Date(let date):
+        case .date(let date):
             return date
-        case .Division(let group):
+        case .division(let group):
             let groupViewModel = GroupViewModel(group: group)
             return groupViewModel.fullName
         default:
@@ -51,9 +51,9 @@ enum EventDetailsInfo {
 }
 
 class EventDetailsDataSource: NSObject {
-    private let activeGamesFetchedResultsController: NSFetchedResultsController
+    fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     
-    private var sections = [EventDetailsSection]()
+    fileprivate var sections = [EventDetailsSection]()
     
     let event: Event
     
@@ -78,7 +78,7 @@ extension EventDetailsDataSource {
         return sections.count
     }
     
-    func numberOfItemsInSection(section: Int) -> Int {
+    func numberOfItemsInSection(_ section: Int) -> Int {
         guard section < sections.count else {
             return 0
         }
@@ -86,7 +86,7 @@ extension EventDetailsDataSource {
         return sections[section].items.count
     }
     
-    func sectionAtIndex(section: Int) -> EventDetailsSection? {
+    func sectionAtIndex(_ section: Int) -> EventDetailsSection? {
         guard section < sections.count else {
             return nil
         }
@@ -94,7 +94,7 @@ extension EventDetailsDataSource {
         return sections[section]
     }
     
-    func itemAtIndexPath(indexPath: NSIndexPath) -> EventDetailsInfo? {
+    func itemAtIndexPath(_ indexPath: IndexPath) -> EventDetailsInfo? {
         guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else {
             return nil
         }
@@ -111,21 +111,21 @@ private extension EventDetailsDataSource {
         
         sections.removeAll()
         sections.append(EventDetailsSection(title: "Info", items: [
-            .Address(eventViewModel.address),
-            .Date(eventViewModel.eventDates)
+            .address(eventViewModel.address),
+            .date(eventViewModel.eventDates)
         ]))
         
-        let divisions = eventViewModel.groups.map({EventDetailsInfo.Division($0)})
+        let divisions = eventViewModel.groups.map({EventDetailsInfo.division($0)})
         sections.append(EventDetailsSection(title: "Divisions", items: divisions))
         
-        if let activeGames = activeGamesFetchedResultsController.fetchedObjects as? [Game] where !activeGames.isEmpty {
-            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map({.ActiveGame($0)})))
+        if let activeGames = activeGamesFetchedResultsController.fetchedObjects as? [Game], !activeGames.isEmpty {
+            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map({.activeGame($0)})))
         }
     }
     
     func calculateCoordinates() {
         guard let city = event.city,
-            state = event.state where event.latitude == nil else {
+            let state = event.state, event.latitude == nil else {
                 return
         }
         
@@ -136,8 +136,8 @@ private extension EventDetailsDataSource {
                 return
             }
             
-            self.event.latitude = coordinate.latitude
-            self.event.longitude = coordinate.longitude
+            self.event.latitude = coordinate.latitude as NSNumber?
+            self.event.longitude = coordinate.longitude as NSNumber?
             
             do {
                 try Event.coreDataStack.mainContext.save()
@@ -152,7 +152,7 @@ private extension EventDetailsDataSource {
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension EventDetailsDataSource: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
         refreshBlock?()
     }

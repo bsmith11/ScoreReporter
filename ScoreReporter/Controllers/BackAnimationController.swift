@@ -9,32 +9,32 @@
 import UIKit
 
 class BackAnimationController: NSObject {
-    private let duration = 0.35
-    private let fromContainerView = UIView(frame: .zero)
-    private let toContainerView = UIView(frame: .zero)
-    private let dimmingView = DimmingView(frame: .zero)
-    private let shadowImageView = UIImageView(frame: .zero)
+    fileprivate let duration = 0.35
+    fileprivate let fromContainerView = UIView(frame: .zero)
+    fileprivate let toContainerView = UIView(frame: .zero)
+    fileprivate let dimmingView = DimmingView(frame: .zero)
+    fileprivate let shadowImageView = UIImageView(frame: .zero)
 }
 
 // MARK: - UIViewControllerAnimatedTransitioning
 
 extension BackAnimationController: UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let container = transitionContext.containerView()
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let container = transitionContext.containerView
         
-        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-                  toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),
-                  navigationBar = fromViewController.navigationController?.navigationBar else {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+                  let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
+                  let _ = fromViewController.navigationController?.navigationBar else {
             transitionContext.completeTransition(true)
             return
         }
                 
         let capInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: 1.0)
-        let shadowImage = UIImage(named: "navigation-shadow")?.resizableImageWithCapInsets(capInsets)
+        let shadowImage = UIImage(named: "navigation-shadow")?.resizableImage(withCapInsets: capInsets)
         shadowImageView.image = shadowImage
         shadowImageView.frame = toViewController.view.frame
         shadowImageView.frame.origin.x = -9.0
@@ -71,7 +71,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
 //        navigationBarAnimatorView.prepareForAnimation()
         
         let completion = {
-            let finished = !transitionContext.transitionWasCancelled()
+            let finished = !transitionContext.transitionWasCancelled
             
             if finished {
                 container.addSubview(fromViewController.view)
@@ -95,7 +95,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         let dimmingAnimation: CABasicAnimation
         let shadowAnimation: CABasicAnimation
         
-        if transitionContext.isInteractive() {
+        if transitionContext.isInteractive {
             let timingFunctionName = kCAMediaTimingFunctionLinear
             
             fromAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
@@ -112,23 +112,23 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
             shadowAnimation = CASpringAnimation(keyPath: "opacity", duration: springDuration)
         }
         
-        fromAnimation.toValue = NSValue(CGPoint: fromPositionEnd)
-        toAnimation.toValue = NSValue(CGPoint: toPositionEnd)
+        fromAnimation.toValue = NSValue(cgPoint: fromPositionEnd)
+        toAnimation.toValue = NSValue(cgPoint: toPositionEnd)
         dimmingAnimation.toValue = 0.0
         shadowAnimation.toValue = 0.0
         
-        fromAnimation.removedOnCompletion = false
-        toAnimation.removedOnCompletion = false
-        dimmingAnimation.removedOnCompletion = false
-        shadowAnimation.removedOnCompletion = false
+        fromAnimation.isRemovedOnCompletion = false
+        toAnimation.isRemovedOnCompletion = false
+        dimmingAnimation.isRemovedOnCompletion = false
+        shadowAnimation.isRemovedOnCompletion = false
         
         CATransaction.begin()
         CATransaction.setCompletionBlock(completion)
         
-        fromContainerView.layer.addAnimation(fromAnimation, forKey: "position")
-        toContainerView.layer.addAnimation(toAnimation, forKey: "position")
-        dimmingView.layer.addAnimation(dimmingAnimation, forKey: "opacity")
-        shadowImageView.layer.addAnimation(shadowAnimation, forKey: "opacity")
+        fromContainerView.layer.add(fromAnimation, forKey: "position")
+        toContainerView.layer.add(toAnimation, forKey: "position")
+        dimmingView.layer.add(dimmingAnimation, forKey: "opacity")
+        shadowImageView.layer.add(shadowAnimation, forKey: "opacity")
         
 //        navigationBarAnimatorView.animateWithDuration(duration, interactive: transitionContext.isInteractive())
         
@@ -142,7 +142,7 @@ private class DimmingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.1)
+        backgroundColor = UIColor.black.withAlphaComponent(0.1)
     }
     
     required init?(coder aDecoder: NSCoder) {

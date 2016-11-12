@@ -15,23 +15,23 @@ struct SettingsSection {
 }
 
 enum SettingsItem {
-    case Acknowledgements
-    case About
+    case acknowledgements
+    case about
     
     var image: UIImage? {
         switch self {
-        case .Acknowledgements:
+        case .acknowledgements:
             return nil
-        case .About:
+        case .about:
             return UIImage(named: "")
         }
     }
     
     var title: String {
         switch self {
-        case .Acknowledgements:
+        case .acknowledgements:
             return "Acknowledgements"
-        case .About:
+        case .about:
             return "About"
         }
     }
@@ -40,7 +40,7 @@ enum SettingsItem {
 class SettingsDataSource {
     typealias ModelType = SettingsItem
     
-    private var sections = [SettingsSection]()
+    fileprivate var sections = [SettingsSection]()
     
     init() {
         configureSections()
@@ -50,7 +50,7 @@ class SettingsDataSource {
 // MARK: - Public
 
 extension SettingsDataSource {
-    func titleForSection(section: Int) -> String? {
+    func titleForSection(_ section: Int) -> String? {
         guard section < sections.count else {
             return nil
         }
@@ -63,7 +63,7 @@ extension SettingsDataSource {
 
 private extension SettingsDataSource {
     func configureSections() {
-        let section = SettingsSection(title: nil, items: [.Acknowledgements])
+        let section = SettingsSection(title: nil, items: [.acknowledgements])
         sections.append(section)
     }
 }
@@ -75,7 +75,7 @@ extension SettingsDataSource: DataSource {
         return sections.count
     }
     
-    func numberOfItemsInSection(section: Int) -> Int {
+    func numberOfItemsInSection(_ section: Int) -> Int {
         guard section < sections.count else {
             return 0
         }
@@ -83,7 +83,7 @@ extension SettingsDataSource: DataSource {
         return sections[section].items.count
     }
     
-    func itemAtIndexPath(indexPath: NSIndexPath) -> SettingsItem? {
+    func itemAtIndexPath(_ indexPath: IndexPath) -> SettingsItem? {
         guard indexPath.section < sections.count else {
             return nil
         }

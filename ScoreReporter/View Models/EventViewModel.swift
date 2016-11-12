@@ -14,7 +14,7 @@ struct EventViewModel {
     let location: String
     let address: String
     let coordinate: CLLocationCoordinate2D?
-    let logoURL: NSURL?
+    let logoURL: URL?
     let eventStartDate: String
     let eventDates: String
     let groups: [Group]
@@ -30,7 +30,7 @@ struct EventViewModel {
         address = location
         
         if let latitude = event?.latitude,
-               longitude = event?.longitude {
+               let longitude = event?.longitude {
             coordinate = CLLocationCoordinate2D(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
         }
         else {
@@ -38,18 +38,18 @@ struct EventViewModel {
         }
 
         let baseURL = "http://play.usaultimate.org/"
-        logoURL = event?.logoPath.flatMap({NSURL(string: "\(baseURL)\($0)")})
+        logoURL = event?.logoPath.flatMap({URL(string: "\(baseURL)\($0)")})
 
-        let startDate = event?.startDate ?? NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .ShortStyle
-        eventStartDate = dateFormatter.stringFromDate(startDate)
+        let startDate = event?.startDate ?? Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        eventStartDate = dateFormatter.string(from: startDate)
         
-        let endDate = event?.endDate ?? NSDate()
-        eventDates = "\(dateFormatter.stringFromDate(startDate)) - \(dateFormatter.stringFromDate(endDate))"
+        let endDate = event?.endDate ?? Date()
+        eventDates = "\(dateFormatter.string(from: startDate)) - \(dateFormatter.string(from: endDate))"
         
         let groups = event?.groups as? Set<Group> ?? []
-        self.groups = groups.sort({$0.0.groupID.integerValue < $0.1.groupID.integerValue})
+        self.groups = groups.sorted(by: {$0.0.groupID.intValue < $0.1.groupID.intValue})
         
         searchable = event
     }

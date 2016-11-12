@@ -12,7 +12,7 @@ import CoreData
 class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Game
     
-    private(set) var fetchedResultsController: NSFetchedResultsController
+    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     
     let title: String?
     
@@ -48,11 +48,11 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
 // MARK: - Public
 
 extension GameListDataSource {
-    func titleAtSection(section: Int) -> String? {
-        let indexPath = NSIndexPath(forItem: 0, inSection: section)
+    func titleAtSection(_ section: Int) -> String? {
+        let indexPath = IndexPath(item: 0, section: section)
         let game = itemAtIndexPath(indexPath)
         let dateFormatter = DateService.gameStartDateFullFormatter
         
-        return game?.startDateFull.flatMap({dateFormatter.stringFromDate($0)})
+        return game?.startDateFull.flatMap({dateFormatter.string(from: $0)})
     }
 }

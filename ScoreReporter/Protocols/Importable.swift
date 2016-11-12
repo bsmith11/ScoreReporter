@@ -12,11 +12,11 @@ import CoreData
 public protocol Importable {
     associatedtype ImportType = Self
     
-    static func objectFromDictionary(dictionary: [String: AnyObject]) -> ImportType?
+    static func objectFromDictionary(_ dictionary: [String: AnyObject]) -> ImportType?
 }
 
 public extension Importable {
-    static func objectsFromArray(array: [[String: AnyObject]]) -> [ImportType] {
+    static func objectsFromArray(_ array: [[String: AnyObject]]) -> [ImportType] {
         return array.flatMap({objectFromDictionary($0)})
     }
 }
@@ -24,11 +24,12 @@ public extension Importable {
 public protocol CoreDataImportable {
     associatedtype CoreDataImportType: NSManagedObject = Self
     
-    static func objectFromDictionary(dictionary: [String: AnyObject], context: NSManagedObjectContext) -> CoreDataImportType?
+    static func objectFromDictionary(_ dictionary: [String: AnyObject], context: NSManagedObjectContext) -> CoreDataImportType?
 }
 
 public extension CoreDataImportable where Self: NSManagedObject {
-    static func objectsFromArray(array: [[String: AnyObject]], context: NSManagedObjectContext) -> [CoreDataImportType] {
+    @discardableResult
+    static func objectsFromArray(_ array: [[String: AnyObject]], context: NSManagedObjectContext) -> [CoreDataImportType] {
         return array.flatMap({objectFromDictionary($0, context: context)})
     }
 }

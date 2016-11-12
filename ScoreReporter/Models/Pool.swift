@@ -16,7 +16,7 @@ class Pool: NSManagedObject {
 // MARK: - Public
 
 extension Pool {
-    static func fetchedPoolsForRound(round: Round) -> NSFetchedResultsController {
+    static func fetchedPoolsForRound(_ round: Round) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "round", round)
         
         let sortDescriptors = [
@@ -26,7 +26,7 @@ extension Pool {
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
     
-    static func fetchedPoolsForGroup(group: Group) -> NSFetchedResultsController {
+    static func fetchedPoolsForGroup(_ group: Group) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "round.group", group)
         
         let sortDescriptors = [
@@ -48,8 +48,8 @@ extension Pool: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Pool: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
-        guard let poolID = dictionary["PoolId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
+        guard let poolID = dictionary["PoolId"] as? NSNumber else {
             return nil
         }
         
@@ -63,8 +63,8 @@ extension Pool: CoreDataImportable {
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objectsFromArray(games, context: context)
         
-        for (index, game) in gamesArray.enumerate() {
-            game.sortOrder = index
+        for (index, game) in gamesArray.enumerated() {
+            game.sortOrder = index as NSNumber
         }
         
         pool.games = NSSet(array: gamesArray)

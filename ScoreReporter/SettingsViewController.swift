@@ -10,8 +10,8 @@ import UIKit
 import Anchorage
 
 class SettingsViewController: UIViewController, MessageDisplayable {
-    private let dataSource: SettingsDataSource
-    private let tableView = UITableView(frame: .zero, style: .Plain)
+    fileprivate let dataSource: SettingsDataSource
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -35,8 +35,8 @@ class SettingsViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
@@ -51,7 +51,7 @@ class SettingsViewController: UIViewController, MessageDisplayable {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
@@ -64,10 +64,10 @@ private extension SettingsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(SettingsCell)
+        tableView.registerClass(SettingsCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -81,15 +81,15 @@ private extension SettingsViewController {
 // MARK: - UITableViewDataSource
 
 extension SettingsViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItemsInSection(section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as SettingsCell
         let item = dataSource.itemAtIndexPath(indexPath)
 
@@ -102,13 +102,13 @@ extension SettingsViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension SettingsViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = dataSource.itemAtIndexPath(indexPath) else {
             return
         }
         
         switch item {
-        case .Acknowledgements:
+        case .acknowledgements:
             let acknowledgementListDataSource = AcknowledgementListDataSource()
             let acknowledgementListViewController = AcknowledgementListViewController(dataSource: acknowledgementListDataSource)
             navigationController?.pushViewController(acknowledgementListViewController, animated: true)

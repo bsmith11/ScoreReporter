@@ -17,12 +17,12 @@ struct GameViewModel {
     let fieldName: String
     let status: String?
     
-    private let winnerAttributes = [
-        NSFontAttributeName: UIFont.systemFontOfSize(16.0, weight: UIFontWeightBlack)
+    fileprivate let winnerAttributes = [
+        NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
     ]
     
-    private let loserAttributes = [
-        NSFontAttributeName: UIFont.systemFontOfSize(16.0, weight: UIFontWeightThin)
+    fileprivate let loserAttributes = [
+        NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
     ]
     
     init(game: Game?) {
@@ -32,7 +32,7 @@ struct GameViewModel {
         let homeScore = game?.homeTeamScore ?? ""
         let awayScore = game?.awayTeamScore ?? ""
         
-        if let status = game?.status where status == "Final" {
+        if let status = game?.status, status == "Final" {
             let score1 = Int(homeScore) ?? 0
             let score2 = Int(awayScore) ?? 0
             

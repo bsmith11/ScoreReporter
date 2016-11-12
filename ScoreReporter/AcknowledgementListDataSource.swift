@@ -11,11 +11,12 @@ import Foundation
 struct Acknowledgement {
     let title: String
     let info: String
-    let URL: NSURL?
+    let URL: URL?
     
     init?(dictionary: [String: AnyObject]) {
         guard let title = dictionary["Title"] as? String,
-                  info = dictionary["FooterText"] as? String where !title.isEmpty else {
+              let info = dictionary["FooterText"] as? String,
+              !title.isEmpty else {
             return nil
         }
         
@@ -28,7 +29,7 @@ struct Acknowledgement {
 class AcknowledgementListDataSource: ArrayDataSource {
     typealias ModelType = Acknowledgement
     
-    private(set) var items = [Acknowledgement]()
+    fileprivate(set) var items = [Acknowledgement]()
     
     init() {
         configureItems()
@@ -39,12 +40,12 @@ class AcknowledgementListDataSource: ArrayDataSource {
 
 private extension AcknowledgementListDataSource {
     func configureItems() {
-        guard let bundlePath = NSBundle.mainBundle().pathForResource("Settings", ofType: "bundle"),
-            bundle = NSBundle(path: bundlePath),
-            plistPath = bundle.pathForResource("Acknowledgements", ofType: "plist"),
-            plist = NSDictionary(contentsOfFile: plistPath) as? [String: AnyObject],
-            var pods = plist["PreferenceSpecifiers"] as? [[String: AnyObject]] else {
-                return
+        guard let bundlePath = Bundle.main.path(forResource: "Settings", ofType: "bundle"),
+              let bundle = Bundle(path: bundlePath),
+              let plistPath = bundle.path(forResource: "Acknowledgements", ofType: "plist"),
+              let plist = NSDictionary(contentsOfFile: plistPath) as? [String: AnyObject],
+              var pods = plist["PreferenceSpecifiers"] as? [[String: AnyObject]] else {
+            return
         }
         
         pods.removeFirst()

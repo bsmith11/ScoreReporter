@@ -9,41 +9,30 @@
 import Foundation
 import Alamofire
 
-typealias APICompletion = Result<AnyObject, NSError> -> Void
+typealias APICompletion = (Result<Any>) -> Void
 
 class APIClient {
     static let sharedInstance = APIClient()
 
-    private let manager: Manager
-    private let baseURL = NSURL(string: "https://play.usaultimate.org/ajax/api.aspx")!
+    fileprivate let manager: SessionManager
+    fileprivate let baseURL = URL(string: "https://play.usaultimate.org/ajax/api.aspx")!
 
     init() {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        manager = Manager(configuration: config, serverTrustPolicyManager: nil)
+        let config = URLSessionConfiguration.default
+        manager = SessionManager(configuration: config, serverTrustPolicyManager: nil)
     }
 }
 
 // MARK: - Public
 
 extension APIClient {
-    func request(method: Alamofire.Method, path: String, encoding: ParameterEncoding = .URL, parameters: [String: AnyObject]? = nil, completion: APICompletion?) {
-        guard let URL = baseURL.URLByAppendingPathComponent(path) else {
-            preconditionFailure("Failed to append path: \(path) to baseURL: \(baseURL)")
-        }
+    func request(_ method: HTTPMethod, path: String, encoding: ParameterEncoding = URLEncoding.default, parameters: [String: Any]? = nil, completion: APICompletion?) {
+        let URL = baseURL.appendingPathComponent(path)
+        var request = URLRequest(url: URL)
+        request.httpMethod = method.rawValue
         
-        let request = NSMutableURLRequest(URL: URL)
-        request.HTTPMethod = method.rawValue
-        
-        let resultTuple = encoding.encode(request, parameters: parameters)
-        
-        if let error = resultTuple.1 {
-            let result = Result<AnyObject, NSError>.Failure(error)
-            completion?(result)
-        }
-        else {
-            manager.request(resultTuple.0).validate(statusCode: 200...399).responseJSON { (response: Response<AnyObject, NSError>) -> Void in
-                completion?(response.result)
-            }
+        manager.request(request).validate(statusCode: 200...399).responseJSON { response -> Void in
+            completion?(response.result)
         }
     }
 }

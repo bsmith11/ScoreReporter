@@ -24,8 +24,8 @@ extension Cluster: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Cluster: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Cluster? {
-        guard let clusterID = dictionary["ClusterId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Cluster? {
+        guard let clusterID = dictionary["ClusterId"] as? NSNumber else {
             return nil
         }
         
@@ -39,8 +39,8 @@ extension Cluster: CoreDataImportable {
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objectsFromArray(games, context: context)
         
-        for (index, game) in gamesArray.enumerate() {
-            game.sortOrder = index
+        for (index, game) in gamesArray.enumerated() {
+            game.sortOrder = index as NSNumber
         }
         
         cluster.games = NSSet(array: gamesArray)

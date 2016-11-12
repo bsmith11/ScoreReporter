@@ -15,18 +15,18 @@ protocol FetchedChangable: class {
     var empty: Bool { get set }
     var fetchedChangeHandler: FetchedChangeHandler? { get set }
     
-    func register(fetchedResultsController fetchedResultsController: NSFetchedResultsController)
-    func unregister(fetchedResultsController fetchedResultsController: NSFetchedResultsController)
+    func register(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>)
+    func unregister(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>)
 }
 
 // MARK: - Public
 
 extension FetchedChangable where Self: NSObject {
-    func register(fetchedResultsController fetchedResultsController: NSFetchedResultsController) {
+    func register(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
         fetchedResultsController.delegate = fetchedChangeObject
     }
     
-    func unregister(fetchedResultsController fetchedResultsController: NSFetchedResultsController) {
+    func unregister(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
         fetchedResultsController.delegate = nil
     }
 }

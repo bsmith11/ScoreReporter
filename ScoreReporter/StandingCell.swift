@@ -10,17 +10,17 @@ import UIKit
 import Anchorage
 
 class StandingCell: UITableViewCell {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let nameLabel = UILabel(frame: .zero)
-    private let resultsLabel = UILabel(frame: .zero)
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let nameLabel = UILabel(frame: .zero)
+    fileprivate let resultsLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        selectionStyle = .None
-        contentView.backgroundColor = UIColor.whiteColor()
+        selectionStyle = .none
+        contentView.backgroundColor = UIColor.white
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
         separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
@@ -35,10 +35,10 @@ class StandingCell: UITableViewCell {
 // MARK: - Public
 
 extension StandingCell {
-    func configureWithStanding(standing: Standing?) {
+    func configureWithStanding(_ standing: Standing?) {
         let name = standing?.teamName ?? "No Name"
         let seed = standing?.seed.flatMap({"(\($0))"})
-        nameLabel.text = [name, seed].flatMap({$0}).joinWithSeparator(" ")
+        nameLabel.text = [name, seed].flatMap({$0}).joined(separator: " ")
         
         let wins = standing?.wins ?? 0
         let losses = standing?.losses ?? 0
@@ -50,18 +50,18 @@ extension StandingCell {
 
 private extension StandingCell {
     func configureViews() {
-        contentStackView.axis = .Horizontal
+        contentStackView.axis = .horizontal
         contentStackView.spacing = 16.0
         contentView.addSubview(contentStackView)
         
-        nameLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
+        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
         nameLabel.textColor = UIColor.USAUNavyColor()
         contentStackView.addArrangedSubview(nameLabel)
         
-        resultsLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
+        resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
         resultsLabel.textColor = UIColor.USAUNavyColor()
-        resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         contentStackView.addArrangedSubview(resultsLabel)
     }
     

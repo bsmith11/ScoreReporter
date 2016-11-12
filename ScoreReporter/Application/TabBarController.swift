@@ -9,7 +9,7 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         configureViewControllers()
@@ -19,7 +19,7 @@ class TabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle : UIViewController? {
         return selectedViewController
     }
 }

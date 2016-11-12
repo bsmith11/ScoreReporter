@@ -14,24 +14,24 @@ protocol BackInteractionControllerDelegate: class {
 }
 
 class BackInteractionController: NSObject {
-    private var displayLink: CADisplayLink?
-    private var transitionContext: UIViewControllerContextTransitioning?
+    fileprivate var displayLink: CADisplayLink?
+    fileprivate var transitionContext: UIViewControllerContextTransitioning?
     
     let panGestureRecognizer = UIPanGestureRecognizer()
     
-    private(set) var interactive = false
+    fileprivate(set) var interactive = false
     
-    var duration: NSTimeInterval {
-        return animationController?.transitionDuration(transitionContext) ?? 0.35
+    var duration: TimeInterval {
+        return animationController?.transitionDuration(using: transitionContext) ?? 0.35
     }
     
-    var timeOffset: NSTimeInterval {
+    var timeOffset: TimeInterval {
         get {
-            return transitionContext?.containerView().layer.timeOffset ?? 0.0
+            return transitionContext?.containerView.layer.timeOffset ?? 0.0
         }
         
         set {
-            transitionContext?.containerView().layer.timeOffset = newValue
+            transitionContext?.containerView.layer.timeOffset = newValue
         }
     }
     
@@ -44,7 +44,7 @@ class BackInteractionController: NSObject {
         panGestureRecognizer.addTarget(self, action: #selector(handlePan(_:)))
     }
     
-    func update(percentComplete: CGFloat) {
+    func update(_ percentComplete: CGFloat) {
         let boundedPercentComplete = min(max(percentComplete, 0.0), 1.0)
         timeOffset = Double(boundedPercentComplete) * duration
                 
@@ -73,18 +73,18 @@ class BackInteractionController: NSObject {
 // MARK: - Private
 
 private extension BackInteractionController {
-    @objc func handlePan(panRecognizer: UIPanGestureRecognizer) {
+    @objc func handlePan(_ panRecognizer: UIPanGestureRecognizer) {
         switch panRecognizer.state {
-        case .Began:
+        case .began:
             interactive = true
             delegate?.interactionDidBegin()
-        case .Changed:
+        case .changed:
             guard let view = panRecognizer.view else {
                 cancel()
                 return
             }
             
-            let translation = panRecognizer.translationInView(view)
+            let translation = panRecognizer.translation(in: view)
             if translation.x > 0.0 {
                 let percent = translation.x / view.bounds.width
                 update(percent)
@@ -92,13 +92,13 @@ private extension BackInteractionController {
             else {
                 update(0.0)
             }
-        case .Ended:
+        case .ended:
             guard let view = panRecognizer.view else {
                 cancel()
                 return
             }
             
-            if panRecognizer.velocityInView(view).x > 200.0 || panRecognizer.translationInView(view).x > view.bounds.midX {
+            if panRecognizer.velocity(in: view).x > 200.0 || panRecognizer.translation(in: view).x > view.bounds.midX {
                 finish()
             }
             else {
@@ -113,7 +113,7 @@ private extension BackInteractionController {
     
     func completeTransition() {
         displayLink = CADisplayLink(target: self, selector: #selector(tickAnimation))
-        displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+        displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
     }
     
     func transitionFinished() {
@@ -123,11 +123,11 @@ private extension BackInteractionController {
         
         displayLink?.invalidate()
         
-        let layer = transitionContext.containerView().layer
+        let layer = transitionContext.containerView.layer
         layer.speed = 1.0
         layer.timeOffset = 0.0
         
-        if !transitionContext.transitionWasCancelled() {
+        if !transitionContext.transitionWasCancelled {
 //            let pausedTime = layer.timeOffset
 //            layer.timeOffset = 0.0
 //            layer.beginTime = 0.0
@@ -143,10 +143,10 @@ private extension BackInteractionController {
         }
         
         let displayLinkDuration = displayLink?.duration ?? 0.0
-        let tick = displayLinkDuration * NSTimeInterval(completionSpeed())
+        let tick = displayLinkDuration * TimeInterval(completionSpeed)
         
         var offset = timeOffset
-        offset += transitionContext.transitionWasCancelled() ? -tick : tick
+        offset += transitionContext.transitionWasCancelled ? -tick : tick
         timeOffset = min(max(offset, 0.0), duration)
         
         if offset <= 0.0 || offset >= duration {
@@ -158,22 +158,22 @@ private extension BackInteractionController {
 // MARK: - UIViewControllerInteractiveTransitioning
 
 extension BackInteractionController: UIViewControllerInteractiveTransitioning {
-    func completionSpeed() -> CGFloat {
+    var completionSpeed : CGFloat {
         return 1.0
     }
     
-    func completionCurve() -> UIViewAnimationCurve {
-        return .Linear
+    var completionCurve : UIViewAnimationCurve {
+        return .linear
     }
     
-    func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         guard let animationController = animationController else {
             return
         }
         
         self.transitionContext = transitionContext
         
-        transitionContext.containerView().layer.speed = 0.0
-        animationController.animateTransition(transitionContext)
+        transitionContext.containerView.layer.speed = 0.0
+        animationController.animateTransition(using: transitionContext)
     }
 }

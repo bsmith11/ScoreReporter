@@ -16,7 +16,7 @@ class Game: NSManagedObject {
 // MARK: - Public
 
 extension Game {
-    static func fetchedGamesForPool(pool: Pool) -> NSFetchedResultsController {
+    static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
         let sortDescriptors = [
@@ -27,7 +27,7 @@ extension Game {
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
-    static func fetchedGamesForCluster(cluster: Cluster) -> NSFetchedResultsController {
+    static func fetchedGamesForCluster(_ cluster: Cluster) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "cluster", cluster)
         
         let sortDescriptors = [
@@ -38,7 +38,7 @@ extension Game {
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
-    static func fetchedActiveGamesForEvent(event: Event) -> NSFetchedResultsController {
+    static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<NSFetchRequestResult> {
         let gamePredicates = [
             NSPredicate(format: "%K == %@", "pool.round.group.event", event),
             NSPredicate(format: "%K == %@", "cluster.round.group.event", event),
@@ -69,8 +69,8 @@ extension Game: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Game: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
-        guard let gameID = dictionary["EventGameId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
+        guard let gameID = dictionary["EventGameId"] as? NSNumber else {
             return nil
         }
         
@@ -87,12 +87,12 @@ extension Game: CoreDataImportable {
         game.status = dictionary["GameStatus"] as? String
         
         let startDate = dictionary["StartDate"] as? String
-        game.startDate = startDate.flatMap { DateService.gameDateFormatter.dateFromString($0) }
+        game.startDate = startDate.flatMap { DateService.gameDateFormatter.date(from: $0) }
         
         let startTime = dictionary["StartTime"] as? String
-        game.startTime = startTime.flatMap { DateService.gameTimeFormatter.dateFromString($0) }
+        game.startTime = startTime.flatMap { DateService.gameTimeFormatter.date(from: $0) }
         
-        game.startDateFull = NSDate.dateWithDate(game.startDate, time: game.startTime)
+        game.startDateFull = Date.dateWithDate(game.startDate, time: game.startTime)
         
         return game
     }

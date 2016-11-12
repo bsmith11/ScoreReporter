@@ -9,25 +9,25 @@
 import UIKit
 
 class NavigationBarAnimatorView: UIView {
-    private let fromViewController: UIViewController
-    private let toViewController: UIViewController
-    private let navigationBar: UINavigationBar
-    private let backButtonImageView = UIImageView(frame: .zero)
+    fileprivate let fromViewController: UIViewController
+    fileprivate let toViewController: UIViewController
+    fileprivate let navigationBar: UINavigationBar
+    fileprivate let backButtonImageView = UIImageView(frame: .zero)
     
-    private let backIconWidth = CGFloat(13.0)
-    private let backIconSpacing = CGFloat(6.0)
-    private let leadingMargin = CGFloat(8.0)
+    fileprivate let backIconWidth = CGFloat(13.0)
+    fileprivate let backIconSpacing = CGFloat(6.0)
+    fileprivate let leadingMargin = CGFloat(8.0)
     
-    private var incomingNavigationItemButtonView: NavigationItemButtonView?
-    private var leftNavigationItemButtonView: NavigationItemButtonView?
-    private var leftNavigationItemView: NavigationItemView?
-    private var centerNavigationItemView: NavigationItemView?
+    fileprivate var incomingNavigationItemButtonView: NavigationItemButtonView?
+    fileprivate var leftNavigationItemButtonView: NavigationItemButtonView?
+    fileprivate var leftNavigationItemView: NavigationItemView?
+    fileprivate var centerNavigationItemView: NavigationItemView?
     
-    private var leftFromNavigationButton: NavigationButton?
-    private var leftToNavigationButton: NavigationButton?
+    fileprivate var leftFromNavigationButton: NavigationButton?
+    fileprivate var leftToNavigationButton: NavigationButton?
     
-    private var rightFromNavigationButton: NavigationButton?
-    private var rightToNavigationButton: NavigationButton?
+    fileprivate var rightFromNavigationButton: NavigationButton?
+    fileprivate var rightToNavigationButton: NavigationButton?
     
     init(fromViewController: UIViewController, toViewController: UIViewController, navigationBar: UINavigationBar) {
         self.fromViewController = fromViewController
@@ -44,8 +44,8 @@ class NavigationBarAnimatorView: UIView {
         backgroundView.backgroundColor = backgroundColor
         addSubview(backgroundView)
         
-        backButtonImageView.contentMode = .Center
-        backButtonImageView.image = UIImage(named: "icn-navigation-back")?.imageWithRenderingMode(.AlwaysTemplate)
+        backButtonImageView.contentMode = .center
+        backButtonImageView.image = UIImage(named: "icn-navigation-back")?.withRenderingMode(.alwaysTemplate)
         backButtonImageView.tintColor = navigationBar.tintColor
         backButtonImageView.sizeToFit()
         backButtonImageView.center = boundsCenter
@@ -61,7 +61,7 @@ class NavigationBarAnimatorView: UIView {
 
 extension NavigationBarAnimatorView {
     func prepareForAnimation() {
-        navigationBar.hidden = true
+        navigationBar.isHidden = true
         
         incomingNavigationItemButtonView = incomingBackViewController.flatMap { NavigationItemButtonView(viewController: $0, backImageWidth: backIconWidth) }
         
@@ -96,7 +96,7 @@ extension NavigationBarAnimatorView {
             addSubview(centerNavigationItemView)
         }
         
-        rightFromNavigationButton = NavigationButton(viewController: fromViewController, position: .Right)
+        rightFromNavigationButton = NavigationButton(viewController: fromViewController, position: .right)
         
         if let rightFromNavigationButton = rightFromNavigationButton {
             rightFromNavigationButton.center = boundsCenter
@@ -104,7 +104,7 @@ extension NavigationBarAnimatorView {
             addSubview(rightFromNavigationButton)
         }
         
-        rightToNavigationButton = NavigationButton(viewController: toViewController, position: .Right)
+        rightToNavigationButton = NavigationButton(viewController: toViewController, position: .right)
 
         if let rightToNavigationButton = rightToNavigationButton {
             rightToNavigationButton.alpha = 0.0
@@ -116,7 +116,7 @@ extension NavigationBarAnimatorView {
         addSubview(backButtonImageView)
     }
     
-    func animateWithDuration(duration: CFTimeInterval, interactive: Bool) {
+    func animateWithDuration(_ duration: CFTimeInterval, interactive: Bool) {
         let timingFunctionName = interactive ? kCAMediaTimingFunctionLinear : kCAMediaTimingFunctionDefault
         
         if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {
@@ -125,14 +125,14 @@ extension NavigationBarAnimatorView {
             let position = CGPoint(x: x, y: y)
             
             let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
-            positionAnimation.fromValue = NSValue(CGPoint: incomingNavigationItemButtonView.layer.position)
-            incomingNavigationItemButtonView.layer.addAnimation(positionAnimation, forKey: "position")
+            positionAnimation.fromValue = NSValue(cgPoint: incomingNavigationItemButtonView.layer.position)
+            incomingNavigationItemButtonView.layer.add(positionAnimation, forKey: "position")
             incomingNavigationItemButtonView.layer.position = position
             
             let timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
             opacityAnimation.fromValue = incomingNavigationItemButtonView.layer.opacity
-            incomingNavigationItemButtonView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            incomingNavigationItemButtonView.layer.add(opacityAnimation, forKey: "opacity")
             incomingNavigationItemButtonView.layer.opacity = 1.0
         }
         
@@ -140,14 +140,14 @@ extension NavigationBarAnimatorView {
             let position = leftNavigationItemButtonView.centerPosition
             
             let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
-            positionAnimation.fromValue = NSValue(CGPoint: leftNavigationItemButtonView.layer.position)
-            leftNavigationItemButtonView.layer.addAnimation(positionAnimation, forKey: "position")
+            positionAnimation.fromValue = NSValue(cgPoint: leftNavigationItemButtonView.layer.position)
+            leftNavigationItemButtonView.layer.add(positionAnimation, forKey: "position")
             leftNavigationItemButtonView.layer.position = position
             
             let timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
             opacityAnimation.fromValue = leftNavigationItemButtonView.layer.opacity
-            leftNavigationItemButtonView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            leftNavigationItemButtonView.layer.add(opacityAnimation, forKey: "opacity")
             leftNavigationItemButtonView.layer.opacity = 0.0
         }
         
@@ -155,14 +155,14 @@ extension NavigationBarAnimatorView {
             let position = leftNavigationItemView.centerPosition
             
             let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
-            positionAnimation.fromValue = NSValue(CGPoint: leftNavigationItemView.layer.position)
-            leftNavigationItemView.layer.addAnimation(positionAnimation, forKey: "position")
+            positionAnimation.fromValue = NSValue(cgPoint: leftNavigationItemView.layer.position)
+            leftNavigationItemView.layer.add(positionAnimation, forKey: "position")
             leftNavigationItemView.layer.position = position
             
             let timingFunction = CAMediaTimingFunction(controlPoints: 0.75, 0.1, 0.75, 0.1)
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
             opacityAnimation.fromValue = leftNavigationItemView.layer.opacity
-            leftNavigationItemView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            leftNavigationItemView.layer.add(opacityAnimation, forKey: "opacity")
             leftNavigationItemView.layer.opacity = 1.0
         }
         
@@ -172,41 +172,41 @@ extension NavigationBarAnimatorView {
             let position = CGPoint(x: x, y: y)
             
             let positionAnimation = CABasicAnimation(keyPath: "position", timingFunctionName: timingFunctionName, duration: duration)
-            positionAnimation.fromValue = NSValue(CGPoint: centerNavigationItemView.layer.position)
-            centerNavigationItemView.layer.addAnimation(positionAnimation, forKey: "position")
+            positionAnimation.fromValue = NSValue(cgPoint: centerNavigationItemView.layer.position)
+            centerNavigationItemView.layer.add(positionAnimation, forKey: "position")
             centerNavigationItemView.layer.position = position
             
             let timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.9, 0.25, 0.9)
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunction: timingFunction, duration: duration)
             opacityAnimation.fromValue = centerNavigationItemView.layer.opacity
-            centerNavigationItemView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            centerNavigationItemView.layer.add(opacityAnimation, forKey: "opacity")
             centerNavigationItemView.layer.opacity = 0.0
         }
         
         if let rightFromNavigationButton = rightFromNavigationButton {
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: kCAMediaTimingFunctionDefault, duration: duration)
             opacityAnimation.fromValue = rightFromNavigationButton.layer.opacity
-            rightFromNavigationButton.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            rightFromNavigationButton.layer.add(opacityAnimation, forKey: "opacity")
             rightFromNavigationButton.layer.opacity = 0.0
         }
         
         if let rightToNavigationButton = rightToNavigationButton {
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: kCAMediaTimingFunctionLinear, duration: duration)
             opacityAnimation.fromValue = rightToNavigationButton.layer.opacity
-            rightToNavigationButton.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            rightToNavigationButton.layer.add(opacityAnimation, forKey: "opacity")
             rightToNavigationButton.layer.opacity = 1.0
         }
         
         if toViewController.navigationController?.viewControllers.first == toViewController {
             let opacityAnimation = CABasicAnimation(keyPath: "opacity", timingFunctionName: kCAMediaTimingFunctionLinear, duration: duration)
             opacityAnimation.fromValue = backButtonImageView.layer.opacity
-            backButtonImageView.layer.addAnimation(opacityAnimation, forKey: "opacity")
+            backButtonImageView.layer.add(opacityAnimation, forKey: "opacity")
             backButtonImageView.layer.opacity = 0.0
         }
     }
     
     func finishAnimation() {
-        navigationBar.hidden = false
+        navigationBar.isHidden = false
         
         removeFromSuperview()
     }
@@ -220,7 +220,7 @@ private extension NavigationBarAnimatorView {
             return nil
         }
         
-        guard let index = navigationController.viewControllers.indexOf(toViewController) where index - 1 >= 0 else {
+        guard let index = navigationController.viewControllers.index(of: toViewController), index - 1 >= 0 else {
             return nil
         }
         

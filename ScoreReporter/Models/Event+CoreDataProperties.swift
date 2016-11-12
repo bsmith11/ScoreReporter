@@ -16,13 +16,13 @@ extension Event {
 
     @NSManaged var bookmarked: NSNumber
     @NSManaged var city: String?
-    @NSManaged var endDate: NSDate?
+    @NSManaged var endDate: Date?
     @NSManaged var eventID: NSNumber
     @NSManaged var latitude: NSNumber?
     @NSManaged var logoPath: String?
     @NSManaged var longitude: NSNumber?
     @NSManaged var name: String?
-    @NSManaged var startDate: NSDate?
+    @NSManaged var startDate: Date?
     @NSManaged var state: String?
     @NSManaged var type: String?
     @NSManaged var typeName: String?

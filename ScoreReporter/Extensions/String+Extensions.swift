@@ -9,17 +9,17 @@
 import Foundation
 
 extension String {
-    func stringMatchingRegexPattern(pattern: String) -> String? {
+    func stringMatchingRegexPattern(_ pattern: String) -> String? {
         var strings = [String]()
 
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
-            let options: NSMatchingOptions = .ReportProgress
+            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let options: NSRegularExpression.MatchingOptions = .reportProgress
             let range = NSRange(location: 0, length: (self as NSString).length)
 
-            regex.enumerateMatchesInString(self, options: options, range: range, usingBlock: { (result: NSTextCheckingResult?, flags: NSMatchingFlags, stop: UnsafeMutablePointer<ObjCBool>) in
+            regex.enumerateMatches(in: self, options: options, range: range, using: { (result: NSTextCheckingResult?, flags: NSRegularExpression.MatchingFlags, stop: UnsafeMutablePointer<ObjCBool>) in
                 if let result = result {
-                    let match = (self as NSString).substringWithRange(result.range)
+                    let match = (self as NSString).substring(with: result.range)
                     strings.append(match)
                 }
             })

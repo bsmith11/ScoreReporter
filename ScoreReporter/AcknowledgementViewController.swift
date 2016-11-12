@@ -10,8 +10,8 @@ import UIKit
 import Anchorage
 
 class AcknowledgementViewController: UIViewController {
-    private let acknowledgement: Acknowledgement
-    private let textView = UITextView(frame: .zero)
+    fileprivate let acknowledgement: Acknowledgement
+    fileprivate let textView = UITextView(frame: .zero)
     
     init(acknowledgement: Acknowledgement) {
         self.acknowledgement = acknowledgement
@@ -25,8 +25,8 @@ class AcknowledgementViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {

@@ -12,7 +12,7 @@ import CoreData
 class BracketListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Bracket
     
-    private(set) var fetchedResultsController: NSFetchedResultsController
+    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
     
     dynamic var empty = false
     

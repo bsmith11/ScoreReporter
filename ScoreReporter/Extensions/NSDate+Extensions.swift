@@ -8,35 +8,38 @@
 
 import Foundation
 
-extension NSDate {
-    static func dateWithDate(date: NSDate?, time: NSDate?) -> NSDate? {
+extension Date {
+    static func dateWithDate(_ date: Date?, time: Date?) -> Date? {
         guard let date = date,
-            time = time else {
+            let time = time else {
             return nil
         }
 
-        let calendar = NSCalendar.currentCalendar()
-        calendar.timeZone = NSTimeZone(abbreviation: "UTC")!
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(abbreviation: "UTC")!
 
-        let dateComponents = calendar.components([.Day, .Month, .Year], fromDate: date)
-        let timeComponents = calendar.components([.Hour, .Minute], fromDate: time)
+        var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)
+        let timeComponents = (calendar as NSCalendar).components([.hour, .minute], from: time)
 
         dateComponents.hour = timeComponents.hour
         dateComponents.minute = timeComponents.minute
 
-        return calendar.dateFromComponents(dateComponents)
+        return calendar.date(from: dateComponents)
     }
     
-    static func enclosingDatesForCurrentWeek() -> (NSDate, NSDate) {
-        let calendar = NSCalendar.currentCalendar()
+    static func enclosingDatesForCurrentWeek() -> (Date, Date) {
+        var calendar = Calendar.current
         calendar.firstWeekday = 2
         
         var startDate: NSDate? = nil
-        var interval: NSTimeInterval = 0.0
-        calendar.rangeOfUnit(.WeekOfYear, startDate: &startDate, interval: &interval, forDate: NSDate())
+        var interval: TimeInterval = 0.0
+        (calendar as NSCalendar).range(of: .weekOfYear, start: &startDate, interval: &interval, for: Date())
         
-        let endDate = startDate?.dateByAddingTimeInterval(interval)
+        let endDate = startDate?.addingTimeInterval(interval)
         
-        return (startDate ?? NSDate(), endDate ?? NSDate())
+        let start = startDate as? Date ?? Date()
+        let end = endDate as? Date ?? Date()
+        
+        return (start, end)
     }
 }

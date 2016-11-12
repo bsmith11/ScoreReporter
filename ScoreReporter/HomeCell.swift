@@ -11,13 +11,13 @@ import Anchorage
 import PINRemoteImage
 
 class HomeCell: UICollectionViewCell {
-    private let eventInfoView = EventInfoView(frame: .zero)
+    fileprivate let eventInfoView = EventInfoView(frame: .zero)
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            UIView.animateWithDuration(0.3) {
-                self.transform = self.highlighted ? CGAffineTransformMakeScale(0.97, 0.97) : CGAffineTransformIdentity
-            }
+            UIView.animate(withDuration: 0.3, animations: {
+                self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.97, y: 0.97) : CGAffineTransform.identity
+            }) 
         }
     }
     
@@ -32,11 +32,11 @@ class HomeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         let targetSize = CGSize(width: layoutAttributes.bounds.width, height: UILayoutFittingCompressedSize.height)
-        let size = contentView.systemLayoutSizeFittingSize(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
+        let size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
         
-        let attributes = super.preferredLayoutAttributesFittingAttributes(layoutAttributes)
+        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
         attributes.bounds.size = size
         
         return attributes
@@ -52,7 +52,7 @@ class HomeCell: UICollectionViewCell {
 // MARK: - Public
 
 extension HomeCell {
-    func configureWithSearchable(searchable: Searchable?) {
+    func configureWithSearchable(_ searchable: Searchable?) {
         eventInfoView.configureWithSearchable(searchable)
     }
 }

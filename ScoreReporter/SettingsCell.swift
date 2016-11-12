@@ -10,18 +10,18 @@ import UIKit
 import Anchorage
 
 class SettingsCell: UITableViewCell {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let iconImageView = UIImageView(frame: .zero)
-    private let titleLabel = UILabel(frame: .zero)
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let iconImageView = UIImageView(frame: .zero)
+    fileprivate let titleLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
         separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-        accessoryType = .DisclosureIndicator
+        accessoryType = .disclosureIndicator
         
         configureViews()
         configureLayout()
@@ -35,15 +35,15 @@ class SettingsCell: UITableViewCell {
 // MARK: - Public
 
 extension SettingsCell {
-    func configureWithItem(item: SettingsItem?) {
+    func configureWithItem(_ item: SettingsItem?) {
         iconImageView.image = item?.image
-        iconImageView.hidden = iconImageView.image == nil
+        iconImageView.isHidden = iconImageView.image == nil
         titleLabel.text = item?.title
     }
     
-    func configureWithTitle(title: String?) {
+    func configureWithTitle(_ title: String?) {
         iconImageView.image = nil
-        iconImageView.hidden = true
+        iconImageView.isHidden = true
         titleLabel.text = title
     }
 }
@@ -52,19 +52,19 @@ extension SettingsCell {
 
 private extension SettingsCell {
     func configureViews() {
-        contentStackView.axis = .Horizontal
+        contentStackView.axis = .horizontal
         contentStackView.spacing = 16.0
-        contentStackView.alignment = .Center
+        contentStackView.alignment = .center
         contentView.addSubview(contentStackView)
         
-        iconImageView.contentMode = .Center
-        iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        iconImageView.contentMode = .center
+        iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         contentStackView.addArrangedSubview(iconImageView)
         
-        titleLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
+        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
         titleLabel.textColor = UIColor.USAUNavyColor()
         titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .ByWordWrapping
+        titleLabel.lineBreakMode = .byWordWrapping
         contentStackView.addArrangedSubview(titleLabel)
     }
     

@@ -14,7 +14,7 @@ struct TeamViewModel {
     let state: String
     let location: String
     let coordinate: CLLocationCoordinate2D?
-    let logoURL: NSURL?
+    let logoURL: URL?
     
     init(team: Team?) {
         name = team?.name ?? "No Name"
@@ -36,10 +36,10 @@ struct TeamViewModel {
 //        }
         
         let baseURL = "http://play.usaultimate.org"
-        logoURL = team?.logoPath.flatMap({NSURL(string: "\(baseURL)\($0)")})
+        logoURL = team?.logoPath.flatMap({URL(string: "\(baseURL)\($0)")})
     }
     
-    static func stateNameForAbbreviation(abbreviation: String?) -> String? {
+    static func stateNameForAbbreviation(_ abbreviation: String?) -> String? {
         guard let abbreviation = abbreviation else {
             return nil
         }

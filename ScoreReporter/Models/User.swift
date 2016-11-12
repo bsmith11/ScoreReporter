@@ -17,15 +17,15 @@ class User: NSManagedObject {
 
 extension User {
     static var currentUser: User? {
-        guard let userIDString = KeychainService.load(.UserID),
-                  userID = Int(userIDString) else {
+        guard let userIDString = KeychainService.load(.userID),
+                  let userID = Int(userIDString) else {
             return nil
         }
         
-        return objectWithPrimaryKey(userID, context: User.coreDataStack.mainContext)
+        return objectWithPrimaryKey(NSNumber(value: userID), context: User.coreDataStack.mainContext)
     }
     
-    static func userFromDictionary(dictionary: [String: AnyObject], completion: (User? -> Void)?) {
+    static func userFromDictionary(_ dictionary: [String: AnyObject], completion: ((User?) -> Void)?) {
         var userID: NSNumber?
         
         let block = { (context: NSManagedObjectContext) -> Void in
@@ -55,9 +55,9 @@ extension User: Fetchable {
 // MARK: - CoreDataImportable
 
 extension User: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> User? {
-        guard let userID = dictionary["MemberId"] as? Int,
-                  accountID = dictionary["AccountId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> User? {
+        guard let userID = dictionary["MemberId"] as? NSNumber,
+              let accountID = dictionary["AccountId"] as? NSNumber else {
             return nil
         }
         

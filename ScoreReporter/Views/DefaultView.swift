@@ -10,13 +10,13 @@ import UIKit
 import Anchorage
 
 public enum DefaultViewState {
-    case None
-    case Empty
-    case Loading
+    case none
+    case empty
+    case loading
     
     var hidden: Bool {
         switch self {
-        case .None:
+        case .none:
             return true
         default:
             return false
@@ -36,31 +36,31 @@ public struct DefaultViewStateInfo {
     }
 }
 
-public class DefaultView: UIView {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let imageView = UIImageView(frame: .zero)
-    private let labelStackView = UIStackView(frame: .zero)
-    private let titleLabel = UILabel(frame: .zero)
-    private let messageLabel = UILabel(frame: .zero)
-    private let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+open class DefaultView: UIView {
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let imageView = UIImageView(frame: .zero)
+    fileprivate let labelStackView = UIStackView(frame: .zero)
+    fileprivate let titleLabel = UILabel(frame: .zero)
+    fileprivate let messageLabel = UILabel(frame: .zero)
+    fileprivate let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
-    private var stateInfo = [DefaultViewState: DefaultViewStateInfo]()
-    private var state: DefaultViewState = .None {
+    fileprivate var stateInfo = [DefaultViewState: DefaultViewStateInfo]()
+    fileprivate var state: DefaultViewState = .none {
         didSet {
-            hidden = state.hidden
+            isHidden = state.hidden
             
             let info = stateInfo[state]
             
             imageView.image = info?.image
-            imageView.hidden = info?.image == nil
+            imageView.isHidden = info?.image == nil
             
             titleLabel.text = info?.title
-            titleLabel.hidden = info?.title == nil
+            titleLabel.isHidden = info?.title == nil
             
             messageLabel.text = info?.message
-            messageLabel.hidden = info?.message == nil
+            messageLabel.isHidden = info?.message == nil
             
-            if case .Loading = state {
+            if case .loading = state {
                 spinner.startAnimating()
             }
             else {
@@ -69,13 +69,13 @@ public class DefaultView: UIView {
         }
     }
     
-    public var empty = false {
+    open var empty = false {
         didSet {
             configureState()
         }
     }
     
-    public var loading = false {
+    open var loading = false {
         didSet {
             configureState()
         }
@@ -96,7 +96,7 @@ public class DefaultView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func tintColorDidChange() {
+    override open func tintColorDidChange() {
         super.tintColorDidChange()
         
         imageView.tintColor = tintColor
@@ -109,7 +109,7 @@ public class DefaultView: UIView {
 // MARK: - Public
 
 public extension DefaultView {
-    func setInfo(info: DefaultViewStateInfo, state: DefaultViewState) {
+    func setInfo(_ info: DefaultViewStateInfo, state: DefaultViewState) {
         stateInfo[state] = info
     }
 }
@@ -118,31 +118,31 @@ public extension DefaultView {
 
 private extension DefaultView {
     func configureViews() {
-        contentStackView.axis = .Vertical
+        contentStackView.axis = .vertical
         contentStackView.spacing = 16.0
-        contentStackView.alignment = .Center
+        contentStackView.alignment = .center
         addSubview(contentStackView)
         
-        imageView.contentMode = .Center
+        imageView.contentMode = .center
         imageView.tintColor = tintColor
         contentStackView.addArrangedSubview(imageView)
         
-        labelStackView.axis = .Vertical
+        labelStackView.axis = .vertical
         labelStackView.spacing = 8.0
         contentStackView.addArrangedSubview(labelStackView)
         
-        titleLabel.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBlack)
+        titleLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
         titleLabel.textColor = tintColor
         titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .ByWordWrapping
-        titleLabel.textAlignment = .Center
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.textAlignment = .center
         labelStackView.addArrangedSubview(titleLabel)
         
-        messageLabel.font = UIFont.systemFontOfSize(16.0, weight: UIFontWeightLight)
+        messageLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
         messageLabel.textColor = tintColor
         messageLabel.numberOfLines = 0
-        messageLabel.lineBreakMode = .ByWordWrapping
-        messageLabel.textAlignment = .Center
+        messageLabel.lineBreakMode = .byWordWrapping
+        messageLabel.textAlignment = .center
         labelStackView.addArrangedSubview(messageLabel)
         
         spinner.color = tintColor
@@ -161,13 +161,13 @@ private extension DefaultView {
     func configureState() {
         switch (empty, loading) {
         case (true, true):
-            state = .Loading
+            state = .loading
         case (true, false):
-            state = .Empty
+            state = .empty
         case (false, true):
-            state = .None
+            state = .none
         case (false, false):
-            state = .None
+            state = .none
         }
     }
 }

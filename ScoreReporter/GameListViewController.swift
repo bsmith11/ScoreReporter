@@ -11,9 +11,9 @@ import Anchorage
 import KVOController
 
 class GameListViewController: UIViewController {
-    private let dataSource: GameListDataSource
-    private let tableView = UITableView(frame: .zero, style: .Plain)
-    private let defaultView = DefaultView(frame: .zero)
+    fileprivate let dataSource: GameListDataSource
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let defaultView = DefaultView(frame: .zero)
     
     init(dataSource: GameListDataSource) {
         self.dataSource = dataSource
@@ -27,8 +27,8 @@ class GameListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
@@ -48,7 +48,7 @@ class GameListViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
@@ -61,13 +61,13 @@ private extension GameListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(GameListCell)
-        tableView.registerHeaderFooterClass(SectionHeaderView)
+        tableView.registerClass(GameListCell.self)
+        tableView.registerHeaderFooterClass(SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -82,7 +82,7 @@ private extension GameListViewController {
     }
     
     func configureObservers() {
-        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }
@@ -91,15 +91,15 @@ private extension GameListViewController {
 // MARK: - UITableViewDataSource
 
 extension GameListViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItemsInSection(section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as GameListCell
         let game = dataSource.itemAtIndexPath(indexPath)
         let gameViewModel = GameViewModel(game: game)
@@ -113,7 +113,7 @@ extension GameListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension GameListViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleAtSection(section)
 

@@ -11,17 +11,17 @@ import Anchorage
 import KVOController
 
 protocol SearchViewControllerDelegate: class {
-    func didSelectItem(item: Searchable)
+    func didSelectItem(_ item: Searchable)
 }
 
 class SearchViewController<Model: Searchable>: UIViewController {
-    private let dataSource: SearchDataSource<Model>
-    private let searchBar = UISearchBar(frame: .zero)
-    private let tableView = UITableView(frame: .zero, style: .Plain)
-    private let defaultView = DefaultView(frame: .zero)
+    fileprivate let dataSource: SearchDataSource<Model>
+    fileprivate let searchBar = UISearchBar(frame: .zero)
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let defaultView = DefaultView(frame: .zero)
     
-    private var searchTableViewHelper: SearchTableViewHelper?
-    private var searchBarHelper: SearchBarHelper?
+    fileprivate var searchTableViewHelper: SearchTableViewHelper?
+    fileprivate var searchBarHelper: SearchBarHelper?
     
     weak var delegate: SearchViewControllerDelegate?
     
@@ -38,8 +38,8 @@ class SearchViewController<Model: Searchable>: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     override func loadView() {
@@ -59,17 +59,17 @@ class SearchViewController<Model: Searchable>: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         deselectRowsInTableView(tableView, animated: animated)
         
-        transitionCoordinator()?.animateAlongsideTransition(nil) { [weak self] _ in
+        transitionCoordinator?.animate(alongsideTransition: nil) { [weak self] _ in
             self?.searchBar.becomeFirstResponder()
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         searchBar.resignFirstResponder()
@@ -80,30 +80,30 @@ class SearchViewController<Model: Searchable>: UIViewController {
 
 private extension SearchViewController {
     func configureViews() {
-        searchBar.autocapitalizationType = .None
-        searchBar.autocorrectionType = .No
-        searchBar.spellCheckingType = .No
+        searchBar.autocapitalizationType = .none
+        searchBar.autocorrectionType = .no
+        searchBar.spellCheckingType = .no
         searchBar.placeholder = Model.searchBarPlaceholder
         searchBar.tintColor = UIColor.USAUNavyColor()
         searchBar.delegate = searchBarHelper
         
         var frame = navigationController?.navigationBar.frame ?? .zero
         frame.size.width = frame.width - (8.0 + 8.0 + 13.0 + 16.0)
-        frame.origin.x = 8.0 + 13.0 + 16.0
+        frame.origin.x = CGFloat(8.0 + 13.0 + 16.0)
         searchBar.frame = frame
         
         navigationItem.titleView = searchBar
         
         tableView.dataSource = searchTableViewHelper
         tableView.delegate = searchTableViewHelper
-        tableView.registerClass(SearchCell)
-        tableView.registerHeaderFooterClass(SectionHeaderView)
+        tableView.registerClass(SearchCell.self)
+        tableView.registerHeaderFooterClass(SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
@@ -112,7 +112,7 @@ private extension SearchViewController {
         let emptyTitle = Model.searchEmptyTitle
         let emptyMessage = Model.searchEmptyMessage
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .Empty)
+        defaultView.setInfo(emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
     
@@ -125,7 +125,7 @@ private extension SearchViewController {
     }
     
     func configureObservers() {
-        KVOController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }
@@ -134,15 +134,15 @@ private extension SearchViewController {
 // MARK: - SearchTableViewDataSource
 
 extension SearchViewController: SearchTableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItemsInSection(section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
         let item = dataSource.itemAtIndexPath(indexPath)
         
@@ -155,7 +155,7 @@ extension SearchViewController: SearchTableViewDataSource {
 // MARK: - SearchTableViewDelegate
 
 extension SearchViewController: SearchTableViewDelegate {
-    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         guard let _ = dataSource.titleForSection(section) else {
             return 0.0
         }
@@ -163,7 +163,7 @@ extension SearchViewController: SearchTableViewDelegate {
         return 44.0
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleForSection(section)
         
@@ -172,7 +172,7 @@ extension SearchViewController: SearchTableViewDelegate {
         return headerView
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         guard let item = dataSource.itemAtIndexPath(indexPath) else {
             return
         }
@@ -184,14 +184,14 @@ extension SearchViewController: SearchTableViewDelegate {
 // MARK: - SearchBarHelperDelegate
 
 extension SearchViewController: SearchBarHelperDelegate {
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         dataSource.searchWithText(nil)
         
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         dataSource.searchWithText(searchText)
     }
 }
@@ -199,12 +199,12 @@ extension SearchViewController: SearchBarHelperDelegate {
 // MARK: - SearchBarHelper
 
 private protocol SearchBarHelperDelegate: class {
-    func searchBarCancelButtonClicked(searchBar: UISearchBar)
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
 }
 
 private class SearchBarHelper: NSObject {
-    private unowned let delegate: SearchBarHelperDelegate
+    fileprivate unowned let delegate: SearchBarHelperDelegate
     
     init(delegate: SearchBarHelperDelegate) {
         self.delegate = delegate
@@ -212,11 +212,11 @@ private class SearchBarHelper: NSObject {
 }
 
 extension SearchBarHelper: UISearchBarDelegate {
-    @objc func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    @objc func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         delegate.searchBarCancelButtonClicked(searchBar)
     }
     
-    @objc func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    @objc func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         delegate.searchBar(searchBar, textDidChange: searchText)
     }
 }
@@ -224,20 +224,20 @@ extension SearchBarHelper: UISearchBarDelegate {
 // MARK: - SearchTableViewHelper
 
 private protocol SearchTableViewDataSource: class {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell
 }
 
 private protocol SearchTableViewDelegate: class {
-    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
 }
 
 private class SearchTableViewHelper: NSObject {
-    private unowned let dataSource: SearchTableViewDataSource
-    private unowned let delegate: SearchTableViewDelegate
+    fileprivate unowned let dataSource: SearchTableViewDataSource
+    fileprivate unowned let delegate: SearchTableViewDelegate
     
     init(dataSource: SearchTableViewDataSource, delegate: SearchTableViewDelegate) {
         self.dataSource = dataSource
@@ -246,29 +246,29 @@ private class SearchTableViewHelper: NSObject {
 }
 
 extension SearchTableViewHelper: UITableViewDataSource {
-    @objc func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    @objc func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSectionsInTableView(tableView)
     }
     
-    @objc func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    @objc func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.tableView(tableView, numberOfRowsInSection: section)
     }
     
-    @objc func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    @objc func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return dataSource.tableView(tableView, cellForRowAtIndexPath: indexPath)
     }
 }
 
 extension SearchTableViewHelper: UITableViewDelegate {
-    @objc func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+    @objc func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return delegate.tableView(tableView, estimatedHeightForHeaderInSection: section)
     }
     
-    @objc func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    @objc func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return delegate.tableView(tableView, viewForHeaderInSection: section)
     }
     
-    @objc func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    @objc func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate.tableView(tableView, didSelectRowAtIndexPath: indexPath)
     }
 }

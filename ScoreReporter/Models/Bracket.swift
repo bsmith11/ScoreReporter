@@ -16,7 +16,7 @@ class Bracket: NSManagedObject {
 // MARK: - Public
 
 extension Bracket {
-    static func fetchedBracketsForGroup(group: Group) -> NSFetchedResultsController {
+    static func fetchedBracketsForGroup(_ group: Group) -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "round.group", group)
         
         let sortDescriptors = [
@@ -38,8 +38,8 @@ extension Bracket: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Bracket: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Bracket? {
-        guard let bracketID = dictionary["BracketId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Bracket? {
+        guard let bracketID = dictionary["BracketId"] as? NSNumber else {
             return nil
         }
         

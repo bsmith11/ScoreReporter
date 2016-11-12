@@ -10,21 +10,21 @@ import Foundation
 import CoreData
 
 public protocol ManagedObjectObserverDelegate: class {
-    func objectsDidChange(objects: [NSManagedObject])
+    func objectsDidChange(_ objects: [NSManagedObject])
 }
 
-public class ManagedObjectObserver {
-    private let context: NSManagedObjectContext?
+open class ManagedObjectObserver {
+    fileprivate let context: NSManagedObjectContext?
     
-    private var objects = Set<NSManagedObject>()
+    fileprivate var objects = Set<NSManagedObject>()
     
-    public weak var delegate: ManagedObjectObserverDelegate?
+    open weak var delegate: ManagedObjectObserverDelegate?
     
     public init(context: NSManagedObjectContext) {
         self.objects = []
         self.context = context
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(contextDidChange(_:)), name: NSManagedObjectContextObjectsDidChangeNotification, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(contextDidChange(_:)), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
     }
     
     public init(objects: [NSManagedObject]) {
@@ -37,11 +37,11 @@ public class ManagedObjectObserver {
             return
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(contextDidChange(_:)), name: NSManagedObjectContextObjectsDidChangeNotification, object: context)
+        NotificationCenter.default.addObserver(self, selector: #selector(contextDidChange(_:)), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -52,15 +52,15 @@ public extension ManagedObjectObserver {
         objects.removeAll()
     }
     
-    func addObjects(objects: [NSManagedObject]) {
-        self.objects.unionInPlace(objects)
+    func addObjects(_ objects: [NSManagedObject]) {
+        self.objects.formUnion(objects)
     }
 }
 
 // MARK: - Private
 
 private extension ManagedObjectObserver {
-    @objc func contextDidChange(notification: NSNotification) {
+    @objc func contextDidChange(_ notification: Notification) {
         guard context == notification.object as? NSManagedObjectContext else {
             return
         }
@@ -68,14 +68,14 @@ private extension ManagedObjectObserver {
         let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
         let refreshedObjects = notification.userInfo?[NSRefreshedObjectsKey] as? Set<NSManagedObject> ?? []
         
-        let updated = updatedObjects.intersect(objects)
-        let refreshed = refreshedObjects.intersect(objects)
+        let updated = updatedObjects.intersection(objects)
+        let refreshed = refreshedObjects.intersection(objects)
         
         var flaggedObjects = Array(updated)
-        flaggedObjects.appendContentsOf(refreshed)
+        flaggedObjects.append(contentsOf: refreshed)
         
         if !flaggedObjects.isEmpty {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.delegate?.objectsDidChange(flaggedObjects)
             }
         }

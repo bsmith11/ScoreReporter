@@ -16,7 +16,7 @@ class Event: NSManagedObject {
 // MARK: - Public
 
 extension Event {
-    static func eventsFromArray(array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func eventsFromArray(_ array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Event.objectsFromArray(array, context: context)
         }
@@ -24,12 +24,12 @@ extension Event {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
-    static func fetchedEventsThisWeek() -> NSFetchedResultsController {
-        let datesTuple = NSDate.enclosingDatesForCurrentWeek()
+    static func fetchedEventsThisWeek() -> NSFetchedResultsController<NSFetchRequestResult> {
+        let datesTuple = Date.enclosingDatesForCurrentWeek()
         
         let predicates = [
             NSPredicate(format: "%K == %@", "type", "Tournament"),
-            NSPredicate(format: "%K > %@ AND %K < %@", "startDate", datesTuple.0, "startDate", datesTuple.1)
+            NSPredicate(format: "%K > %@ AND %K < %@", "startDate", datesTuple.0 as NSDate, "startDate", datesTuple.1 as NSDate)
         ]
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -42,7 +42,7 @@ extension Event {
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
     
-    static func fetchedBookmarkedEvents() -> NSFetchedResultsController {
+    static func fetchedBookmarkedEvents() -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicates = [
             NSPredicate(format: "%K == %@", "type", "Tournament"),
             NSPredicate(format: "%K == YES", "bookmarked")
@@ -58,7 +58,7 @@ extension Event {
         return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
     }
     
-    static func fetchedEvents() -> NSFetchedResultsController {
+    static func fetchedEvents() -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
         
         let sortDescriptors = [
@@ -81,8 +81,8 @@ extension Event: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Event: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Event? {
-        guard let eventID = dictionary["EventId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Event? {
+        guard let eventID = dictionary["EventId"] as? NSNumber else {
             return nil
         }
         
@@ -98,10 +98,10 @@ extension Event: CoreDataImportable {
         event.state = dictionary["State"] as? String
         
         let startDate = dictionary["StartDate"] as? String
-        event.startDate = startDate.flatMap { DateService.eventDateFormatter.dateFromString($0) }
+        event.startDate = startDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
         
         let endDate = dictionary["EndDate"] as? String
-        event.endDate = endDate.flatMap { DateService.eventDateFormatter.dateFromString($0) }
+        event.endDate = endDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
         
         let logoPath = dictionary["EventLogo"] as? String
         event.logoPath = logoPathFromString(logoPath)
@@ -112,21 +112,25 @@ extension Event: CoreDataImportable {
         return event
     }
     
-    static func logoPathFromString(string: String?) -> String? {
-        var components = string?.componentsSeparatedByString("\\")
-        
-        if components?.count > 2 {
-            components?.insert("1", atIndex: 1)
+    static func logoPathFromString(_ string: String?) -> String? {
+        guard let string = string else {
+            return nil
         }
         
-        return components?.joinWithSeparator("/")
+        var components = string.components(separatedBy: "\\")
+        
+        if components.count > 2 {
+            components.insert("1", at: 1)
+        }
+        
+        return components.joined(separator: "/")
     }
 }
 
 // MARK: - Searchable
 
 extension Event: Searchable {
-    static var searchFetchedResultsController: NSFetchedResultsController {
+    static var searchFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
         
         let sortDescriptors = [
@@ -149,10 +153,10 @@ extension Event: Searchable {
         return "No events exist by that name"
     }
     
-    static func predicateWithSearchText(searchText: String?) -> NSPredicate? {
+    static func predicateWithSearchText(_ searchText: String?) -> NSPredicate? {
         let typePredicate = NSPredicate(format: "%K == %@", "type", "Tournament")
         
-        guard let searchText = searchText where !searchText.isEmpty else {
+        guard let searchText = searchText, !searchText.isEmpty else {
             return typePredicate
         }
         
@@ -165,16 +169,16 @@ extension Event: Searchable {
     }
     
     var searchSectionTitle: String? {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
         
-        return startDate.flatMap { dateFormatter.stringFromDate($0) }
+        return startDate.flatMap { dateFormatter.string(from: $0 as Date) }
     }
     
-    var searchLogoURL: NSURL? {
+    var searchLogoURL: URL? {
         let baseURL = "http://play.usaultimate.org/"
         
-        return logoPath.flatMap { NSURL(string: "\(baseURL)\($0)") }
+        return logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
     }
     
     var searchTitle: String? {

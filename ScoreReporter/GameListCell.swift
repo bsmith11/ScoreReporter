@@ -10,24 +10,24 @@ import UIKit
 import Anchorage
 
 class GameListCell: UITableViewCell {
-    private let contentStackView = UIStackView(frame: .zero)
-    private let homeStackView = UIStackView(frame: .zero)
-    private let homeNameLabel = UILabel(frame: .zero)
-    private let homeScoreLabel = UILabel(frame: .zero)
-    private let awayStackView = UIStackView(frame: .zero)
-    private let awayNameLabel = UILabel(frame: .zero)
-    private let awayScoreLabel = UILabel(frame: .zero)
-    private let infoStackView = UIStackView(frame: .zero)
-    private let fieldLabel = UILabel(frame: .zero)
-    private let statusLabel = UILabel(frame: .zero)
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let homeStackView = UIStackView(frame: .zero)
+    fileprivate let homeNameLabel = UILabel(frame: .zero)
+    fileprivate let homeScoreLabel = UILabel(frame: .zero)
+    fileprivate let awayStackView = UIStackView(frame: .zero)
+    fileprivate let awayNameLabel = UILabel(frame: .zero)
+    fileprivate let awayScoreLabel = UILabel(frame: .zero)
+    fileprivate let infoStackView = UIStackView(frame: .zero)
+    fileprivate let fieldLabel = UILabel(frame: .zero)
+    fileprivate let statusLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        selectionStyle = .None
-        contentView.backgroundColor = UIColor.whiteColor()
+        selectionStyle = .none
+        contentView.backgroundColor = UIColor.white
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
         separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         
         configureViews()
@@ -42,7 +42,7 @@ class GameListCell: UITableViewCell {
 // MARK: - Public
 
 extension GameListCell {
-    func configureWithViewModel(viewModel: GameViewModel) {
+    func configureWithViewModel(_ viewModel: GameViewModel) {
         homeNameLabel.attributedText = viewModel.homeTeamName
         homeScoreLabel.attributedText = viewModel.homeTeamScore
         
@@ -58,11 +58,11 @@ extension GameListCell {
 
 private extension GameListCell {
     func configureViews() {
-        contentStackView.axis = .Vertical
+        contentStackView.axis = .vertical
         contentStackView.spacing = 4.0
         contentView.addSubview(contentStackView)
         
-        homeStackView.axis = .Horizontal
+        homeStackView.axis = .horizontal
         homeStackView.spacing = 16.0
         contentStackView.addArrangedSubview(homeStackView)
         
@@ -70,10 +70,10 @@ private extension GameListCell {
         homeStackView.addArrangedSubview(homeNameLabel)
         
         homeScoreLabel.textColor = UIColor.USAUNavyColor()
-        homeScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        homeScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         homeStackView.addArrangedSubview(homeScoreLabel)
         
-        awayStackView.axis = .Horizontal
+        awayStackView.axis = .horizontal
         awayStackView.spacing = 16.0
         contentStackView.addArrangedSubview(awayStackView)
         
@@ -81,20 +81,20 @@ private extension GameListCell {
         awayStackView.addArrangedSubview(awayNameLabel)
         
         awayScoreLabel.textColor = UIColor.USAUNavyColor()
-        awayScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        awayScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         awayStackView.addArrangedSubview(awayScoreLabel)
         
-        infoStackView.axis = .Horizontal
+        infoStackView.axis = .horizontal
         infoStackView.spacing = 16.0
         contentStackView.addArrangedSubview(infoStackView)
         
-        fieldLabel.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightThin)
-        fieldLabel.textColor = UIColor.lightGrayColor()
+        fieldLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
+        fieldLabel.textColor = UIColor.lightGray
         infoStackView.addArrangedSubview(fieldLabel)
         
-        statusLabel.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightThin)
-        statusLabel.textColor = UIColor.lightGrayColor()
-        statusLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        statusLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
+        statusLabel.textColor = UIColor.lightGray
+        statusLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         infoStackView.addArrangedSubview(statusLabel)
     }
     

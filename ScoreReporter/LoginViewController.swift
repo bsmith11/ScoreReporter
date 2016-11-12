@@ -10,16 +10,16 @@ import UIKit
 import Anchorage
 
 class LoginViewController: UIViewController {
-    private let viewModel: LoginViewModel
-    private let contentStackView = UIStackView(frame: .zero)
-    private let emailTextField = UITextField(frame: .zero)
-    private let separatorView = UIView(frame: .zero)
-    private let passwordTextField = UITextField(frame: .zero)
-    private let spacerView = UIView(frame: .zero)
-    private let skipButton = UIButton(type: .System)
+    fileprivate let viewModel: LoginViewModel
+    fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let emailTextField = UITextField(frame: .zero)
+    fileprivate let separatorView = UIView(frame: .zero)
+    fileprivate let passwordTextField = UITextField(frame: .zero)
+    fileprivate let spacerView = UIView(frame: .zero)
+    fileprivate let skipButton = UIButton(type: .system)
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     init(viewModel: LoginViewModel) {
@@ -48,42 +48,42 @@ class LoginViewController: UIViewController {
 
 private extension LoginViewController {
     func configureViews() {
-        contentStackView.axis = .Vertical
+        contentStackView.axis = .vertical
         view.addSubview(contentStackView)
         
         let placeholderAttributes = [
-            NSForegroundColorAttributeName: UIColor.lightGrayColor()
+            NSForegroundColorAttributeName: UIColor.lightGray
         ]
         
         emailTextField.delegate = self
-        emailTextField.font = UIFont.systemFontOfSize(20.0, weight: UIFontWeightBlack)
-        emailTextField.textColor = UIColor.whiteColor()
+        emailTextField.font = UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBlack)
+        emailTextField.textColor = UIColor.white
         emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: placeholderAttributes)
-        emailTextField.tintColor = UIColor.whiteColor()
-        emailTextField.autocapitalizationType = .None
-        emailTextField.autocorrectionType = .No
-        emailTextField.spellCheckingType = .No
-        emailTextField.keyboardType = .EmailAddress
+        emailTextField.tintColor = UIColor.white
+        emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
+        emailTextField.spellCheckingType = .no
+        emailTextField.keyboardType = .emailAddress
         contentStackView.addArrangedSubview(emailTextField)
         
         separatorView.backgroundColor = UIColor(hexString: "#C6C6CC")
         contentStackView.addArrangedSubview(separatorView)
         
         passwordTextField.delegate = self
-        passwordTextField.font = UIFont.systemFontOfSize(20.0, weight: UIFontWeightBlack)
-        passwordTextField.textColor = UIColor.whiteColor()
+        passwordTextField.font = UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBlack)
+        passwordTextField.textColor = UIColor.white
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
-        passwordTextField.tintColor = UIColor.whiteColor()
-        passwordTextField.secureTextEntry = true
+        passwordTextField.tintColor = UIColor.white
+        passwordTextField.isSecureTextEntry = true
         contentStackView.addArrangedSubview(passwordTextField)
         
         contentStackView.addArrangedSubview(spacerView)
         
         skipButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        skipButton.setTitle("Later", forState: .Normal)
-        skipButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        skipButton.titleLabel?.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBlack)
-        skipButton.addTarget(self, action: #selector(skipButtonTapped), forControlEvents: .TouchUpInside)
+        skipButton.setTitle("Later", for: UIControlState())
+        skipButton.setTitleColor(UIColor.white, for: UIControlState())
+        skipButton.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         view.addSubview(skipButton)
     }
     
@@ -114,7 +114,7 @@ private extension LoginViewController {
     
     func login() {
         guard let username = emailTextField.text,
-                  password = passwordTextField.text where !username.isEmpty && !password.isEmpty else {
+                  let password = passwordTextField.text, !username.isEmpty && !password.isEmpty else {
             return
         }
         
@@ -129,7 +129,7 @@ private extension LoginViewController {
 // MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
             passwordTextField.becomeFirstResponder()

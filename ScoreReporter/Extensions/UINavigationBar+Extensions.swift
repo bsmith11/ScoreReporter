@@ -9,17 +9,17 @@
 import UIKit
 
 extension UINavigationBar {
-    func titleViewWithTitle(title: String?) -> UIView? {
+    func titleViewWithTitle(_ title: String?) -> UIView? {
         guard let title = title else {
             return nil
         }
         
         return subviews.filter({ view -> Bool in
-            guard view.respondsToSelector(Selector("title")) else {
+            guard view.responds(to: #selector(getter: UIBarItem.title)) else {
                 return false
             }
             
-            return (view.valueForKeyPath("title") as? String) == title
+            return (view.value(forKeyPath: "title") as? String) == title
         }).first
     }
 }

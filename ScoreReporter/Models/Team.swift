@@ -16,7 +16,7 @@ class Team: NSManagedObject {
 // MARK: - Public
 
 extension Team {
-    static func teamsFromArray(array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func teamsFromArray(_ array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Team.objectsFromArray(array, context: context)
         }
@@ -24,7 +24,7 @@ extension Team {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
-    static func fetchedTeams() -> NSFetchedResultsController {
+    static func fetchedTeams() -> NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K != %@", "state", "")
         
         let sortDescriptors = [
@@ -39,7 +39,7 @@ extension Team {
 // MARK: - Private
 
 private extension Team {
-    static func stateNameForAbbreviation(abbreviation: String?) -> String? {
+    static func stateNameForAbbreviation(_ abbreviation: String?) -> String? {
         guard let abbreviation = abbreviation else {
             return nil
         }
@@ -127,8 +127,8 @@ extension Team: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Team: CoreDataImportable {
-    static func objectFromDictionary(dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Team? {
-        guard let teamID = dictionary["TeamId"] as? Int else {
+    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Team? {
+        guard let teamID = dictionary["TeamId"] as? NSNumber else {
             return nil
         }
         
@@ -157,7 +157,7 @@ precedence 100
 }
 
 func <~ (lhs: [String: AnyObject], rhs: String) -> String? {
-    guard let value = lhs[rhs] as? String where !value.isEmpty else {
+    guard let value = lhs[rhs] as? String, !value.isEmpty else {
         return nil
     }
     
@@ -167,7 +167,7 @@ func <~ (lhs: [String: AnyObject], rhs: String) -> String? {
 // MARK: - Searchable
 
 extension Team: Searchable {
-    static var searchFetchedResultsController: NSFetchedResultsController {
+    static var searchFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> {
         let predicate = NSPredicate(format: "%K != nil", "state")
         
         let sortDescriptors = [
@@ -190,10 +190,10 @@ extension Team: Searchable {
         return "No teams exist by that name"
     }
     
-    static func predicateWithSearchText(searchText: String?) -> NSPredicate? {
+    static func predicateWithSearchText(_ searchText: String?) -> NSPredicate? {
         let statePredicate = NSPredicate(format: "%K != nil", "state")
         
-        guard let searchText = searchText where !searchText.isEmpty else {
+        guard let searchText = searchText, !searchText.isEmpty else {
             return statePredicate
         }
         
@@ -214,10 +214,10 @@ extension Team: Searchable {
         return stateFull
     }
     
-    var searchLogoURL: NSURL? {
+    var searchLogoURL: URL? {
         let baseURL = "http://play.usaultimate.org/"
         
-        return logoPath.flatMap { NSURL(string: "\(baseURL)\($0)") }
+        return logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
     }
     
     var searchTitle: String? {
