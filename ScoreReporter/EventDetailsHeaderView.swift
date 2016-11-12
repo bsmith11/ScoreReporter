@@ -43,8 +43,8 @@ class EventDetailsHeaderView: UIView {
 // MARK: - Public
 
 extension EventDetailsHeaderView {
-    func configureWithViewModel(_ viewModel: EventViewModel) {
-        eventInfoView.configureWithSearchable(viewModel.searchable)
+    func configure(with viewModel: EventViewModel) {
+        eventInfoView.configure(with: viewModel.searchable)
 //        mapImageView.setMapImageWithCoordinate(viewModel.coordinate)
     }
 }

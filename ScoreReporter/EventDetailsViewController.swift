@@ -124,7 +124,7 @@ private extension EventDetailsViewController {
         view.addSubview(tableView)
         
         let eventViewModel = EventViewModel(event: dataSource.event)
-        headerView.configureWithViewModel(eventViewModel)
+        headerView.configure(with: eventViewModel)
         headerView.delegate = self
         headerView.eventInfoHidden = true
     }
@@ -185,21 +185,21 @@ extension EventDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataSource.itemAtIndexPath(indexPath)!
+        let item = dataSource.item(at: indexPath)!
         
         switch item {
         case .activeGame(let game):
             let cell = tableView.dequeueCellForIndexPath(indexPath) as GameListCell
             let gameViewModel = GameViewModel(game: game)
-            cell.configureWithViewModel(gameViewModel)
+            cell.configure(with: gameViewModel)
             return cell
         default:
             let cell = tableView.dequeueCellForIndexPath(indexPath) as EventDetailsInfoCell
-            cell.configureWithInfo(item)
+            cell.configure(with: item)
             return cell
         }
     }
@@ -209,19 +209,19 @@ extension EventDetailsViewController: UITableViewDataSource {
 
 extension EventDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.sectionAtIndex(section)?.title else {
+        guard let title = dataSource.section(at: section)?.title else {
             return nil
         }
         
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         
-        headerView.configureWithTitle(title)
+        headerView.configure(with: title)
         
         return headerView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = dataSource.itemAtIndexPath(indexPath) else {
+        guard let item = dataSource.item(at: indexPath) else {
             return
         }
         

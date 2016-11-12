@@ -33,7 +33,7 @@ extension MessageDisplayable where Self: UIViewController {
     }
     
     func displayMessage(_ message: String, animated: Bool) {
-        messageView.configureWithTitle(message)
+        messageView.configure(with: message)
         messageView.display(true, animated: animated)
     }
     

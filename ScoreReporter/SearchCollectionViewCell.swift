@@ -46,7 +46,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
 // MARK: - Public
 
 extension SearchCollectionViewCell {
-    func configureWithSearchable(_ searchable: Searchable?) {
+    func configure(with searchable: Searchable?) {
         logoImageView.pin_setImage(from: searchable?.searchLogoURL)
         titleLabel.text = searchable?.searchTitle
         subtitleLabel.text = searchable?.searchSubtitle

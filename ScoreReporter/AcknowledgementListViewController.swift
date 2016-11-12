@@ -77,14 +77,14 @@ extension AcknowledgementListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as SettingsCell
-        let item = dataSource.itemAtIndexPath(indexPath)
+        let item = dataSource.item(at: indexPath)
         
-        cell.configureWithTitle(item?.title)
+        cell.configure(with: item?.title)
         
         return cell
     }
@@ -94,7 +94,7 @@ extension AcknowledgementListViewController: UITableViewDataSource {
 
 extension AcknowledgementListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = dataSource.itemAtIndexPath(indexPath) else {
+        guard let item = dataSource.item(at: indexPath) else {
             return
         }
         

@@ -152,14 +152,14 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueCellForIndexPath(indexPath) as HomeCell
-        let event = dataSource.itemAtIndexPath(indexPath)
+        let event = dataSource.item(at: indexPath)
         
-        cell.configureWithSearchable(event)
+        cell.configure(with: event)
         
         return cell
     }
@@ -168,7 +168,7 @@ extension HomeViewController: UICollectionViewDataSource {
         let headerView = collectionView.dequeueSupplementaryViewForElementKind(kind, indexPath: indexPath) as SectionHeaderReusableView
         
         let title = dataSource.titleForSection(indexPath.section)
-        headerView.configureWithTitle(title)//, actionButtonImage: UIImage(named: "icn-search"))
+        headerView.configure(with: title)
         headerView.delegate = self
         
         return headerView
@@ -179,7 +179,7 @@ extension HomeViewController: UICollectionViewDataSource {
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let event = dataSource.itemAtIndexPath(indexPath) else {
+        guard let event = dataSource.item(at: indexPath) else {
             return
         }
         

@@ -42,7 +42,7 @@ class GameListCell: UITableViewCell {
 // MARK: - Public
 
 extension GameListCell {
-    func configureWithViewModel(_ viewModel: GameViewModel) {
+    func configure(with viewModel: GameViewModel) {
         homeNameLabel.attributedText = viewModel.homeTeamName
         homeScoreLabel.attributedText = viewModel.homeTeamScore
         

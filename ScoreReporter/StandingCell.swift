@@ -35,7 +35,7 @@ class StandingCell: UITableViewCell {
 // MARK: - Public
 
 extension StandingCell {
-    func configureWithStanding(_ standing: Standing?) {
+    func configure(with standing: Standing?) {
         let name = standing?.teamName ?? "No Name"
         let seed = standing?.seed.flatMap({"(\($0))"})
         nameLabel.text = [name, seed].flatMap({$0}).joined(separator: " ")

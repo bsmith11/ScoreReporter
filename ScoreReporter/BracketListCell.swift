@@ -33,7 +33,7 @@ class BracketListCell: UITableViewCell {
 // MARK: - Public
 
 extension BracketListCell {
-    func configureWithTitle(_ title: String?) {
+    func configure(with title: String?) {
         titleLabel.text = title
     }
 }

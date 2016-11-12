@@ -59,7 +59,7 @@ extension SearchDataSource {
         }
         
         let indexPath = IndexPath(row: 0, section: section)
-        let item = itemAtIndexPath(indexPath)
+        let item = self.item(at: indexPath)
         
         return item?.searchSectionTitle
     }

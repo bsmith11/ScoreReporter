@@ -88,14 +88,14 @@ extension PoolsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as StandingCell
-        let standing = dataSource.itemAtIndexPath(indexPath)
+        let standing = dataSource.item(at: indexPath)
         
-        cell.configureWithStanding(standing)
+        cell.configure(with: standing)
         
         return cell
     }
@@ -106,9 +106,9 @@ extension PoolsViewController: UITableViewDataSource {
 extension PoolsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let poolSection = dataSource.poolSectionAtSection(section)
+        let poolSection = dataSource.poolSection(at: section)
         
-        headerView.configureWithTitle(poolSection?.title, tappable: true)
+        headerView.configure(with: poolSection?.title, tappable: true)
         headerView.delegate = self
         headerView.tag = section
         
@@ -124,7 +124,7 @@ extension PoolsViewController: UITableViewDelegate {
 
 extension PoolsViewController: SectionHeaderViewDelegate {
     func didSelectSectionHeader(_ headerView: SectionHeaderView) {
-        guard let pool = dataSource.poolSectionAtSection(headerView.tag)?.pool else {
+        guard let pool = dataSource.poolSection(at: headerView.tag)?.pool else {
             return
         }
         

@@ -43,7 +43,7 @@ class TeamSearchCell: UITableViewCell {
 // MARK: - Public
 
 extension TeamSearchCell {
-    func configureWithViewModel(_ viewModel: TeamViewModel) {
+    func configure(with viewModel: TeamViewModel) {
         logoImageView.pin_setImage(from: viewModel.logoURL)
         nameLabel.text = viewModel.name
         locationLabel.text = viewModel.location

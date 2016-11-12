@@ -56,7 +56,7 @@ extension TeamSearchDataSource {
         }
         
         let indexPath = IndexPath(row: 0, section: section)
-        let team = itemAtIndexPath(indexPath)
+        let team = item(at: indexPath)
         let teamViewModel = TeamViewModel(team: team)
         
         return teamViewModel.state

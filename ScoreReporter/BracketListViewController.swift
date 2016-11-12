@@ -93,14 +93,14 @@ extension BracketListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as BracketListCell
-        let bracket = dataSource.itemAtIndexPath(indexPath)
+        let bracket = dataSource.item(at: indexPath)
         
-        cell.configureWithTitle(bracket?.name)
+        cell.configure(with: bracket?.name)
         
         return cell
     }

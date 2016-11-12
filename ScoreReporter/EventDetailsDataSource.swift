@@ -74,32 +74,12 @@ class EventDetailsDataSource: NSObject {
 // MARK: - Public
 
 extension EventDetailsDataSource {
-    func numberOfSections() -> Int {
-        return sections.count
-    }
-    
-    func numberOfItemsInSection(_ section: Int) -> Int {
-        guard section < sections.count else {
-            return 0
-        }
-        
-        return sections[section].items.count
-    }
-    
-    func sectionAtIndex(_ section: Int) -> EventDetailsSection? {
+    func section(at section: Int) -> EventDetailsSection? {
         guard section < sections.count else {
             return nil
         }
         
         return sections[section]
-    }
-    
-    func itemAtIndexPath(_ indexPath: IndexPath) -> EventDetailsInfo? {
-        guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else {
-            return nil
-        }
-        
-        return sections[indexPath.section].items[indexPath.item]
     }
 }
 
@@ -146,6 +126,30 @@ private extension EventDetailsDataSource {
                 print("Failed to save with error: \(error)")
             }
         }
+    }
+}
+
+// MARK: - DataSource
+
+extension EventDetailsDataSource: DataSource {
+    func numberOfSections() -> Int {
+        return sections.count
+    }
+    
+    func numberOfItems(in section: Int) -> Int {
+        guard section < sections.count else {
+            return 0
+        }
+        
+        return sections[section].items.count
+    }
+    
+    func item(at indexPath: IndexPath) -> EventDetailsInfo? {
+        guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else {
+            return nil
+        }
+        
+        return sections[indexPath.section].items[indexPath.item]
     }
 }
 

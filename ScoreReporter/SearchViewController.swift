@@ -139,14 +139,14 @@ extension SearchViewController: SearchTableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
-        let item = dataSource.itemAtIndexPath(indexPath)
+        let item = dataSource.item(at: indexPath)
         
-        cell.configureWithSearchable(item)
+        cell.configure(with: item)
         
         return cell
     }
@@ -167,13 +167,13 @@ extension SearchViewController: SearchTableViewDelegate {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleForSection(section)
         
-        headerView.configureWithTitle(title)
+        headerView.configure(with: title)
         
         return headerView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
-        guard let item = dataSource.itemAtIndexPath(indexPath) else {
+        guard let item = dataSource.item(at: indexPath) else {
             return
         }
         

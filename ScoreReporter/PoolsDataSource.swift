@@ -60,7 +60,7 @@ class PoolsDataSource: NSObject, DataSource {
 // MARK: - Public
 
 extension PoolsDataSource {
-    func poolSectionAtSection(_ section: Int) -> PoolSection? {
+    func poolSection(at section: Int) -> PoolSection? {
         guard section < sections.count else {
             return nil
         }
@@ -85,7 +85,7 @@ extension PoolsDataSource {
         return sections.count
     }
     
-    func numberOfItemsInSection(_ section: Int) -> Int {
+    func numberOfItems(in section: Int) -> Int {
         guard section < sections.count else {
             return 0
         }
@@ -93,7 +93,7 @@ extension PoolsDataSource {
         return sections[section].standings.count
     }
     
-    func itemAtIndexPath(_ indexPath: IndexPath) -> Standing? {
+    func item(at indexPath: IndexPath) -> Standing? {
         guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].standings.count else {
             return nil
         }

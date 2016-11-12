@@ -38,7 +38,7 @@ class SearchCell: UITableViewCell {
 // MARK: - Public
 
 extension SearchCell {
-    func configureWithSearchable(_ searchable: Searchable?) {
+    func configure(with searchable: Searchable?) {
         logoImageView.pin_setImage(from: searchable?.searchLogoURL)
         titleLabel.text = searchable?.searchTitle
         subtitleLabel.text = searchable?.searchSubtitle

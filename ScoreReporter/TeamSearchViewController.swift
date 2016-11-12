@@ -153,15 +153,15 @@ extension TeamSearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as TeamSearchCell
-        let team = dataSource.itemAtIndexPath(indexPath)
+        let team = dataSource.item(at: indexPath)
         let teamViewModel = TeamViewModel(team: team)
         
-        cell.configureWithViewModel(teamViewModel)
+        cell.configure(with: teamViewModel)
         
         return cell
     }
@@ -174,13 +174,13 @@ extension TeamSearchViewController: UITableViewDelegate {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleForSection(section)
         
-        headerView.configureWithTitle(title)
+        headerView.configure(with: title)
         
         return headerView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let event = dataSource.itemAtIndexPath(indexPath) else {
+//        guard let event = dataSource.item(at: indexPath) else {
 //            return
 //        }
 //        

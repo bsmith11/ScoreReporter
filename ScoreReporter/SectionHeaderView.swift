@@ -54,7 +54,7 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 // MARK: - Public
 
 extension SectionHeaderView {
-    func configureWithTitle(_ title: String?, actionButtonTitle: String? = nil, actionButtonImage: UIImage? = nil, tappable: Bool = false) {
+    func configure(with title: String?, actionButtonTitle: String? = nil, actionButtonImage: UIImage? = nil, tappable: Bool = false) {
         titleLabel.text = title
         
         actionButton.setTitle(actionButtonTitle, for: UIControlState())
@@ -64,10 +64,10 @@ extension SectionHeaderView {
         accessoryImageView.isHidden = !tappable
     }
     
-    func configureWithViewModel(_ viewModel: EventViewModel) {
+    func configure(with viewModel: EventViewModel) {
         let title = viewModel.eventStartDate
         
-        configureWithTitle(title)
+        configure(with: title)
     }
 }
 

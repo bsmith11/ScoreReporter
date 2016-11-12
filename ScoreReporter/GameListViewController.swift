@@ -96,15 +96,15 @@ extension GameListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as GameListCell
-        let game = dataSource.itemAtIndexPath(indexPath)
+        let game = dataSource.item(at: indexPath)
         let gameViewModel = GameViewModel(game: game)
         
-        cell.configureWithViewModel(gameViewModel)
+        cell.configure(with: gameViewModel)
         
         return cell
     }
@@ -117,7 +117,7 @@ extension GameListViewController: UITableViewDelegate {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         let title = dataSource.titleAtSection(section)
 
-        headerView.configureWithTitle(title)
+        headerView.configure(with: title)
         
         return headerView
     }

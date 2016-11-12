@@ -35,13 +35,13 @@ class SettingsCell: UITableViewCell {
 // MARK: - Public
 
 extension SettingsCell {
-    func configureWithItem(_ item: SettingsItem?) {
+    func configure(with item: SettingsItem?) {
         iconImageView.image = item?.image
         iconImageView.isHidden = iconImageView.image == nil
         titleLabel.text = item?.title
     }
     
-    func configureWithTitle(_ title: String?) {
+    func configure(with title: String?) {
         iconImageView.image = nil
         iconImageView.isHidden = true
         titleLabel.text = title

@@ -134,7 +134,7 @@ private extension GroupDetailsViewController {
     @objc func segmentedControlValueChanged() {
         let index = segmentedControl.selectedSegmentIndex
         let indexPath = IndexPath(row: index, section: 0)
-        let item = dataSource.itemAtIndexPath(indexPath)
+        let item = dataSource.item(at: indexPath)
         
         displayViewController(item)
     }

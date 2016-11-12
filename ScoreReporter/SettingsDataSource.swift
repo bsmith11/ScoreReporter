@@ -75,7 +75,7 @@ extension SettingsDataSource: DataSource {
         return sections.count
     }
     
-    func numberOfItemsInSection(_ section: Int) -> Int {
+    func numberOfItems(in section: Int) -> Int {
         guard section < sections.count else {
             return 0
         }
@@ -83,7 +83,7 @@ extension SettingsDataSource: DataSource {
         return sections[section].items.count
     }
     
-    func itemAtIndexPath(_ indexPath: IndexPath) -> SettingsItem? {
+    func item(at indexPath: IndexPath) -> SettingsItem? {
         guard indexPath.section < sections.count else {
             return nil
         }

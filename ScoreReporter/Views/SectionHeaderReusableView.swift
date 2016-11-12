@@ -47,7 +47,7 @@ class SectionHeaderReusableView: UICollectionReusableView {
 // MARK: - Public
 
 extension SectionHeaderReusableView {
-    func configureWithTitle(_ title: String?, actionButtonImage: UIImage? = nil) {
+    func configure(with title: String?, actionButtonImage: UIImage? = nil) {
         titleLabel.text = title
         
         actionButton.setImage(actionButtonImage, for: UIControlState())

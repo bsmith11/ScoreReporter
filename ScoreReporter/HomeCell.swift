@@ -52,8 +52,8 @@ class HomeCell: UICollectionViewCell {
 // MARK: - Public
 
 extension HomeCell {
-    func configureWithSearchable(_ searchable: Searchable?) {
-        eventInfoView.configureWithSearchable(searchable)
+    func configure(with searchable: Searchable?) {
+        eventInfoView.configure(with: searchable)
     }
 }
 

@@ -110,14 +110,14 @@ extension BookmarksViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItemsInSection(section)
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
-        let event = dataSource.itemAtIndexPath(indexPath)
+        let event = dataSource.item(at: indexPath)
         
-        cell.configureWithSearchable(event)
+        cell.configure(with: event)
         
         return cell
     }
@@ -127,7 +127,7 @@ extension BookmarksViewController: UITableViewDataSource {
 
 extension BookmarksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let event = dataSource.itemAtIndexPath(indexPath) else {
+        guard let event = dataSource.item(at: indexPath) else {
             return
         }
         

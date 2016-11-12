@@ -50,7 +50,7 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
 extension GameListDataSource {
     func titleAtSection(_ section: Int) -> String? {
         let indexPath = IndexPath(item: 0, section: section)
-        let game = itemAtIndexPath(indexPath)
+        let game = item(at: indexPath)
         let dateFormatter = DateService.gameStartDateFullFormatter
         
         return game?.startDateFull.flatMap({dateFormatter.string(from: $0)})

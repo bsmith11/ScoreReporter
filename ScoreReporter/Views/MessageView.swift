@@ -38,7 +38,7 @@ class MessageView: UIView {
 // MARK: - Public
 
 extension MessageView {
-    func configureWithTitle(_ title: String) {
+    func configure(with title: String) {
         titleLabel.text = title
     }
     

@@ -35,7 +35,7 @@ class EventDetailsInfoCell: UITableViewCell {
 // MARK: - Public
 
 extension EventDetailsInfoCell {
-    func configureWithInfo(_ info: EventDetailsInfo?) {
+    func configure(with info: EventDetailsInfo?) {
         iconImageView.image = info?.image
         iconImageView.isHidden = iconImageView.image == nil
         titleLabel.text = info?.title

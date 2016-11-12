@@ -14,8 +14,8 @@ protocol DataSource {
     associatedtype ModelType
 
     func numberOfSections() -> Int
-    func numberOfItemsInSection(_ section: Int) -> Int
-    func itemAtIndexPath(_ indexPath: IndexPath) -> ModelType?
+    func numberOfItems(in section: Int) -> Int
+    func item(at indexPath: IndexPath) -> ModelType?
 }
 
 protocol ArrayDataSource: DataSource {
@@ -27,7 +27,7 @@ extension ArrayDataSource {
         return 1
     }
     
-    func numberOfItemsInSection(_ section: Int) -> Int {
+    func numberOfItems(in section: Int) -> Int {
         guard section == 0 else {
             return 0
         }
@@ -35,7 +35,7 @@ extension ArrayDataSource {
         return items.count
     }
     
-    func itemAtIndexPath(_ indexPath: IndexPath) -> ModelType? {
+    func item(at indexPath: IndexPath) -> ModelType? {
         guard indexPath.section == 0 && indexPath.item < items.count else {
             return nil
         }
@@ -53,7 +53,7 @@ extension FetchedDataSource {
         return fetchedResultsController.sections?.count ?? 0
     }
 
-    func numberOfItemsInSection(_ section: Int) -> Int {
+    func numberOfItems(in section: Int) -> Int {
         guard let sections = fetchedResultsController.sections, section < sections.count else {
             return 0
         }
@@ -61,8 +61,8 @@ extension FetchedDataSource {
         return sections[section].numberOfObjects
     }
 
-    func itemAtIndexPath(_ indexPath: IndexPath) -> ModelType? {
-        guard fetchedResultsController.containsIndexPath(indexPath) else {
+    func item(at indexPath: IndexPath) -> ModelType? {
+        guard fetchedResultsController.contains(indexPath) else {
             return nil
         }
         
@@ -71,7 +71,7 @@ extension FetchedDataSource {
 }
 
 extension NSFetchedResultsController {
-    func containsIndexPath(_ indexPath: IndexPath) -> Bool {
+    func contains(_ indexPath: IndexPath) -> Bool {
         guard let sections = sections, indexPath.section < sections.count else {
             return false
         }
