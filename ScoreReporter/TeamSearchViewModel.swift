@@ -21,7 +21,7 @@ extension TeamSearchViewModel {
     func downloadTeams() {
         loading = true
         
-        teamService.downloadTeamListWithCompletion { [weak self] error in
+        teamService.downloadTeamList { [weak self] error in
             self?.loading = false
             self?.error = error
         }

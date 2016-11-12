@@ -44,7 +44,7 @@ class BackInteractionController: NSObject {
         panGestureRecognizer.addTarget(self, action: #selector(handlePan(_:)))
     }
     
-    func update(_ percentComplete: CGFloat) {
+    func update(percentComplete: CGFloat) {
         let boundedPercentComplete = min(max(percentComplete, 0.0), 1.0)
         timeOffset = Double(boundedPercentComplete) * duration
                 
@@ -87,10 +87,10 @@ private extension BackInteractionController {
             let translation = panRecognizer.translation(in: view)
             if translation.x > 0.0 {
                 let percent = translation.x / view.bounds.width
-                update(percent)
+                update(percentComplete: percent)
             }
             else {
-                update(0.0)
+                update(percentComplete: 0.0)
             }
         case .ended:
             guard let view = panRecognizer.view else {

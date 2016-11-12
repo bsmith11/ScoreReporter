@@ -66,10 +66,10 @@ private extension GameListCell {
         homeStackView.spacing = 16.0
         contentStackView.addArrangedSubview(homeStackView)
         
-        homeNameLabel.textColor = UIColor.USAUNavyColor()
+        homeNameLabel.textColor = UIColor.usauNavy
         homeStackView.addArrangedSubview(homeNameLabel)
         
-        homeScoreLabel.textColor = UIColor.USAUNavyColor()
+        homeScoreLabel.textColor = UIColor.usauNavy
         homeScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         homeStackView.addArrangedSubview(homeScoreLabel)
         
@@ -77,10 +77,10 @@ private extension GameListCell {
         awayStackView.spacing = 16.0
         contentStackView.addArrangedSubview(awayStackView)
         
-        awayNameLabel.textColor = UIColor.USAUNavyColor()
+        awayNameLabel.textColor = UIColor.usauNavy
         awayStackView.addArrangedSubview(awayNameLabel)
         
-        awayScoreLabel.textColor = UIColor.USAUNavyColor()
+        awayScoreLabel.textColor = UIColor.usauNavy
         awayScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         awayStackView.addArrangedSubview(awayScoreLabel)
         

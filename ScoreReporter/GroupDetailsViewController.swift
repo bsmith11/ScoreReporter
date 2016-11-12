@@ -84,7 +84,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
 
 private extension GroupDetailsViewController {
     func configureViews() {
-        segmentedControlContainerView.backgroundColor = UIColor.USAUNavyColor()
+        segmentedControlContainerView.backgroundColor = UIColor.usauNavy
         view.addSubview(segmentedControlContainerView)
         
         segmentedControl.tintColor = UIColor.white

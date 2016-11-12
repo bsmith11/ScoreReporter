@@ -11,7 +11,7 @@ import UIKit
 
 public extension UIView {
     var keyboardLayoutGuide: UILayoutGuide {
-        if let index = layoutGuides.index(where: {$0 is KeyboardLayoutGuide}) {
+        if let index = layoutGuides.index(where: { $0 is KeyboardLayoutGuide }) {
             return layoutGuides[index]
         }
         

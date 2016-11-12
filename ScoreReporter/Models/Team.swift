@@ -16,9 +16,9 @@ class Team: NSManagedObject {
 // MARK: - Public
 
 extension Team {
-    static func teamsFromArray(_ array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func teams(from array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Team.objectsFromArray(array, context: context)
+            Team.objects(from: array, context: context)
         }
         
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
@@ -32,14 +32,10 @@ extension Team {
             NSSortDescriptor(key: "name", ascending: true)
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
     }
-}
-
-// MARK: - Private
-
-private extension Team {
-    static func stateNameForAbbreviation(_ abbreviation: String?) -> String? {
+    
+    static func stateName(fromAbbreviation abbreviation: String?) -> String? {
         guard let abbreviation = abbreviation else {
             return nil
         }
@@ -127,12 +123,12 @@ extension Team: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Team: CoreDataImportable {
-    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Team? {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Team? {
         guard let teamID = dictionary["TeamId"] as? NSNumber else {
             return nil
         }
         
-        guard let team = objectWithPrimaryKey(teamID, context: context, createNew: true) else {
+        guard let team = object(primaryKey: teamID, context: context, createNew: true) else {
             return nil
         }
         
@@ -141,7 +137,7 @@ extension Team: CoreDataImportable {
         team.logoPath = dictionary <~ "TeamLogo"
         team.city = dictionary <~ "City"
         team.state = dictionary <~ "State"
-        team.stateFull = Team.stateNameForAbbreviation(team.state) ?? team.state
+        team.stateFull = Team.stateName(fromAbbreviation: team.state) ?? team.state
         team.school = dictionary <~ "SchoolName"
         team.division = dictionary <~ "DivisionName"
         team.competitionLevel = dictionary <~ "CompetitionLevel"
@@ -175,7 +171,7 @@ extension Team: Searchable {
             NSSortDescriptor(key: "name", ascending: true)
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
     }
     
     static var searchBarPlaceholder: String? {
@@ -190,7 +186,7 @@ extension Team: Searchable {
         return "No teams exist by that name"
     }
     
-    static func predicateWithSearchText(_ searchText: String?) -> NSPredicate? {
+    static func predicate(with searchText: String?) -> NSPredicate? {
         let statePredicate = NSPredicate(format: "%K != nil", "state")
         
         guard let searchText = searchText, !searchText.isEmpty else {

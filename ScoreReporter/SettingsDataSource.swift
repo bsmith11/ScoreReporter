@@ -50,7 +50,7 @@ class SettingsDataSource {
 // MARK: - Public
 
 extension SettingsDataSource {
-    func titleForSection(_ section: Int) -> String? {
+    func title(for section: Int) -> String? {
         guard section < sections.count else {
             return nil
         }

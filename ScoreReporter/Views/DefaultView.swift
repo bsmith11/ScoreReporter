@@ -84,7 +84,7 @@ open class DefaultView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        tintColor = UIColor.USAUNavyColor()
+        tintColor = UIColor.usauNavy
         
         configureViews()
         configureLayout()

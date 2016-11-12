@@ -9,37 +9,37 @@
 import UIKit
 
 extension UITableViewCell {
-    static func reuseID() -> String {
+    static var reuseID: String {
         return NSStringFromClass(self)
     }
 }
 
 extension UITableViewHeaderFooterView {
-    static func reuseID() -> String {
+    static var reuseID: String {
         return NSStringFromClass(self)
     }
 }
 
 extension UITableView {
-    func registerClass(_ cellClass: UITableViewCell.Type) {
-        register(cellClass, forCellReuseIdentifier: cellClass.reuseID())
+    func register(cellClass: UITableViewCell.Type) {
+        register(cellClass, forCellReuseIdentifier: cellClass.reuseID)
     }
     
-    func registerHeaderFooterClass(_ headerFooterClass: UITableViewHeaderFooterView.Type) {
-        register(headerFooterClass, forHeaderFooterViewReuseIdentifier: headerFooterClass.reuseID())
+    func register(headerFooterClass: UITableViewHeaderFooterView.Type) {
+        register(headerFooterClass, forHeaderFooterViewReuseIdentifier: headerFooterClass.reuseID)
     }
     
-    func dequeueCellForIndexPath<T: UITableViewCell>(_ indexPath: IndexPath) -> T {
-        guard let cell = dequeueReusableCell(withIdentifier: T.reuseID(), for: indexPath) as? T else {
-            preconditionFailure("Cell must of class \(T.reuseID())")
+    func dequeueCell<T: UITableViewCell>(for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withIdentifier: T.reuseID, for: indexPath) as? T else {
+            preconditionFailure("Cell must of class \(T.reuseID)")
         }
         
         return cell
     }
     
     func dequeueHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
-        guard let headerFooterView = dequeueReusableHeaderFooterView(withIdentifier: T.reuseID()) as? T else {
-            preconditionFailure("Header footer view must be of class \(T.reuseID())")
+        guard let headerFooterView = dequeueReusableHeaderFooterView(withIdentifier: T.reuseID) as? T else {
+            preconditionFailure("Header footer view must be of class \(T.reuseID)")
         }
         
         return headerFooterView
@@ -47,10 +47,10 @@ extension UITableView {
 }
 
 extension UITableView {
-    func handleChanges(_ changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
+    func handle(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
         beginUpdates()
         
-        changes.forEach({ change in
+        changes.forEach { change in
             switch change {
             case .section(let type, let index):
                 let indexSet = IndexSet(integer: index)
@@ -83,7 +83,7 @@ extension UITableView {
                     }
                 }
             }
-        })
+        }
         
         endUpdates()
         

@@ -74,7 +74,7 @@ extension PoolsDataSource {
 private extension PoolsDataSource {
     func configureSections() {
         let pools = (fetchedResultsController.fetchedObjects as? [Pool]) ?? []
-        sections = pools.map({PoolSection(pool: $0)})
+        sections = pools.map { PoolSection(pool: $0) }
     }
 }
 

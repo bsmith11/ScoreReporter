@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.USAUNavyColor()
+        view.backgroundColor = UIColor.usauNavy
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(gesture)
@@ -120,7 +120,7 @@ private extension LoginViewController {
         
         let credentials = Credentials(username: username, password: password)
         
-        viewModel.loginWithCredentials(credentials) { error in
+        viewModel.login(with: credentials) { error in
             
         }
     }

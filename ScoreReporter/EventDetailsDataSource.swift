@@ -95,11 +95,11 @@ private extension EventDetailsDataSource {
             .date(eventViewModel.eventDates)
         ]))
         
-        let divisions = eventViewModel.groups.map({EventDetailsInfo.division($0)})
+        let divisions = eventViewModel.groups.map { EventDetailsInfo.division($0) }
         sections.append(EventDetailsSection(title: "Divisions", items: divisions))
         
         if let activeGames = activeGamesFetchedResultsController.fetchedObjects as? [Game], !activeGames.isEmpty {
-            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map({.activeGame($0)})))
+            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))
         }
     }
     

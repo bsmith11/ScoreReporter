@@ -116,7 +116,7 @@ extension NavigationBarAnimatorView {
         addSubview(backButtonImageView)
     }
     
-    func animateWithDuration(_ duration: CFTimeInterval, interactive: Bool) {
+    func animate(with duration: CFTimeInterval, interactive: Bool) {
         let timingFunctionName = interactive ? kCAMediaTimingFunctionLinear : kCAMediaTimingFunctionDefault
         
         if let incomingNavigationItemButtonView = incomingNavigationItemButtonView {

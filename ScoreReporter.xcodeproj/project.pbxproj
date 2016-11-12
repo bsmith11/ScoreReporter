@@ -116,7 +116,6 @@
 		48F8B52F1DC4603D0031DB5B /* Importable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F8B52E1DC4603D0031DB5B /* Importable.swift */; };
 		48F8B5311DC460540031DB5B /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F8B5301DC460540031DB5B /* Fetchable.swift */; };
 		48F8B5331DC4FDD70031DB5B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 48F8B5321DC4FDD70031DB5B /* Settings.bundle */; };
-		48F8B5351DC672F20031DB5B /* UINavigationBar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F8B5341DC672F20031DB5B /* UINavigationBar+Extensions.swift */; };
 		5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52680920874D492D40D00CFD /* AppDelegate.swift */; };
 		7F66699D3AFAECEE6C1E5EC5 /* Pods_ScoreReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648BA6BA3DC2DAAB2475AB21 /* Pods_ScoreReporter.framework */; };
 		DA88F1ED835B8C624CD0ACCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693B305DC64788811391D5AF /* Foundation.framework */; };
@@ -244,7 +243,6 @@
 		48F8B52E1DC4603D0031DB5B /* Importable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Importable.swift; sourceTree = "<group>"; };
 		48F8B5301DC460540031DB5B /* Fetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
 		48F8B5321DC4FDD70031DB5B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		48F8B5341DC672F20031DB5B /* UINavigationBar+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Extensions.swift"; sourceTree = "<group>"; };
 		4C9687C4D6702C6F0E9312B6 /* Images.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		52680920874D492D40D00CFD /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C12ADEC315EA54F9AA76A3 /* ScoreReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScoreReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -466,7 +464,6 @@
 				481A97BF1D88E6720066B749 /* UIViewController+Extensions.swift */,
 				481A97C11D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift */,
 				482045461DB5AAEA00739E73 /* KVOController+Extensions.swift */,
-				48F8B5341DC672F20031DB5B /* UINavigationBar+Extensions.swift */,
 				481580961DCAC0CE008F141B /* CALayer+Extensions.swift */,
 				481580981DCAE16E008F141B /* CAAnimation+Extensions.swift */,
 			);
@@ -846,7 +843,6 @@
 				4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */,
 				4864A8BC1DCFBD1E001561D4 /* TeamService.swift in Sources */,
 				48400E881D8EE6B700927EB6 /* EventDetailsInfoCell.swift in Sources */,
-				48F8B5351DC672F20031DB5B /* UINavigationBar+Extensions.swift in Sources */,
 				068034781D3ECD53006BD4C1 /* UICollectionView+Extensions.swift in Sources */,
 				0680348F1D4094AC006BD4C1 /* DataSource.swift in Sources */,
 				4849517E1D96F1CF00C95F2F /* SectionHeaderView.swift in Sources */,

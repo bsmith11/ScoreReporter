@@ -34,8 +34,8 @@ class TeamSearchDataSource: NSObject, FetchedDataSource {
 // MARK: - Public
 
 extension TeamSearchDataSource {
-    func searchWithText(_ text: String?) {
-        let predicate = Team.predicateWithSearchText(text)
+    func search(for text: String?) {
+        let predicate = Team.predicate(with: text)
         fetchedResultsController.fetchRequest.predicate = predicate
         
         do {
@@ -50,7 +50,7 @@ extension TeamSearchDataSource {
         refreshBlock?()
     }
     
-    func titleForSection(_ section: Int) -> String? {
+    func title(for section: Int) -> String? {
         guard section < fetchedResultsController.sections?.count ?? 0 else {
             return nil
         }

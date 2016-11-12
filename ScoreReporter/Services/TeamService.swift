@@ -16,7 +16,7 @@ struct TeamService {
 // MARK: - Public
 
 extension TeamService {
-    func downloadTeamListWithCompletion(_ completion: DownloadCompletion?) {
+    func downloadTeamList(completion: DownloadCompletion?) {
         let parameters = [
             "f": "GetTeams"
         ]
@@ -45,6 +45,6 @@ private extension TeamService {
             return
         }
         
-        Team.teamsFromArray(teamArray, completion: completion)
+        Team.teams(from: teamArray, completion: completion)
     }
 }

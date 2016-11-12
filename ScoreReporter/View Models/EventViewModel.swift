@@ -38,7 +38,7 @@ struct EventViewModel {
         }
 
         let baseURL = "http://play.usaultimate.org/"
-        logoURL = event?.logoPath.flatMap({URL(string: "\(baseURL)\($0)")})
+        logoURL = event?.logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
 
         let startDate = event?.startDate ?? Date()
         let dateFormatter = DateFormatter()

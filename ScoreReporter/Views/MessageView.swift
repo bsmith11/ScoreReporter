@@ -24,7 +24,7 @@ class MessageView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.messageGreenColor()
+        backgroundColor = UIColor.messageGreen
         
         configureViews()
         configureLayout()

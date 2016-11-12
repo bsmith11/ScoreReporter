@@ -15,7 +15,7 @@ protocol Searchable {
     static var searchEmptyTitle: String? { get }
     static var searchEmptyMessage: String? { get }
     
-    static func predicateWithSearchText(_ searchText: String?) -> NSPredicate?
+    static func predicate(with searchText: String?) -> NSPredicate?
     
     var searchSectionTitle: String? { get }
     var searchLogoURL: URL? { get }

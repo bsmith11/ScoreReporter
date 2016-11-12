@@ -37,8 +37,8 @@ class StandingCell: UITableViewCell {
 extension StandingCell {
     func configure(with standing: Standing?) {
         let name = standing?.teamName ?? "No Name"
-        let seed = standing?.seed.flatMap({"(\($0))"})
-        nameLabel.text = [name, seed].flatMap({$0}).joined(separator: " ")
+        let seed = standing?.seed.flatMap { "(\($0))" }
+        nameLabel.text = [name, seed].flatMap { $0 }.joined(separator: " ")
         
         let wins = standing?.wins ?? 0
         let losses = standing?.losses ?? 0
@@ -55,11 +55,11 @@ private extension StandingCell {
         contentView.addSubview(contentStackView)
         
         nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
-        nameLabel.textColor = UIColor.USAUNavyColor()
+        nameLabel.textColor = UIColor.usauNavy
         contentStackView.addArrangedSubview(nameLabel)
         
         resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
-        resultsLabel.textColor = UIColor.USAUNavyColor()
+        resultsLabel.textColor = UIColor.usauNavy
         resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         contentStackView.addArrangedSubview(resultsLabel)

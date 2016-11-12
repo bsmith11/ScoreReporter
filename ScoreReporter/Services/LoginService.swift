@@ -16,7 +16,7 @@ struct LoginService {
 // MARK: - Public
 
 extension LoginService {
-    func loginWithCredentials(_ credentials: Credentials, completion: DownloadCompletion?) {
+    func login(with credentials: Credentials, completion: DownloadCompletion?) {
         let parameters = [
             "f": "MemberLogin",
             "username": credentials.username,
@@ -71,7 +71,7 @@ private extension LoginService {
             return
         }
         
-        User.userFromDictionary(responseObject) { user in
+        User.user(from: responseObject) { user in
             guard let userID = user?.userID else {
                 completion?(nil)
                 return

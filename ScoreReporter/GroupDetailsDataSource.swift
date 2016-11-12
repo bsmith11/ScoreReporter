@@ -41,7 +41,7 @@ class GroupDetailsDataSource: NSObject, ArrayDataSource {
 private extension GroupDetailsDataSource {
     func configureItems() {
         let roundsSet = group.rounds as? Set<Round>
-        let rounds = roundsSet.flatMap({Array($0)})?.sorted(by: {$0.0.type.rawValue < $0.1.type.rawValue}) ?? []
+        let rounds = roundsSet.flatMap { Array($0) }?.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue }) ?? []
         
         var poolsViewController: UIViewController?
         var bracketsViewController: UIViewController?

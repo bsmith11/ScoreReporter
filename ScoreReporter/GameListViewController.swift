@@ -44,14 +44,14 @@ class GameListViewController: UIViewController {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handleChanges(changes)
+            self?.tableView.handle(changes: changes)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -61,8 +61,8 @@ private extension GameListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(GameListCell.self)
-        tableView.registerHeaderFooterClass(SectionHeaderView.self)
+        tableView.register(cellClass: GameListCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -100,7 +100,7 @@ extension GameListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as GameListCell
+        let cell = tableView.dequeueCell(for: indexPath) as GameListCell
         let game = dataSource.item(at: indexPath)
         let gameViewModel = GameViewModel(game: game)
         
@@ -115,7 +115,7 @@ extension GameListViewController: UITableViewDataSource {
 extension GameListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let title = dataSource.titleAtSection(section)
+        let title = dataSource.title(for: section)
 
         headerView.configure(with: title)
         

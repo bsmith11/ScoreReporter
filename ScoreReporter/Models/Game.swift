@@ -24,7 +24,7 @@ extension Game {
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
     static func fetchedGamesForCluster(_ cluster: Cluster) -> NSFetchedResultsController<NSFetchRequestResult> {
@@ -35,7 +35,7 @@ extension Game {
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
     static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<NSFetchRequestResult> {
@@ -54,7 +54,7 @@ extension Game {
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 }
 
@@ -69,12 +69,12 @@ extension Game: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Game: CoreDataImportable {
-    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
         guard let gameID = dictionary["EventGameId"] as? NSNumber else {
             return nil
         }
         
-        guard let game = objectWithPrimaryKey(gameID, context: context, createNew: true) else {
+        guard let game = object(primaryKey: gameID, context: context, createNew: true) else {
             return nil
         }
         
@@ -92,7 +92,7 @@ extension Game: CoreDataImportable {
         let startTime = dictionary["StartTime"] as? String
         game.startTime = startTime.flatMap { DateService.gameTimeFormatter.date(from: $0) }
         
-        game.startDateFull = Date.dateWithDate(game.startDate, time: game.startTime)
+        game.startDateFull = Date.date(fromDate: game.startDate, time: game.startTime)
         
         return game
     }

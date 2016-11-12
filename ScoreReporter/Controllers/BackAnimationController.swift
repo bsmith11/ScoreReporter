@@ -130,7 +130,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         dimmingView.layer.add(dimmingAnimation, forKey: "opacity")
         shadowImageView.layer.add(shadowAnimation, forKey: "opacity")
         
-//        navigationBarAnimatorView.animateWithDuration(duration, interactive: transitionContext.isInteractive())
+//        navigationBarAnimatorView.animate(duration: duration, interactive: transitionContext.isInteractive())
         
         CATransaction.commit()
     }

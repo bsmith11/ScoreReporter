@@ -81,17 +81,17 @@ private extension SectionHeaderView {
         contentStackView.addArrangedSubview(titleContainerView)
         
         titleLabel.font = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack)
-        titleLabel.textColor = UIColor.USAUNavyColor()
+        titleLabel.textColor = UIColor.usauNavy
         titleContainerView.addSubview(titleLabel)
         
         actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
-        actionButton.setTitleColor(UIColor.USAURedColor(), for: UIControlState())
+        actionButton.setTitleColor(UIColor.usauRed, for: UIControlState())
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
         contentStackView.addArrangedSubview(actionButton)
         
         accessoryImageView.image = UIImage(named: "icn-disclosure-indicator")?.withRenderingMode(.alwaysTemplate)
-        accessoryImageView.tintColor = UIColor.USAUNavyColor()
+        accessoryImageView.tintColor = UIColor.usauNavy
         accessoryImageView.contentMode = .center
         accessoryImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         contentStackView.addArrangedSubview(accessoryImageView)

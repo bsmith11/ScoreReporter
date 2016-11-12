@@ -69,7 +69,7 @@ private extension SearchCollectionViewCell {
         contentStackView.addArrangedSubview(infoStackView)
         
         titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
-        titleLabel.textColor = UIColor.USAUNavyColor()
+        titleLabel.textColor = UIColor.usauNavy
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         infoStackView.addArrangedSubview(titleLabel)

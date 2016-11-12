@@ -67,7 +67,7 @@ private extension TeamSearchCell {
         contentStackView.addArrangedSubview(infoStackView)
         
         nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
-        nameLabel.textColor = UIColor.USAUNavyColor()
+        nameLabel.textColor = UIColor.usauNavy
         nameLabel.numberOfLines = 0
         nameLabel.lineBreakMode = .byWordWrapping
         infoStackView.addArrangedSubview(nameLabel)

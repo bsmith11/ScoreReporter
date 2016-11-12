@@ -25,10 +25,10 @@ class LoginViewModel: NSObject {
 // MARK: - Public
 
 extension LoginViewModel {
-    func loginWithCredentials(_ credentials: Credentials, completion: LoginCompletion?) {
+    func login(with credentials: Credentials, completion: LoginCompletion?) {
         loading = true
         
-        loginService.loginWithCredentials(credentials) { [weak self] error in
+        loginService.login(with: credentials) { [weak self] error in
             self?.loading = false
             self?.error = error
             

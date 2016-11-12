@@ -66,15 +66,15 @@ extension UIColor {
         return UIColor(hexString: "#4C69AB")
     }
     
-    static func USAUNavyColor() -> UIColor {
+    static var usauNavy: UIColor {
         return UIColor(hexString: "#001E42")
     }
     
-    static func USAURedColor() -> UIColor {
+    static var usauRed: UIColor {
         return UIColor(hexString: "#B20838")
     }
     
-    static func messageGreenColor() -> UIColor {
+    static var messageGreen: UIColor {
         return UIColor(hexString: "#32B92D")
     }
 }

@@ -77,7 +77,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
         
         transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
             self?.headerView.eventInfoHidden = false
@@ -111,9 +111,9 @@ private extension EventDetailsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(EventDetailsInfoCell.self)
-        tableView.registerClass(GameListCell.self)
-        tableView.registerHeaderFooterClass(SectionHeaderView.self)
+        tableView.register(cellClass: EventDetailsInfoCell.self)
+        tableView.register(cellClass: GameListCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -136,15 +136,15 @@ private extension EventDetailsViewController {
     func configureObservers() {
         kvoController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
             if loading {
-                self?.displayMessage("Loading...", animated: true)
+                self?.display(message: "Loading...", animated: true)
             }
             else {
-                self?.hideMessageAnimated(true)
+                self?.hideMessage(animated: true)
             }
         }
         
         kvoController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
-            self?.displayMessage("Error", animated: true)
+            self?.display(message: "Error", animated: true)
         }
     }
     
@@ -193,12 +193,12 @@ extension EventDetailsViewController: UITableViewDataSource {
         
         switch item {
         case .activeGame(let game):
-            let cell = tableView.dequeueCellForIndexPath(indexPath) as GameListCell
+            let cell = tableView.dequeueCell(for: indexPath) as GameListCell
             let gameViewModel = GameViewModel(game: game)
             cell.configure(with: gameViewModel)
             return cell
         default:
-            let cell = tableView.dequeueCellForIndexPath(indexPath) as EventDetailsInfoCell
+            let cell = tableView.dequeueCell(for: indexPath) as EventDetailsInfoCell
             cell.configure(with: item)
             return cell
         }

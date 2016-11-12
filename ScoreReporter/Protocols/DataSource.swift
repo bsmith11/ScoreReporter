@@ -62,7 +62,7 @@ extension FetchedDataSource {
     }
 
     func item(at indexPath: IndexPath) -> ModelType? {
-        guard fetchedResultsController.contains(indexPath) else {
+        guard fetchedResultsController.contains(indexPath: indexPath) else {
             return nil
         }
         
@@ -71,7 +71,7 @@ extension FetchedDataSource {
 }
 
 extension NSFetchedResultsController {
-    func contains(_ indexPath: IndexPath) -> Bool {
+    func contains(indexPath: IndexPath) -> Bool {
         guard let sections = sections, indexPath.section < sections.count else {
             return false
         }

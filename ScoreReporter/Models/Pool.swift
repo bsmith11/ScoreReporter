@@ -23,7 +23,7 @@ extension Pool {
             NSSortDescriptor(key: "poolID", ascending: true),
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedPoolsForGroup(_ group: Group) -> NSFetchedResultsController<NSFetchRequestResult> {
@@ -33,7 +33,7 @@ extension Pool {
             NSSortDescriptor(key: "poolID", ascending: true),
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 }
 
@@ -48,12 +48,12 @@ extension Pool: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Pool: CoreDataImportable {
-    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
         guard let poolID = dictionary["PoolId"] as? NSNumber else {
             return nil
         }
         
-        guard let pool = objectWithPrimaryKey(poolID, context: context, createNew: true) else {
+        guard let pool = object(primaryKey: poolID, context: context, createNew: true) else {
             return nil
         }
         
@@ -61,7 +61,7 @@ extension Pool: CoreDataImportable {
         pool.name = dictionary["Name"] as? String
         
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
-        let gamesArray = Game.objectsFromArray(games, context: context)
+        let gamesArray = Game.objects(from: games, context: context)
         
         for (index, game) in gamesArray.enumerated() {
             game.sortOrder = index as NSNumber
@@ -70,7 +70,7 @@ extension Pool: CoreDataImportable {
         pool.games = NSSet(array: gamesArray)
         
         let standings = dictionary["Standings"] as? [[String: AnyObject]] ?? []
-        pool.standings = NSSet(array: Standing.objectsFromArray(standings, context: context))
+        pool.standings = NSSet(array: Standing.objects(from: standings, context: context))
         
         return pool
     }

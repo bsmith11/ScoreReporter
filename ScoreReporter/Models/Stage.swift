@@ -24,12 +24,12 @@ extension Stage: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Stage: CoreDataImportable {
-    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Stage? {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Stage? {
         guard let stageID = dictionary["StageId"] as? NSNumber else {
             return nil
         }
         
-        guard let stage = objectWithPrimaryKey(stageID, context: context, createNew: true) else {
+        guard let stage = object(primaryKey: stageID, context: context, createNew: true) else {
             return nil
         }
         
@@ -37,7 +37,7 @@ extension Stage: CoreDataImportable {
         stage.name = dictionary["StageName"] as? String
         
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
-        let gamesArray = Game.objectsFromArray(games, context: context)
+        let gamesArray = Game.objects(from: games, context: context)
     
         for (index, game) in gamesArray.enumerated() {
             game.sortOrder = index as NSNumber

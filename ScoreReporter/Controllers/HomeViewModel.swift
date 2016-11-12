@@ -21,7 +21,7 @@ extension HomeViewModel {
     func downloadEvents() {
         loading = true
         
-        eventService.downloadEventListWithCompletion { [weak self] error in
+        eventService.downloadEventList { [weak self] error in
             self?.loading = false
             self?.error = error
         }

@@ -18,7 +18,7 @@ struct EventService {
 // MARK: - Public
 
 extension EventService {
-    func downloadEventListWithCompletion(_ completion: DownloadCompletion?) {
+    func downloadEventList(completion: DownloadCompletion?) {
         let parameters = [
             "f": "GETALLEVENTS"
         ]
@@ -35,7 +35,7 @@ extension EventService {
         client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
-    func downloadDetailsForEvent(_ event: Event, completion: DownloadCompletion?) {
+    func downloadDetails(for event: Event, completion: DownloadCompletion?) {
         let parameters = [
             "f": "GETGAMESBYEVENT",
             "EventId": event.eventID
@@ -65,7 +65,7 @@ private extension EventService {
             return
         }
 
-        Event.eventsFromArray(eventArray, completion: completion)
+        Event.events(from: eventArray, completion: completion)
     }
 
     func handleSuccessfulEventResponse(_ response: Any?, completion: DownloadCompletion?) {
@@ -88,6 +88,6 @@ private extension EventService {
             return
         }
 
-        Group.groupsFromArray(groupArray, completion: completion)
+        Group.groups(from: groupArray, completion: completion)
     }
 }

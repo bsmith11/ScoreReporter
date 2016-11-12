@@ -66,7 +66,7 @@ class TeamSearchViewController: UIViewController, MessageDisplayable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
         
 //        let completion = { [weak self] (context: UIViewControllerTransitionCoordinatorContext) in
 //            if !context.isCancelled() {
@@ -90,8 +90,8 @@ private extension TeamSearchViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(TeamSearchCell.self)
-        tableView.registerHeaderFooterClass(SectionHeaderView.self)
+        tableView.register(cellClass: TeamSearchCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -112,7 +112,7 @@ private extension TeamSearchViewController {
         searchBar.autocorrectionType = .no
         searchBar.spellCheckingType = .no
         searchBar.placeholder = "Find teams"
-        searchBar.tintColor = UIColor.USAUNavyColor()
+        searchBar.tintColor = UIColor.usauNavy
         searchBar.delegate = self
         navigationItem.titleView = searchBar
     }
@@ -132,15 +132,15 @@ private extension TeamSearchViewController {
         
         kvoController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
             if loading {
-                self?.displayMessage("Loading...", animated: true)
+                self?.display(message: "Loading...", animated: true)
             }
             else {
-                self?.hideMessageAnimated(true)
+                self?.hideMessage(animated: true)
             }
         }
         
         kvoController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
-            self?.displayMessage("Error", animated: true)
+            self?.display(message: "Error", animated: true)
         }
     }
 }
@@ -157,7 +157,7 @@ extension TeamSearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as TeamSearchCell
+        let cell = tableView.dequeueCell(for: indexPath) as TeamSearchCell
         let team = dataSource.item(at: indexPath)
         let teamViewModel = TeamViewModel(team: team)
         
@@ -172,7 +172,7 @@ extension TeamSearchViewController: UITableViewDataSource {
 extension TeamSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let title = dataSource.titleForSection(section)
+        let title = dataSource.title(for: section)
         
         headerView.configure(with: title)
         
@@ -206,10 +206,10 @@ extension TeamSearchViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
         
-        dataSource.searchWithText(nil)
+        dataSource.search(for: nil)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        dataSource.searchWithText(searchText)
+        dataSource.search(for: searchText)
     }
 }

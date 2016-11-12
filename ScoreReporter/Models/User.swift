@@ -18,23 +18,23 @@ class User: NSManagedObject {
 extension User {
     static var currentUser: User? {
         guard let userIDString = KeychainService.load(.userID),
-                  let userID = Int(userIDString) else {
+              let userID = Int(userIDString) else {
             return nil
         }
         
-        return objectWithPrimaryKey(NSNumber(value: userID), context: User.coreDataStack.mainContext)
+        return object(primaryKey: NSNumber(value: userID), context: User.coreDataStack.mainContext)
     }
     
-    static func userFromDictionary(_ dictionary: [String: AnyObject], completion: ((User?) -> Void)?) {
+    static func user(from dictionary: [String: AnyObject], completion: ((User?) -> Void)?) {
         var userID: NSNumber?
         
         let block = { (context: NSManagedObjectContext) -> Void in
-            userID = User.objectFromDictionary(dictionary, context: context)?.userID
+            userID = User.object(from: dictionary, context: context)?.userID
         }
         
         coreDataStack.performBlockUsingBackgroundContext(block) { error in
             if let userID = userID {
-                let user = User.objectWithPrimaryKey(userID, context: User.coreDataStack.mainContext)
+                let user = User.object(primaryKey: userID, context: User.coreDataStack.mainContext)
                 completion?(user)
             }
             else {
@@ -55,13 +55,13 @@ extension User: Fetchable {
 // MARK: - CoreDataImportable
 
 extension User: CoreDataImportable {
-    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> User? {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> User? {
         guard let userID = dictionary["MemberId"] as? NSNumber,
               let accountID = dictionary["AccountId"] as? NSNumber else {
             return nil
         }
         
-        guard let user = objectWithPrimaryKey(userID, context: context, createNew: true) else {
+        guard let user = object(primaryKey: userID, context: context, createNew: true) else {
             return nil
         }
         

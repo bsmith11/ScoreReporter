@@ -62,7 +62,7 @@ class SearchViewController<Model: Searchable>: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
         
         transitionCoordinator?.animate(alongsideTransition: nil) { [weak self] _ in
             self?.searchBar.becomeFirstResponder()
@@ -84,7 +84,7 @@ private extension SearchViewController {
         searchBar.autocorrectionType = .no
         searchBar.spellCheckingType = .no
         searchBar.placeholder = Model.searchBarPlaceholder
-        searchBar.tintColor = UIColor.USAUNavyColor()
+        searchBar.tintColor = UIColor.usauNavy
         searchBar.delegate = searchBarHelper
         
         var frame = navigationController?.navigationBar.frame ?? .zero
@@ -96,8 +96,8 @@ private extension SearchViewController {
         
         tableView.dataSource = searchTableViewHelper
         tableView.delegate = searchTableViewHelper
-        tableView.registerClass(SearchCell.self)
-        tableView.registerHeaderFooterClass(SectionHeaderView.self)
+        tableView.register(cellClass: SearchCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -143,7 +143,7 @@ extension SearchViewController: SearchTableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
+        let cell = tableView.dequeueCell(for: indexPath) as SearchCell
         let item = dataSource.item(at: indexPath)
         
         cell.configure(with: item)
@@ -156,7 +156,7 @@ extension SearchViewController: SearchTableViewDataSource {
 
 extension SearchViewController: SearchTableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.titleForSection(section) else {
+        guard let _ = dataSource.title(for: section) else {
             return 0.0
         }
         
@@ -165,7 +165,7 @@ extension SearchViewController: SearchTableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let title = dataSource.titleForSection(section)
+        let title = dataSource.title(for: section)
         
         headerView.configure(with: title)
         
@@ -186,13 +186,13 @@ extension SearchViewController: SearchTableViewDelegate {
 extension SearchViewController: SearchBarHelperDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
-        dataSource.searchWithText(nil)
+        dataSource.search(for: nil)
         
         _ = navigationController?.popViewController(animated: true)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        dataSource.searchWithText(searchText)
+        dataSource.search(for: searchText)
     }
 }
 

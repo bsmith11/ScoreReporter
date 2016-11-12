@@ -19,7 +19,7 @@ protocol KeyboardObservable: class {
 // MARK: - Public
 
 extension KeyboardObservable {
-    func addKeyboardObserverWithAnimationBlock(_ keyboardAnimationBlock: KeyboardAnimationBlock?) {
+    func addKeyboardObserver(with keyboardAnimationBlock: KeyboardAnimationBlock?) {
         let object = keyboardObserverObject()
         object.keyboardAnimationBlock = keyboardAnimationBlock
         

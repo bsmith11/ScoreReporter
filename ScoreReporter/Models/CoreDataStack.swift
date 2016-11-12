@@ -39,14 +39,14 @@ open class CoreDataStack: NSObject {
     
     override init() {
         let bundle = Bundle(for: type(of: self))
-        managedObjectModel = NSManagedObjectModel.managedObjectModelFromName(CoreDataStack.modelName, bundle: bundle)
+        managedObjectModel = NSManagedObjectModel.managedObjectModel(name: CoreDataStack.modelName, bundle: bundle)
         
         let storeType = CoreDataStack.isRunningUnitTests ? NSInMemoryStoreType : NSSQLiteStoreType
         let options = [
             NSMigratePersistentStoresAutomaticallyOption: true,
             NSInferMappingModelAutomaticallyOption: true
         ]
-        persistentStoreCoordinator = NSPersistentStoreCoordinator.persistentStoreCoordinatorWithManagedObjectModel(managedObjectModel, storeType: storeType, storeURL: storeURL, options: options)
+        persistentStoreCoordinator = NSPersistentStoreCoordinator.persistentStoreCoordinator(managedObjectModel: managedObjectModel, storeType: storeType, storeURL: storeURL, options: options)
         
         mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         mainContext.persistentStoreCoordinator = persistentStoreCoordinator
@@ -72,7 +72,7 @@ public extension CoreDataStack {
                 })
             }
             
-            self.removeSaveNotificationsForContext(context)
+            self.removeSaveNotifications(for: context)
         }
     }
 }
@@ -84,16 +84,16 @@ private extension CoreDataStack {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         context.persistentStoreCoordinator = persistentStoreCoordinator
         
-        addSaveNotificationsForContext(context)
+        addSaveNotifications(for: context)
         
         return context
     }
     
-    func addSaveNotificationsForContext(_ context: NSManagedObjectContext) {
+    func addSaveNotifications(for context: NSManagedObjectContext) {
         NotificationCenter.default.addObserver(self, selector: #selector(contextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
     }
     
-    func removeSaveNotificationsForContext(_ context: NSManagedObjectContext) {
+    func removeSaveNotifications(for context: NSManagedObjectContext) {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: context)
     }
     
@@ -103,10 +103,10 @@ private extension CoreDataStack {
         let objects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> ?? []
         
         mainContext.performAndWait { [weak self] in
-            objects.forEach({ object in
+            objects.forEach { object in
                 let contextualObject = self?.mainContext.object(with: object.objectID)
                 contextualObject?.willAccessValue(forKey: nil)
-            })
+            }
             
             self?.mainContext.mergeChanges(fromContextDidSave: notification)
         }
@@ -116,7 +116,7 @@ private extension CoreDataStack {
 // MARK: - NSManagedObjectModel
 
 extension NSManagedObjectModel {
-    static func managedObjectModelFromName(_ name: String, bundle: Bundle) -> NSManagedObjectModel {
+    static func managedObjectModel(name: String, bundle: Bundle) -> NSManagedObjectModel {
         let URL = bundle.url(forResource: name, withExtension: "momd") ?? bundle.url(forResource: name, withExtension: "mom")
         
         guard let modelURL = URL else {
@@ -134,7 +134,7 @@ extension NSManagedObjectModel {
 // MARK: - NSPersistentStoreCoordinator
 
 extension NSPersistentStoreCoordinator {
-    static func persistentStoreCoordinatorWithManagedObjectModel(_ managedObjectModel: NSManagedObjectModel, storeType: String, storeURL: URL, options: [AnyHashable: Any]) -> NSPersistentStoreCoordinator {
+    static func persistentStoreCoordinator(managedObjectModel: NSManagedObjectModel, storeType: String, storeURL: URL, options: [AnyHashable: Any]) -> NSPersistentStoreCoordinator {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         
         do {

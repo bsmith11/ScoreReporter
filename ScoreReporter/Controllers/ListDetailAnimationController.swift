@@ -45,13 +45,13 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         let originalFrame = toViewController.view.frame
         toViewController.view.frame.origin.y = container.frame.maxY
         
-        let viewBoundsAnimation = boundsAnimationWithToValueFrame(endFrame)
-        let viewPositionAnimation = positionAnimationWithToValueFrame(endFrame)
+        let viewBoundsAnimation = boundsAnimation(toFrame: endFrame)
+        let viewPositionAnimation = positionAnimation(toFrame: endFrame)
         
-        let fromViewOpacityAnimation = opacityAnimationWithToValue(0.0)
+        let fromViewOpacityAnimation = opacityAnimation(toAlpha: 0.0)
         
-        let toViewBoundsAnimation = boundsAnimationWithToValueFrame(originalFrame)
-        let toViewPositionAnimation = positionAnimationWithToValueFrame(originalFrame)
+        let toViewBoundsAnimation = boundsAnimation(toFrame: originalFrame)
+        let toViewPositionAnimation = positionAnimation(toFrame: originalFrame)
         
         CATransaction.begin()
         CATransaction.setCompletionBlock {
@@ -79,7 +79,7 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         CATransaction.commit()
     }
     
-    func springAnimationForKeyPath(_ keyPath: String, toValue: AnyObject) -> CASpringAnimation {
+    func springAnimation(keyPath: String, toValue: AnyObject) -> CASpringAnimation {
         let animation = CASpringAnimation(keyPath: keyPath)
         animation.toValue = toValue
         animation.fillMode = kCAFillModeBoth
@@ -93,21 +93,21 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         return animation
     }
     
-    func boundsAnimationWithToValueFrame(_ toValue: CGRect) -> CASpringAnimation {
+    func boundsAnimation(toFrame toValue: CGRect) -> CASpringAnimation {
         let rect = CGRect(origin: .zero, size: toValue.size)
         let value = NSValue(cgRect: rect)
         
-        return springAnimationForKeyPath("bounds", toValue: value)
+        return springAnimation(keyPath: "bounds", toValue: value)
     }
     
-    func positionAnimationWithToValueFrame(_ toValue: CGRect) -> CASpringAnimation {
+    func positionAnimation(toFrame toValue: CGRect) -> CASpringAnimation {
         let point = CGPoint(x: toValue.midX, y: toValue.midY)
         let value = NSValue(cgPoint: point)
         
-        return springAnimationForKeyPath("position", toValue: value)
+        return springAnimation(keyPath: "position", toValue: value)
     }
     
-    func opacityAnimationWithToValue(_ toValue: CGFloat) -> CASpringAnimation {
-        return springAnimationForKeyPath("opacity", toValue: toValue as AnyObject)
+    func opacityAnimation(toAlpha toValue: CGFloat) -> CASpringAnimation {
+        return springAnimation(keyPath: "opacity", toValue: toValue as AnyObject)
     }
 }

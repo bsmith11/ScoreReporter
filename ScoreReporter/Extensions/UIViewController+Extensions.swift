@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    func deselectRowsInTableView(_ tableView: UITableView, animated: Bool) {
+    func deselectRows(in tableView: UITableView, animated: Bool) {
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }

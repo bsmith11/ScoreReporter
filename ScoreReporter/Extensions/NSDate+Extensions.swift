@@ -9,9 +9,29 @@
 import Foundation
 
 extension Date {
-    static func dateWithDate(_ date: Date?, time: Date?) -> Date? {
+//    init?(date: Date?, time: Date?) {
+//        guard let date = date,
+//              let time = time else {
+//            return nil
+//        }
+//        
+//        var calendar = Calendar.current
+//        calendar.timeZone = TimeZone(abbreviation: "UTC")!
+//        
+//        var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)
+//        let timeComponents = (calendar as NSCalendar).components([.hour, .minute], from: time)
+//        
+//        dateComponents.hour = timeComponents.hour
+//        dateComponents.minute = timeComponents.minute
+//        
+//        let newDate = calendar.date(from: dateComponents)
+//        
+//        self.init()
+//    }
+    
+    static func date(fromDate date: Date?, time: Date?) -> Date? {
         guard let date = date,
-            let time = time else {
+              let time = time else {
             return nil
         }
 
@@ -27,7 +47,7 @@ extension Date {
         return calendar.date(from: dateComponents)
     }
     
-    static func enclosingDatesForCurrentWeek() -> (Date, Date) {
+    static var enclosingDatesForCurrentWeek: (Date, Date) {
         var calendar = Calendar.current
         calendar.firstWeekday = 2
         

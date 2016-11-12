@@ -44,14 +44,14 @@ class BracketListViewController: UIViewController {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handleChanges(changes)
+            self?.tableView.handle(changes: changes)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -61,7 +61,7 @@ private extension BracketListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(BracketListCell.self)
+        tableView.register(cellClass: BracketListCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.white
@@ -97,7 +97,7 @@ extension BracketListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as BracketListCell
+        let cell = tableView.dequeueCell(for: indexPath) as BracketListCell
         let bracket = dataSource.item(at: indexPath)
         
         cell.configure(with: bracket?.name)

@@ -23,7 +23,7 @@ extension Standing {
             NSSortDescriptor(key: "sortOrder", ascending: true),
         ]
         
-        return fetchedResultsControllerWithPredicate(predicate, sortDescriptors: sortDescriptors)
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 }
 
@@ -38,8 +38,8 @@ extension Standing: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Standing: CoreDataImportable {
-    static func objectFromDictionary(_ dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Standing? {
-        guard let standing = createObjectInContext(context) else {
+    static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Standing? {
+        guard let standing = createObject(in: context) else {
             return nil
         }
 
@@ -48,7 +48,7 @@ extension Standing: CoreDataImportable {
         standing.sortOrder = dictionary["SortOrder"] as? NSNumber
         
         let teamName = dictionary["TeamName"] as? String
-        let seed = seedFromTeamName(teamName)
+        let seed = self.seed(from: teamName)
         standing.seed = seed as NSNumber
         
         let seedString = "(\(seed))"
@@ -57,10 +57,10 @@ extension Standing: CoreDataImportable {
         return standing
     }
     
-    static func seedFromTeamName(_ teamName: String?) -> Int {
+    static func seed(from teamName: String?) -> Int {
         let pattern = "([0-9]+)"
         
-        if let seed = teamName?.stringMatchingRegexPattern(pattern), !seed.isEmpty {
+        if let seed = teamName?.matching(regexPattern: pattern), !seed.isEmpty {
             return Int(seed) ?? 0
         }
         else {

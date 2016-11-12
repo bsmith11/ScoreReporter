@@ -45,7 +45,7 @@ class AcknowledgementListViewController: UIViewController, MessageDisplayable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -55,7 +55,7 @@ private extension AcknowledgementListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(SettingsCell.self)
+        tableView.register(cellClass: SettingsCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.white
@@ -81,7 +81,7 @@ extension AcknowledgementListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as SettingsCell
+        let cell = tableView.dequeueCell(for: indexPath) as SettingsCell
         let item = dataSource.item(at: indexPath)
         
         cell.configure(with: item?.title)

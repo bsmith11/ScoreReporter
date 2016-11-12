@@ -103,8 +103,8 @@ private extension HomeViewController {
     func configureViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.registerClass(HomeCell.self)
-        collectionView.registerClass(SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
+        collectionView.register(cellClass: HomeCell.self)
+        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.delaysContentTouches = false
@@ -131,15 +131,15 @@ private extension HomeViewController {
         
         kvoController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
             if loading {
-                self?.displayMessage("Loading...", animated: true)
+                self?.display(message: "Loading...", animated: true)
             }
             else {
-                self?.hideMessageAnimated(true)
+                self?.hideMessage(animated: true)
             }
         }
         
         kvoController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
-            self?.displayMessage("Error", animated: true)
+            self?.display(message: "Error", animated: true)
         }
     }
 }
@@ -156,7 +156,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCellForIndexPath(indexPath) as HomeCell
+        let cell = collectionView.dequeueCell(for: indexPath) as HomeCell
         let event = dataSource.item(at: indexPath)
         
         cell.configure(with: event)
@@ -165,9 +165,9 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueSupplementaryViewForElementKind(kind, indexPath: indexPath) as SectionHeaderReusableView
+        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
         
-        let title = dataSource.titleForSection(indexPath.section)
+        let title = dataSource.title(for: indexPath.section)
         headerView.configure(with: title)
         headerView.delegate = self
         
@@ -193,8 +193,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
         
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let title = dataSource.titleForSection(section)
-        let height = SectionHeaderReusableView.heightWithTitle(title, actionButtonImage: UIImage(named: "icn-search"))
+        let title = dataSource.title(for: section)
+        let height = SectionHeaderReusableView.height(with: title)
         
         return CGSize(width: collectionView.bounds.width, height: height)
     }

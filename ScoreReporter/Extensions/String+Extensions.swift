@@ -9,11 +9,11 @@
 import Foundation
 
 extension String {
-    func stringMatchingRegexPattern(_ pattern: String) -> String? {
+    func matching(regexPattern: String) -> String? {
         var strings = [String]()
 
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let regex = try NSRegularExpression(pattern: regexPattern, options: .caseInsensitive)
             let options: NSRegularExpression.MatchingOptions = .reportProgress
             let range = NSRange(location: 0, length: (self as NSString).length)
 
@@ -26,8 +26,8 @@ extension String {
 
             return strings.first
         }
-        catch _ {
-            print("Failed to create regular expression with pattern: \(pattern)")
+        catch let error {
+            print("Failed to create regular expression with pattern: \(regexPattern) error: \(error)")
 
             return nil
         }

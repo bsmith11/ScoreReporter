@@ -18,6 +18,6 @@ struct GroupViewModel {
             group?.divisionName
         ]
         
-        fullName = strings.flatMap({($0)}).joined(separator: " ")
+        fullName = strings.flatMap { ($0) }.joined(separator: " ")
     }
 }

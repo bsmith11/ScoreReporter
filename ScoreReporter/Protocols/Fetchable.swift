@@ -23,19 +23,19 @@ extension Fetchable where Self: NSManagedObject {
         return CoreDataStack.sharedInstance
     }
     
-    static func objectWithPrimaryKey(_ primaryKey: NSNumber, context: NSManagedObjectContext, createNew: Bool = false) -> FetchType? {
+    static func object(primaryKey: NSNumber, context: NSManagedObjectContext, createNew: Bool = false) -> FetchType? {
         let predicate = NSPredicate(format: "%K == %@", self.primaryKey, primaryKey)
-        let object = objectInContext(context, predicate: predicate)
+        let object = self.object(in: context, predicate: predicate)
         
         if object == nil && createNew {
-            return createObjectInContext(context)
+            return createObject(in: context)
         }
         else {
             return object
         }
     }
     
-    static func objectInContext(_ context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> FetchType? {
+    static func object(in context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> FetchType? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetchRequest.fetchLimit = 1
         fetchRequest.predicate = predicate
@@ -50,7 +50,7 @@ extension Fetchable where Self: NSManagedObject {
         }
     }
     
-    static func createObjectInContext(_ context: NSManagedObjectContext) -> FetchType? {
+    static func createObject(in context: NSManagedObjectContext) -> FetchType? {
         guard let object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context) as? FetchType else {
             print("Failed to insert object as type \(self)")
             return nil
@@ -59,7 +59,7 @@ extension Fetchable where Self: NSManagedObject {
         return object
     }
     
-    static func fetchedResultsControllerWithPredicate(_ predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, sectionNameKeyPath: String? = nil) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedResultsController(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, sectionNameKeyPath: String? = nil) -> NSFetchedResultsController<NSFetchRequestResult> {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         request.predicate = predicate
         request.sortDescriptors = sortDescriptors

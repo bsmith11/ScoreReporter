@@ -9,31 +9,31 @@
 import UIKit
 
 extension UICollectionReusableView {
-    static func reuseID() -> String {
+    static var reuseID: String {
         return NSStringFromClass(self)
     }
 }
 
 extension UICollectionView {
-    func registerClass(_ cellClass: UICollectionViewCell.Type) {
-        register(cellClass, forCellWithReuseIdentifier: cellClass.reuseID())
+    func register(cellClass: UICollectionViewCell.Type) {
+        register(cellClass, forCellWithReuseIdentifier: cellClass.reuseID)
     }
 
-    func registerClass(_ supplementaryClass: UICollectionReusableView.Type, elementKind: String) {
-        register(supplementaryClass, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: supplementaryClass.reuseID())
+    func register(supplementaryClass: UICollectionReusableView.Type, elementKind: String) {
+        register(supplementaryClass, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: supplementaryClass.reuseID)
     }
 
-    func dequeueCellForIndexPath<T: UICollectionViewCell>(_ indexPath: IndexPath) -> T {
-        guard let cell = dequeueReusableCell(withReuseIdentifier: T.reuseID(), for: indexPath) as? T else {
-            preconditionFailure("Cell must of class \(T.reuseID())")
+    func dequeueCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withReuseIdentifier: T.reuseID, for: indexPath) as? T else {
+            preconditionFailure("Cell must of class \(T.reuseID)")
         }
 
         return cell
     }
 
-    func dequeueSupplementaryViewForElementKind<T: UICollectionReusableView>(_ elementKind: String, indexPath: IndexPath) -> T {
-        guard let supplementaryView = dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: T.reuseID(), for: indexPath) as? T else {
-            preconditionFailure("Supplementary view must be of class \(T.reuseID())")
+    func dequeueSupplementaryView<T: UICollectionReusableView>(for elementKind: String, indexPath: IndexPath) -> T {
+        guard let supplementaryView = dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: T.reuseID, for: indexPath) as? T else {
+            preconditionFailure("Supplementary view must be of class \(T.reuseID)")
         }
 
         return supplementaryView
@@ -41,9 +41,9 @@ extension UICollectionView {
 }
 
 extension UICollectionView {
-    func handleChanges(_ changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
+    func handle(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
         let updates = { [weak self] in
-            changes.forEach({ change in
+            changes.forEach { change in
                 switch change {
                 case .section(let type, let index):
                     let indexSet = IndexSet(integer: index)
@@ -76,7 +76,7 @@ extension UICollectionView {
                         }
                     }
                 }
-            })
+            }
         }
 
         performBatchUpdates(updates, completion: completion)

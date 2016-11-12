@@ -50,6 +50,6 @@ private extension AcknowledgementListDataSource {
         
         pods.removeFirst()
         
-        items = pods.flatMap({Acknowledgement(dictionary: $0)})
+        items = pods.flatMap { Acknowledgement(dictionary: $0) }
     }
 }

@@ -55,14 +55,14 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handleChanges(changes)
+            self?.tableView.handle(changes: changes)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -72,7 +72,7 @@ private extension BookmarksViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(SearchCell.self)
+        tableView.register(cellClass: SearchCell.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
@@ -114,7 +114,7 @@ extension BookmarksViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as SearchCell
+        let cell = tableView.dequeueCell(for: indexPath) as SearchCell
         let event = dataSource.item(at: indexPath)
         
         cell.configure(with: event)

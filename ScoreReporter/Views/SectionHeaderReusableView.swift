@@ -54,7 +54,7 @@ extension SectionHeaderReusableView {
         actionButtonWidth?.isActive = actionButtonImage == nil
     }
     
-    class func heightWithTitle(_ title: String?, actionButtonImage: UIImage? = nil) -> CGFloat {
+    class func height(with title: String?, actionButtonImage: UIImage? = nil) -> CGFloat {
         let titleHeight = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack).lineHeight + 16.0
         
         if let image = actionButtonImage {
@@ -75,7 +75,7 @@ private extension SectionHeaderReusableView {
         titleLabel.textColor = UIColor.black
         addSubview(titleLabel)
         
-        actionButton.tintColor = UIColor.USAURedColor()
+        actionButton.tintColor = UIColor.usauRed
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         actionButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)

@@ -43,7 +43,7 @@ class PoolsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRowsInTableView(tableView, animated: animated)
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -53,8 +53,8 @@ private extension PoolsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.registerClass(StandingCell.self)
-        tableView.registerHeaderFooterClass(SectionHeaderView.self)
+        tableView.register(cellClass: StandingCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 44.0
@@ -92,7 +92,7 @@ extension PoolsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCellForIndexPath(indexPath) as StandingCell
+        let cell = tableView.dequeueCell(for: indexPath) as StandingCell
         let standing = dataSource.item(at: indexPath)
         
         cell.configure(with: standing)
