@@ -62,7 +62,7 @@ extension BaseNavigationController: UINavigationControllerDelegate {
         else {
             animationController = BackAnimationController()
             
-            return operation == .pop ? animationController : ListDetailAnimationController()
+            return operation == .pop ? animationController : nil
         }
     }
     
