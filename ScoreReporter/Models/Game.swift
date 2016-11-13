@@ -10,7 +10,9 @@ import Foundation
 import CoreData
 
 class Game: NSManagedObject {
-    
+    var group: Group? {
+        return cluster?.round?.group ?? pool?.round?.group ?? stage?.bracket?.round?.group
+    }
 }
 
 // MARK: - Public

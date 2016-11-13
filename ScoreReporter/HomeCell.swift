@@ -10,7 +10,7 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class HomeCell: UICollectionViewCell {
+class HomeCell: UICollectionViewCell, Sizable {
     fileprivate let eventInfoView = EventInfoView(frame: .zero)
     
     override var isHighlighted: Bool {
@@ -32,16 +32,6 @@ class HomeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let targetSize = CGSize(width: layoutAttributes.bounds.width, height: UILayoutFittingCompressedSize.height)
-        let size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
-        
-        let attributes = super.preferredLayoutAttributesFitting(layoutAttributes)
-        attributes.bounds.size = size
-        
-        return attributes
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -52,8 +42,19 @@ class HomeCell: UICollectionViewCell {
 // MARK: - Public
 
 extension HomeCell {
-    func configure(with searchable: Searchable?) {
-        eventInfoView.configure(with: searchable)
+    func configure(with event: Event?) {
+        eventInfoView.configure(with: event)
+    }
+    
+    class func size(with event: Event?, width: CGFloat) -> CGSize {
+        guard let event = event else {
+            return .zero
+        }
+        
+        let cell = HomeCell(frame: .zero)
+        cell.configure(with: event)
+        
+        return cell.size(with: width)
     }
 }
 

@@ -34,6 +34,9 @@ class TeamSearchViewController: UIViewController, MessageDisplayable {
         let image = UIImage(named: "icn-home")
         let selectedImage = UIImage(named: "icn-home-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {

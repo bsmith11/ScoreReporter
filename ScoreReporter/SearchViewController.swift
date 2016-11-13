@@ -32,6 +32,9 @@ class SearchViewController<Model: Searchable>: UIViewController {
         
         searchTableViewHelper = SearchTableViewHelper(dataSource: self, delegate: self)
         searchBarHelper = SearchBarHelper(delegate: self)
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {

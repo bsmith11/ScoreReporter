@@ -41,7 +41,10 @@ class HomeViewController: UIViewController, MessageDisplayable {
         
         let image = UIImage(named: "icn-home")
         let selectedImage = UIImage(named: "icn-home-selected")
-        tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)        
+        tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,22 +75,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
         viewModel.downloadEvents()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
-            return
-        }
-        
-        let width = collectionView.bounds.width - layout.sectionInset.left - layout.sectionInset.right
-        
-        guard width > 0.0 && width != layout.estimatedItemSize.width else {
-            return
-        }
-
-        layout.estimatedItemSize = CGSize(width: width, height: 44.0)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -108,6 +95,7 @@ private extension HomeViewController {
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.delaysContentTouches = false
+        collectionView.contentInset.top = 16.0
         view.addSubview(collectionView)
         
         let emptyImage = UIImage(named: "icn-home")
@@ -191,9 +179,22 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let event = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return .zero
+        }
         
+        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        
+        return HomeCell.size(with: event, width: width)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let title = dataSource.title(for: section)
+        guard let title = dataSource.title(for: section) else {
+            return .zero
+        }
+        
         let height = SectionHeaderReusableView.height(with: title)
         
         return CGSize(width: collectionView.bounds.width, height: height)

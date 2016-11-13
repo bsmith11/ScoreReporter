@@ -11,13 +11,13 @@ import Anchorage
 import KVOController
 
 class GroupDetailsViewController: UIViewController, MessageDisplayable {
+    fileprivate let viewModel: GroupViewModel
     fileprivate let dataSource: GroupDetailsDataSource
-    fileprivate let segmentedControlContainerView = UIView(frame: .zero)
-    fileprivate let segmentedControl = UISegmentedControl(frame: .zero)
+    fileprivate let segmentedControl = SegmentedControl(frame: .zero)
     fileprivate let contentView = UIView(frame: .zero)
     fileprivate let defaultView = DefaultView(frame: .zero)
     
-    fileprivate var segmentedControlContainerViewHeight: NSLayoutConstraint?
+    fileprivate var segmentedControlHeight: NSLayoutConstraint?
     fileprivate var currentChildViewController: UIViewController?
     
     override var topLayoutGuide: UILayoutSupport {
@@ -29,10 +29,14 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     init(dataSource: GroupDetailsDataSource) {
         self.dataSource = dataSource
         
+        viewModel = GroupViewModel(group: dataSource.group)
+        
         super.init(nibName: nil, bundle: nil)
         
-        let groupViewModel = GroupViewModel(group: dataSource.group)
-        title = groupViewModel.fullName
+        title = viewModel.fullName
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,7 +65,6 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
             
             if self?.segmentedControl.numberOfSegments ?? 0 > 0 {
                 self?.segmentedControl.selectedSegmentIndex = 0
-                self?.segmentedControlValueChanged()
             }
         }
         
@@ -69,14 +72,15 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
         
         if segmentedControl.numberOfSegments > 0 {
             segmentedControl.selectedSegmentIndex = 0
-            segmentedControlValueChanged()
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        
+        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
+            self?.navigationController?.navigationBar.barTintColor = self?.viewModel.divisionColor
+        }, completion: nil)
     }
 }
 
@@ -84,12 +88,9 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
 
 private extension GroupDetailsViewController {
     func configureViews() {
-        segmentedControlContainerView.backgroundColor = UIColor.usauNavy
-        view.addSubview(segmentedControlContainerView)
-        
-        segmentedControl.tintColor = UIColor.white
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
-        segmentedControlContainerView.addSubview(segmentedControl)
+        segmentedControl.setTitleColor(viewModel.divisionColor, for: .selected)
+        segmentedControl.delegate = self
+        view.addSubview(segmentedControl)
         
         view.addSubview(contentView)
         
@@ -102,14 +103,12 @@ private extension GroupDetailsViewController {
     }
     
     func configureLayout() {
-        segmentedControlContainerView.topAnchor == topLayoutGuide.bottomAnchor
-        segmentedControlContainerView.horizontalAnchors == horizontalAnchors
-        segmentedControlContainerViewHeight = segmentedControlContainerView.heightAnchor == 0.0
-        segmentedControlContainerViewHeight?.isActive = false
+        segmentedControl.topAnchor == topLayoutGuide.bottomAnchor
+        segmentedControl.horizontalAnchors == horizontalAnchors
+        segmentedControlHeight = segmentedControl.heightAnchor == 0.0
+        segmentedControlHeight?.isActive = false
         
-        segmentedControl.edgeAnchors == (segmentedControlContainerView.edgeAnchors + 16.0) ~ UILayoutPriorityDefaultHigh
-        
-        contentView.topAnchor == segmentedControlContainerView.bottomAnchor
+        contentView.topAnchor == segmentedControl.bottomAnchor
         contentView.horizontalAnchors == horizontalAnchors
         contentView.bottomAnchor == bottomLayoutGuide.topAnchor
         
@@ -119,7 +118,7 @@ private extension GroupDetailsViewController {
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
-            self?.segmentedControlContainerViewHeight?.isActive = empty
+            self?.segmentedControlHeight?.isActive = empty
         }
     }
     
@@ -129,14 +128,6 @@ private extension GroupDetailsViewController {
         for (index, viewController) in dataSource.items.enumerated() {
             segmentedControl.insertSegment(withTitle: viewController.title, at: index, animated: false)
         }
-    }
-    
-    @objc func segmentedControlValueChanged() {
-        let index = segmentedControl.selectedSegmentIndex
-        let indexPath = IndexPath(row: index, section: 0)
-        let item = dataSource.item(at: indexPath)
-        
-        displayViewController(item)
     }
     
     func displayViewController(_ viewController: UIViewController?) {
@@ -154,5 +145,16 @@ private extension GroupDetailsViewController {
             viewController.view.edgeAnchors == contentView.edgeAnchors
             viewController.didMove(toParentViewController: self)
         }
+    }
+}
+
+// MARK: - SegmentedControlDelegate
+
+extension GroupDetailsViewController: SegmentedControlDelegate {
+    func segmentedControlDidSelect(index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        let item = dataSource.item(at: indexPath)
+        
+        displayViewController(item)
     }
 }

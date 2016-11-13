@@ -19,6 +19,9 @@ class AcknowledgementViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         title = acknowledgement.title
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {

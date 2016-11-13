@@ -8,18 +8,16 @@
 
 import UIKit
 import Anchorage
-import MapKit
 import KVOController
 
 class EventDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: EventDetailsViewModel
     fileprivate let dataSource: EventDetailsDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
-    fileprivate let headerView = EventDetailsHeaderView(frame: .zero)
+    fileprivate let collectionView: UICollectionView
     
     fileprivate var favoriteButton: UIBarButtonItem?
     fileprivate var unfavoriteButton: UIBarButtonItem?
-    
+    fileprivate var eventCell: UICollectionViewCell?
     fileprivate var viewDidAppear = false
     
     override var topLayoutGuide: UILayoutSupport {
@@ -31,6 +29,13 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     init(viewModel: EventDetailsViewModel, dataSource: EventDetailsDataSource) {
         self.viewModel = viewModel
         self.dataSource = dataSource
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 24.0
+        layout.minimumInteritemSpacing = 24.0
+        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -44,7 +49,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         
         navigationItem.rightBarButtonItem = dataSource.event.bookmarked.boolValue ? unfavoriteButton : favoriteButton
         
-        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
     }
     
@@ -68,7 +73,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         super.viewDidLoad()
         
         dataSource.refreshBlock = { [weak self] in
-            self?.tableView.reloadData()
+            self?.collectionView.reloadData()
         }
         
         viewModel.downloadEventDetails()
@@ -77,21 +82,11 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        deselectRows(in: tableView, animated: animated)
-        
-        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
-            self?.headerView.eventInfoHidden = false
+        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
+            self?.navigationController?.navigationBar.barTintColor = UIColor.scBlue
+        }, completion: { [weak self] _ in
+            self?.eventCell?.isHidden = false
         })
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let targetSize = CGSize(width: tableView.bounds.width, height: UILayoutFittingCompressedSize.height)
-        let size = headerView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
-        
-        headerView.frame.size = size
-        tableView.tableHeaderView = headerView
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -109,28 +104,20 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
 
 private extension EventDetailsViewController {
     func configureViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(cellClass: EventDetailsInfoCell.self)
-        tableView.register(cellClass: GameListCell.self)
-        tableView.register(headerFooterClass: SectionHeaderView.self)
-        tableView.estimatedRowHeight = 70.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.white
-        tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
-        view.addSubview(tableView)
-        
-        let eventViewModel = EventViewModel(event: dataSource.event)
-        headerView.configure(with: eventViewModel)
-        headerView.delegate = self
-        headerView.eventInfoHidden = true
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
+        collectionView.register(cellClass: HomeCell.self)
+        collectionView.register(cellClass: GroupCell.self)
+        collectionView.register(cellClass: GameCell.self)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.alwaysBounceVertical = true
+        collectionView.delaysContentTouches = false
+        view.addSubview(collectionView)
     }
     
     func configureLayout() {
-        tableView.edgeAnchors == edgeAnchors
+        collectionView.edgeAnchors == edgeAnchors
     }
     
     func configureObservers() {
@@ -157,7 +144,7 @@ private extension EventDetailsViewController {
         do {
             try event.managedObjectContext?.save()
         }
-        catch(let error) {
+        catch let error {
             print("Error: \(error)")
         }
     }
@@ -171,95 +158,144 @@ private extension EventDetailsViewController {
         do {
             try event.managedObjectContext?.save()
         }
-        catch(let error) {
+        catch let error {
             print("Error: \(error)")
         }
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UICollectionViewDataSource
 
-extension EventDetailsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension EventDetailsViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataSource.item(at: indexPath)!
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let item = dataSource.item(at: indexPath) else {
+            return UICollectionViewCell()
+        }
         
         switch item {
+        case .event(let event):
+            let cell = collectionView.dequeueCell(for: indexPath) as HomeCell
+            eventCell = cell
+            cell.isHidden = !viewDidAppear
+            cell.configure(with: event)
+            return cell
+        case .division(let group):
+            let groupViewModel = GroupViewModel(group: group)
+            let cell = collectionView.dequeueCell(for: indexPath) as GroupCell
+            cell.configure(with: groupViewModel)
+            return cell
         case .activeGame(let game):
-            let cell = tableView.dequeueCell(for: indexPath) as GameListCell
             let gameViewModel = GameViewModel(game: game)
+            let cell = collectionView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
             return cell
         default:
-            let cell = tableView.dequeueCell(for: indexPath) as EventDetailsInfoCell
-            cell.configure(with: item)
-            return cell
+            return UICollectionViewCell()
         }
     }
-}
-
-// MARK: - UITableViewDelegate
-
-extension EventDetailsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.section(at: section)?.title else {
-            return nil
-        }
-        
-        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let title = dataSource.title(for: indexPath.section)
+        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
         headerView.configure(with: title)
         
         return headerView
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension EventDetailsViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath) else {
             return
         }
         
         switch item {
-        case .address:
-            let eventViewModel = EventViewModel(event: dataSource.event)
-            
-            guard  let coordinate = eventViewModel.coordinate else {
-                return
-            }
-            
-            let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
-            let mapItem = MKMapItem(placemark: placemark)
-            mapItem.name = eventViewModel.name
-            
-            let options = [
-                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
-            ]
-            mapItem.openInMaps(launchOptions: options)
-            
-            tableView.deselectRow(at: indexPath, animated: true)
-        case .date:
-            break
         case .division(let group):
             let groupDetailsDataSource = GroupDetailsDataSource(group: group)
             let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
-            
             navigationController?.pushViewController(groupDetailsViewController, animated: true)
         default:
             break
         }
     }
-}
-
-// MARK: - EventDetailsHeaderViewDelegate
-
-extension EventDetailsViewController: EventDetailsHeaderViewDelegate {
-    func headerViewDidSelectMap(_ headerView: EventDetailsHeaderView) {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let item = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return .zero
+        }
         
+        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        
+        switch item {
+        case .event(let event):
+            return HomeCell.size(with: event, width: width)
+        case .division(let group):
+            let groupViewModel = GroupViewModel(group: group)
+            return GroupCell.size(with: groupViewModel, width: width)
+        case .activeGame(let game):
+            let gameViewModel = GameViewModel(game: game)
+            return GameCell.size(with: gameViewModel, width: width)
+        default:
+            return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        guard let title = dataSource.title(for: section) else {
+            return .zero
+        }
+        
+        let height = SectionHeaderReusableView.height(with: title)
+        
+        return CGSize(width: collectionView.bounds.width, height: height)
     }
 }
+
+//// MARK: - UITableViewDelegate
+//
+//extension EventDetailsViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let item = dataSource.item(at: indexPath) else {
+//            return
+//        }
+//        
+//        switch item {
+//        case .address:
+//            let eventViewModel = EventViewModel(event: dataSource.event)
+//            
+//            guard  let coordinate = eventViewModel.coordinate else {
+//                return
+//            }
+//            
+//            let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
+//            let mapItem = MKMapItem(placemark: placemark)
+//            mapItem.name = eventViewModel.name
+//            
+//            let options = [
+//                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+//            ]
+//            mapItem.openInMaps(launchOptions: options)
+//            
+//            tableView.deselectRow(at: indexPath, animated: true)
+//        case .date:
+//            break
+//        case .division(let group):
+//            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
+//            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
+//            
+//            navigationController?.pushViewController(groupDetailsViewController, animated: true)
+//        default:
+//            break
+//        }
+//    }
+//}

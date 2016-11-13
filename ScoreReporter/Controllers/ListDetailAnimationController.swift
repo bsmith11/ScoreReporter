@@ -31,25 +31,30 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
             return
         }
         
-        
         var topSectionFrame = fromViewController.view.bounds
         topSectionFrame.size.height = view.frame.minY - fromViewController.view.frame.minY
         
         let topSnapshot = fromViewController.view.snapshot(rect: topSectionFrame)
-        topSnapshot.frame.origin.y += fromViewController.view.frame.minY
+        topSnapshot?.frame.origin.y += fromViewController.view.frame.minY
         
         var bottomSectionFrame = fromViewController.view.bounds
         bottomSectionFrame.origin.y = view.frame.maxY - fromViewController.view.frame.minY
         bottomSectionFrame.size.height = fromViewController.view.bounds.height - (view.frame.maxY - fromViewController.view.frame.minY)
         
         let bottomSnapshot = fromViewController.view.snapshot(rect: bottomSectionFrame)
-        bottomSnapshot.frame.origin.y += fromViewController.view.frame.minY
+        bottomSnapshot?.frame.origin.y += fromViewController.view.frame.minY
         
         let container = transitionContext.containerView
         container.addSubview(toViewController.view)
         container.addSubview(view)
-        container.addSubview(topSnapshot)
-        container.addSubview(bottomSnapshot)
+        
+        if let topSnapshot = topSnapshot {
+            container.addSubview(topSnapshot)
+        }
+        
+        if let bottomSnapshot = bottomSnapshot {
+            container.addSubview(bottomSnapshot)
+        }
         
         toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
         toViewController.view.setNeedsLayout()
@@ -61,16 +66,17 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         let originalFrame = toViewController.view.frame
         toViewController.view.frame.origin.y = container.frame.maxY
         
-        var topSnapshotEndFrame = topSnapshot.frame
+        var topSnapshotEndFrame = topSnapshot?.frame ?? .zero
         topSnapshotEndFrame.origin.y = -topSnapshotEndFrame.height
         
-        var bottomSnapshotEndFrame = bottomSnapshot.frame
+        var bottomSnapshotEndFrame = bottomSnapshot?.frame ?? .zero
         bottomSnapshotEndFrame.origin.y = container.frame.height
         
         let viewBoundsAnimation = boundsAnimation(toFrame: endFrame)
         let viewPositionAnimation = positionAnimation(toFrame: endFrame)
         
         let topSnapshotPositionAnimation = positionAnimation(toFrame: topSnapshotEndFrame)
+        
         let bottomSnapshotPositionAnimation = positionAnimation(toFrame: bottomSnapshotEndFrame)
         
         let toViewBoundsAnimation = boundsAnimation(toFrame: originalFrame)
@@ -88,8 +94,8 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
             toViewController.view.layer.removeAnimation(forKey: "position")
             
             view.removeFromSuperview()
-            topSnapshot.removeFromSuperview()
-            bottomSnapshot.removeFromSuperview()
+            topSnapshot?.removeFromSuperview()
+            bottomSnapshot?.removeFromSuperview()
             
             let completed = !transitionContext.transitionWasCancelled
             transitionContext.completeTransition(completed)
@@ -98,8 +104,9 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
         view.layer.add(viewBoundsAnimation, forKey: "bounds")
         view.layer.add(viewPositionAnimation, forKey: "position")
         
-        topSnapshot.layer.add(topSnapshotPositionAnimation, forKey: "position")
-        bottomSnapshot.layer.add(bottomSnapshotPositionAnimation, forKey: "position")
+        topSnapshot?.layer.add(topSnapshotPositionAnimation, forKey: "position")
+        
+        bottomSnapshot?.layer.add(bottomSnapshotPositionAnimation, forKey: "position")
                 
         toViewController.view.layer.add(toViewBoundsAnimation, forKey: "bounds")
         toViewController.view.layer.add(toViewPositionAnimation, forKey: "position")
@@ -141,11 +148,15 @@ extension ListDetailAnimationController: UIViewControllerAnimatedTransitioning {
 }
 
 extension UIView {
-    func snapshot(rect: CGRect) -> UIView {
+    func snapshot(rect: CGRect) -> UIView? {
+        guard rect.size.width > 0.0 && rect.size.height > 0.0 else {
+            return nil
+        }
+        
         var drawFrame = bounds
         drawFrame.origin.x = -rect.minX
         drawFrame.origin.y = -rect.minY
-        
+
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0);
         drawHierarchy(in: drawFrame, afterScreenUpdates: false)
         let image = UIGraphicsGetImageFromCurrentImageContext()

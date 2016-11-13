@@ -21,6 +21,9 @@ class BracketListViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         title = "Brackets"
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -25,6 +25,9 @@ class AcknowledgementListViewController: UIViewController, MessageDisplayable {
         super.init(nibName: nil, bundle: nil)
         
         title = "Acknowledgements"
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {

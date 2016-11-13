@@ -18,7 +18,7 @@ struct EventViewModel {
     let eventStartDate: String
     let eventDates: String
     let groups: [Group]
-    let searchable: Searchable?
+    let event: Event?
 
     init(event: Event?) {
         name = event?.name ?? "No Name"
@@ -51,6 +51,6 @@ struct EventViewModel {
         let groups = event?.groups as? Set<Group> ?? []
         self.groups = groups.sorted(by: {$0.0.groupID.intValue < $0.1.groupID.intValue})
         
-        searchable = event
+        self.event = event
     }
 }

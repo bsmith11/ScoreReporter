@@ -44,7 +44,7 @@ extension Fetchable where Self: NSManagedObject {
             let objects = try context.fetch(fetchRequest) as? [FetchType] ?? []
             return objects.first
         }
-        catch(let error) {
+        catch let error {
             print("Failed to fetch objects of type: \(self) with error: \(error)")
             return nil
         }
@@ -69,7 +69,7 @@ extension Fetchable where Self: NSManagedObject {
         do {
             try fetchedResultsController.performFetch()
         }
-        catch(let error) {
+        catch let error {
             print("Failed to fetch with error: \(error)")
         }
         

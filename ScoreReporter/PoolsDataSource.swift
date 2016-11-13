@@ -18,7 +18,7 @@ struct PoolSection {
         self.pool = pool
         
         title = pool.name ?? "Pool"
-        standings = Array((pool.standings as? Set<Standing>) ?? []).sorted(by: { (lhs, rhs) -> Bool in
+        standings = (pool.standings.allObjects as? [Standing] ?? []).sorted(by: { (lhs, rhs) -> Bool in
             let leftSortOrder = lhs.sortOrder?.intValue ?? 0
             let rightSortOrder = rhs.sortOrder?.intValue ?? 0
             

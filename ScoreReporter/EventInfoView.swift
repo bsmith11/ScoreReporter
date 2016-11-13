@@ -32,10 +32,10 @@ class EventInfoView: UIView {
 // MARK: - Public
 
 extension EventInfoView {
-    func configure(with searchable: Searchable?) {
-        logoImageView.pin_setImage(from: searchable?.searchLogoURL)
-        titleLabel.text = searchable?.searchTitle
-        subtitleLabel.text = searchable?.searchSubtitle
+    func configure(with event: Event?) {
+        logoImageView.pin_setImage(from: event?.searchLogoURL)
+        titleLabel.text = event?.searchTitle
+        subtitleLabel.text = event?.searchSubtitle
     }
     
     func cancelImageDownload() {
@@ -73,7 +73,7 @@ private extension EventInfoView {
     func configureLayout() {
         contentStackView.edgeAnchors == edgeAnchors
         
-        logoImageView.widthAnchor == 75.0
-        logoImageView.heightAnchor == 75.0
+        logoImageView.widthAnchor == 55.0
+        logoImageView.heightAnchor == 55.0
     }
 }

@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 struct GroupViewModel {
     let fullName: String
+    let divisionIdentifier: String
+    let divisionColor: UIColor
     
     init(group: Group?) {
         let strings = [
@@ -18,6 +21,27 @@ struct GroupViewModel {
             group?.divisionName
         ]
         
-        fullName = strings.flatMap { ($0) }.joined(separator: " ")
+        fullName = strings.flatMap { $0 }.joined(separator: " ")
+        
+        if let division = group?.division {
+            switch division {
+            case "Men", "Boys":
+                divisionIdentifier = "M"
+                divisionColor = UIColor.scBlue
+            case "Women", "Girls":
+                divisionIdentifier = "W"
+                divisionColor = UIColor.scRed
+            case "Mixed":
+                divisionIdentifier = "X"
+                divisionColor = UIColor.black
+            default:
+                divisionIdentifier = "?"
+                divisionColor = UIColor.black
+            }
+        }
+        else {
+            divisionIdentifier = "?"
+            divisionColor = UIColor.black
+        }
     }
 }

@@ -40,15 +40,17 @@ class GroupDetailsDataSource: NSObject, ArrayDataSource {
 
 private extension GroupDetailsDataSource {
     func configureItems() {
-        let roundsSet = group.rounds as? Set<Round>
-        let rounds = roundsSet.flatMap { Array($0) }?.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue }) ?? []
+        items.removeAll()
+        
+        let rounds = group.rounds.allObjects as? [Round]
+        let sortedRounds = rounds.flatMap { $0 }?.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue }) ?? []
         
         var poolsViewController: UIViewController?
         var bracketsViewController: UIViewController?
         
         var clusters = [UIViewController]()
         
-        rounds.forEach { round in
+        sortedRounds.forEach { round in
             switch round.type {
             case .pools:
                 if poolsViewController == nil {
@@ -56,7 +58,7 @@ private extension GroupDetailsDataSource {
                     poolsViewController = PoolsViewController(dataSource: poolsDataSource)
                 }
             case .clusters:
-                let cluster = Array(round.clusters as? Set<Cluster> ?? []).first
+                let cluster = (round.clusters.allObjects as? [Cluster] ?? []).first
                 let gameListDataSource = GameListDataSource(cluster: cluster!)
                 clusters.append(GameListViewController(dataSource: gameListDataSource))
             case .brackets:

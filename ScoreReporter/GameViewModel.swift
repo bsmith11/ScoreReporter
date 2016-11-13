@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 struct GameViewModel {
+    let game: Game?
     let homeTeamName: NSAttributedString
     let homeTeamScore: NSAttributedString?
     let awayTeamName: NSAttributedString
@@ -26,6 +27,8 @@ struct GameViewModel {
     ]
     
     init(game: Game?) {
+        self.game = game
+        
         var homeAttributes = loserAttributes
         var awayAttributes = loserAttributes
         

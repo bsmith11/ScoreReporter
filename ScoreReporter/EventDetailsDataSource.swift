@@ -17,6 +17,7 @@ struct EventDetailsSection {
 }
 
 enum EventDetailsInfo {
+    case event(Event)
     case address(String)
     case date(String)
     case division(Group)
@@ -66,7 +67,6 @@ class EventDetailsDataSource: NSObject {
         
         super.init()
         
-        calculateCoordinates()
         configureSections()
     }
 }
@@ -74,12 +74,12 @@ class EventDetailsDataSource: NSObject {
 // MARK: - Public
 
 extension EventDetailsDataSource {
-    func section(at section: Int) -> EventDetailsSection? {
+    func title(for section: Int) -> String? {
         guard section < sections.count else {
             return nil
         }
         
-        return sections[section]
+        return sections[section].title
     }
 }
 
@@ -90,41 +90,19 @@ private extension EventDetailsDataSource {
         let eventViewModel = EventViewModel(event: event)
         
         sections.removeAll()
-        sections.append(EventDetailsSection(title: "Info", items: [
-            .address(eventViewModel.address),
-            .date(eventViewModel.eventDates)
-        ]))
+        
+        sections.append(EventDetailsSection(title: nil, items: [.event(event)]))
+        
+//        sections.append(EventDetailsSection(title: "Info", items: [
+//            .address(eventViewModel.address),
+//            .date(eventViewModel.eventDates)
+//        ]))
         
         let divisions = eventViewModel.groups.map { EventDetailsInfo.division($0) }
         sections.append(EventDetailsSection(title: "Divisions", items: divisions))
         
         if let activeGames = activeGamesFetchedResultsController.fetchedObjects as? [Game], !activeGames.isEmpty {
             sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))
-        }
-    }
-    
-    func calculateCoordinates() {
-        guard let city = event.city,
-            let state = event.state, event.latitude == nil else {
-                return
-        }
-        
-        let geocoder = CLGeocoder()
-        let addressString = "\(city), \(state)"
-        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
-            guard let coordinate = placemarks?.first?.location?.coordinate else {
-                return
-            }
-            
-            self.event.latitude = coordinate.latitude as NSNumber?
-            self.event.longitude = coordinate.longitude as NSNumber?
-            
-            do {
-                try Event.coreDataStack.mainContext.save()
-            }
-            catch(let error) {
-                print("Failed to save with error: \(error)")
-            }
         }
     }
 }

@@ -55,7 +55,7 @@ extension SectionHeaderReusableView {
     }
     
     class func height(with title: String?, actionButtonImage: UIImage? = nil) -> CGFloat {
-        let titleHeight = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack).lineHeight + 16.0
+        let titleHeight = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack).lineHeight
         
         if let image = actionButtonImage {
             let imageHeight = image.size.height
@@ -84,8 +84,7 @@ private extension SectionHeaderReusableView {
     
     func configureLayout() {
         titleLabel.leadingAnchor == leadingAnchor + 16.0
-        titleLabel.topAnchor == topAnchor + 16.0
-        titleLabel.bottomAnchor == bottomAnchor
+        titleLabel.verticalAnchors == verticalAnchors
         
         actionButton.leadingAnchor == titleLabel.trailingAnchor + 16.0
         actionButton.topAnchor >= topAnchor

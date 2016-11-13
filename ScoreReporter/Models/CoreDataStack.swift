@@ -140,12 +140,12 @@ extension NSPersistentStoreCoordinator {
         do {
             try persistentStoreCoordinator.addPersistentStore(ofType: storeType, configurationName: nil, at: storeURL, options: options)
         }
-        catch(let error) {
+        catch let error {
             do {
                 try FileManager.default.removeItem(at: storeURL)
                 try persistentStoreCoordinator.addPersistentStore(ofType: storeType, configurationName: nil, at: storeURL, options: options)
             }
-            catch(let removeError) {
+            catch let removeError {
                 preconditionFailure("Unable to add persistent store. Attempted to delete old store, but failed.\n\nAdd error: \(error)\n\nDelete error: \(removeError)")
             }
         }
@@ -165,7 +165,7 @@ extension NSManagedObjectContext {
                 do {
                     try self.save()
                 }
-                catch(let saveError as NSError) {
+                catch let saveError as NSError {
                     error = saveError
                 }
             }

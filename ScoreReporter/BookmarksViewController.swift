@@ -32,6 +32,9 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
         let image = UIImage(named: "icn-star")
         let selectedImage = UIImage(named: "icn-star-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
     }
     
     required init?(coder aDecoder: NSCoder) {
