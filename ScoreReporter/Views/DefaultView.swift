@@ -84,7 +84,7 @@ open class DefaultView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        tintColor = UIColor.usauNavy
+        tintColor = UIColor.gray
         
         configureViews()
         configureLayout()
@@ -131,14 +131,14 @@ private extension DefaultView {
         labelStackView.spacing = 8.0
         contentStackView.addArrangedSubview(labelStackView)
         
-        titleLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
+        titleLabel.font = UIFont.systemFont(ofSize: 24.0, weight: UIFontWeightBlack)
         titleLabel.textColor = tintColor
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.textAlignment = .center
         labelStackView.addArrangedSubview(titleLabel)
         
-        messageLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+        messageLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
         messageLabel.textColor = tintColor
         messageLabel.numberOfLines = 0
         messageLabel.lineBreakMode = .byWordWrapping

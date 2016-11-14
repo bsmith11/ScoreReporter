@@ -34,6 +34,7 @@ class TeamSearchViewController: UIViewController, MessageDisplayable {
         let image = UIImage(named: "icn-home")
         let selectedImage = UIImage(named: "icn-home-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton

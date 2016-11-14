@@ -26,9 +26,10 @@ class SettingsViewController: UIViewController, MessageDisplayable {
         
         title = "Settings"
         
-        let image = UIImage(named: "icn-star")
-        let selectedImage = UIImage(named: "icn-star-selected")
+        let image = UIImage(named: "icn-settings")
+        let selectedImage = UIImage(named: "icn-settings-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton

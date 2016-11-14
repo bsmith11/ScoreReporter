@@ -42,6 +42,7 @@ class HomeViewController: UIViewController, MessageDisplayable {
         let image = UIImage(named: "icn-home")
         let selectedImage = UIImage(named: "icn-home-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -90,7 +91,7 @@ private extension HomeViewController {
     func configureViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(cellClass: HomeCell.self)
+        collectionView.register(cellClass: EventCell.self)
         collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
@@ -144,7 +145,7 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(for: indexPath) as HomeCell
+        let cell = collectionView.dequeueCell(for: indexPath) as EventCell
         let event = dataSource.item(at: indexPath)
         
         cell.configure(with: event)
@@ -187,7 +188,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         
         let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
         
-        return HomeCell.size(with: event, width: width)
+        return EventCell.size(with: event, width: width)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -230,7 +231,7 @@ extension HomeViewController: SearchViewControllerDelegate {
 
 extension HomeViewController: ListDetailAnimationControllerDelegate {
     var viewToAnimate: UIView {
-        guard let cell = selectedCell as? HomeCell,
+        guard let cell = selectedCell as? EventCell,
                   let frame = navigationController?.view.convert(cell.frame, from: cell.superview) else {
             return UIView()
         }

@@ -106,7 +106,7 @@
 		488CAA721D7E68C300C3E597 /* KeyboardObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA711D7E68C300C3E597 /* KeyboardObservable.swift */; };
 		4895055E1DD409BC00ED4EFF /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */; };
 		489505601DD40D1B00ED4EFF /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4895055F1DD40D1B00ED4EFF /* SearchCollectionViewCell.swift */; };
-		489505621DD431D500ED4EFF /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489505611DD431D500ED4EFF /* HomeCell.swift */; };
+		489505621DD431D500ED4EFF /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489505611DD431D500ED4EFF /* EventCell.swift */; };
 		48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */; };
 		48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */; };
 		48A2E7161DA4A1DD00B7B422 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E7151DA4A1DD00B7B422 /* SettingsCell.swift */; };
@@ -235,7 +235,7 @@
 		488CAA711D7E68C300C3E597 /* KeyboardObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObservable.swift; sourceTree = "<group>"; };
 		4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		4895055F1DD40D1B00ED4EFF /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
-		489505611DD431D500ED4EFF /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
+		489505611DD431D500ED4EFF /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
 		48A2E7151DA4A1DD00B7B422 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 				488CAA631D7E367600C3E597 /* HomeViewController.swift */,
 				488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */,
 				483453B71D8D009200F0918A /* HomeDataSource.swift */,
-				489505611DD431D500ED4EFF /* HomeCell.swift */,
+				489505611DD431D500ED4EFF /* EventCell.swift */,
 				484A70D11DD6BEEE008A4FCE /* EventInfoView.swift */,
 			);
 			name = Home;
@@ -885,7 +885,7 @@
 				484951801D96FBFE00C95F2F /* StandingCell.swift in Sources */,
 				481A97C21D88E7CD0066B749 /* UIView+KeyboardLayoutGuide.swift in Sources */,
 				0665DF2B1D3DD4C8006D2070 /* Standing.swift in Sources */,
-				489505621DD431D500ED4EFF /* HomeCell.swift in Sources */,
+				489505621DD431D500ED4EFF /* EventCell.swift in Sources */,
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
 				4864A8C31DCFC2D1001561D4 /* TeamSearchViewController.swift in Sources */,
 				48400E961D8F5D6100927EB6 /* BookmarksViewController.swift in Sources */,

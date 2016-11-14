@@ -32,6 +32,7 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
         let image = UIImage(named: "icn-star")
         let selectedImage = UIImage(named: "icn-star-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -84,7 +85,7 @@ private extension BookmarksViewController {
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
-        let emptyImage = UIImage(named: "icn-star")
+        let emptyImage = UIImage(named: "icn-star-large")
         let emptyTitle = "No Events"
         let emptyMessage = "Bookmark events for easy access"
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)

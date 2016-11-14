@@ -107,7 +107,7 @@ private extension EventDetailsViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
-        collectionView.register(cellClass: HomeCell.self)
+        collectionView.register(cellClass: EventCell.self)
         collectionView.register(cellClass: GroupCell.self)
         collectionView.register(cellClass: GameCell.self)
         collectionView.backgroundColor = UIColor.white
@@ -182,7 +182,7 @@ extension EventDetailsViewController: UICollectionViewDataSource {
         
         switch item {
         case .event(let event):
-            let cell = collectionView.dequeueCell(for: indexPath) as HomeCell
+            let cell = collectionView.dequeueCell(for: indexPath) as EventCell
             eventCell = cell
             cell.isHidden = !viewDidAppear
             cell.configure(with: event)
@@ -238,7 +238,7 @@ extension EventDetailsViewController: UICollectionViewDelegateFlowLayout {
         
         switch item {
         case .event(let event):
-            return HomeCell.size(with: event, width: width)
+            return EventCell.size(with: event, width: width)
         case .division(let group):
             let groupViewModel = GroupViewModel(group: group)
             return GroupCell.size(with: groupViewModel, width: width)

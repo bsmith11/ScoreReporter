@@ -1,5 +1,5 @@
 //
-//  HomeCell.swift
+//  EventCell.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/9/16.
@@ -10,7 +10,7 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class HomeCell: UICollectionViewCell, Sizable {
+class EventCell: UICollectionViewCell, Sizable {
     fileprivate let eventInfoView = EventInfoView(frame: .zero)
     
     override var isHighlighted: Bool {
@@ -41,7 +41,7 @@ class HomeCell: UICollectionViewCell, Sizable {
 
 // MARK: - Public
 
-extension HomeCell {
+extension EventCell {
     func configure(with event: Event?) {
         eventInfoView.configure(with: event)
     }
@@ -51,7 +51,7 @@ extension HomeCell {
             return .zero
         }
         
-        let cell = HomeCell(frame: .zero)
+        let cell = EventCell(frame: .zero)
         cell.configure(with: event)
         
         return cell.size(with: width)
@@ -60,7 +60,7 @@ extension HomeCell {
 
 // MARK: - Private
 
-private extension HomeCell {
+private extension EventCell {
     func configureViews() {
         contentView.addSubview(eventInfoView)
     }
