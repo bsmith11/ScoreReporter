@@ -60,12 +60,20 @@ class PoolsDataSource: NSObject, DataSource {
 // MARK: - Public
 
 extension PoolsDataSource {
-    func poolSection(at section: Int) -> PoolSection? {
+    func title(for section: Int) -> String? {
         guard section < sections.count else {
             return nil
         }
         
-        return sections[section]
+        return sections[section].title
+    }
+    
+    func pool(for section: Int) -> Pool? {
+        guard section < sections.count else {
+            return nil
+        }
+        
+        return sections[section].pool
     }
 }
 

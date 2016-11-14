@@ -44,6 +44,9 @@ class HomeViewController: UIViewController, MessageDisplayable {
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
         tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
         
+        let searchButton = UIBarButtonItem(image: UIImage(named: "icn-search"), style: .plain, target: self, action: #selector(searchButtonPressed))
+        navigationItem.rightBarButtonItem = searchButton
+        
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
     }
@@ -91,8 +94,8 @@ private extension HomeViewController {
     func configureViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(cellClass: EventCell.self)
         collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
+        collectionView.register(cellClass: EventCell.self)
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.delaysContentTouches = false
@@ -130,6 +133,12 @@ private extension HomeViewController {
         kvoController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
             self?.display(message: "Error", animated: true)
         }
+    }
+    
+    @objc func searchButtonPressed() {
+        let searchViewController = SearchViewController<Event>()
+        searchViewController.delegate = self
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
 }
 

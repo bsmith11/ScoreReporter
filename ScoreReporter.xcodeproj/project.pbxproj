@@ -72,7 +72,7 @@
 		4849517E1D96F1CF00C95F2F /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517D1D96F1CF00C95F2F /* SectionHeaderView.swift */; };
 		484951801D96FBFE00C95F2F /* StandingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517F1D96FBFE00C95F2F /* StandingCell.swift */; };
 		484A70D01DD6B0D7008A4FCE /* ListDetailAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A70CF1DD6B0D7008A4FCE /* ListDetailAnimationController.swift */; };
-		484A70D21DD6BEEE008A4FCE /* EventInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A70D11DD6BEEE008A4FCE /* EventInfoView.swift */; };
+		484A70D21DD6BEEE008A4FCE /* SearchInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484A70D11DD6BEEE008A4FCE /* SearchInfoView.swift */; };
 		485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */; };
 		485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */; };
 		4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */; };
@@ -92,8 +92,10 @@
 		48676E5B1DD824FA0004275E /* Sizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E5A1DD824FA0004275E /* Sizable.swift */; };
 		48676E5D1DD82D580004275E /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E5C1DD82D580004275E /* GameCell.swift */; };
 		48676E5F1DD91D250004275E /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E5E1DD91D250004275E /* SegmentedControl.swift */; };
+		48676E611DD980BD0004275E /* TableViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E601DD980BD0004275E /* TableViewProxy.swift */; };
+		48676E631DD981510004275E /* CollectionViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E621DD981510004275E /* CollectionViewProxy.swift */; };
+		48676E651DD984060004275E /* SearchBarProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E641DD984060004275E /* SearchBarProxy.swift */; };
 		487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3751D985A230082D6FC /* GameListViewController.swift */; };
-		487BF3781D985BEA0082D6FC /* GameListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3771D985BEA0082D6FC /* GameListCell.swift */; };
 		487BF37D1D9880F20082D6FC /* GameListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37C1D9880F20082D6FC /* GameListDataSource.swift */; };
 		487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37E1D98C8510082D6FC /* GameViewModel.swift */; };
 		487BF3861D9A0A340082D6FC /* BracketListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */; };
@@ -105,7 +107,6 @@
 		488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */; };
 		488CAA721D7E68C300C3E597 /* KeyboardObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA711D7E68C300C3E597 /* KeyboardObservable.swift */; };
 		4895055E1DD409BC00ED4EFF /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */; };
-		489505601DD40D1B00ED4EFF /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4895055F1DD40D1B00ED4EFF /* SearchCollectionViewCell.swift */; };
 		489505621DD431D500ED4EFF /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489505611DD431D500ED4EFF /* EventCell.swift */; };
 		48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */; };
 		48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */; };
@@ -200,7 +201,7 @@
 		4849517D1D96F1CF00C95F2F /* SectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionHeaderView.swift; path = ../SectionHeaderView.swift; sourceTree = "<group>"; };
 		4849517F1D96FBFE00C95F2F /* StandingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingCell.swift; sourceTree = "<group>"; };
 		484A70CF1DD6B0D7008A4FCE /* ListDetailAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDetailAnimationController.swift; sourceTree = "<group>"; };
-		484A70D11DD6BEEE008A4FCE /* EventInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventInfoView.swift; sourceTree = "<group>"; };
+		484A70D11DD6BEEE008A4FCE /* SearchInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchInfoView.swift; sourceTree = "<group>"; };
 		485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarAnimatorView.swift; sourceTree = "<group>"; };
 		485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackInteractionController.swift; sourceTree = "<group>"; };
 		4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -221,8 +222,10 @@
 		48676E5A1DD824FA0004275E /* Sizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sizable.swift; sourceTree = "<group>"; };
 		48676E5C1DD82D580004275E /* GameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
 		48676E5E1DD91D250004275E /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegmentedControl.swift; path = ../SegmentedControl.swift; sourceTree = "<group>"; };
+		48676E601DD980BD0004275E /* TableViewProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewProxy.swift; sourceTree = "<group>"; };
+		48676E621DD981510004275E /* CollectionViewProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewProxy.swift; sourceTree = "<group>"; };
+		48676E641DD984060004275E /* SearchBarProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarProxy.swift; sourceTree = "<group>"; };
 		487BF3751D985A230082D6FC /* GameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListViewController.swift; sourceTree = "<group>"; };
-		487BF3771D985BEA0082D6FC /* GameListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListCell.swift; sourceTree = "<group>"; };
 		487BF37C1D9880F20082D6FC /* GameListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameListDataSource.swift; path = Protocols/GameListDataSource.swift; sourceTree = "<group>"; };
 		487BF37E1D98C8510082D6FC /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BracketListDataSource.swift; sourceTree = "<group>"; };
@@ -234,7 +237,6 @@
 		488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewModel.swift; path = Controllers/HomeViewModel.swift; sourceTree = "<group>"; };
 		488CAA711D7E68C300C3E597 /* KeyboardObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObservable.swift; sourceTree = "<group>"; };
 		4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
-		4895055F1DD40D1B00ED4EFF /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		489505611DD431D500ED4EFF /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
@@ -319,7 +321,10 @@
 				482E43C01DD03373005790F2 /* SearchViewController.swift */,
 				482E43C21DD033BD005790F2 /* SearchDataSource.swift */,
 				482E43C61DD04278005790F2 /* SearchCell.swift */,
-				4895055F1DD40D1B00ED4EFF /* SearchCollectionViewCell.swift */,
+				484A70D11DD6BEEE008A4FCE /* SearchInfoView.swift */,
+				48676E601DD980BD0004275E /* TableViewProxy.swift */,
+				48676E621DD981510004275E /* CollectionViewProxy.swift */,
+				48676E641DD984060004275E /* SearchBarProxy.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -338,7 +343,6 @@
 				488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */,
 				483453B71D8D009200F0918A /* HomeDataSource.swift */,
 				489505611DD431D500ED4EFF /* EventCell.swift */,
-				484A70D11DD6BEEE008A4FCE /* EventInfoView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -412,7 +416,6 @@
 			children = (
 				487BF3751D985A230082D6FC /* GameListViewController.swift */,
 				487BF37C1D9880F20082D6FC /* GameListDataSource.swift */,
-				487BF3771D985BEA0082D6FC /* GameListCell.swift */,
 				487BF37E1D98C8510082D6FC /* GameViewModel.swift */,
 			);
 			name = "Game List";
@@ -846,6 +849,7 @@
 				0665DF0B1D3DC8B3006D2070 /* Event.swift in Sources */,
 				0665DF021D3DBCC3006D2070 /* EventService.swift in Sources */,
 				48400E931D8F573300927EB6 /* TabBarController.swift in Sources */,
+				48676E611DD980BD0004275E /* TableViewProxy.swift in Sources */,
 				48E541321D81169C008E4DEE /* MessageDisplayable.swift in Sources */,
 				4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */,
 				4864A8BC1DCFBD1E001561D4 /* TeamService.swift in Sources */,
@@ -865,7 +869,7 @@
 				48A2E7161DA4A1DD00B7B422 /* SettingsCell.swift in Sources */,
 				0665DF2D1D3DD8A6006D2070 /* DateService.swift in Sources */,
 				48676E5B1DD824FA0004275E /* Sizable.swift in Sources */,
-				484A70D21DD6BEEE008A4FCE /* EventInfoView.swift in Sources */,
+				484A70D21DD6BEEE008A4FCE /* SearchInfoView.swift in Sources */,
 				0665DF2A1D3DD4C8006D2070 /* Standing+CoreDataProperties.swift in Sources */,
 				483453B81D8D009200F0918A /* HomeDataSource.swift in Sources */,
 				481580971DCAC0CE008F141B /* CALayer+Extensions.swift in Sources */,
@@ -900,7 +904,9 @@
 				482E43C11DD03373005790F2 /* SearchViewController.swift in Sources */,
 				48400E9E1D90C7CA00927EB6 /* BookmarksDataSource.swift in Sources */,
 				48F8B5311DC460540031DB5B /* Fetchable.swift in Sources */,
+				48676E651DD984060004275E /* SearchBarProxy.swift in Sources */,
 				483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */,
+				48676E631DD981510004275E /* CollectionViewProxy.swift in Sources */,
 				4864A8BE1DCFBFF5001561D4 /* Team+CoreDataProperties.swift in Sources */,
 				0665DF261D3DD4C8006D2070 /* Game+CoreDataProperties.swift in Sources */,
 				48A2E7191DA4B01600B7B422 /* AcknowledgementListViewController.swift in Sources */,
@@ -924,7 +930,6 @@
 				0665DF251D3DD4C8006D2070 /* Stage.swift in Sources */,
 				484A70D01DD6B0D7008A4FCE /* ListDetailAnimationController.swift in Sources */,
 				4864A8B31DCFAA10001561D4 /* LoginService.swift in Sources */,
-				487BF3781D985BEA0082D6FC /* GameListCell.swift in Sources */,
 				0665DEFE1D3DBB6F006D2070 /* CoreDataStack.swift in Sources */,
 				487BF3881D9A0B630082D6FC /* BracketListViewController.swift in Sources */,
 				48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */,
@@ -936,7 +941,6 @@
 				0665DF1D1D3DD4C8006D2070 /* Pool.swift in Sources */,
 				483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */,
 				4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */,
-				489505601DD40D1B00ED4EFF /* SearchCollectionViewCell.swift in Sources */,
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
 				0665DF211D3DD4C8006D2070 /* Round.swift in Sources */,
 				4895055E1DD409BC00ED4EFF /* SectionHeaderReusableView.swift in Sources */,

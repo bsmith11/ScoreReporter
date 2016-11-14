@@ -12,11 +12,18 @@ import KVOController
 
 class PoolsViewController: UIViewController {
     fileprivate let dataSource: PoolsDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let collectionView: UICollectionView
     fileprivate let defaultView = DefaultView(frame: .zero)
     
     init(dataSource: PoolsDataSource) {
         self.dataSource = dataSource
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16.0
+        layout.minimumInteritemSpacing = 16.0
+        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -42,38 +49,29 @@ class PoolsViewController: UIViewController {
         
         configureObservers()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        deselectRows(in: tableView, animated: animated)
-    }
 }
 
 // MARK: - Private
 
 private extension PoolsViewController {
     func configureViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(cellClass: StandingCell.self)
-        tableView.register(headerFooterClass: SectionHeaderView.self)
-        tableView.estimatedRowHeight = 70.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.white
-        tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
-        view.addSubview(tableView)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(cellClass: StandingCell.self)
+        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.alwaysBounceVertical = true
+        collectionView.delaysContentTouches = false
+        collectionView.contentInset.top = 16.0
+        view.addSubview(collectionView)
         
         view.addSubview(defaultView)
     }
     
     func configureLayout() {
-        tableView.edgeAnchors == edgeAnchors
+        collectionView.edgeAnchors == edgeAnchors
         
-        defaultView.edgeAnchors == tableView.edgeAnchors
+        defaultView.edgeAnchors == collectionView.edgeAnchors
     }
     
     func configureObservers() {
@@ -83,54 +81,73 @@ private extension PoolsViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UICollectionViewDataSource
 
-extension PoolsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension PoolsViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCell(for: indexPath) as StandingCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(for: indexPath) as StandingCell
         let standing = dataSource.item(at: indexPath)
-        
+
         cell.configure(with: standing)
-        
+
         return cell
     }
-}
-
-// MARK: - UITableViewDelegate
-
-extension PoolsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let poolSection = dataSource.poolSection(at: section)
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
         
-        headerView.configure(with: poolSection?.title, tappable: true)
+        let title = dataSource.title(for: indexPath.section)
+        headerView.configure(with: title)
         headerView.delegate = self
-        headerView.tag = section
         
         return headerView
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension PoolsViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let standing = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return .zero
+        }
+        
+        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        
+        return StandingCell.size(with: standing, width: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        guard let title = dataSource.title(for: section) else {
+            return .zero
+        }
+        
+        let height = SectionHeaderReusableView.height(with: title)
+        
+        return CGSize(width: collectionView.bounds.width, height: height)
     }
 }
 
-// MARK: - SectionHeaderViewDelegate
+// MARK: - SectionHeaderReusableViewDelegate
 
-extension PoolsViewController: SectionHeaderViewDelegate {
-    func didSelectSectionHeader(_ headerView: SectionHeaderView) {
-        guard let pool = dataSource.poolSection(at: headerView.tag)?.pool else {
+extension PoolsViewController: SectionHeaderReusableViewDelegate {
+    func didSelectSectionHeader(_ headerView: SectionHeaderReusableView) {
+        guard let pool = dataSource.pool(for: headerView.tag) else {
             return
         }
-        
+
         let gameListDataSource = GameListDataSource(pool: pool)
         let gameListViewController = GameListViewController(dataSource: gameListDataSource)
         navigationController?.pushViewController(gameListViewController, animated: true)

@@ -17,21 +17,30 @@ protocol SearchViewControllerDelegate: class {
 class SearchViewController<Model: Searchable>: UIViewController {
     fileprivate let dataSource: SearchDataSource<Model>
     fileprivate let searchBar = UISearchBar(frame: .zero)
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let collectionView: UICollectionView
     fileprivate let defaultView = DefaultView(frame: .zero)
     
-    fileprivate var searchTableViewHelper: SearchTableViewHelper?
-    fileprivate var searchBarHelper: SearchBarHelper?
+    fileprivate var collectionViewProxy: CollectionViewProxy?
+    fileprivate var searchBarProxy: SearchBarProxy?
+    fileprivate var selectedCell: UICollectionViewCell?
     
     weak var delegate: SearchViewControllerDelegate?
     
     init() {
         dataSource = SearchDataSource<Model>()
         
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16.0
+        layout.minimumInteritemSpacing = 16.0
+        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        layout.sectionHeadersPinToVisibleBounds = true
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         super.init(nibName: nil, bundle: nil)
         
-        searchTableViewHelper = SearchTableViewHelper(dataSource: self, delegate: self)
-        searchBarHelper = SearchBarHelper(delegate: self)
+        collectionViewProxy = CollectionViewProxy(dataSource: self, delegate: self)
+        searchBarProxy = SearchBarProxy(delegate: self)
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -58,15 +67,13 @@ class SearchViewController<Model: Searchable>: UIViewController {
         configureObservers()
         
         dataSource.refreshBlock = { [weak self] in
-            self?.tableView.reloadData()
+            self?.collectionView.reloadData()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        deselectRows(in: tableView, animated: animated)
-        
+                
         transitionCoordinator?.animate(alongsideTransition: nil) { [weak self] _ in
             self?.searchBar.becomeFirstResponder()
         }
@@ -76,6 +83,10 @@ class SearchViewController<Model: Searchable>: UIViewController {
         super.viewWillDisappear(animated)
         
         searchBar.resignFirstResponder()
+        
+        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
+            self?.selectedCell?.isHidden = false
+        })
     }
 }
 
@@ -87,8 +98,8 @@ private extension SearchViewController {
         searchBar.autocorrectionType = .no
         searchBar.spellCheckingType = .no
         searchBar.placeholder = Model.searchBarPlaceholder
-        searchBar.tintColor = UIColor.usauNavy
-        searchBar.delegate = searchBarHelper
+        searchBar.tintColor = UIColor.scBlue
+        searchBar.delegate = searchBarProxy
         
         var frame = navigationController?.navigationBar.frame ?? .zero
         frame.size.width = frame.width - (8.0 + 8.0 + 13.0 + 16.0)
@@ -97,19 +108,15 @@ private extension SearchViewController {
         
         navigationItem.titleView = searchBar
         
-        tableView.dataSource = searchTableViewHelper
-        tableView.delegate = searchTableViewHelper
-        tableView.register(cellClass: SearchCell.self)
-        tableView.register(headerFooterClass: SectionHeaderView.self)
-        tableView.estimatedRowHeight = 70.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor.white
-        tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
-        view.addSubview(tableView)
+        collectionView.dataSource = collectionViewProxy
+        collectionView.delegate = collectionViewProxy
+        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
+        collectionView.register(cellClass: SearchCell.self)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.alwaysBounceVertical = true
+        collectionView.delaysContentTouches = false
+        collectionView.contentInset.top = 16.0
+        view.addSubview(collectionView)
         
         let emptyImage = UIImage(named: "icn-search")
         let emptyTitle = Model.searchEmptyTitle
@@ -120,11 +127,11 @@ private extension SearchViewController {
     }
     
     func configureLayout() {
-        tableView.topAnchor == topLayoutGuide.bottomAnchor
-        tableView.horizontalAnchors == horizontalAnchors
-        tableView.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor
+        collectionView.topAnchor == topLayoutGuide.bottomAnchor
+        collectionView.horizontalAnchors == horizontalAnchors
+        collectionView.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor
         
-        defaultView.edgeAnchors == tableView.edgeAnchors
+        defaultView.edgeAnchors == collectionView.edgeAnchors
     }
     
     func configureObservers() {
@@ -134,59 +141,73 @@ private extension SearchViewController {
     }
 }
 
-// MARK: - SearchTableViewDataSource
+// MARK: - CollectionViewProxyDataSource
 
-extension SearchViewController: SearchTableViewDataSource {
-    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
+extension SearchViewController: CollectionViewProxyDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCell(for: indexPath) as SearchCell
-        let item = dataSource.item(at: indexPath)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(for: indexPath) as SearchCell
+        let searchable = dataSource.item(at: indexPath)
         
-        cell.configure(with: item)
+        cell.configure(with: searchable)
         
         return cell
     }
-}
-
-// MARK: - SearchTableViewDelegate
-
-extension SearchViewController: SearchTableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
-            return 0.0
-        }
-        
-        return 44.0
-    }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        let title = dataSource.title(for: section)
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
         
+        let title = dataSource.title(for: indexPath.section)
         headerView.configure(with: title)
         
         return headerView
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
-        guard let item = dataSource.item(at: indexPath) else {
+}
+
+// MARK: - CollectionViewProxyDelegate
+
+extension SearchViewController: CollectionViewProxyDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let searchable = dataSource.item(at: indexPath) else {
             return
         }
         
-        delegate?.didSelectItem(item)
+        selectedCell = collectionView.cellForItem(at: indexPath)
+        
+        delegate?.didSelectItem(searchable)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let searchable = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return .zero
+        }
+        
+        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        
+        return SearchCell.size(with: searchable, width: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        guard let title = dataSource.title(for: section) else {
+            return .zero
+        }
+        
+        let height = SectionHeaderReusableView.height(with: title)
+        
+        return CGSize(width: collectionView.bounds.width, height: height)
     }
 }
 
-// MARK: - SearchBarHelperDelegate
+// MARK: - SearchBarProxyDelegate
 
-extension SearchViewController: SearchBarHelperDelegate {
+extension SearchViewController: SearchBarProxyDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         dataSource.search(for: nil)
@@ -199,79 +220,25 @@ extension SearchViewController: SearchBarHelperDelegate {
     }
 }
 
-// MARK: - SearchBarHelper
+// MARK: - ListDetailAnimationControllerDelegate
 
-private protocol SearchBarHelperDelegate: class {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
-}
-
-private class SearchBarHelper: NSObject {
-    fileprivate unowned let delegate: SearchBarHelperDelegate
-    
-    init(delegate: SearchBarHelperDelegate) {
-        self.delegate = delegate
-    }
-}
-
-extension SearchBarHelper: UISearchBarDelegate {
-    @objc func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        delegate.searchBarCancelButtonClicked(searchBar)
-    }
-    
-    @objc func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        delegate.searchBar(searchBar, textDidChange: searchText)
-    }
-}
-
-// MARK: - SearchTableViewHelper
-
-private protocol SearchTableViewDataSource: class {
-    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell
-}
-
-private protocol SearchTableViewDelegate: class {
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
-}
-
-private class SearchTableViewHelper: NSObject {
-    fileprivate unowned let dataSource: SearchTableViewDataSource
-    fileprivate unowned let delegate: SearchTableViewDelegate
-    
-    init(dataSource: SearchTableViewDataSource, delegate: SearchTableViewDelegate) {
-        self.dataSource = dataSource
-        self.delegate = delegate
-    }
-}
-
-extension SearchTableViewHelper: UITableViewDataSource {
-    @objc func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSectionsInTableView(tableView)
-    }
-    
-    @objc func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.tableView(tableView, numberOfRowsInSection: section)
-    }
-    
-    @objc func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return dataSource.tableView(tableView, cellForRowAtIndexPath: indexPath)
-    }
-}
-
-extension SearchTableViewHelper: UITableViewDelegate {
-    @objc func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return delegate.tableView(tableView, estimatedHeightForHeaderInSection: section)
-    }
-    
-    @objc func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return delegate.tableView(tableView, viewForHeaderInSection: section)
-    }
-    
-    @objc func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+extension SearchViewController: ListDetailAnimationControllerDelegate {
+    var viewToAnimate: UIView {
+        guard let cell = selectedCell as? SearchCell,
+              let frame = navigationController?.view.convert(cell.frame, from: cell.superview) else {
+            return UIView()
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0);
+        cell.drawHierarchy(in: cell.bounds, afterScreenUpdates: false)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        let imageView = UIImageView(frame: frame)
+        imageView.image = image
+        
+        cell.isHidden = true
+        
+        return imageView
     }
 }

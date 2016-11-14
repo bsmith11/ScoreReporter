@@ -11,7 +11,7 @@ import Anchorage
 import PINRemoteImage
 
 class EventCell: UICollectionViewCell, Sizable {
-    fileprivate let eventInfoView = EventInfoView(frame: .zero)
+    fileprivate let searchInfoView = SearchInfoView(frame: .zero)
     
     override var isHighlighted: Bool {
         didSet {
@@ -35,7 +35,7 @@ class EventCell: UICollectionViewCell, Sizable {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        eventInfoView.cancelImageDownload()
+        searchInfoView.cancelImageDownload()
     }
 }
 
@@ -43,7 +43,7 @@ class EventCell: UICollectionViewCell, Sizable {
 
 extension EventCell {
     func configure(with event: Event?) {
-        eventInfoView.configure(with: event)
+        searchInfoView.configure(with: event)
     }
     
     class func size(with event: Event?, width: CGFloat) -> CGSize {
@@ -62,10 +62,10 @@ extension EventCell {
 
 private extension EventCell {
     func configureViews() {
-        contentView.addSubview(eventInfoView)
+        contentView.addSubview(searchInfoView)
     }
     
     func configureLayout() {
-        eventInfoView.edgeAnchors == contentView.edgeAnchors
+        searchInfoView.edgeAnchors == contentView.edgeAnchors
     }
 }

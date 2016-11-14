@@ -1,5 +1,5 @@
 //
-//  EventInfoView.swift
+//  SearchInfoView.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/11/16.
@@ -10,7 +10,7 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class EventInfoView: UIView {
+class SearchInfoView: UIView {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let logoImageView = UIImageView(frame: .zero)
     fileprivate let infoStackView = UIStackView(frame: .zero)
@@ -31,11 +31,11 @@ class EventInfoView: UIView {
 
 // MARK: - Public
 
-extension EventInfoView {
-    func configure(with event: Event?) {
-        logoImageView.pin_setImage(from: event?.searchLogoURL)
-        titleLabel.text = event?.searchTitle
-        subtitleLabel.text = event?.searchSubtitle
+extension SearchInfoView {
+    func configure(with searchable: Searchable?) {
+        logoImageView.pin_setImage(from: searchable?.searchLogoURL)
+        titleLabel.text = searchable?.searchTitle
+        subtitleLabel.text = searchable?.searchSubtitle
     }
     
     func cancelImageDownload() {
@@ -45,7 +45,7 @@ extension EventInfoView {
 
 // MARK: - Private
 
-private extension EventInfoView {
+private extension SearchInfoView {
     func configureViews() {
         contentStackView.axis = .horizontal
         contentStackView.alignment = .center

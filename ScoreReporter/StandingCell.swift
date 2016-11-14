@@ -9,19 +9,13 @@
 import UIKit
 import Anchorage
 
-class StandingCell: UITableViewCell {
+class StandingCell: UICollectionViewCell, Sizable {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let nameLabel = UILabel(frame: .zero)
     fileprivate let resultsLabel = UILabel(frame: .zero)
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        selectionStyle = .none
-        contentView.backgroundColor = UIColor.white
-        preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsets.zero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         configureViews()
         configureLayout()
@@ -44,6 +38,17 @@ extension StandingCell {
         let losses = standing?.losses ?? 0
         resultsLabel.text = "\(wins) - \(losses)"
     }
+    
+    class func size(with standing: Standing?, width: CGFloat) -> CGSize {
+        guard let standing = standing else {
+            return .zero
+        }
+        
+        let cell = StandingCell(frame: .zero)
+        cell.configure(with: standing)
+        
+        return cell.size(with: width)
+    }
 }
 
 // MARK: - Private
@@ -54,11 +59,11 @@ private extension StandingCell {
         contentStackView.spacing = 16.0
         contentView.addSubview(contentStackView)
         
-        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
         nameLabel.textColor = UIColor.usauNavy
         contentStackView.addArrangedSubview(nameLabel)
         
-        resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+        resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
         resultsLabel.textColor = UIColor.usauNavy
         resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
@@ -66,6 +71,6 @@ private extension StandingCell {
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
+        contentStackView.edgeAnchors == contentView.edgeAnchors
     }
 }

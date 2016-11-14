@@ -12,8 +12,7 @@ import KVOController
 
 class BookmarksViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: BookmarksDataSource
-    
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let collectionView: UICollectionView
     fileprivate let defaultView = DefaultView(frame: .zero)
     
     override var topLayoutGuide: UILayoutSupport {
@@ -24,6 +23,13 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
     
     init(dataSource: BookmarksDataSource) {
         self.dataSource = dataSource
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16.0
+        layout.minimumInteritemSpacing = 16.0
+        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -59,14 +65,8 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+            self?.collectionView.handle(changes: changes)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -74,16 +74,13 @@ class BookmarksViewController: UIViewController, MessageDisplayable {
 
 private extension BookmarksViewController {
     func configureViews() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(cellClass: SearchCell.self)
-        tableView.estimatedRowHeight = 70.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor.white
-        tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
-        view.addSubview(tableView)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(cellClass: EventCell.self)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.alwaysBounceVertical = true
+        collectionView.delaysContentTouches = false
+        view.addSubview(collectionView)
         
         let emptyImage = UIImage(named: "icn-star-large")
         let emptyTitle = "No Events"
@@ -94,9 +91,9 @@ private extension BookmarksViewController {
     }
     
     func configureLayout() {
-        tableView.edgeAnchors == edgeAnchors
+        collectionView.edgeAnchors == edgeAnchors
         
-        defaultView.edgeAnchors == tableView.edgeAnchors
+        defaultView.edgeAnchors == collectionView.edgeAnchors
     }
     
     func configureObservers() {
@@ -106,19 +103,19 @@ private extension BookmarksViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UICollectionViewDataSource
 
-extension BookmarksViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension BookmarksViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCell(for: indexPath) as SearchCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(for: indexPath) as EventCell
         let event = dataSource.item(at: indexPath)
         
         cell.configure(with: event)
@@ -127,10 +124,10 @@ extension BookmarksViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UICollectionViewDelegate
 
-extension BookmarksViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension BookmarksViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let event = dataSource.item(at: indexPath) else {
             return
         }
@@ -140,5 +137,15 @@ extension BookmarksViewController: UITableViewDelegate {
         let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
         
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let event = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return .zero
+        }
+        
+        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        
+        return EventCell.size(with: event, width: width)
     }
 }

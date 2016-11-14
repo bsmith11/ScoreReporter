@@ -10,15 +10,19 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class SearchCell: UITableViewCell {
-    fileprivate let contentStackView = UIStackView(frame: .zero)
-    fileprivate let logoImageView = UIImageView(frame: .zero)
-    fileprivate let infoStackView = UIStackView(frame: .zero)
-    fileprivate let titleLabel = UILabel(frame: .zero)
-    fileprivate let subtitleLabel = UILabel(frame: .zero)
+class SearchCell: UICollectionViewCell, Sizable {
+    fileprivate let searchInfoView = SearchInfoView(frame: .zero)
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.97, y: 0.97) : CGAffineTransform.identity
+            })
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         configureViews()
         configureLayout()
@@ -31,7 +35,7 @@ class SearchCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        logoImageView.pin_cancelImageDownload()
+        searchInfoView.cancelImageDownload()
     }
 }
 
@@ -39,9 +43,18 @@ class SearchCell: UITableViewCell {
 
 extension SearchCell {
     func configure(with searchable: Searchable?) {
-        logoImageView.pin_setImage(from: searchable?.searchLogoURL)
-        titleLabel.text = searchable?.searchTitle
-        subtitleLabel.text = searchable?.searchSubtitle
+        searchInfoView.configure(with: searchable)
+    }
+    
+    class func size(with searchable: Searchable?, width: CGFloat) -> CGSize {
+        guard let searchable = searchable else {
+            return .zero
+        }
+        
+        let cell = SearchCell(frame: .zero)
+        cell.configure(with: searchable)
+        
+        return cell.size(with: width)
     }
 }
 
@@ -49,32 +62,10 @@ extension SearchCell {
 
 private extension SearchCell {
     func configureViews() {
-        contentStackView.axis = .horizontal
-        contentStackView.spacing = 16.0
-        contentStackView.alignment = .center
-        contentView.addSubview(contentStackView)
-        
-        logoImageView.contentMode = .scaleAspectFit
-        contentStackView.addArrangedSubview(logoImageView)
-        
-        infoStackView.axis = .vertical
-        contentStackView.addArrangedSubview(infoStackView)
-        
-        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
-        titleLabel.textColor = UIColor.usauNavy
-        titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .byWordWrapping
-        infoStackView.addArrangedSubview(titleLabel)
-        
-        subtitleLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
-        subtitleLabel.textColor = UIColor.gray
-        infoStackView.addArrangedSubview(subtitleLabel)
+        contentView.addSubview(searchInfoView)
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
-        
-        logoImageView.heightAnchor == 50.0
-        logoImageView.widthAnchor == 50.0
+        searchInfoView.edgeAnchors == contentView.edgeAnchors
     }
 }
