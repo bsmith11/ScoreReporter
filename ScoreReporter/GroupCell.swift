@@ -10,22 +10,16 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class GroupCell: UICollectionViewCell, Sizable {
+class GroupCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let avatarContainerView = UIView(frame: .zero)
     fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
     
-    override var isHighlighted: Bool {
-        didSet {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.97, y: 0.97) : CGAffineTransform.identity
-            })
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
         
         configureViews()
         configureLayout()
@@ -43,17 +37,6 @@ extension GroupCell {
         avatarLabel.text = viewModel?.divisionIdentifier
         avatarContainerView.backgroundColor = viewModel?.divisionColor
         titleLabel.text = viewModel?.fullName
-    }
-    
-    class func size(with viewModel: GroupViewModel?, width: CGFloat) -> CGSize {
-        guard let viewModel = viewModel else {
-            return .zero
-        }
-        
-        let cell = GroupCell(frame: .zero)
-        cell.configure(with: viewModel)
-        
-        return cell.size(with: width)
     }
 }
 
@@ -85,7 +68,7 @@ private extension GroupCell {
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors
+        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
         
         avatarContainerView.heightAnchor == 45.0
         avatarContainerView.widthAnchor == 45.0

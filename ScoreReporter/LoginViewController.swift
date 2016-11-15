@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.usauNavy
+        view.backgroundColor = UIColor.scBlue
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(gesture)
@@ -80,8 +80,8 @@ private extension LoginViewController {
         contentStackView.addArrangedSubview(spacerView)
         
         skipButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        skipButton.setTitle("Later", for: UIControlState())
-        skipButton.setTitleColor(UIColor.white, for: UIControlState())
+        skipButton.setTitle("Later", for: .normal)
+        skipButton.setTitleColor(UIColor.white, for: .normal)
         skipButton.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
         skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         view.addSubview(skipButton)

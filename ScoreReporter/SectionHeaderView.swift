@@ -10,37 +10,21 @@ import UIKit
 import Anchorage
 
 @objc protocol SectionHeaderViewDelegate: class {
-    @objc optional func didSelectSectionHeader(_ headerView: SectionHeaderView)
     @objc optional func headerViewDidSelectActionButton(_ headerView: SectionHeaderView)
 }
 
 class SectionHeaderView: UITableViewHeaderFooterView {
-    fileprivate let contentStackView = UIStackView(frame: .zero)
-    fileprivate let titleContainerView = UIView(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
     fileprivate let actionButton = UIButton(type: .system)
-    fileprivate let accessoryImageView = UIImageView(frame: .zero)
-//    private let separatorView = UIView(frame: .zero)
+    
+    fileprivate var actionButtonWidth: NSLayoutConstraint?
     
     weak var delegate: SectionHeaderViewDelegate?
-    
-//    override var frame: CGRect {
-//        didSet {
-//            guard let tableView = superview as? UITableView else {
-//                return
-//            }
-//            
-//            separatorView.hidden = !(frame.minY <= tableView.contentOffset.y)
-//        }
-//    }
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.white
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        contentView.addGestureRecognizer(gesture)
         
         configureViews()
         configureLayout()
@@ -54,14 +38,11 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 // MARK: - Public
 
 extension SectionHeaderView {
-    func configure(with title: String?, actionButtonTitle: String? = nil, actionButtonImage: UIImage? = nil, tappable: Bool = false) {
+    func configure(with title: String?, actionButtonTitle: String? = nil) {
         titleLabel.text = title
         
-        actionButton.setTitle(actionButtonTitle, for: UIControlState())
-        actionButton.setImage(actionButtonImage, for: UIControlState())
-        actionButton.isHidden = (actionButton.title(for: UIControlState()) == nil) && (actionButton.image(for: UIControlState()) == nil)
-        
-        accessoryImageView.isHidden = !tappable
+        actionButton.setTitle(actionButtonTitle, for: .normal)
+        actionButtonWidth?.isActive = actionButtonTitle == nil
     }
     
     func configure(with viewModel: EventViewModel) {
@@ -75,46 +56,28 @@ extension SectionHeaderView {
 
 private extension SectionHeaderView {
     func configureViews() {
-        contentStackView.axis = .horizontal
-        contentView.addSubview(contentStackView)
-        
-        contentStackView.addArrangedSubview(titleContainerView)
-        
         titleLabel.font = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack)
-        titleLabel.textColor = UIColor.usauNavy
-        titleContainerView.addSubview(titleLabel)
+        titleLabel.textColor = UIColor.black
+        contentView.addSubview(titleLabel)
         
         actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
-        actionButton.setTitleColor(UIColor.usauRed, for: UIControlState())
+        actionButton.setTitleColor(UIColor.scRed, for: .normal)
+        actionButton.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
-        actionButton.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
-        contentStackView.addArrangedSubview(actionButton)
-        
-        accessoryImageView.image = UIImage(named: "icn-disclosure-indicator")?.withRenderingMode(.alwaysTemplate)
-        accessoryImageView.tintColor = UIColor.usauNavy
-        accessoryImageView.contentMode = .center
-        accessoryImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        contentStackView.addArrangedSubview(accessoryImageView)
-        
-//        separatorView.hidden = true
-//        separatorView.backgroundColor = UIColor(hexString: "#C7C7CC")
-//        contentView.addSubview(separatorView)
+        actionButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        contentView.addSubview(actionButton)
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors
-
-        titleLabel.verticalAnchors == titleContainerView.verticalAnchors + 8.0
-        titleLabel.leadingAnchor == titleContainerView.leadingAnchor + 16.0
-        titleLabel.trailingAnchor == titleContainerView.trailingAnchor
+        titleLabel.topAnchor == contentView.topAnchor + 16.0
+        titleLabel.bottomAnchor == contentView.bottomAnchor
+        titleLabel.leadingAnchor == contentView.leadingAnchor + 16.0
         
-//        separatorView.horizontalAnchors == contentView.horizontalAnchors
-//        separatorView.bottomAnchor == contentView.bottomAnchor
-//        separatorView.heightAnchor == 1.0 / UIScreen.mainScreen().scale
-    }
-    
-    @objc func handleTap() {
-        delegate?.didSelectSectionHeader?(self)
+        actionButton.topAnchor == contentView.topAnchor
+        actionButton.leadingAnchor == titleLabel.trailingAnchor
+        actionButton.trailingAnchor == contentView.trailingAnchor
+        actionButton.firstBaselineAnchor == titleLabel.firstBaselineAnchor
+        actionButtonWidth = actionButton.widthAnchor == 0.0
     }
     
     @objc func actionButtonTapped() {

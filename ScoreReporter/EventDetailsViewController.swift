@@ -13,11 +13,11 @@ import KVOController
 class EventDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: EventDetailsViewModel
     fileprivate let dataSource: EventDetailsDataSource
-    fileprivate let collectionView: UICollectionView
+    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     
     fileprivate var favoriteButton: UIBarButtonItem?
     fileprivate var unfavoriteButton: UIBarButtonItem?
-    fileprivate var eventCell: UICollectionViewCell?
+    fileprivate var eventCell: UITableViewCell?
     fileprivate var viewDidAppear = false
     
     override var topLayoutGuide: UILayoutSupport {
@@ -29,13 +29,6 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     init(viewModel: EventDetailsViewModel, dataSource: EventDetailsDataSource) {
         self.viewModel = viewModel
         self.dataSource = dataSource
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 24.0
-        layout.minimumInteritemSpacing = 24.0
-        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -73,7 +66,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         super.viewDidLoad()
         
         dataSource.refreshBlock = { [weak self] in
-            self?.collectionView.reloadData()
+            self?.tableView.reloadData()
         }
         
         viewModel.downloadEventDetails()
@@ -104,20 +97,22 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
 
 private extension EventDetailsViewController {
     func configureViews() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
-        collectionView.register(cellClass: EventCell.self)
-        collectionView.register(cellClass: GroupCell.self)
-        collectionView.register(cellClass: GameCell.self)
-        collectionView.backgroundColor = UIColor.white
-        collectionView.alwaysBounceVertical = true
-        collectionView.delaysContentTouches = false
-        view.addSubview(collectionView)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(headerFooterClass: SectionHeaderView.self)
+        tableView.register(cellClass: EventCell.self)
+        tableView.register(cellClass: GroupCell.self)
+        tableView.register(cellClass: GameCell.self)
+        tableView.backgroundColor = UIColor.white
+        tableView.estimatedRowHeight = 100.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+//        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
     }
     
     func configureLayout() {
-        collectionView.edgeAnchors == edgeAnchors
+        tableView.edgeAnchors == edgeAnchors
     }
     
     func configureObservers() {
@@ -164,57 +159,52 @@ private extension EventDetailsViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
+// MARK: - UITableViewDataSource
 
-extension EventDetailsViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+extension EventDetailsViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = dataSource.item(at: indexPath) else {
-            return UICollectionViewCell()
+            return UITableViewCell()
         }
         
         switch item {
         case .event(let event):
-            let cell = collectionView.dequeueCell(for: indexPath) as EventCell
+            let cell = tableView.dequeueCell(for: indexPath) as EventCell
             eventCell = cell
             cell.isHidden = !viewDidAppear
             cell.configure(with: event)
+            cell.separatorHidden = indexPath.item == 0
             return cell
         case .division(let group):
             let groupViewModel = GroupViewModel(group: group)
-            let cell = collectionView.dequeueCell(for: indexPath) as GroupCell
+            let cell = tableView.dequeueCell(for: indexPath) as GroupCell
             cell.configure(with: groupViewModel)
+            cell.separatorHidden = true
             return cell
         case .activeGame(let game):
-            let gameViewModel = GameViewModel(game: game)
-            let cell = collectionView.dequeueCell(for: indexPath) as GameCell
+            let gameViewModel = GameViewModel(game: game, displayDivision: true)
+            let cell = tableView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
+            cell.separatorHidden = indexPath.item == 0
             return cell
         default:
-            return UICollectionViewCell()
+            return UITableViewCell()
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let title = dataSource.title(for: indexPath.section)
-        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
-        headerView.configure(with: title)
-        
-        return headerView
     }
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - UITableViewDelegate
 
-extension EventDetailsViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension EventDetailsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath) else {
             return
         }
@@ -229,35 +219,27 @@ extension EventDetailsViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let item = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            return .zero
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let title = dataSource.title(for: section) else {
+            return nil
         }
         
-        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
+        headerView.configure(with: title)
         
-        switch item {
-        case .event(let event):
-            return EventCell.size(with: event, width: width)
-        case .division(let group):
-            let groupViewModel = GroupViewModel(group: group)
-            return GroupCell.size(with: groupViewModel, width: width)
-        case .activeGame(let game):
-            let gameViewModel = GameViewModel(game: game)
-            return GameCell.size(with: gameViewModel, width: width)
-        default:
-            return .zero
-        }
+        return headerView
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard let title = dataSource.title(for: section) else {
-            return .zero
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let _ = dataSource.title(for: section) else {
+            return 0.0001
         }
-        
-        let height = SectionHeaderReusableView.height(with: title)
-        
-        return CGSize(width: collectionView.bounds.width, height: height)
+
+        return 55.0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.0001
     }
 }
 

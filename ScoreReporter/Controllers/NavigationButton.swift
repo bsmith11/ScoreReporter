@@ -31,14 +31,14 @@ class NavigationButton: UIButton {
         super.init(frame: .zero)
         
         if let image = barButtonItem.image {
-            setImage(image, for: UIControlState())
+            setImage(image, for: .normal)
             contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 11.0, bottom: 0.0, right: 11.0)
             tintColor = barButtonItem.tintColor ?? viewController.navigationController?.navigationBar.tintColor
         }
         else if let title = barButtonItem.title {
-            let attributes = barButtonItem.titleTextAttributes(for: UIControlState())
+            let attributes = barButtonItem.titleTextAttributes(for: .normal)
             let attributedTitle = NSAttributedString(string: title, attributes: attributes)
-            setAttributedTitle(attributedTitle, for: UIControlState())
+            setAttributedTitle(attributedTitle, for: .normal)
         }
         
         sizeToFit()

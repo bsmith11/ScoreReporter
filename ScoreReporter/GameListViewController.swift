@@ -12,18 +12,11 @@ import KVOController
 
 class GameListViewController: UIViewController {
     fileprivate let dataSource: GameListDataSource
-    fileprivate let collectionView: UICollectionView
+    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
     
     init(dataSource: GameListDataSource) {
         self.dataSource = dataSource
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 16.0
-        layout.minimumInteritemSpacing = 16.0
-        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -54,7 +47,7 @@ class GameListViewController: UIViewController {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.collectionView.handle(changes: changes)
+            self?.tableView.handle(changes: changes)
         }
     }
 }
@@ -63,23 +56,25 @@ class GameListViewController: UIViewController {
 
 private extension GameListViewController {
     func configureViews() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(cellClass: GameCell.self)
-        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
-        collectionView.backgroundColor = UIColor.white
-        collectionView.alwaysBounceVertical = true
-        collectionView.delaysContentTouches = false
-        collectionView.contentInset.top = 16.0
-        view.addSubview(collectionView)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(headerFooterClass: SectionHeaderView.self)
+        tableView.register(cellClass: GameCell.self)
+        tableView.backgroundColor = UIColor.white
+        tableView.estimatedRowHeight = 100.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 44.0
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
         
         view.addSubview(defaultView)
     }
     
     func configureLayout() {
-        collectionView.edgeAnchors == edgeAnchors
+        tableView.edgeAnchors == edgeAnchors
         
-        defaultView.edgeAnchors == collectionView.edgeAnchors
+        defaultView.edgeAnchors == tableView.edgeAnchors
     }
     
     func configureObservers() {
@@ -89,62 +84,45 @@ private extension GameListViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
+// MARK: - UITableViewDataSource
 
-extension GameListViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+extension GameListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(for: indexPath) as GameCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let game = dataSource.item(at: indexPath)
         let gameViewModel = GameViewModel(game: game)
         
+        let cell = tableView.dequeueCell(for: indexPath) as GameCell
         cell.configure(with: gameViewModel)
+        cell.separatorHidden = indexPath.item == 0
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
+}
+
+// MARK: - UITableViewDelegate
+
+extension GameListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let title = dataSource.title(for: indexPath.section)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let title = dataSource.title(for: section)
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
         
         return headerView
     }
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension GameListViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let game = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            return .zero
-        }
-        
-        let gameViewModel = GameViewModel(game: game)
-        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
-        
-        return GameCell.size(with: gameViewModel, width: width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard let title = dataSource.title(for: section) else {
-            return .zero
-        }
-        
-        let height = SectionHeaderReusableView.height(with: title)
-        
-        return CGSize(width: collectionView.bounds.width, height: height)
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.0001
     }
 }

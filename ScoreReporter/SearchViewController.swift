@@ -11,7 +11,7 @@ import Anchorage
 import KVOController
 
 protocol SearchViewControllerDelegate: class {
-    func didSelectItem(_ item: Searchable)
+    func didSelect(item: Searchable)
 }
 
 class SearchViewController<Model: Searchable>: UIViewController {
@@ -29,13 +29,7 @@ class SearchViewController<Model: Searchable>: UIViewController {
     init() {
         dataSource = SearchDataSource<Model>()
         
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 16.0
-        layout.minimumInteritemSpacing = 16.0
-        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        layout.sectionHeadersPinToVisibleBounds = true
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: TableCollectionViewLayout())
         
         super.init(nibName: nil, bundle: nil)
         
@@ -115,7 +109,6 @@ private extension SearchViewController {
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.delaysContentTouches = false
-        collectionView.contentInset.top = 16.0
         view.addSubview(collectionView)
         
         let emptyImage = UIImage(named: "icn-search")
@@ -181,7 +174,7 @@ extension SearchViewController: CollectionViewProxyDelegate {
         
         selectedCell = collectionView.cellForItem(at: indexPath)
         
-        delegate?.didSelectItem(searchable)
+        delegate?.didSelect(item: searchable)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

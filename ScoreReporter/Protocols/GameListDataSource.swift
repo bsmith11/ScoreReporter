@@ -30,9 +30,9 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
     
-    init(cluster: Cluster) {
+    init(clusters: [Cluster]) {
         title = "Crossovers"
-        fetchedResultsController = Game.fetchedGamesForCluster(cluster)
+        fetchedResultsController = Game.fetchedGamesForClusters(clusters)
         
         super.init()
         

@@ -9,9 +9,8 @@
 import UIKit
 import Anchorage
 
-class GameCell: UICollectionViewCell, Sizable {
+class GameCell: TableViewCell {
     fileprivate let stackView = UIStackView(frame: .zero)
-    
     fileprivate let avatarContainerView = UIView(frame: .zero)
     fileprivate let avatarLabel = UILabel(frame: .zero)
     
@@ -26,8 +25,10 @@ class GameCell: UICollectionViewCell, Sizable {
     fileprivate let fieldLabel = UILabel(frame: .zero)
     fileprivate let statusLabel = UILabel(frame: .zero)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
         
         configureViews()
         configureLayout()
@@ -48,20 +49,23 @@ extension GameCell {
         avatarContainerView.backgroundColor = groupViewModel.divisionColor
         
         homeNameLabel.attributedText = viewModel.homeTeamName
+        
         homeScoreLabel.attributedText = viewModel.homeTeamScore
+        homeScoreLabel.isHidden = homeScoreLabel.attributedText == nil
         
         awayNameLabel.attributedText = viewModel.awayTeamName
+        
         awayScoreLabel.attributedText = viewModel.awayTeamScore
+        awayScoreLabel.isHidden = awayScoreLabel.attributedText == nil
         
         fieldLabel.text = viewModel.fieldName
-        statusLabel.text = viewModel.status
-    }
-    
-    class func size(with viewModel: GameViewModel, width: CGFloat) -> CGSize {
-        let cell = GameCell(frame: .zero)
-        cell.configure(with: viewModel)
+        fieldLabel.isHidden = fieldLabel.text == nil
         
-        return cell.size(with: width)
+        statusLabel.text = viewModel.status
+        statusLabel.isHidden = statusLabel.text == nil
+        
+        infoStackView.isHidden = viewModel.displayDivision
+        avatarContainerView.isHidden = !viewModel.displayDivision
     }
 }
 
@@ -97,6 +101,7 @@ private extension GameCell {
         homeStackView.addArrangedSubview(homeNameLabel)
         
         homeScoreLabel.textColor = UIColor.black
+        homeScoreLabel.textAlignment = .right
         homeScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         homeScoreLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         homeStackView.addArrangedSubview(homeScoreLabel)
@@ -109,26 +114,29 @@ private extension GameCell {
         awayStackView.addArrangedSubview(awayNameLabel)
         
         awayScoreLabel.textColor = UIColor.black
+        awayScoreLabel.textAlignment = .right
         awayScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         awayScoreLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         awayStackView.addArrangedSubview(awayScoreLabel)
         
-//        infoStackView.axis = .horizontal
-//        infoStackView.spacing = 16.0
-//        contentStackView.addArrangedSubview(infoStackView)
-//        
-//        fieldLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
-//        fieldLabel.textColor = UIColor.lightGray
-//        infoStackView.addArrangedSubview(fieldLabel)
-//        
-//        statusLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
-//        statusLabel.textColor = UIColor.lightGray
-//        statusLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-//        infoStackView.addArrangedSubview(statusLabel)
+        infoStackView.axis = .horizontal
+        infoStackView.spacing = 16.0
+        contentStackView.addArrangedSubview(infoStackView)
+        
+        fieldLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
+        fieldLabel.textColor = UIColor.lightGray
+        infoStackView.addArrangedSubview(fieldLabel)
+        
+        statusLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
+        statusLabel.textColor = UIColor.lightGray
+        statusLabel.textAlignment = .right
+        statusLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        statusLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        infoStackView.addArrangedSubview(statusLabel)
     }
     
     func configureLayout() {
-        stackView.edgeAnchors == contentView.edgeAnchors
+        stackView.edgeAnchors == contentView.edgeAnchors + 16.0
         
         avatarContainerView.heightAnchor == 25.0
         avatarContainerView.widthAnchor == 25.0

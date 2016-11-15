@@ -31,14 +31,14 @@ extension AppDelegate: UIApplicationDelegate {
             NSFontAttributeName: UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBlack),
             NSForegroundColorAttributeName: UIColor.white
         ]
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, for: UIControlState())
-        UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, for: UIControlState())
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, for: .normal)
         
         UITabBar.appearance().barTintColor = UIColor.scBlue
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().tintColor = UIColor.white
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState())
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: .normal)
         UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 49.0)
 //        UITabBarItem.appearance().imageInsets = UIEdgeInsets(top: 11.5, left: 0.0, bottom: 0.0, right: 0.0)
         

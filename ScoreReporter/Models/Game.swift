@@ -29,8 +29,8 @@ extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
-    static func fetchedGamesForCluster(_ cluster: Cluster) -> NSFetchedResultsController<NSFetchRequestResult> {
-        let predicate = NSPredicate(format: "%K == %@", "cluster", cluster)
+    static func fetchedGamesForClusters(_ clusters: [Cluster]) -> NSFetchedResultsController<NSFetchRequestResult> {
+        let predicate = NSPredicate(format: "%K IN %@", "cluster", clusters)
         
         let sortDescriptors = [
             NSSortDescriptor(key: "sortOrder", ascending: true),

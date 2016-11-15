@@ -10,19 +10,17 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class EventCell: UICollectionViewCell, Sizable {
+class EventCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
     
-    override var isHighlighted: Bool {
-        didSet {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.97, y: 0.97) : CGAffineTransform.identity
-            }) 
-        }
+    var contentFrame: CGRect {
+        return searchInfoView.frame
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
         
         configureViews()
         configureLayout()
@@ -46,15 +44,8 @@ extension EventCell {
         searchInfoView.configure(with: event)
     }
     
-    class func size(with event: Event?, width: CGFloat) -> CGSize {
-        guard let event = event else {
-            return .zero
-        }
-        
-        let cell = EventCell(frame: .zero)
-        cell.configure(with: event)
-        
-        return cell.size(with: width)
+    func contentFrameFrom(view: UIView) -> CGRect {
+        return view.convert(searchInfoView.frame, from: searchInfoView.superview)
     }
 }
 
@@ -66,6 +57,6 @@ private extension EventCell {
     }
     
     func configureLayout() {
-        searchInfoView.edgeAnchors == contentView.edgeAnchors
+        searchInfoView.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

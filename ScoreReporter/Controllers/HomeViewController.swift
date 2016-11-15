@@ -13,10 +13,10 @@ import KVOController
 class HomeViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: HomeViewModel
     fileprivate let dataSource: HomeDataSource
-    fileprivate let collectionView: UICollectionView
+    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
     
-    fileprivate var selectedCell: UICollectionViewCell?
+    fileprivate var selectedCell: UITableViewCell?
         
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -27,13 +27,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
     init(viewModel: HomeViewModel, dataSource: HomeDataSource) {
         self.viewModel = viewModel
         self.dataSource = dataSource
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 16.0
-        layout.minimumInteritemSpacing = 16.0
-        layout.sectionInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         super.init(nibName: nil, bundle: nil)
         
@@ -73,7 +66,7 @@ class HomeViewController: UIViewController, MessageDisplayable {
         configureObservers()
         
         dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.collectionView.reloadData()
+            self?.tableView.handle(changes: changes)
         }
         
         viewModel.downloadEvents()
@@ -92,15 +85,17 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
 private extension HomeViewController {
     func configureViews() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(supplementaryClass: SectionHeaderReusableView.self, elementKind: UICollectionElementKindSectionHeader)
-        collectionView.register(cellClass: EventCell.self)
-        collectionView.backgroundColor = UIColor.white
-        collectionView.alwaysBounceVertical = true
-        collectionView.delaysContentTouches = false
-        collectionView.contentInset.top = 16.0
-        view.addSubview(collectionView)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(headerFooterClass: SectionHeaderView.self)
+        tableView.register(cellClass: EventCell.self)
+        tableView.backgroundColor = UIColor.white
+        tableView.estimatedRowHeight = 100.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 44.0
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
         
         let emptyImage = UIImage(named: "icn-home")
         let emptyTitle = "No Events"
@@ -111,9 +106,9 @@ private extension HomeViewController {
     }
     
     func configureLayout() {
-        collectionView.edgeAnchors == edgeAnchors
+        tableView.edgeAnchors == edgeAnchors
 
-        defaultView.edgeAnchors == collectionView.edgeAnchors
+        defaultView.edgeAnchors == tableView.edgeAnchors
     }
     
     func configureObservers() {
@@ -142,46 +137,36 @@ private extension HomeViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
+// MARK: - UITableViewDataSource
 
-extension HomeViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+extension HomeViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(for: indexPath) as EventCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let event = dataSource.item(at: indexPath)
-        
+        let cell = tableView.dequeueCell(for: indexPath) as EventCell
         cell.configure(with: event)
+        cell.separatorHidden = indexPath.item == 0
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueSupplementaryView(for: kind, indexPath: indexPath) as SectionHeaderReusableView
-        
-        let title = dataSource.title(for: indexPath.section)
-        headerView.configure(with: title)
-        headerView.delegate = self
-        
-        return headerView
-    }
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - UITableViewDelegate
 
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let event = dataSource.item(at: indexPath) else {
             return
         }
         
-        selectedCell = collectionView.cellForItem(at: indexPath)
+        selectedCell = tableView.cellForRow(at: indexPath)
         
         let eventDetailsViewModel = EventDetailsViewModel(event: event)
         let eventDetailsDataSource = EventDetailsDataSource(event: event)
@@ -190,41 +175,23 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let event = dataSource.item(at: indexPath), let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            return .zero
-        }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let title = dataSource.title(for: section)
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
+        headerView.configure(with: title)
         
-        let width = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
-        
-        return EventCell.size(with: event, width: width)
+        return headerView
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard let title = dataSource.title(for: section) else {
-            return .zero
-        }
-        
-        let height = SectionHeaderReusableView.height(with: title)
-        
-        return CGSize(width: collectionView.bounds.width, height: height)
-    }
-}
-
-// MARK: - SectionHeaderReusableViewDelegate
-
-extension HomeViewController: SectionHeaderReusableViewDelegate {
-    func headerViewDidSelectActionButton(_ headerView: SectionHeaderReusableView) {
-        let searchViewController = SearchViewController<Event>()
-        searchViewController.delegate = self
-        navigationController?.pushViewController(searchViewController, animated: true)
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.0001
     }
 }
 
 // MARK: - SearchViewControllerDelegate
 
 extension HomeViewController: SearchViewControllerDelegate {
-    func didSelectItem(_ item: Searchable) {
+    func didSelect(item: Searchable) {
         guard let event = item as? Event else {
             return
         }
@@ -241,20 +208,16 @@ extension HomeViewController: SearchViewControllerDelegate {
 extension HomeViewController: ListDetailAnimationControllerDelegate {
     var viewToAnimate: UIView {
         guard let cell = selectedCell as? EventCell,
-                  let frame = navigationController?.view.convert(cell.frame, from: cell.superview) else {
-            return UIView()
+            let navView = navigationController?.view,
+            let snapshot = cell.snapshot(rect: cell.contentFrame) else {
+                return UIView()
         }
         
-        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0);
-        cell.drawHierarchy(in: cell.bounds, afterScreenUpdates: false)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        let imageView = UIImageView(frame: frame)
-        imageView.image = image
+        let frame = cell.contentFrameFrom(view: navView)
+        snapshot.frame = frame
         
         cell.isHidden = true
         
-        return imageView
+        return snapshot
     }
 }

@@ -23,7 +23,7 @@ class NavigationItemButtonView: UIView {
     
     init?(viewController: UIViewController, backImageWidth: CGFloat) {
         let title = viewController.navigationItem.backBarButtonItem?.title ?? viewController.navigationItem.title ?? "Back"
-        let attributes = viewController.navigationItem.backBarButtonItem?.titleTextAttributes(for: UIControlState()) ?? viewController.navigationController?.navigationBar.titleTextAttributes
+        let attributes = viewController.navigationItem.backBarButtonItem?.titleTextAttributes(for: .normal) ?? viewController.navigationController?.navigationBar.titleTextAttributes
         titleLabel.attributedText = NSAttributedString(string: title, attributes: attributes)
         titleLabel.sizeToFit()
         

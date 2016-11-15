@@ -9,13 +9,15 @@
 import UIKit
 import Anchorage
 
-class StandingCell: UICollectionViewCell, Sizable {
+class StandingCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let nameLabel = UILabel(frame: .zero)
     fileprivate let resultsLabel = UILabel(frame: .zero)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
         
         configureViews()
         configureLayout()
@@ -38,17 +40,6 @@ extension StandingCell {
         let losses = standing?.losses ?? 0
         resultsLabel.text = "\(wins) - \(losses)"
     }
-    
-    class func size(with standing: Standing?, width: CGFloat) -> CGSize {
-        guard let standing = standing else {
-            return .zero
-        }
-        
-        let cell = StandingCell(frame: .zero)
-        cell.configure(with: standing)
-        
-        return cell.size(with: width)
-    }
 }
 
 // MARK: - Private
@@ -60,17 +51,17 @@ private extension StandingCell {
         contentView.addSubview(contentStackView)
         
         nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
-        nameLabel.textColor = UIColor.usauNavy
+        nameLabel.textColor = UIColor.black
         contentStackView.addArrangedSubview(nameLabel)
         
         resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
-        resultsLabel.textColor = UIColor.usauNavy
+        resultsLabel.textColor = UIColor.black
         resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         contentStackView.addArrangedSubview(resultsLabel)
     }
     
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors
+        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

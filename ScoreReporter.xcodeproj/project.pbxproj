@@ -40,6 +40,8 @@
 		0680348B1D407C7A006BD4C1 /* DefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0680348A1D407C7A006BD4C1 /* DefaultView.swift */; };
 		0680348F1D4094AC006BD4C1 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0680348E1D4094AC006BD4C1 /* DataSource.swift */; };
 		31229FBAC89902DC8BB026C0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */; };
+		4807478C1DDA386A00709226 /* TableCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4807478B1DDA386A00709226 /* TableCollectionViewLayout.swift */; };
+		4807478E1DDAC28200709226 /* BaselineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4807478D1DDAC28200709226 /* BaselineButton.swift */; };
 		4815808B1DC86A50008F141B /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808A1DC86A50008F141B /* NavigationButton.swift */; };
 		4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808C1DC86A5A008F141B /* NavigationItemView.swift */; };
 		4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */; };
@@ -95,6 +97,8 @@
 		48676E611DD980BD0004275E /* TableViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E601DD980BD0004275E /* TableViewProxy.swift */; };
 		48676E631DD981510004275E /* CollectionViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E621DD981510004275E /* CollectionViewProxy.swift */; };
 		48676E651DD984060004275E /* SearchBarProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48676E641DD984060004275E /* SearchBarProxy.swift */; };
+		4878755F1DDB95BF008789A0 /* TableViewCellSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878755E1DDB95BF008789A0 /* TableViewCellSeparatorView.swift */; };
+		487875611DDBB644008789A0 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487875601DDBB644008789A0 /* TableViewCell.swift */; };
 		487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3751D985A230082D6FC /* GameListViewController.swift */; };
 		487BF37D1D9880F20082D6FC /* GameListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37C1D9880F20082D6FC /* GameListDataSource.swift */; };
 		487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37E1D98C8510082D6FC /* GameViewModel.swift */; };
@@ -169,6 +173,8 @@
 		0680348E1D4094AC006BD4C1 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0EECBD668089EE283C31E7A7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		4807478B1DDA386A00709226 /* TableCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCollectionViewLayout.swift; sourceTree = "<group>"; };
+		4807478D1DDAC28200709226 /* BaselineButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaselineButton.swift; sourceTree = "<group>"; };
 		4815808A1DC86A50008F141B /* NavigationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		4815808C1DC86A5A008F141B /* NavigationItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
 		4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemButtonView.swift; sourceTree = "<group>"; };
@@ -225,6 +231,8 @@
 		48676E601DD980BD0004275E /* TableViewProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewProxy.swift; sourceTree = "<group>"; };
 		48676E621DD981510004275E /* CollectionViewProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewProxy.swift; sourceTree = "<group>"; };
 		48676E641DD984060004275E /* SearchBarProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarProxy.swift; sourceTree = "<group>"; };
+		4878755E1DDB95BF008789A0 /* TableViewCellSeparatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellSeparatorView.swift; sourceTree = "<group>"; };
+		487875601DDBB644008789A0 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		487BF3751D985A230082D6FC /* GameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListViewController.swift; sourceTree = "<group>"; };
 		487BF37C1D9880F20082D6FC /* GameListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameListDataSource.swift; path = Protocols/GameListDataSource.swift; sourceTree = "<group>"; };
 		487BF37E1D98C8510082D6FC /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
@@ -512,6 +520,7 @@
 				4815808C1DC86A5A008F141B /* NavigationItemView.swift */,
 				4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */,
 				484A70CF1DD6B0D7008A4FCE /* ListDetailAnimationController.swift */,
+				4807478B1DDA386A00709226 /* TableCollectionViewLayout.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -625,6 +634,9 @@
 				48676E5E1DD91D250004275E /* SegmentedControl.swift */,
 				0680348A1D407C7A006BD4C1 /* DefaultView.swift */,
 				48E5412F1D810F2D008E4DEE /* MessageView.swift */,
+				4807478D1DDAC28200709226 /* BaselineButton.swift */,
+				4878755E1DDB95BF008789A0 /* TableViewCellSeparatorView.swift */,
+				487875601DDBB644008789A0 /* TableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -871,6 +883,7 @@
 				48676E5B1DD824FA0004275E /* Sizable.swift in Sources */,
 				484A70D21DD6BEEE008A4FCE /* SearchInfoView.swift in Sources */,
 				0665DF2A1D3DD4C8006D2070 /* Standing+CoreDataProperties.swift in Sources */,
+				4878755F1DDB95BF008789A0 /* TableViewCellSeparatorView.swift in Sources */,
 				483453B81D8D009200F0918A /* HomeDataSource.swift in Sources */,
 				481580971DCAC0CE008F141B /* CALayer+Extensions.swift in Sources */,
 				0665DF281D3DD4C8006D2070 /* Bracket+CoreDataProperties.swift in Sources */,
@@ -921,6 +934,8 @@
 				487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */,
 				0665DF271D3DD4C8006D2070 /* Game.swift in Sources */,
 				0665DF231D3DD4C8006D2070 /* Cluster.swift in Sources */,
+				4807478C1DDA386A00709226 /* TableCollectionViewLayout.swift in Sources */,
+				4807478E1DDAC28200709226 /* BaselineButton.swift in Sources */,
 				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,
 				4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */,
 				4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */,
@@ -940,6 +955,7 @@
 				488CAA6A1D7E440600C3E597 /* UITableView+Extensions.swift in Sources */,
 				0665DF1D1D3DD4C8006D2070 /* Pool.swift in Sources */,
 				483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */,
+				487875611DDBB644008789A0 /* TableViewCell.swift in Sources */,
 				4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */,
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
 				0665DF211D3DD4C8006D2070 /* Round.swift in Sources */,

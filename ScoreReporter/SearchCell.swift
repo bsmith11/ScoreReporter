@@ -37,6 +37,14 @@ class SearchCell: UICollectionViewCell, Sizable {
         
         searchInfoView.cancelImageDownload()
     }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let targetSize = CGSize(width: layoutAttributes.bounds.width, height: UILayoutFittingCompressedSize.height)
+        let size = systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
+        layoutAttributes.bounds.size = size
+        
+        return layoutAttributes
+    }
 }
 
 // MARK: - Public

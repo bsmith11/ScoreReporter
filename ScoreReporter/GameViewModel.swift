@@ -17,6 +17,7 @@ struct GameViewModel {
     let awayTeamScore: NSAttributedString?
     let fieldName: String
     let status: String?
+    let displayDivision: Bool
     
     fileprivate let winnerAttributes = [
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
@@ -26,7 +27,7 @@ struct GameViewModel {
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
     ]
     
-    init(game: Game?) {
+    init(game: Game?, displayDivision: Bool = false) {
         self.game = game
         
         var homeAttributes = loserAttributes
@@ -59,5 +60,7 @@ struct GameViewModel {
         
         fieldName = game?.fieldName ?? "TBD"
         status = game?.status
+        
+        self.displayDivision = displayDivision
     }
 }

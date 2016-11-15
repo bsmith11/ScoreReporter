@@ -10,13 +10,12 @@ import UIKit
 import Anchorage
 
 @objc protocol SectionHeaderReusableViewDelegate: class {
-    @objc optional func didSelectSectionHeader(_ headerView: SectionHeaderReusableView)
     @objc optional func headerViewDidSelectActionButton(_ headerView: SectionHeaderReusableView)
 }
 
 class SectionHeaderReusableView: UICollectionReusableView {
     fileprivate let titleLabel = UILabel(frame: .zero)
-    fileprivate let actionButton = UIButton(type: .system)
+    fileprivate let actionButton = BaselineButton(type: .system)
     
     fileprivate var actionButtonWidth: NSLayoutConstraint?
     
@@ -47,11 +46,11 @@ class SectionHeaderReusableView: UICollectionReusableView {
 // MARK: - Public
 
 extension SectionHeaderReusableView {
-    func configure(with title: String?, actionButtonImage: UIImage? = nil) {
+    func configure(with title: String?, actionTitle: String? = nil) {
         titleLabel.text = title
         
-        actionButton.setImage(actionButtonImage, for: UIControlState())
-        actionButtonWidth?.isActive = actionButtonImage == nil
+        actionButton.setTitle(actionTitle, for: .normal)
+        actionButtonWidth?.isActive = actionButton.title(for: .normal) == nil
     }
     
     class func height(with title: String?, actionButtonImage: UIImage? = nil) -> CGFloat {
@@ -75,7 +74,8 @@ private extension SectionHeaderReusableView {
         titleLabel.textColor = UIColor.black
         addSubview(titleLabel)
         
-        actionButton.tintColor = UIColor.usauRed
+        actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        actionButton.setTitleColor(UIColor.scRed, for: .normal)
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         actionButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
@@ -87,9 +87,9 @@ private extension SectionHeaderReusableView {
         titleLabel.verticalAnchors == verticalAnchors
         
         actionButton.leadingAnchor == titleLabel.trailingAnchor + 16.0
-        actionButton.topAnchor >= topAnchor
-        actionButton.bottomAnchor == bottomAnchor
         actionButton.trailingAnchor == trailingAnchor
+        actionButton.heightAnchor == titleLabel.heightAnchor
+        actionButton.firstBaselineAnchor == titleLabel.firstBaselineAnchor
         actionButtonWidth = actionButton.widthAnchor == 0.0
     }
     

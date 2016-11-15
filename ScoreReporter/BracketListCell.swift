@@ -43,7 +43,7 @@ extension BracketListCell {
 private extension BracketListCell {
     func configureViews() {
         titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
-        titleLabel.textColor = UIColor.usauNavy
+        titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         contentView.addSubview(titleLabel)

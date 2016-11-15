@@ -48,7 +48,7 @@ private extension GroupDetailsDataSource {
         var poolsViewController: UIViewController?
         var bracketsViewController: UIViewController?
         
-        var clusters = [UIViewController]()
+        var clusters = [Cluster]()
         
         sortedRounds.forEach { round in
             switch round.type {
@@ -58,9 +58,9 @@ private extension GroupDetailsDataSource {
                     poolsViewController = PoolsViewController(dataSource: poolsDataSource)
                 }
             case .clusters:
-                let cluster = (round.clusters.allObjects as? [Cluster] ?? []).first
-                let gameListDataSource = GameListDataSource(cluster: cluster!)
-                clusters.append(GameListViewController(dataSource: gameListDataSource))
+                if let clusterObjects = round.clusters.allObjects as? [Cluster] {
+                    clusters.append(contentsOf: clusterObjects)
+                }
             case .brackets:
                 if bracketsViewController == nil {
                     let bracketListDataSource = BracketListDataSource(group: group)
@@ -73,7 +73,11 @@ private extension GroupDetailsDataSource {
             items.append(poolsViewController)
         }
         
-        items.append(contentsOf: clusters)
+        if !clusters.isEmpty {
+            let gameListDataSource = GameListDataSource(clusters: clusters)
+            let gameListViewController = GameListViewController(dataSource: gameListDataSource)
+            items.append(gameListViewController)
+        }
         
         if let bracketsViewController = bracketsViewController {
             items.append(bracketsViewController)

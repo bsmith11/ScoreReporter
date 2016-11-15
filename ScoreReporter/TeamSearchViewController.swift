@@ -116,7 +116,7 @@ private extension TeamSearchViewController {
         searchBar.autocorrectionType = .no
         searchBar.spellCheckingType = .no
         searchBar.placeholder = "Find teams"
-        searchBar.tintColor = UIColor.usauNavy
+        searchBar.tintColor = UIColor.black
         searchBar.delegate = self
         navigationItem.titleView = searchBar
     }
