@@ -8,6 +8,7 @@
 
 import UIKit
 import Anchorage
+import ScoreReporterCore
 
 class SettingsViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: SettingsDataSource

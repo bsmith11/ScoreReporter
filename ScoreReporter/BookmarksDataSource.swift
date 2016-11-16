@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import ScoreReporterCore
 
 class BookmarksDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Event

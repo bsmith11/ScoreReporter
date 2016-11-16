@@ -8,6 +8,7 @@
 
 import UIKit
 import Anchorage
+import ScoreReporterCore
 
 class AcknowledgementListViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: AcknowledgementListDataSource

@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import KVOController
+import ScoreReporterCore
 
 class HomeViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: HomeViewModel

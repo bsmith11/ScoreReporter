@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import ScoreReporterCore
 
 struct EventViewModel {
     let name: String

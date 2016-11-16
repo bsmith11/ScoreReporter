@@ -8,6 +8,7 @@
 
 import UIKit
 import Anchorage
+import ScoreReporterCore
 
 class LoginViewController: UIViewController {
     fileprivate let viewModel: LoginViewModel

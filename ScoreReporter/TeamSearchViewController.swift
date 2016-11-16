@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import KVOController
+import ScoreReporterCore
 
 class TeamSearchViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: TeamSearchViewModel

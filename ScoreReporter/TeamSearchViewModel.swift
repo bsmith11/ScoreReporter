@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ScoreReporterCore
 
 class TeamSearchViewModel: NSObject {
     fileprivate let teamService = TeamService(client: APIClient.sharedInstance)

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import ScoreReporterCore
 
 struct PoolSection {
     let pool: Pool

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ScoreReporterCore
 
 struct GameViewModel {
     let game: Game?

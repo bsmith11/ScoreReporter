@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ScoreReporterCore
 
 struct GroupViewModel {
     let fullName: String

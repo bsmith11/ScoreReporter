@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import ScoreReporterCore
 
 class TeamSearchDataSource: NSObject, FetchedDataSource {
     typealias ModelType = Team

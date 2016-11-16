@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ScoreReporterCore
 
 class BaseNavigationController: UINavigationController {
     fileprivate let interactionController = BackInteractionController()

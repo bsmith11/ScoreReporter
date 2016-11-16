@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import PINRemoteImage
+import ScoreReporterCore
 
 class GroupCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)

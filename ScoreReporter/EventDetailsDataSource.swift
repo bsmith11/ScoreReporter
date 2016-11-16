@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import UIKit
 import CoreData
+import ScoreReporterCore
 
 struct EventDetailsSection {
     let title: String?

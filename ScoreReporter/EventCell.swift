@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import PINRemoteImage
+import ScoreReporterCore
 
 class EventCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)

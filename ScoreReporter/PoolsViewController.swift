@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import KVOController
+import ScoreReporterCore
 
 class PoolsViewController: UIViewController {
     fileprivate let dataSource: PoolsDataSource

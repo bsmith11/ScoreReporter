@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import KVOController
+import ScoreReporterCore
 
 class BookmarksViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: BookmarksDataSource

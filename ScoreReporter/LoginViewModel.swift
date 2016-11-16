@@ -7,13 +7,9 @@
 //
 
 import Foundation
+import ScoreReporterCore
 
 typealias LoginCompletion = (NSError?) -> Void
-
-struct Credentials {
-    let username: String
-    let password: String
-}
 
 class LoginViewModel: NSObject {
     fileprivate let loginService = LoginService(client: APIClient.sharedInstance)

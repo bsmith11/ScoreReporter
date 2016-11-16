@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ScoreReporterCore
 
 class EventDetailsViewModel: NSObject {
     fileprivate let event: Event

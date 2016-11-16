@@ -9,6 +9,7 @@
 import UIKit
 import Anchorage
 import KVOController
+import ScoreReporterCore
 
 class BracketListViewController: UIViewController {
     fileprivate let dataSource: BracketListDataSource

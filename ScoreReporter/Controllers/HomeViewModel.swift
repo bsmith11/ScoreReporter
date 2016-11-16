@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ScoreReporterCore
 
 class HomeViewModel: NSObject {
     fileprivate let eventService = EventService(client: APIClient.sharedInstance)

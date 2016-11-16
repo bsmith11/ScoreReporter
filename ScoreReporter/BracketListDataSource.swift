@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import ScoreReporterCore
 
 class BracketListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Bracket

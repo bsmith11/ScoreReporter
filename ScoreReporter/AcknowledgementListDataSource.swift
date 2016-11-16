@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ScoreReporterCore
 
 struct Acknowledgement {
     let title: String

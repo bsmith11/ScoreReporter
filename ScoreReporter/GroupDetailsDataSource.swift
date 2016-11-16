@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import ScoreReporterCore
 
 class GroupDetailsDataSource: NSObject, ArrayDataSource {
     typealias ModelType = UIViewController
