@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 public protocol Searchable {
-    static var searchFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
     static var searchBarPlaceholder: String? { get }
     static var searchEmptyTitle: String? { get }
     static var searchEmptyMessage: String? { get }

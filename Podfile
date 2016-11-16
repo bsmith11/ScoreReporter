@@ -21,6 +21,10 @@ target 'ScoreReporterCore' do
     project './ScoreReporterCore/ScoreReporterCore.xcodeproj'
 end
 
+target 'TodayExtension' do
+    project './ScoreReporter.xcodeproj'
+end
+
 post_install do | installer |
   require 'fileutils'
 

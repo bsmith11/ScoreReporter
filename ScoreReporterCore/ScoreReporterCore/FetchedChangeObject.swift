@@ -21,12 +21,17 @@ public enum FetchedChange {
     case object(type: FetchedChangeType, indexPath: IndexPath?, newIndexPath: IndexPath?)
 }
 
+public protocol FetchedChangeObjectDelegate: class {
+    var empty: Bool { get set }
+    var fetchedChangeHandler: FetchedChangeHandler? { get }
+}
+
 public class FetchedChangeObject: NSObject {
     static var associatedKey = "com.bradsmith.scorereporter.fetchedChangeObjectAssociatedKey"
     
     fileprivate var fetchedChanges = [FetchedChange]()
     
-    weak var owner: FetchedChangable?
+    weak var delegate: FetchedChangeObjectDelegate?
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
@@ -55,7 +60,7 @@ extension FetchedChangeObject: NSFetchedResultsControllerDelegate {
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        owner?.empty = controller.fetchedObjects?.isEmpty ?? true
-        owner?.fetchedChangeHandler?(fetchedChanges)
+        delegate?.empty = controller.fetchedObjects?.isEmpty ?? true
+        delegate?.fetchedChangeHandler?(fetchedChanges)
     }
 }

@@ -59,8 +59,8 @@ public extension Fetchable where Self: NSManagedObject {
         return object
     }
     
-    static func fetchedResultsController(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, sectionNameKeyPath: String? = nil) -> NSFetchedResultsController<NSFetchRequestResult> {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    static func fetchedResultsController<T: NSManagedObject>(predicate: NSPredicate?, sortDescriptors: [NSSortDescriptor]?, sectionNameKeyPath: String? = nil) -> NSFetchedResultsController<T> {
+        let request = NSFetchRequest<T>(entityName: entityName)
         request.predicate = predicate
         request.sortDescriptors = sortDescriptors
         

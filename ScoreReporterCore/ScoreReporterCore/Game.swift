@@ -20,7 +20,7 @@ public extension Game {
         return cluster?.round?.group ?? pool?.round?.group ?? stage?.bracket?.round?.group
     }
     
-    static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
         let sortDescriptors = [
@@ -31,7 +31,7 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
-    static func fetchedGamesForClusters(_ clusters: [Cluster]) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedGamesForClusters(_ clusters: [Cluster]) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%K IN %@", "cluster", clusters)
         
         let sortDescriptors = [
@@ -42,7 +42,7 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
-    static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<Game> {
         let gamePredicates = [
             NSPredicate(format: "%K == %@", "pool.round.group.event", event),
             NSPredicate(format: "%K == %@", "cluster.round.group.event", event),

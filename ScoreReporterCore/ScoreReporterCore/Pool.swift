@@ -16,7 +16,7 @@ public class Pool: NSManagedObject {
 // MARK: - Public
 
 public extension Pool {
-    static func fetchedPoolsForRound(_ round: Round) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedPoolsForRound(_ round: Round) -> NSFetchedResultsController<Pool> {
         let predicate = NSPredicate(format: "%K == %@", "round", round)
         
         let sortDescriptors = [
@@ -26,7 +26,7 @@ public extension Pool {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
-    static func fetchedPoolsForGroup(_ group: Group) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedPoolsForGroup(_ group: Group) -> NSFetchedResultsController<Pool> {
         let predicate = NSPredicate(format: "%K == %@", "round.group", group)
         
         let sortDescriptors = [

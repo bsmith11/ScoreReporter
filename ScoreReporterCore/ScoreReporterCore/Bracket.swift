@@ -16,7 +16,7 @@ public class Bracket: NSManagedObject {
 // MARK: - Public
 
 public extension Bracket {
-    static func fetchedBracketsForGroup(_ group: Group) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedBracketsForGroup(_ group: Group) -> NSFetchedResultsController<Bracket> {
         let predicate = NSPredicate(format: "%K == %@", "round.group", group)
         
         let sortDescriptors = [

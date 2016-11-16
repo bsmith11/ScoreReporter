@@ -45,7 +45,9 @@ public extension ArrayDataSource {
 }
 
 public protocol FetchedDataSource: DataSource {
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
+    associatedtype ModelType: NSManagedObject
+    
+    var fetchedResultsController: NSFetchedResultsController<ModelType> { get }
 }
 
 public extension FetchedDataSource {

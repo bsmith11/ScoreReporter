@@ -9,12 +9,13 @@
 import UIKit
 import Anchorage
 import KVOController
+import CoreData
 
 public protocol SearchViewControllerDelegate: class {
     func didSelect(item: Searchable)
 }
 
-public class SearchViewController<Model: Searchable>: UIViewController {
+public class SearchViewController<Model: NSManagedObject where Model: Searchable>: UIViewController {
     fileprivate let dataSource: SearchDataSource<Model>
     fileprivate let searchBar = UISearchBar(frame: .zero)
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
@@ -26,8 +27,8 @@ public class SearchViewController<Model: Searchable>: UIViewController {
     
     public weak var delegate: SearchViewControllerDelegate?
     
-    public init() {
-        dataSource = SearchDataSource<Model>()
+    public init(dataSource: SearchDataSource<Model>) {
+        self.dataSource = dataSource
         
         super.init(nibName: nil, bundle: nil)
         
@@ -202,20 +203,16 @@ extension SearchViewController: SearchBarProxyDelegate {
 extension SearchViewController: ListDetailAnimationControllerDelegate {
     public var viewToAnimate: UIView {
         guard let cell = selectedCell as? SearchCell,
-              let frame = navigationController?.view.convert(cell.frame, from: cell.superview) else {
-            return UIView()
+            let navView = navigationController?.view,
+            let snapshot = cell.snapshot(rect: cell.contentFrame) else {
+                return UIView()
         }
         
-        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0);
-        cell.drawHierarchy(in: cell.bounds, afterScreenUpdates: false)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        let imageView = UIImageView(frame: frame)
-        imageView.image = image
+        let frame = cell.contentFrameFrom(view: navView)
+        snapshot.frame = frame
         
         cell.isHidden = true
         
-        return imageView
+        return snapshot
     }
 }

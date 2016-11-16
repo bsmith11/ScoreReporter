@@ -8,9 +8,12 @@
 
 import UIKit
 import NotificationCenter
+import ScoreReporterCore
+import Anchorage
+import CoreData
 
 class TodayViewController: UIViewController, NCWidgetProviding {
-    fileprivate let label = UILabel(frame: .zero)
+    fileprivate let infoView = SearchInfoView(frame: .zero)
     
     override func loadView() {
         view = UIView()
@@ -19,28 +22,44 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         configureLayout()
     }
     
-    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        // Perform any setup necessary in order to update the view.
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Event.entityName)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let context = Event.coreDataStack.mainContext
         
-        completionHandler(NCUpdateResult.newData)
+        do {
+            let events = try context.fetch(fetchRequest)
+            print(events)
+        }
+        catch let error {
+            print("Failed to fetch events")
+        }
+        
+//        let event = Event.fetchedEventsThisWeek().fetchedObjects?.first as? Event
+//        infoView.configure(with: event)
     }
+    
+//    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
+//        // Perform any setup necessary in order to update the view.
+//        
+//        // If an error is encountered, use NCUpdateResult.Failed
+//        // If there's no update required, use NCUpdateResult.NoData
+//        // If there's an update, use NCUpdateResult.NewData
+//        
+//        completionHandler(NCUpdateResult.newData)
+//    }
 }
 
 // MARK: - Private
 
 private extension TodayViewController {
     func configureViews() {
-        label.text = "Hello World"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
+        view.addSubview(infoView)
     }
     
     func configureLayout() {
-        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        infoView.edgeAnchors == view.edgeAnchors
     }
 }

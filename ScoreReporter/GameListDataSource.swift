@@ -13,7 +13,7 @@ import ScoreReporterCore
 class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Game
     
-    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
+    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Game>
     
     let title: String?
     

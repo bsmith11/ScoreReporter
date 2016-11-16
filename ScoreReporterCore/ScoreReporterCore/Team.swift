@@ -24,8 +24,19 @@ public extension Team {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
-    static func fetchedTeams() -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedTeams() -> NSFetchedResultsController<Team> {
         let predicate = NSPredicate(format: "%K != %@", "state", "")
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "state", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
+    }
+    
+    public static var searchFetchedResultsController: NSFetchedResultsController<Team> {
+        let predicate = NSPredicate(format: "%K != nil", "state")
         
         let sortDescriptors = [
             NSSortDescriptor(key: "state", ascending: true),
@@ -163,17 +174,6 @@ func <~ (lhs: [String: AnyObject], rhs: String) -> String? {
 // MARK: - Searchable
 
 extension Team: Searchable {
-    public static var searchFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> {
-        let predicate = NSPredicate(format: "%K != nil", "state")
-        
-        let sortDescriptors = [
-            NSSortDescriptor(key: "state", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
-        ]
-        
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
-    }
-    
     public static var searchBarPlaceholder: String? {
         return "Find teams"
     }

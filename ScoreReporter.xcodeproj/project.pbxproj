@@ -10,6 +10,7 @@
 		01F48093C80BC7197AFDE3D8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C9687C4D6702C6F0E9312B6 /* Images.xcassets */; };
 		068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0680347F1D3F140A006BD4C1 /* BaseNavigationController.swift */; };
 		068034821D3F1BBC006BD4C1 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068034811D3F1BBC006BD4C1 /* EventViewModel.swift */; };
+		23D6656E7061DE4669BA6CEE /* Pods_TodayExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6790E9A1995603B6542D1BC2 /* Pods_TodayExtension.framework */; };
 		31229FBAC89902DC8BB026C0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */; };
 		4815808B1DC86A50008F141B /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808A1DC86A50008F141B /* NavigationButton.swift */; };
 		4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808C1DC86A5A008F141B /* NavigationItemView.swift */; };
@@ -46,6 +47,7 @@
 		4878758E1DDBF31A008789A0 /* ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4878758D1DDBF31A008789A0 /* ScoreReporterCore.framework */; };
 		4878758F1DDBF31A008789A0 /* ScoreReporterCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4878758D1DDBF31A008789A0 /* ScoreReporterCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		487876D41DDBFFC4008789A0 /* GameListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876D31DDBFFC4008789A0 /* GameListDataSource.swift */; };
+		487876F11DDC0DDA008789A0 /* ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487876F01DDC0DDA008789A0 /* ScoreReporterCore.framework */; };
 		487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3751D985A230082D6FC /* GameListViewController.swift */; };
 		487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF37E1D98C8510082D6FC /* GameViewModel.swift */; };
 		487BF3861D9A0A340082D6FC /* BracketListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */; };
@@ -53,7 +55,6 @@
 		487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BF3891D9A0BD00082D6FC /* BracketListCell.swift */; };
 		488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA631D7E367600C3E597 /* HomeViewController.swift */; };
 		488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */; };
-		4895055E1DD409BC00ED4EFF /* SectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */; };
 		489505621DD431D500ED4EFF /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489505611DD431D500ED4EFF /* EventCell.swift */; };
 		48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */; };
 		48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */; };
@@ -152,6 +153,8 @@
 		4878758D1DDBF31A008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875911DDBF34B008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScoreReporterCore.framework; path = "ScoreReporterCore/build/Debug-iphoneos/ScoreReporterCore.framework"; sourceTree = "<group>"; };
 		487876D31DDBFFC4008789A0 /* GameListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListDataSource.swift; sourceTree = "<group>"; };
+		487876F01DDC0DDA008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScoreReporterCore.framework; path = "../Library/Developer/Xcode/DerivedData/ScoreReporter-gloekkxwfxsarwfqsimjkpdltvpu/Build/Products/Debug-iphonesimulator/ScoreReporterCore.framework"; sourceTree = "<group>"; };
+		487876F21DDC20B0008789A0 /* TodayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodayExtension.entitlements; sourceTree = "<group>"; };
 		487BF3751D985A230082D6FC /* GameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameListViewController.swift; sourceTree = "<group>"; };
 		487BF37E1D98C8510082D6FC /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BracketListDataSource.swift; sourceTree = "<group>"; };
@@ -159,7 +162,6 @@
 		487BF3891D9A0BD00082D6FC /* BracketListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BracketListCell.swift; sourceTree = "<group>"; };
 		488CAA631D7E367600C3E597 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Controllers/HomeViewController.swift; sourceTree = "<group>"; };
 		488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewModel.swift; path = Controllers/HomeViewModel.swift; sourceTree = "<group>"; };
-		4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		489505611DD431D500ED4EFF /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
@@ -172,7 +174,10 @@
 		52680920874D492D40D00CFD /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53C12ADEC315EA54F9AA76A3 /* ScoreReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScoreReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		648BA6BA3DC2DAAB2475AB21 /* Pods_ScoreReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6790E9A1995603B6542D1BC2 /* Pods_TodayExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodayExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		693B305DC64788811391D5AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		7093D91011D5EBB446FFC907 /* Pods-TodayExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodayExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-TodayExtension/Pods-TodayExtension.release.xcconfig"; sourceTree = "<group>"; };
+		AA684B8E6508811307A38A06 /* Pods-TodayExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodayExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TodayExtension/Pods-TodayExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		C067E9D539D5600279356388 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB8710D0BC735C12F2E5C91F /* Pods-ScoreReporter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ScoreReporter/Pods-ScoreReporter.debug.xcconfig"; sourceTree = "<group>"; };
 		E8B50829352C52B2EA51452D /* UnitTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
@@ -194,7 +199,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487876F11DDC0DDA008789A0 /* ScoreReporterCore.framework in Frameworks */,
 				487875681DDBC974008789A0 /* NotificationCenter.framework in Frameworks */,
+				23D6656E7061DE4669BA6CEE /* Pods_TodayExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,12 +229,14 @@
 		3764A2B154BEA64F98903C0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				487876F01DDC0DDA008789A0 /* ScoreReporterCore.framework */,
 				487875911DDBF34B008789A0 /* ScoreReporterCore.framework */,
 				68A0FF57993D076C9C493638 /* iOS */,
 				C067E9D539D5600279356388 /* Pods.framework */,
 				4878758D1DDBF31A008789A0 /* ScoreReporterCore.framework */,
 				648BA6BA3DC2DAAB2475AB21 /* Pods_ScoreReporter.framework */,
 				487875671DDBC974008789A0 /* NotificationCenter.framework */,
+				6790E9A1995603B6542D1BC2 /* Pods_TodayExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -332,6 +341,7 @@
 		487875691DDBC974008789A0 /* TodayExtension */ = {
 			isa = PBXGroup;
 			children = (
+				487876F21DDC20B0008789A0 /* TodayExtension.entitlements */,
 				4878756A1DDBC974008789A0 /* TodayViewController.swift */,
 				4878756F1DDBC974008789A0 /* Info.plist */,
 			);
@@ -480,6 +490,8 @@
 			children = (
 				01D2D59648E4497DDEA9D944 /* Pods-ScoreReporter.release.xcconfig */,
 				DB8710D0BC735C12F2E5C91F /* Pods-ScoreReporter.debug.xcconfig */,
+				AA684B8E6508811307A38A06 /* Pods-TodayExtension.debug.xcconfig */,
+				7093D91011D5EBB446FFC907 /* Pods-TodayExtension.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -495,7 +507,6 @@
 		EF8C2202813E2DB9869CDAFB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4895055D1DD409BC00ED4EFF /* SectionHeaderReusableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -507,9 +518,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 487875731DDBC974008789A0 /* Build configuration list for PBXNativeTarget "TodayExtension" */;
 			buildPhases = (
+				6F34442FBC792CAFDEB517EC /* [CP] Check Pods Manifest.lock */,
 				487875621DDBC974008789A0 /* Sources */,
 				487875631DDBC974008789A0 /* Frameworks */,
 				487875641DDBC974008789A0 /* Resources */,
+				F14D08426B29E106EE022C79 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -578,11 +591,22 @@
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = Q9WZ7ZSJK2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					BD6C1FD2302B8FE50C967CE7 = {
 						DevelopmentTeam = Q9WZ7ZSJK2;
 						LastSwiftMigration = 0810;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -653,6 +677,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ScoreReporter/Pods-ScoreReporter-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6F34442FBC792CAFDEB517EC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		6F7B224955C4D51C5E2E7FB9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -709,6 +748,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F14D08426B29E106EE022C79 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TodayExtension/Pods-TodayExtension-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -768,7 +822,6 @@
 				483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */,
 				4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */,
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
-				4895055E1DD409BC00ED4EFF /* SectionHeaderReusableView.swift in Sources */,
 				487BF37F1D98C8510082D6FC /* GameViewModel.swift in Sources */,
 				48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */,
 				484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */,
@@ -884,12 +937,14 @@
 		};
 		487875741DDBC974008789A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA684B8E6508811307A38A06 /* Pods-TodayExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_ENTITLEMENTS = TodayExtension/TodayExtension.entitlements;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Q9WZ7ZSJK2;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -907,18 +962,20 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
 		487875751DDBC974008789A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7093D91011D5EBB446FFC907 /* Pods-TodayExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_ENTITLEMENTS = TodayExtension/TodayExtension.entitlements;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q9WZ7ZSJK2;
@@ -935,7 +992,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradsmith.ScoreReporter.TodayExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};

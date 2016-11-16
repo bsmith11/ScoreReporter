@@ -13,7 +13,7 @@ import ScoreReporterCore
 class BracketListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Bracket
     
-    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
+    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Bracket>
     
     dynamic var empty = false
     

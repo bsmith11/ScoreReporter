@@ -36,7 +36,7 @@ struct PoolSection {
 class PoolsDataSource: NSObject, DataSource {
     typealias ModelType = Standing
     
-    fileprivate let fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
+    fileprivate let fetchedResultsController: NSFetchedResultsController<Pool>
     
     fileprivate var sections = [PoolSection]()
     
@@ -82,7 +82,7 @@ extension PoolsDataSource {
 
 private extension PoolsDataSource {
     func configureSections() {
-        let pools = (fetchedResultsController.fetchedObjects as? [Pool]) ?? []
+        let pools = fetchedResultsController.fetchedObjects ?? []
         sections = pools.map { PoolSection(pool: $0) }
     }
 }

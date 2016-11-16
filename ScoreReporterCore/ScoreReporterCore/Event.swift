@@ -24,7 +24,7 @@ public extension Event {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
-    static func fetchedEventsThisWeek() -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedEventsThisWeek() -> NSFetchedResultsController<Event> {
         let datesTuple = Date.enclosingDatesForCurrentWeek
         
         let predicates = [
@@ -42,7 +42,7 @@ public extension Event {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
-    static func fetchedBookmarkedEvents() -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedBookmarkedEvents() -> NSFetchedResultsController<Event> {
         let predicates = [
             NSPredicate(format: "%K == %@", "type", "Tournament"),
             NSPredicate(format: "%K == YES", "bookmarked")
@@ -58,7 +58,18 @@ public extension Event {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
-    static func fetchedEvents() -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedEvents() -> NSFetchedResultsController<Event> {
+        let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "startDate", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
+    }
+    
+    public static var searchFetchedResultsController: NSFetchedResultsController<Event> {
         let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
         
         let sortDescriptors = [
@@ -130,17 +141,6 @@ extension Event: CoreDataImportable {
 // MARK: - Searchable
 
 extension Event: Searchable {
-    public static var searchFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> {
-        let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
-        
-        let sortDescriptors = [
-            NSSortDescriptor(key: "startDate", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
-        ]
-        
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
-    }
-    
     public static var searchBarPlaceholder: String? {
         return "Find events"
     }

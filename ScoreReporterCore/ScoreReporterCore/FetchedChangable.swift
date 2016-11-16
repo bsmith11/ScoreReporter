@@ -11,22 +11,24 @@ import CoreData
 
 public typealias FetchedChangeHandler = ([FetchedChange]) -> Void
 
-public protocol FetchedChangable: class {
+public protocol FetchedChangable: FetchedChangeObjectDelegate {
+    associatedtype ModelType: NSManagedObject
+    
     var empty: Bool { get set }
     var fetchedChangeHandler: FetchedChangeHandler? { get set }
     
-    func register(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>)
-    func unregister(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>)
+    func register(fetchedResultsController: NSFetchedResultsController<ModelType>)
+    func unregister(fetchedResultsController: NSFetchedResultsController<ModelType>)
 }
 
 // MARK: - Public
 
 public extension FetchedChangable where Self: NSObject {
-    func register(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
+    func register(fetchedResultsController: NSFetchedResultsController<ModelType>) {
         fetchedResultsController.delegate = fetchedChangeObject
     }
     
-    func unregister(fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
+    func unregister(fetchedResultsController: NSFetchedResultsController<ModelType>) {
         fetchedResultsController.delegate = nil
     }
 }
@@ -38,7 +40,7 @@ private extension FetchedChangable where Self: NSObject {
         guard let object = objc_getAssociatedObject(self, &FetchedChangeObject.associatedKey) as? FetchedChangeObject else {
             let object = FetchedChangeObject()
             objc_setAssociatedObject(self, &FetchedChangeObject.associatedKey, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            object.owner = self
+            object.delegate = self
             
             return object
         }

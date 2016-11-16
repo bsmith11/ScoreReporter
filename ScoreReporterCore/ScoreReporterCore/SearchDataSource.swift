@@ -9,22 +9,24 @@
 import Foundation
 import CoreData
 
-class SearchDataSource<Model: Searchable>: NSObject, FetchedDataSource {
-    typealias ModelType = Model
+public class SearchDataSource<Model: NSManagedObject where Model: Searchable>: NSObject, FetchedDataSource {
+    public typealias ModelType = Model
     
     fileprivate let searchDataSourceHelper = SearchDataSourceHelper()
     
-    fileprivate(set) var fetchedResultsController = Model.searchFetchedResultsController
+    public var fetchedResultsController: NSFetchedResultsController<Model>
     
     fileprivate(set) dynamic var empty = false
     
-    var refreshBlock: RefreshBlock?
+    public var refreshBlock: RefreshBlock?
     
-    override init() {
+    public init(fetchedResultsController: NSFetchedResultsController<Model>) {
+        self.fetchedResultsController = fetchedResultsController
+        
         super.init()
         
         searchDataSourceHelper.delegate = self
-        fetchedResultsController.delegate = searchDataSourceHelper
+        self.fetchedResultsController.delegate = searchDataSourceHelper
         
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
@@ -36,7 +38,7 @@ class SearchDataSource<Model: Searchable>: NSObject, FetchedDataSource {
 
 // MARK: - Public
 
-extension SearchDataSource {
+public extension SearchDataSource {
     func search(for text: String?) {
         let predicate = Model.predicate(with: text)
         fetchedResultsController.fetchRequest.predicate = predicate

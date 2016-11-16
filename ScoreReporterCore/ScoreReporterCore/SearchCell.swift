@@ -10,21 +10,27 @@ import UIKit
 import Anchorage
 import PINRemoteImage
 
-class SearchCell: TableViewCell {
+public class SearchCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public var contentFrame: CGRect {
+        return searchInfoView.frame
+    }
+    
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
         
         configureViews()
         configureLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         searchInfoView.cancelImageDownload()
@@ -33,9 +39,13 @@ class SearchCell: TableViewCell {
 
 // MARK: - Public
 
-extension SearchCell {
+public extension SearchCell {
     func configure(with searchable: Searchable?) {
         searchInfoView.configure(with: searchable)
+    }
+    
+    func contentFrameFrom(view: UIView) -> CGRect {
+        return view.convert(searchInfoView.frame, from: searchInfoView.superview)
     }
 }
 

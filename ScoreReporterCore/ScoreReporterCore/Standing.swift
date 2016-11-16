@@ -16,7 +16,7 @@ public class Standing: NSManagedObject {
 // MARK: - Public
 
 public extension Standing {
-    static func fetchedStandingsForPool(_ pool: Pool) -> NSFetchedResultsController<NSFetchRequestResult> {
+    static func fetchedStandingsForPool(_ pool: Pool) -> NSFetchedResultsController<Standing> {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
         let sortDescriptors = [

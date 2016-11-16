@@ -132,7 +132,8 @@ private extension HomeViewController {
     }
     
     @objc func searchButtonPressed() {
-        let searchViewController = SearchViewController<Event>()
+        let searchDataSource = SearchDataSource(fetchedResultsController: Event.searchFetchedResultsController)
+        let searchViewController = SearchViewController(dataSource: searchDataSource)
         searchViewController.delegate = self
         navigationController?.pushViewController(searchViewController, animated: true)
     }

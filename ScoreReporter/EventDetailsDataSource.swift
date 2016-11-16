@@ -53,7 +53,7 @@ enum EventDetailsInfo {
 }
 
 class EventDetailsDataSource: NSObject {
-    fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>
+    fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<Game>
     
     fileprivate var sections = [EventDetailsSection]()
     
@@ -102,7 +102,7 @@ private extension EventDetailsDataSource {
         let divisions = eventViewModel.groups.map { EventDetailsInfo.division($0) }
         sections.append(EventDetailsSection(title: "Divisions", items: divisions))
         
-        if let activeGames = activeGamesFetchedResultsController.fetchedObjects as? [Game], !activeGames.isEmpty {
+        if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
             sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))
         }
     }
