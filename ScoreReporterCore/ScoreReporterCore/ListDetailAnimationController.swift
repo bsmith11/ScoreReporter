@@ -10,6 +10,8 @@ import UIKit
 
 public protocol ListDetailAnimationControllerDelegate: class {
     var viewToAnimate: UIView { get }
+    
+    func shouldAnimate(to viewController: UIViewController) -> Bool
 }
 
 public class ListDetailAnimationController: NSObject {

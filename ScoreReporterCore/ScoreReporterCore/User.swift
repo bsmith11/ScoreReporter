@@ -68,6 +68,10 @@ extension User: CoreDataImportable {
         user.userID = userID
         user.accountID = accountID
         
+        if !user.hasPersistentChangedValues {
+            context.refresh(user, mergeChanges: false)
+        }
+        
         return user
     }
 }

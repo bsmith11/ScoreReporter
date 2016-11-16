@@ -154,6 +154,10 @@ extension Team: CoreDataImportable {
         team.competitionLevel = dictionary <~ "CompetitionLevel"
         team.designation = dictionary <~ "TeamDesignation"
         
+        if !team.hasPersistentChangedValues {
+            context.refresh(team, mergeChanges: false)
+        }
+        
         return team
     }
 }

@@ -47,12 +47,16 @@ extension Standing: CoreDataImportable {
         standing.losses = dictionary["Losses"] as? NSNumber
         standing.sortOrder = dictionary["SortOrder"] as? NSNumber
         
-        let teamName = dictionary["TeamName"] as? String
+        let teamName = dictionary <~ "TeamName"
         let seed = self.seed(from: teamName)
         standing.seed = seed as NSNumber
         
         let seedString = "(\(seed))"
         standing.teamName = teamName?.replacingOccurrences(of: seedString, with: "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        
+        if !standing.hasPersistentChangedValues {
+            context.refresh(standing, mergeChanges: false)
+        }
         
         return standing
     }

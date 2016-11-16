@@ -173,4 +173,8 @@ extension BookmarksViewController: ListDetailAnimationControllerDelegate {
         
         return snapshot
     }
+    
+    func shouldAnimate(to viewController: UIViewController) -> Bool {
+        return viewController is EventDetailsViewController
+    }
 }

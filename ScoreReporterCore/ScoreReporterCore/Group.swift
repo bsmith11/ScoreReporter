@@ -67,6 +67,10 @@ extension Group: CoreDataImportable {
             group.rounds = NSSet(array: Round.objects(from: roundsArray, context: context))
         }
         
+        if !group.hasPersistentChangedValues {
+            context.refresh(group, mergeChanges: false)
+        }
+        
         return group
     }
     

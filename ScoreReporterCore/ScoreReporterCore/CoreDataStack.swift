@@ -27,10 +27,6 @@ public class CoreDataStack: NSObject {
             preconditionFailure("Could not find shared container directory")
         }
         
-//        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-//            preconditionFailure("Could not find document directory")
-//        }
-        
         let filename = "\(CoreDataStack.modelName).sqlite"
         let URL = directory.appendingPathComponent(filename)
         

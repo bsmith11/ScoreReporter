@@ -34,7 +34,7 @@ extension Stage: CoreDataImportable {
         }
         
         stage.stageID = stageID
-        stage.name = dictionary["StageName"] as? String
+        stage.name = dictionary <~ "StageName"
         
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
@@ -44,6 +44,10 @@ extension Stage: CoreDataImportable {
         }
         
         stage.games = NSSet(array: gamesArray)
+        
+        if !stage.hasPersistentChangedValues {
+            context.refresh(stage, mergeChanges: false)
+        }
         
         return stage
     }

@@ -83,20 +83,24 @@ extension Game: CoreDataImportable {
         }
         
         game.gameID = gameID
-        game.homeTeamName = dictionary["HomeTeamName"] as? String
-        game.homeTeamScore = dictionary["HomeTeamScore"] as? String
-        game.awayTeamName = dictionary["AwayTeamName"] as? String
-        game.awayTeamScore = dictionary["AwayTeamScore"] as? String
-        game.fieldName = dictionary["FieldName"] as? String
-        game.status = dictionary["GameStatus"] as? String
+        game.homeTeamName = dictionary <~ "HomeTeamName"
+        game.homeTeamScore = dictionary <~ "HomeTeamScore"
+        game.awayTeamName = dictionary <~ "AwayTeamName"
+        game.awayTeamScore = dictionary <~ "AwayTeamScore"
+        game.fieldName = dictionary <~ "FieldName"
+        game.status = dictionary <~ "GameStatus"
         
-        let startDate = dictionary["StartDate"] as? String
+        let startDate = dictionary <~ "StartDate"
         game.startDate = startDate.flatMap { DateService.gameDateFormatter.date(from: $0) }
         
-        let startTime = dictionary["StartTime"] as? String
+        let startTime = dictionary <~ "StartTime"
         game.startTime = startTime.flatMap { DateService.gameTimeFormatter.date(from: $0) }
         
         game.startDateFull = Date.date(fromDate: game.startDate, time: game.startTime)
+        
+        if !game.hasPersistentChangedValues {
+            context.refresh(game, mergeChanges: false)
+        }
         
         return game
     }

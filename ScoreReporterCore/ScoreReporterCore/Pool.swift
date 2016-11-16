@@ -58,7 +58,7 @@ extension Pool: CoreDataImportable {
         }
         
         pool.poolID = poolID
-        pool.name = dictionary["Name"] as? String
+        pool.name = dictionary <~ "Name"
         
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
@@ -71,6 +71,10 @@ extension Pool: CoreDataImportable {
         
         let standings = dictionary["Standings"] as? [[String: AnyObject]] ?? []
         pool.standings = NSSet(array: Standing.objects(from: standings, context: context))
+        
+        if !pool.hasPersistentChangedValues {
+            context.refresh(pool, mergeChanges: false)
+        }
         
         return pool
     }

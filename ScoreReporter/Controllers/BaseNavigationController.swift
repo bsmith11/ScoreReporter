@@ -54,7 +54,7 @@ extension BaseNavigationController: BackInteractionControllerDelegate {
 
 extension BaseNavigationController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let listDelegate = fromVC as? ListDetailAnimationControllerDelegate, operation == .push {
+        if let listDelegate = fromVC as? ListDetailAnimationControllerDelegate, listDelegate.shouldAnimate(to: toVC), operation == .push {
             let animationController = ListDetailAnimationController()
             animationController.delegate = listDelegate
             

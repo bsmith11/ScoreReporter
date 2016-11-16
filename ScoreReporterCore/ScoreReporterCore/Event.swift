@@ -102,23 +102,27 @@ extension Event: CoreDataImportable {
         }
         
         event.eventID = eventID
-        event.name = dictionary["EventName"] as? String
-        event.type = dictionary["EventType"] as? String
-        event.typeName = dictionary["EventTypeName"] as? String
-        event.city = dictionary["City"] as? String
-        event.state = dictionary["State"] as? String
+        event.name = dictionary <~ "EventName"
+        event.type = dictionary <~ "EventType"
+        event.typeName = dictionary <~ "EventTypeName"
+        event.city = dictionary <~ "City"
+        event.state = dictionary <~ "State"
         
-        let startDate = dictionary["StartDate"] as? String
+        let startDate = dictionary <~ "StartDate"
         event.startDate = startDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
         
-        let endDate = dictionary["EndDate"] as? String
+        let endDate = dictionary <~ "EndDate"
         event.endDate = endDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
         
-        let logoPath = dictionary["EventLogo"] as? String
+        let logoPath = dictionary <~ "EventLogo"
         event.logoPath = self.logoPath(from: logoPath)
 
         let groups = dictionary["CompetitionGroup"] as? [[String: AnyObject]] ?? []
         event.groups = NSSet(array: Group.objects(from: groups, context: context))
+        
+        if !event.hasPersistentChangedValues {
+            context.refresh(event, mergeChanges: false)
+        }
         
         return event
     }

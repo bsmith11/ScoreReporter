@@ -268,11 +268,12 @@
 		487876961DDBFACA008789A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
+				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
 				487876971DDBFAF6008789A0 /* Bracket.swift */,
 				487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */,
 				487876991DDBFAF6008789A0 /* Cluster.swift */,
 				4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */,
-				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
 				4878769C1DDBFAF6008789A0 /* Event.swift */,
 				4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */,
 				4878769E1DDBFAF6008789A0 /* Game.swift */,
@@ -283,7 +284,6 @@
 				487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */,
 				487876A41DDBFAF6008789A0 /* Round.swift */,
 				487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */,
-				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
 				487876A81DDBFAF6008789A0 /* Stage.swift */,
 				487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */,
 				487876AA1DDBFAF6008789A0 /* Standing.swift */,

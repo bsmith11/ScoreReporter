@@ -83,6 +83,10 @@ extension Round: CoreDataImportable {
         let pools = dictionary["Pools"] as? [[String: AnyObject]] ?? []
         round.pools = NSSet(array: Pool.objects(from: pools, context: context))
         
+        if !round.hasPersistentChangedValues {
+            context.refresh(round, mergeChanges: false)
+        }
+        
         return round
     }
 }

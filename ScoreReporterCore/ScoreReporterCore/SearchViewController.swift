@@ -215,4 +215,8 @@ extension SearchViewController: ListDetailAnimationControllerDelegate {
         
         return snapshot
     }
+    
+    public func shouldAnimate(to viewController: UIViewController) -> Bool {
+        return true
+    }
 }

@@ -34,7 +34,7 @@ extension Cluster: CoreDataImportable {
         }
         
         cluster.clusterID = clusterID
-        cluster.name = dictionary["Name"] as? String
+        cluster.name = dictionary <~ "Name"
         
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
@@ -44,6 +44,10 @@ extension Cluster: CoreDataImportable {
         }
         
         cluster.games = NSSet(array: gamesArray)
+        
+        if !cluster.hasPersistentChangedValues {
+            context.refresh(cluster, mergeChanges: false)
+        }
         
         return cluster
     }

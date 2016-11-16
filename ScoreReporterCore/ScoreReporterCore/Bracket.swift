@@ -48,10 +48,14 @@ extension Bracket: CoreDataImportable {
         }
         
         bracket.bracketID = bracketID
-        bracket.name = dictionary["BracketName"] as? String
+        bracket.name = dictionary <~ "BracketName"
         
         let stages = dictionary["Stage"] as? [[String: AnyObject]] ?? []
         bracket.stages = NSSet(array: Stage.objects(from: stages, context: context))
+        
+        if !bracket.hasPersistentChangedValues {
+            context.refresh(bracket, mergeChanges: false)
+        }
         
         return bracket
     }
