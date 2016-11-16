@@ -8,7 +8,6 @@
 
 import UIKit
 import Anchorage
-import ScoreReporterCore
 
 @objc public protocol SectionHeaderViewDelegate: class {
     @objc optional func headerViewDidSelectActionButton(_ headerView: SectionHeaderView)

@@ -8,6 +8,7 @@
 
 import UIKit
 import Anchorage
+import ScoreReporterCore
 
 class SettingsCell: UITableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)

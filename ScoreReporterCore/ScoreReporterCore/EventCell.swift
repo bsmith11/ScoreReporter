@@ -9,16 +9,15 @@
 import UIKit
 import Anchorage
 import PINRemoteImage
-import ScoreReporterCore
 
-class EventCell: TableViewCell {
+public class EventCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
     
-    var contentFrame: CGRect {
+    public var contentFrame: CGRect {
         return searchInfoView.frame
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
@@ -27,11 +26,11 @@ class EventCell: TableViewCell {
         configureLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         searchInfoView.cancelImageDownload()
@@ -40,7 +39,7 @@ class EventCell: TableViewCell {
 
 // MARK: - Public
 
-extension EventCell {
+public extension EventCell {
     func configure(with event: Event?) {
         searchInfoView.configure(with: event)
     }

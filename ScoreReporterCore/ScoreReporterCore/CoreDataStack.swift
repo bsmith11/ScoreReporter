@@ -23,9 +23,13 @@ public class CoreDataStack: NSObject {
     fileprivate let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
     fileprivate let storeURL: URL = {
-        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-            preconditionFailure("Could not find document directory")
+        guard let directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.bradsmith.ScoreReporter") else {
+            preconditionFailure("Could not find shared container directory")
         }
+        
+//        guard let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
+//            preconditionFailure("Could not find document directory")
+//        }
         
         let filename = "\(CoreDataStack.modelName).sqlite"
         let URL = directory.appendingPathComponent(filename)

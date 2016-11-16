@@ -36,7 +36,6 @@ struct TeamViewModel {
 //            coordinate = nil
 //        }
         
-        let baseURL = "http://play.usaultimate.org"
-        logoURL = team?.logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
+        logoURL = team?.searchLogoURL
     }
 }

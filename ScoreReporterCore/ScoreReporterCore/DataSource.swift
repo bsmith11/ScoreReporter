@@ -68,7 +68,7 @@ public extension FetchedDataSource {
             return nil
         }
         
-        return fetchedResultsController.object(at: indexPath) as? ModelType
+        return fetchedResultsController.object(at: indexPath)
     }
 }
 

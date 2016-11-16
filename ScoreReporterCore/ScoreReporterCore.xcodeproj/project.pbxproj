@@ -74,6 +74,12 @@
 		487876EC1DDC0890008789A0 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EA1DDC0890008789A0 /* SectionHeaderView.swift */; };
 		487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EB1DDC0890008789A0 /* SegmentedControl.swift */; };
 		487876EF1DDC08EF008789A0 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */; };
+		487876F91DDCD720008789A0 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F41DDCD720008789A0 /* EventCell.swift */; };
+		487876FA1DDCD720008789A0 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F51DDCD720008789A0 /* GameCell.swift */; };
+		487876FB1DDCD720008789A0 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F61DDCD720008789A0 /* GroupCell.swift */; };
+		487876FD1DDCD720008789A0 /* StandingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F81DDCD720008789A0 /* StandingCell.swift */; };
+		487877031DDCD909008789A0 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877011DDCD909008789A0 /* GameViewModel.swift */; };
+		487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877021DDCD909008789A0 /* GroupViewModel.swift */; };
 		5F989BFFF2808B4231D32CC9 /* Pods_ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +155,12 @@
 		487876EA1DDC0890008789A0 /* SectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		487876EB1DDC0890008789A0 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		487876F41DDCD720008789A0 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		487876F51DDCD720008789A0 /* GameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
+		487876F61DDCD720008789A0 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
+		487876F81DDCD720008789A0 /* StandingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingCell.swift; sourceTree = "<group>"; };
+		487877011DDCD909008789A0 /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		487877021DDCD909008789A0 /* GroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		E234148B37990DB186AB163A /* Pods-ScoreReporterCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,6 +197,7 @@
 		487875841DDBEFFD008789A0 /* ScoreReporterCore */ = {
 			isa = PBXGroup;
 			children = (
+				487877001DDCD8C6008789A0 /* View Models */,
 				487876D71DDC063D008789A0 /* Search */,
 				487876C81DDBFB74008789A0 /* Interface */,
 				487876961DDBFACA008789A0 /* Models */,
@@ -286,15 +299,13 @@
 		487876C81DDBFB74008789A0 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				487876EA1DDC0890008789A0 /* SectionHeaderView.swift */,
+				487876F31DDCD6CA008789A0 /* UITableView */,
 				487876EB1DDC0890008789A0 /* SegmentedControl.swift */,
 				487876E61DDC07AD008789A0 /* ListDetailAnimationController.swift */,
 				487876E71DDC07AD008789A0 /* TableCollectionViewLayout.swift */,
 				487876C91DDBFBCA008789A0 /* BaselineButton.swift */,
 				487876CA1DDBFBCA008789A0 /* DefaultView.swift */,
 				487876CB1DDBFBCA008789A0 /* MessageView.swift */,
-				487876CC1DDBFBCA008789A0 /* TableViewCell.swift */,
-				487876CD1DDBFBCA008789A0 /* TableViewCellSeparatorView.swift */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -311,6 +322,29 @@
 				487876D91DDC064A008789A0 /* SearchBarProxy.swift */,
 			);
 			name = Search;
+			sourceTree = "<group>";
+		};
+		487876F31DDCD6CA008789A0 /* UITableView */ = {
+			isa = PBXGroup;
+			children = (
+				487876F41DDCD720008789A0 /* EventCell.swift */,
+				487876F51DDCD720008789A0 /* GameCell.swift */,
+				487876F61DDCD720008789A0 /* GroupCell.swift */,
+				487876F81DDCD720008789A0 /* StandingCell.swift */,
+				487876EA1DDC0890008789A0 /* SectionHeaderView.swift */,
+				487876CC1DDBFBCA008789A0 /* TableViewCell.swift */,
+				487876CD1DDBFBCA008789A0 /* TableViewCellSeparatorView.swift */,
+			);
+			name = UITableView;
+			sourceTree = "<group>";
+		};
+		487877001DDCD8C6008789A0 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				487877011DDCD909008789A0 /* GameViewModel.swift */,
+				487877021DDCD909008789A0 /* GroupViewModel.swift */,
+			);
+			name = "View Models";
 			sourceTree = "<group>";
 		};
 		97AE633B5C59E236324E94C2 /* Frameworks */ = {
@@ -450,6 +484,7 @@
 				487876EC1DDC0890008789A0 /* SectionHeaderView.swift in Sources */,
 				487876B51DDBFAF6008789A0 /* Event.swift in Sources */,
 				4878760C1DDBF79C008789A0 /* EventService.swift in Sources */,
+				487876FD1DDCD720008789A0 /* StandingCell.swift in Sources */,
 				4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */,
 				487876BD1DDBFAF6008789A0 /* Round.swift in Sources */,
 				4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */,
@@ -480,6 +515,8 @@
 				487876511DDBF823008789A0 /* KeyboardObservable.swift in Sources */,
 				487876C61DDBFAF6008789A0 /* User.swift in Sources */,
 				487876B21DDBFAF6008789A0 /* Cluster.swift in Sources */,
+				487877031DDCD909008789A0 /* GameViewModel.swift in Sources */,
+				487876FB1DDCD720008789A0 /* GroupCell.swift in Sources */,
 				487876B61DDBFAF6008789A0 /* Event+CoreDataProperties.swift in Sources */,
 				487876E01DDC064A008789A0 /* SearchBarProxy.swift in Sources */,
 				487876C21DDBFAF6008789A0 /* Standing.swift in Sources */,
@@ -493,6 +530,7 @@
 				487876631DDBF88A008789A0 /* NSDate+Extensions.swift in Sources */,
 				487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */,
 				487876E81DDC07AD008789A0 /* ListDetailAnimationController.swift in Sources */,
+				487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */,
 				487876541DDBF823008789A0 /* Sizable.swift in Sources */,
 				4878760D1DDBF79C008789A0 /* KeychainService.swift in Sources */,
 				487876B01DDBFAF6008789A0 /* Bracket.swift in Sources */,
@@ -501,6 +539,7 @@
 				4878764E1DDBF823008789A0 /* FetchedChangeObject.swift in Sources */,
 				487876BB1DDBFAF6008789A0 /* Pool.swift in Sources */,
 				487876601DDBF88A008789A0 /* CAAnimation+Extensions.swift in Sources */,
+				487876F91DDCD720008789A0 /* EventCell.swift in Sources */,
 				4878764C1DDBF823008789A0 /* Fetchable.swift in Sources */,
 				487876C71DDBFAF6008789A0 /* User+CoreDataProperties.swift in Sources */,
 				487876D01DDBFBCA008789A0 /* MessageView.swift in Sources */,
@@ -509,6 +548,7 @@
 				487876EF1DDC08EF008789A0 /* UIView+Extensions.swift in Sources */,
 				487876661DDBF88A008789A0 /* UIColor+Extensions.swift in Sources */,
 				487876E31DDC064A008789A0 /* SearchInfoView.swift in Sources */,
+				487876FA1DDCD720008789A0 /* GameCell.swift in Sources */,
 				487876CE1DDBFBCA008789A0 /* BaselineButton.swift in Sources */,
 				487876641DDBF88A008789A0 /* String+Extensions.swift in Sources */,
 				487876CF1DDBFBCA008789A0 /* DefaultView.swift in Sources */,
@@ -631,7 +671,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ScoreReporterCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradsmith.ScoreReporter.ScoreReporterCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -655,7 +695,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ScoreReporterCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bradsmith.ScoreReporter.ScoreReporterCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";

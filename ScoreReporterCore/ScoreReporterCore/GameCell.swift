@@ -8,9 +8,8 @@
 
 import UIKit
 import Anchorage
-import ScoreReporterCore
 
-class GameCell: TableViewCell {
+public class GameCell: TableViewCell {
     fileprivate let stackView = UIStackView(frame: .zero)
     fileprivate let avatarContainerView = UIView(frame: .zero)
     fileprivate let avatarLabel = UILabel(frame: .zero)
@@ -26,7 +25,7 @@ class GameCell: TableViewCell {
     fileprivate let fieldLabel = UILabel(frame: .zero)
     fileprivate let statusLabel = UILabel(frame: .zero)
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
@@ -35,14 +34,14 @@ class GameCell: TableViewCell {
         configureLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Public
 
-extension GameCell {
+public extension GameCell {
     func configure(with viewModel: GameViewModel) {
         let group = viewModel.game?.group
         let groupViewModel = GroupViewModel(group: group)

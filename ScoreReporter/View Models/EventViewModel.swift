@@ -38,8 +38,7 @@ struct EventViewModel {
             coordinate = nil
         }
 
-        let baseURL = "http://play.usaultimate.org/"
-        logoURL = event?.logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
+        logoURL = event?.searchLogoURL
 
         let startDate = event?.startDate ?? Date()
         let dateFormatter = DateFormatter()

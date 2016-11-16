@@ -8,14 +8,13 @@
 
 import Foundation
 import UIKit
-import ScoreReporterCore
 
-struct GroupViewModel {
-    let fullName: String
-    let divisionIdentifier: String
-    let divisionColor: UIColor
+public struct GroupViewModel {
+    public let fullName: String
+    public let divisionIdentifier: String
+    public let divisionColor: UIColor
     
-    init(group: Group?) {
+    public init(group: Group?) {
         let strings = [
             group?.type,
             group?.division,

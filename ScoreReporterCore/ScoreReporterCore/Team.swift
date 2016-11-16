@@ -211,7 +211,7 @@ extension Team: Searchable {
     }
     
     public var searchLogoURL: URL? {
-        let baseURL = "http://play.usaultimate.org/"
+        let baseURL = "https://play.usaultimate.org/"
         
         return logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
     }

@@ -154,7 +154,7 @@ extension SearchViewController: TableViewProxyDataSource {
 
 extension SearchViewController: TableViewProxyDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        guard let title = dataSource.title(for: section) else {
+        guard let _ = dataSource.title(for: section) else {
             return 0.0
         }
         

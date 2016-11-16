@@ -9,15 +9,14 @@
 import UIKit
 import Anchorage
 import PINRemoteImage
-import ScoreReporterCore
 
-class GroupCell: TableViewCell {
+public class GroupCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let avatarContainerView = UIView(frame: .zero)
     fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
@@ -26,14 +25,14 @@ class GroupCell: TableViewCell {
         configureLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Public
 
-extension GroupCell {
+public extension GroupCell {
     func configure(with viewModel: GroupViewModel?) {
         avatarLabel.text = viewModel?.divisionIdentifier
         avatarContainerView.backgroundColor = viewModel?.divisionColor

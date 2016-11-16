@@ -8,14 +8,13 @@
 
 import UIKit
 import Anchorage
-import ScoreReporterCore
 
-class StandingCell: TableViewCell {
+public class StandingCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let nameLabel = UILabel(frame: .zero)
     fileprivate let resultsLabel = UILabel(frame: .zero)
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
@@ -24,14 +23,14 @@ class StandingCell: TableViewCell {
         configureLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Public
 
-extension StandingCell {
+public extension StandingCell {
     func configure(with standing: Standing?) {
         let name = standing?.teamName ?? "No Name"
         let seed = standing?.seed.flatMap { "(\($0))" }

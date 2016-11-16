@@ -8,17 +8,16 @@
 
 import Foundation
 import UIKit
-import ScoreReporterCore
 
-struct GameViewModel {
-    let game: Game?
-    let homeTeamName: NSAttributedString
-    let homeTeamScore: NSAttributedString?
-    let awayTeamName: NSAttributedString
-    let awayTeamScore: NSAttributedString?
-    let fieldName: String
-    let status: String?
-    let displayDivision: Bool
+public struct GameViewModel {
+    public let game: Game?
+    public let homeTeamName: NSAttributedString
+    public let homeTeamScore: NSAttributedString?
+    public let awayTeamName: NSAttributedString
+    public let awayTeamScore: NSAttributedString?
+    public let fieldName: String
+    public let status: String?
+    public let displayDivision: Bool
     
     fileprivate let winnerAttributes = [
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
@@ -28,7 +27,7 @@ struct GameViewModel {
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
     ]
     
-    init(game: Game?, displayDivision: Bool = false) {
+    public init(game: Game?, displayDivision: Bool = false) {
         self.game = game
         
         var homeAttributes = loserAttributes
