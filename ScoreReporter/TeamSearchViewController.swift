@@ -95,7 +95,7 @@ private extension TeamSearchViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(cellClass: TeamSearchCell.self)
+        tableView.register(cellClass: SearchCell.self)
         tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -162,11 +162,11 @@ extension TeamSearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCell(for: indexPath) as TeamSearchCell
+        let cell = tableView.dequeueCell(for: indexPath) as SearchCell
         let team = dataSource.item(at: indexPath)
-        let teamViewModel = TeamViewModel(team: team)
         
-        cell.configure(with: teamViewModel)
+        cell.configure(with: team)
+        cell.separatorHidden = indexPath.item == 0
         
         return cell
     }
@@ -185,15 +185,15 @@ extension TeamSearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let event = dataSource.item(at: indexPath) else {
-//            return
-//        }
-//        
-//        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-//        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-//        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-//        
-//        navigationController?.pushViewController(eventDetailsViewController, animated: true)
+        guard let team = dataSource.item(at: indexPath) else {
+            return
+        }
+        
+        let teamDetailsViewModel = TeamDetailsViewModel(team: team)
+        let teamDetailsDataSource = TeamDetailsDataSource(team: team)
+        let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
+        
+        navigationController?.pushViewController(teamDetailsViewController, animated: true)
     }
 }
 

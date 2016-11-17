@@ -24,5 +24,5 @@ public extension Team {
     @NSManaged var state: String?
     @NSManaged var stateFull: String?
     @NSManaged var teamID: NSNumber
-    
+    @NSManaged var groups: NSSet
 }

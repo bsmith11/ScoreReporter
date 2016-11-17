@@ -23,6 +23,13 @@ public extension Group {
         
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)        
     }
+    
+    func addTeam(team: Team) {
+        if var teams = teams as? Set<Team> {
+            teams.insert(team)
+            self.teams = NSSet(set: teams)
+        }
+    }
 }
 
 // MARK: - Fetchable

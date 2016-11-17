@@ -38,13 +38,13 @@ public extension EventService {
         
         client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
-
-    func downloadDetails(for event: Event, completion: DownloadCompletion?) {
-        let parameters = [
+    
+    func downloadDetails(for eventID: NSNumber, completion: DownloadCompletion?) {
+        let parameters: [String: Any] = [
             "f": "GETGAMESBYEVENT",
-            "EventId": event.eventID
-        ] as [String : Any]
-
+            "EventId": eventID
+        ]
+        
         let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
                 self.handleSuccessfulEventResponse(result.value, completion: completion)
@@ -55,6 +55,10 @@ public extension EventService {
         }
         
         client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
+    }
+
+    func downloadDetails(for event: Event, completion: DownloadCompletion?) {
+        downloadDetails(for: event.eventID, completion: completion)
     }
 }
 

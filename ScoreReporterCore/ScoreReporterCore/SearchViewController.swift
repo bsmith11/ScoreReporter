@@ -92,7 +92,7 @@ private extension SearchViewController {
         searchBar.spellCheckingType = .no
         searchBar.placeholder = Model.searchBarPlaceholder
         searchBar.tintColor = UIColor.scBlue
-        searchBar.delegate = searchBarProxy
+        searchBar.delegate = searchBarProxy        
         navigationItem.titleView = searchBar
         
         tableView.dataSource = tableViewProxy

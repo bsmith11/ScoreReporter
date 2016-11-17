@@ -28,13 +28,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         
         event = Event.fetchedBookmarkedEvents().fetchedObjects?.first
         
         let pool = Pool.object(primaryKey: 8174, context: Pool.coreDataStack.mainContext)
         games = pool.flatMap { Game.fetchedGamesForPool($0).fetchedObjects }
+        
+        let count = games?.count ?? 1
+        extensionContext?.widgetLargestAvailableDisplayMode = count > 1 ? .expanded : .compact
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {

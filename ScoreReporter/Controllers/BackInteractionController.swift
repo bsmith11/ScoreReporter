@@ -76,6 +76,10 @@ private extension BackInteractionController {
     @objc func handlePan(_ panRecognizer: UIPanGestureRecognizer) {
         switch panRecognizer.state {
         case .began:
+            guard panRecognizer.velocity(in: panRecognizer.view).x > 0.0 else {
+                return
+            }
+            
             interactive = true
             delegate?.interactionDidBegin()
         case .changed:

@@ -80,6 +80,7 @@
 		487876FD1DDCD720008789A0 /* StandingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F81DDCD720008789A0 /* StandingCell.swift */; };
 		487877031DDCD909008789A0 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877011DDCD909008789A0 /* GameViewModel.swift */; };
 		487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877021DDCD909008789A0 /* GroupViewModel.swift */; };
+		4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878770C1DDD4EC9008789A0 /* TeamCell.swift */; };
 		5F989BFFF2808B4231D32CC9 /* Pods_ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +162,7 @@
 		487876F81DDCD720008789A0 /* StandingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingCell.swift; sourceTree = "<group>"; };
 		487877011DDCD909008789A0 /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		487877021DDCD909008789A0 /* GroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
+		4878770C1DDD4EC9008789A0 /* TeamCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		E234148B37990DB186AB163A /* Pods-ScoreReporterCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -328,6 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				487876F41DDCD720008789A0 /* EventCell.swift */,
+				4878770C1DDD4EC9008789A0 /* TeamCell.swift */,
 				487876F51DDCD720008789A0 /* GameCell.swift */,
 				487876F61DDCD720008789A0 /* GroupCell.swift */,
 				487876F81DDCD720008789A0 /* StandingCell.swift */,
@@ -507,6 +510,7 @@
 				487876BE1DDBFAF6008789A0 /* Round+CoreDataProperties.swift in Sources */,
 				487876B31DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift in Sources */,
 				487876C31DDBFAF6008789A0 /* Standing+CoreDataProperties.swift in Sources */,
+				4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */,
 				487876C01DDBFAF6008789A0 /* Stage.swift in Sources */,
 				487876691DDBF88A008789A0 /* UIViewController+Extensions.swift in Sources */,
 				487876611DDBF88A008789A0 /* CALayer+Extensions.swift in Sources */,

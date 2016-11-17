@@ -22,5 +22,6 @@ public extension Group {
     @NSManaged var type: String?
     @NSManaged var event: Event?
     @NSManaged var rounds: NSSet
+    @NSManaged var teams: NSSet
 
 }

@@ -72,4 +72,8 @@ extension BaseNavigationController: UINavigationControllerDelegate {
         
         return interactionController.interactive ? interactionController : nil
     }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        interactionController.panGestureRecognizer.isEnabled = navigationController.viewControllers.first != viewController
+    }
 }

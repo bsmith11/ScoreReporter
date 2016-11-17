@@ -42,6 +42,18 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
     }
     
+    static func fetchedActiveGamesForTeam(_ team: Team) -> NSFetchedResultsController<Game> {
+        //TODO: - Change        
+        let activePredicate = NSPredicate(format: "%K == %@", "status", "In Progress")
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "sortOrder", ascending: true),
+            NSSortDescriptor(key: "startDateFull", ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: activePredicate, sortDescriptors: sortDescriptors)
+    }
+    
     static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<Game> {
         let gamePredicates = [
             NSPredicate(format: "%K == %@", "pool.round.group.event", event),

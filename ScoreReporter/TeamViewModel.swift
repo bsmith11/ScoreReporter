@@ -17,6 +17,8 @@ struct TeamViewModel {
     let coordinate: CLLocationCoordinate2D?
     let logoURL: URL?
     
+    let fullInfo: String
+    
     init(team: Team?) {
         name = team?.name ?? "No Name"
         
@@ -37,5 +39,29 @@ struct TeamViewModel {
 //        }
         
         logoURL = team?.searchLogoURL
+        
+        var fullInfo = ""
+        
+        if let id = team?.teamID.stringValue {
+            fullInfo.append("\nID: \(id)")
+        }
+        
+        if let school = team?.school {
+            fullInfo.append("\nSchool: \(school)")
+        }
+        
+        if let division = team?.division {
+            fullInfo.append("\nDivision: \(division)")
+        }
+        
+        if let compLevel = team?.competitionLevel {
+            fullInfo.append("\nComp Level: \(compLevel)")
+        }
+        
+        if let desig = team?.designation {
+            fullInfo.append("\nDesig: \(desig)")
+        }
+        
+        self.fullInfo = fullInfo
     }
 }
