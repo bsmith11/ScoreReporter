@@ -15,10 +15,12 @@ import CoreData
 public extension Game {
 
     @NSManaged var awayTeamName: String?
+    @NSManaged var awayTeamSeed: String?
     @NSManaged var awayTeamScore: String?
     @NSManaged var fieldName: String?
     @NSManaged var gameID: NSNumber
     @NSManaged var homeTeamName: String?
+    @NSManaged var homeTeamSeed: String?
     @NSManaged var homeTeamScore: String?
     @NSManaged var sortOrder: NSNumber?
     @NSManaged var startDate: Date?
@@ -28,5 +30,6 @@ public extension Game {
     @NSManaged var cluster: Cluster?
     @NSManaged var pool: Pool?
     @NSManaged var stage: Stage?
+    @NSManaged var teams: NSSet
 
 }

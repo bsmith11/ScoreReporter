@@ -78,88 +78,83 @@ private extension TeamService {
             return
         }
         
-        let groupIDs = responseArray.flatMap { $0["EventGroupId"] as? NSNumber }
+        let partialEventDictionaries = responseArray.flatMap { dictionary -> [String: AnyObject]? in
+            guard let eventID = dictionary["EventId"] as? NSNumber else {
+                return nil
+            }
+            
+            var partial = [String: AnyObject]()
+            partial["EventId"] = eventID
+            partial["EventName"] = dictionary["EventName"]
+            
+            return partial
+        }
+        
+        let eventImportOperations = partialEventDictionaries.map { EventImportOperation(eventDictionary: $0) }
+        
+        let groupEventTuples = responseArray.flatMap { dictionary -> (NSNumber, NSNumber)? in
+            guard let eventID = dictionary["EventId"] as? NSNumber,
+                  let groupID = dictionary["EventGroupId"] as? NSNumber else {
+                return nil
+            }
+            
+            return (groupID, eventID)
+        }
+        
         let eventIDs = responseArray.flatMap { $0["EventId"] as? NSNumber }
-        let operations = eventIDs.map { EventDetailsOperation(eventID: $0) }
+        let eventDetailsOperations = eventIDs.map { EventDetailsOperation(eventID: $0) }
+        
         let terminalOperation = BlockOperation {
             Group.coreDataStack.performBlockUsingBackgroundContext({ context in
                 if let contextualTeam = context.object(with: team.objectID) as? Team {
-                    groupIDs.forEach { groupID in
+                    groupEventTuples.forEach { (groupID, eventID) in
                         let group = Group.object(primaryKey: groupID, context: context)
-                        group?.addTeam(team: contextualTeam)
+                        let event = Event.object(primaryKey: eventID, context: context)
+                        
+                        group?.add(team: contextualTeam)
+                        group?.event = event
                     }
                 }
             }, completion: completion)
         }
         
-        operations.forEach { terminalOperation.addDependency($0) }
+        eventImportOperations.forEach { operation in
+            eventDetailsOperations.forEach { $0.addDependency(operation) }
+        }
+        eventDetailsOperations.forEach { terminalOperation.addDependency($0) }
         
         let queue = OperationQueue()
-        queue.addOperations(operations, waitUntilFinished: false)
+        queue.addOperations(eventImportOperations, waitUntilFinished: false)
+        queue.addOperations(eventDetailsOperations, waitUntilFinished: false)
         queue.addOperation(terminalOperation)
     }
 }
 
-class EventDetailsOperation: Operation {
-    private let eventID: NSNumber
-    
-    convenience init(event: Event) {
-        self.init(eventID: event.eventID)
-    }
-    
-    init(eventID: NSNumber) {
-        self.eventID = eventID
-        
-        super.init()
-    }
-    
-    override var isAsynchronous: Bool {
-        return true
-    }
-    
-    private var _executing = false {
-        willSet {
-            willChangeValue(forKey: "isExecuting")
-        }
-        didSet {
-            didChangeValue(forKey: "isExecuting")
-        }
-    }
-    
-    override var isExecuting: Bool {
-        return _executing
-    }
-    
-    private var _finished = false {
-        willSet {
-            willChangeValue(forKey: "isFinished")
+class EventImportOperation: AsyncOperation {
+    convenience init(eventDictionary: [String: AnyObject]) {
+        let block = { (completionHandler: @escaping AsyncOperationCompletionHandler) in
+            Event.events(from: [eventDictionary], completion: { _ in
+                print("Finished importing event")
+                completionHandler()
+            })
         }
         
-        didSet {
-            didChangeValue(forKey: "isFinished")
-        }
+        self.init(block: block)
     }
-    
-    override var isFinished: Bool {
-        return _finished
-    }
-    
-    override func start() {
-        _executing = true
-        execute()
-    }
-    
-    func execute() {
-        let eventService = EventService(client: APIClient.sharedInstance)
-        eventService.downloadDetails(for: eventID, completion: { error in
-            print("Finished downloading \(self.eventID) with error: \(error)")
+}
+
+class EventDetailsOperation: AsyncOperation {
+    convenience init(eventID: NSNumber) {
+        let block = { (completionHandler: @escaping AsyncOperationCompletionHandler) in
+            let eventService = EventService(client: APIClient.sharedInstance)
             
-            self.finish()
-        })
-    }
-    
-    func finish() {        
-        _executing = false
-        _finished = true
+            eventService.downloadDetails(for: eventID, completion: { error in
+                print("Finished downloading \(eventID) with error: \(error)")
+                
+                completionHandler()
+            })
+        }
+        
+        self.init(block: block)
     }
 }

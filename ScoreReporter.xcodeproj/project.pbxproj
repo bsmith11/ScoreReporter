@@ -58,6 +58,8 @@
 		48A2E7191DA4B01600B7B422 /* AcknowledgementListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E7181DA4B01600B7B422 /* AcknowledgementListViewController.swift */; };
 		48A2E71B1DA4B02200B7B422 /* AcknowledgementListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E71A1DA4B02200B7B422 /* AcknowledgementListDataSource.swift */; };
 		48A2E71E1DA4B55900B7B422 /* AcknowledgementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A2E71D1DA4B55900B7B422 /* AcknowledgementViewController.swift */; };
+		48E9F0B21DE0CD1000F8197B /* TodayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E9F0B11DE0CD1000F8197B /* TodayDataSource.swift */; };
+		48E9F0B41DE0D0EB00F8197B /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E9F0B31DE0D0EB00F8197B /* TodayViewModel.swift */; };
 		48F8B5331DC4FDD70031DB5B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 48F8B5321DC4FDD70031DB5B /* Settings.bundle */; };
 		5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52680920874D492D40D00CFD /* AppDelegate.swift */; };
 		7F66699D3AFAECEE6C1E5EC5 /* Pods_ScoreReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648BA6BA3DC2DAAB2475AB21 /* Pods_ScoreReporter.framework */; };
@@ -161,6 +163,8 @@
 		48A2E7181DA4B01600B7B422 /* AcknowledgementListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcknowledgementListViewController.swift; sourceTree = "<group>"; };
 		48A2E71A1DA4B02200B7B422 /* AcknowledgementListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcknowledgementListDataSource.swift; sourceTree = "<group>"; };
 		48A2E71D1DA4B55900B7B422 /* AcknowledgementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcknowledgementViewController.swift; sourceTree = "<group>"; };
+		48E9F0B11DE0CD1000F8197B /* TodayDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayDataSource.swift; sourceTree = "<group>"; };
+		48E9F0B31DE0D0EB00F8197B /* TodayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
 		48F8B5321DC4FDD70031DB5B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4C9687C4D6702C6F0E9312B6 /* Images.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		52680920874D492D40D00CFD /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -329,6 +333,8 @@
 			children = (
 				487876F21DDC20B0008789A0 /* TodayExtension.entitlements */,
 				4878756A1DDBC974008789A0 /* TodayViewController.swift */,
+				48E9F0B31DE0D0EB00F8197B /* TodayViewModel.swift */,
+				48E9F0B11DE0CD1000F8197B /* TodayDataSource.swift */,
 				4878756F1DDBC974008789A0 /* Info.plist */,
 			);
 			path = TodayExtension;
@@ -760,7 +766,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48E9F0B21DE0CD1000F8197B /* TodayDataSource.swift in Sources */,
 				4878756B1DDBC974008789A0 /* TodayViewController.swift in Sources */,
+				48E9F0B41DE0D0EB00F8197B /* TodayViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -984,6 +992,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 01D2D59648E4497DDEA9D944 /* Pods-ScoreReporter.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ScoreReporter/ScoreReporter.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1081,6 +1090,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB8710D0BC735C12F2E5C91F /* Pods-ScoreReporter.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ScoreReporter/ScoreReporter.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

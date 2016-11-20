@@ -25,6 +25,14 @@ public extension Bracket {
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
+    
+    func add(team: Team) {
+        guard let stages = stages.allObjects as? [Stage] else {
+            return
+        }
+        
+        stages.forEach { $0.add(team: team) }
+    }
 }
 
 // MARK: - Fetchable

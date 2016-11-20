@@ -20,6 +20,29 @@ public extension Game {
         return cluster?.round?.group ?? pool?.round?.group ?? stage?.bracket?.round?.group
     }
     
+    func add(team: Team) {
+        if contains(team: team) {
+            var mutableTeams = teams as? Set<Team> ?? []
+            mutableTeams.insert(team)
+            teams = NSSet(set: mutableTeams)
+        }
+    }
+    
+    func contains(team: Team) -> Bool {
+        var isHomeTeam = false
+        var isAwayTeam = false
+        
+        if let homeTeamName = homeTeamName {
+            isHomeTeam = homeTeamName == team.name || homeTeamName == team.school
+        }
+        
+        if let awayTeamName = awayTeamName {
+            isAwayTeam = awayTeamName == team.name || awayTeamName == team.school
+        }
+        
+        return isHomeTeam || isAwayTeam
+    }
+    
     static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
@@ -40,6 +63,17 @@ public extension Game {
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
+    }
+    
+    static func fetchedGames(for team: Team) -> NSFetchedResultsController<Game> {
+        let predicate = NSPredicate(format: "%@ in %K", team, "teams")
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "sortOrder", ascending: true),
+            NSSortDescriptor(key: "startDateFull", ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedActiveGamesForTeam(_ team: Team) -> NSFetchedResultsController<Game> {
@@ -95,10 +129,19 @@ extension Game: CoreDataImportable {
         }
         
         game.gameID = gameID
-        game.homeTeamName = dictionary <~ "HomeTeamName"
+        
+        let homeValue = dictionary <~ "HomeTeamName"
+        let homeTuple = Game.split(name: homeValue)
+        game.homeTeamName = homeTuple.0
+        game.homeTeamSeed = homeTuple.1
         game.homeTeamScore = dictionary <~ "HomeTeamScore"
-        game.awayTeamName = dictionary <~ "AwayTeamName"
+        
+        let awayValue = dictionary <~ "AwayTeamName"
+        let awayTuple = Game.split(name: awayValue)
+        game.awayTeamName = awayTuple.0
+        game.awayTeamSeed = awayTuple.1
         game.awayTeamScore = dictionary <~ "AwayTeamScore"
+        
         game.fieldName = dictionary <~ "FieldName"
         game.status = dictionary <~ "GameStatus"
         
@@ -115,5 +158,25 @@ extension Game: CoreDataImportable {
         }
         
         return game
+    }
+    
+    static func split(name: String?) -> (String?, String?) {
+        guard let name = name else {
+            return (nil, nil)
+        }
+        
+        var componenets = name.components(separatedBy: " ")
+        
+        guard componenets.count > 1 else {
+            return (componenets.first, nil)
+        }
+        
+        let endIndex = componenets.count - 1
+        let seed = componenets[endIndex]
+        
+        componenets.remove(at: endIndex)
+        let seedlessName = componenets.joined(separator: " ")
+        
+        return (seedlessName, seed)
     }
 }

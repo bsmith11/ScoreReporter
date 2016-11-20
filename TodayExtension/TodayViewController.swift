@@ -13,11 +13,10 @@ import Anchorage
 import CoreData
 
 class TodayViewController: UIViewController, NCWidgetProviding {
+    fileprivate let viewModel = TodayViewModel()
+    fileprivate let dataSource = TodayDataSource()
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     fileprivate let defaultView = DefaultView(frame: .zero)
-
-    fileprivate var event: Event?
-    fileprivate var games: [Game]?
     
     override func loadView() {
         view = UIView()
@@ -29,13 +28,21 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        event = Event.fetchedBookmarkedEvents().fetchedObjects?.first
-        
-        let pool = Pool.object(primaryKey: 8174, context: Pool.coreDataStack.mainContext)
-        games = pool.flatMap { Game.fetchedGamesForPool($0).fetchedObjects }
-        
-        let count = games?.count ?? 1
-        extensionContext?.widgetLargestAvailableDisplayMode = count > 1 ? .expanded : .compact
+//        team = Team.fetchedBookmarkedTeams().fetchedObjects?.first
+//        
+//        let datesTuple = Date.enclosingDatesForCurrentWeek
+//        let predicates = [
+//            NSPredicate(format: "%K == %@", "type", "Tournament"),
+//            NSPredicate(format: "%K > %@ AND %K < %@", "event.startDate", datesTuple.0 as NSDate, "event.startDate", datesTuple.1 as NSDate)
+//        ]
+//        
+////        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+//        let currentGroup = (team?.groups as? Set<Group>)?.first
+////        let currentGroup = (team?.groups.filtered(using: predicate) as? Set<Group>)?.first
+//        games = team.flatMap { currentGroup?.games(for: $0) }
+//        
+//        let count = games?.count ?? 1
+//        extensionContext?.widgetLargestAvailableDisplayMode = count > 1 ? .expanded : .compact
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
@@ -43,28 +50,24 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         case .compact:
             preferredContentSize = maxSize
         case .expanded:
-            let count = games?.count ?? 1
+            let count = 1//games?.count ?? 1
             let height = Double(count) * 93.5
             preferredContentSize = CGSize(width: 0.0, height: height)
         }
     }
     
-//    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-//        // Perform any setup necessary in order to update the view.
-//        
-//        // If an error is encountered, use NCUpdateResult.Failed
-//        // If there's no update required, use NCUpdateResult.NoData
-//        // If there's an update, use NCUpdateResult.NewData
-//        
-//        completionHandler(NCUpdateResult.newData)
-//    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
+    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
+//        let teamService = TeamService(client: APIClient.sharedInstance)
+//        teamService.downloadDetails(for: team, completion: { error in
+//            let result: NCUpdateResult = (error == nil) ? .newData : .failed
+//            completionHandler(result)
+//        })
         
-        coordinator.animate(alongsideTransition: { _ in
-
-        }, completion: nil)        
+        // Perform any setup necessary in order to update the view.
+        
+        // If an error is encountered, use NCUpdateResult.Failed
+        // If there's no update required, use NCUpdateResult.NoData
+        // If there's an update, use NCUpdateResult.NewData
     }
 }
 
@@ -101,28 +104,29 @@ private extension TodayViewController {
 
 extension TodayViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return dataSource.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return games?.count ?? 1
+        return dataSource.numberOfItems(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let games = games {
-            let game = games[indexPath.item]
-            let gameViewModel = GameViewModel(game: game)
-            let cell = tableView.dequeueCell(for: indexPath) as GameCell
-            cell.configure(with: gameViewModel)
-            cell.separatorHidden = indexPath.item == 0
-            return cell
+        guard let game = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
         }
-        else {
-            let cell = tableView.dequeueCell(for: indexPath) as EventCell
-            cell.configure(with: event)
-            cell.separatorHidden = indexPath.item == 0
-            return cell
-        }
+        
+        let gameViewModel = GameViewModel(game: game, state: .Minimal)
+        let cell = tableView.dequeueCell(for: indexPath) as GameCell
+        cell.configure(with: gameViewModel)
+        cell.separatorHidden = indexPath.item == 0
+        return cell
+//        else {
+//            let cell = tableView.dequeueCell(for: indexPath) as EventCell
+//            cell.configure(with: event)
+//            cell.separatorHidden = indexPath.item == 0
+//            return cell
+//        }
     }
 }
 

@@ -44,6 +44,20 @@ public extension Round {
             return .brackets
         }
     }
+    
+    func add(team: Team) {
+        if let pools = pools.allObjects as? [Pool] {
+            pools.forEach { $0.add(team: team) }
+        }
+        
+        if let clusters = clusters.allObjects as? [Cluster] {
+            clusters.forEach { $0.add(team: team) }
+        }
+        
+        if let brackets = brackets.allObjects as? [Bracket] {
+            brackets.forEach { $0.add(team: team) }
+        }
+    }
 }
 
 // MARK: - Fetchable

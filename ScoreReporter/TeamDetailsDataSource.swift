@@ -19,11 +19,11 @@ struct TeamDetailsSection {
 enum TeamDetailsInfo {
     case team(Team)
     case event(Event)
-    case activeGame(Game)
+    case game(Game)
 }
 
 class TeamDetailsDataSource: NSObject {
-    fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<Game>
+    fileprivate let gamesFetchedResultsController: NSFetchedResultsController<Game>
     
     fileprivate var sections = [TeamDetailsSection]()
     
@@ -34,17 +34,17 @@ class TeamDetailsDataSource: NSObject {
     init(team: Team) {
         self.team = team
         
-        activeGamesFetchedResultsController = Game.fetchedActiveGamesForTeam(team)
+        gamesFetchedResultsController = Game.fetchedGames(for: team)
         
         super.init()
         
-        activeGamesFetchedResultsController.delegate = self
+        gamesFetchedResultsController.delegate = self
         
         configureSections()
     }
     
     deinit {
-        activeGamesFetchedResultsController.delegate = nil
+        gamesFetchedResultsController.delegate = nil
     }
 }
 
@@ -82,12 +82,9 @@ private extension TeamDetailsDataSource {
             }
         }
         
-//        let divisions = eventViewModel.groups.map { EventDetailsInfo.division($0) }
-//        sections.append(EventDetailsSection(title: "Divisions", items: divisions))
-//        
-//        if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
-//            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))
-//        }
+        if let games = gamesFetchedResultsController.fetchedObjects, !games.isEmpty {
+            sections.append(TeamDetailsSection(title: "Active Games", items: games.map { .game($0) }))
+        }
     }
 }
 

@@ -39,7 +39,7 @@ public extension EventService {
         client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
     
-    func downloadDetails(for eventID: NSNumber, completion: DownloadCompletion?) {
+    func downloadDetails(for eventID: NSNumber, eventDictionary: [String: AnyObject]? = nil, completion: DownloadCompletion?) {
         let parameters: [String: Any] = [
             "f": "GETGAMESBYEVENT",
             "EventId": eventID
@@ -47,7 +47,7 @@ public extension EventService {
         
         let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
-                self.handleSuccessfulEventResponse(result.value, completion: completion)
+                self.handleSuccessfulEventResponse(result.value, eventDictionary: eventDictionary, completion: completion)
             }
             else {
                 completion?(result.error as NSError?)
@@ -76,7 +76,7 @@ private extension EventService {
         Event.events(from: eventArray, completion: completion)
     }
 
-    func handleSuccessfulEventResponse(_ response: Any?, completion: DownloadCompletion?) {
+    func handleSuccessfulEventResponse(_ response: Any?, eventDictionary: [String: AnyObject]? = nil, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)

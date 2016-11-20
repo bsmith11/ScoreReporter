@@ -16,19 +16,28 @@ public class Group: NSManagedObject {
 // MARK: - Public
 
 public extension Group {
-    static func groups(from array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func groups(from array: [[String: AnyObject]], team: Team? = nil, completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Group.objects(from: array, context: context)
+            let groups = Group.objects(from: array, context: context)
+            
+            if let team = team {
+                groups.forEach { $0.add(team: team) }
+            }
         }
         
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)        
     }
     
-    func addTeam(team: Team) {
-        if var teams = teams as? Set<Team> {
-            teams.insert(team)
-            self.teams = NSSet(set: teams)
+    func add(team: Team) {
+        guard let rounds = rounds.allObjects as? [Round] else {
+            return
         }
+        
+        rounds.forEach { $0.add(team: team) }
+        
+        var mutableTeams = teams as? Set<Team> ?? []
+        mutableTeams.insert(team)
+        teams = NSSet(set: mutableTeams)
     }
 }
 

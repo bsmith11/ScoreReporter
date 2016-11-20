@@ -14,6 +14,7 @@ import CoreData
 
 public extension Team {
     
+    @NSManaged var bookmarked: NSNumber
     @NSManaged var city: String?
     @NSManaged var competitionLevel: String?
     @NSManaged var designation: String?
@@ -24,5 +25,7 @@ public extension Team {
     @NSManaged var state: String?
     @NSManaged var stateFull: String?
     @NSManaged var teamID: NSNumber
+    @NSManaged var games: NSSet
     @NSManaged var groups: NSSet
+    
 }

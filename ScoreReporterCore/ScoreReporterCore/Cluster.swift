@@ -13,6 +13,18 @@ public class Cluster: NSManagedObject {
 
 }
 
+// MARK: - Public
+
+public extension Cluster {
+    func add(team: Team) {
+        guard let games = games.allObjects as? [Game] else {
+            return
+        }
+        
+        games.forEach { $0.add(team: team) }
+    }
+}
+
 // MARK: - Fetchable
 
 extension Cluster: Fetchable {

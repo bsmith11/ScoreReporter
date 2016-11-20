@@ -191,7 +191,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.separatorHidden = true
             return cell
         case .activeGame(let game):
-            let gameViewModel = GameViewModel(game: game, displayDivision: true)
+            let gameViewModel = GameViewModel(game: game, state: .Division)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
             cell.separatorHidden = indexPath.item == 0

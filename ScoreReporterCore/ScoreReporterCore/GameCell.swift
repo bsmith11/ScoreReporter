@@ -64,8 +64,17 @@ public extension GameCell {
         statusLabel.text = viewModel.status
         statusLabel.isHidden = statusLabel.text == nil
         
-        infoStackView.isHidden = viewModel.displayDivision
-        avatarContainerView.isHidden = !viewModel.displayDivision
+        switch viewModel.state {
+        case .Full:
+            infoStackView.isHidden = false
+            avatarContainerView.isHidden = true
+        case .Division:
+            infoStackView.isHidden = true
+            avatarContainerView.isHidden = false
+        case .Minimal:
+            infoStackView.isHidden = true
+            avatarContainerView.isHidden = true
+        }
     }
 }
 
@@ -101,7 +110,7 @@ private extension GameCell {
         homeStackView.addArrangedSubview(homeNameLabel)
         
         homeScoreLabel.textColor = UIColor.black
-        homeScoreLabel.textAlignment = .right
+//        homeScoreLabel.textAlignment = .right
         homeScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         homeScoreLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         homeStackView.addArrangedSubview(homeScoreLabel)
@@ -114,7 +123,7 @@ private extension GameCell {
         awayStackView.addArrangedSubview(awayNameLabel)
         
         awayScoreLabel.textColor = UIColor.black
-        awayScoreLabel.textAlignment = .right
+//        awayScoreLabel.textAlignment = .right
         awayScoreLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         awayScoreLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         awayStackView.addArrangedSubview(awayScoreLabel)

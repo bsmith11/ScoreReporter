@@ -102,23 +102,46 @@ extension Event: CoreDataImportable {
         }
         
         event.eventID = eventID
-        event.name = dictionary <~ "EventName"
-        event.type = dictionary <~ "EventType"
-        event.typeName = dictionary <~ "EventTypeName"
-        event.city = dictionary <~ "City"
-        event.state = dictionary <~ "State"
         
-        let startDate = dictionary <~ "StartDate"
-        event.startDate = startDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
+        if let _ = dictionary.index(forKey: "EventName") {
+            event.name = dictionary <~ "EventName"
+        }
         
-        let endDate = dictionary <~ "EndDate"
-        event.endDate = endDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
+        if let _ = dictionary.index(forKey: "EventType") {
+            event.type = dictionary <~ "EventType"
+        }
         
-        let logoPath = dictionary <~ "EventLogo"
-        event.logoPath = self.logoPath(from: logoPath)
+        if let _ = dictionary.index(forKey: "EventTypeName") {
+            event.typeName = dictionary <~ "EventTypeName"
+        }
+        
+        if let _ = dictionary.index(forKey: "City") {
+            event.city = dictionary <~ "City"
+        }
+        
+        if let _ = dictionary.index(forKey: "State") {
+            event.state = dictionary <~ "State"
+        }
+        
+        if let _ = dictionary.index(forKey: "StartDate") {
+            let startDate = dictionary <~ "StartDate"
+            event.startDate = startDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
+        }
+        
+        if let _ = dictionary.index(forKey: "EndDate") {
+            let endDate = dictionary <~ "EndDate"
+            event.endDate = endDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
+        }
+        
+        if let _ = dictionary.index(forKey: "EventLogo") {
+            let logoPath = dictionary <~ "EventLogo"
+            event.logoPath = self.logoPath(from: logoPath)
+        }
 
-        let groups = dictionary["CompetitionGroup"] as? [[String: AnyObject]] ?? []
-        event.groups = NSSet(array: Group.objects(from: groups, context: context))
+        if let _ = dictionary.index(forKey: "CompetitionGroup") {
+            let groups = dictionary["CompetitionGroup"] as? [[String: AnyObject]] ?? []
+            event.groups = NSSet(array: Group.objects(from: groups, context: context))
+        }
         
         if !event.hasPersistentChangedValues {
             context.refresh(event, mergeChanges: false)

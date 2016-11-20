@@ -33,7 +33,7 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
         
         super.init(nibName: nil, bundle: nil)
         
-        title = "Event Details"
+        title = "Team Details"
         
         let favoriteImage = UIImage(named: "icn-star")
         favoriteButton = UIBarButtonItem(image: favoriteImage, style: .plain, target: self, action: #selector(favoriteButtonTapped))
@@ -41,7 +41,7 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
         let unfavoriteImage = UIImage(named: "icn-star-selected")
         unfavoriteButton = UIBarButtonItem(image: unfavoriteImage, style: .plain, target: self, action: #selector(unfavoriteButtonTapped))
         
-//        navigationItem.rightBarButtonItem = dataSource.event.bookmarked.boolValue ? unfavoriteButton : favoriteButton
+        navigationItem.rightBarButtonItem = dataSource.team.bookmarked.boolValue ? unfavoriteButton : favoriteButton
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -133,31 +133,31 @@ private extension TeamDetailsViewController {
     }
     
     @objc func favoriteButtonTapped() {
-//        navigationItem.setRightBarButton(unfavoriteButton, animated: true)
-//        
-//        let event = dataSource.event
-//        event.bookmarked = true
-//        
-//        do {
-//            try event.managedObjectContext?.save()
-//        }
-//        catch let error {
-//            print("Error: \(error)")
-//        }
+        navigationItem.setRightBarButton(unfavoriteButton, animated: true)
+        
+        let team = dataSource.team
+        team.bookmarked = true
+        
+        do {
+            try team.managedObjectContext?.save()
+        }
+        catch let error {
+            print("Error: \(error)")
+        }
     }
     
     @objc func unfavoriteButtonTapped() {
-//        navigationItem.setRightBarButton(favoriteButton, animated: true)
-//        
-//        let event = dataSource.event
-//        event.bookmarked = false
-//        
-//        do {
-//            try event.managedObjectContext?.save()
-//        }
-//        catch let error {
-//            print("Error: \(error)")
-//        }
+        navigationItem.setRightBarButton(favoriteButton, animated: true)
+        
+        let team = dataSource.team
+        team.bookmarked = false
+        
+        do {
+            try team.managedObjectContext?.save()
+        }
+        catch let error {
+            print("Error: \(error)")
+        }
     }
 }
 
@@ -189,8 +189,8 @@ extension TeamDetailsViewController: UITableViewDataSource {
             cell.configure(with: team)
             cell.separatorHidden = true
             return cell
-        case .activeGame(let game):
-            let gameViewModel = GameViewModel(game: game, displayDivision: true)
+        case .game(let game):
+            let gameViewModel = GameViewModel(game: game, state: .Full)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
             cell.separatorHidden = indexPath.item == 0
@@ -205,6 +205,16 @@ extension TeamDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = dataSource.item(at: indexPath) else {
             return
+        }
+        
+        switch item {
+        case .event(let event):
+            let eventDetailsViewModel = EventDetailsViewModel(event: event)
+            let eventDetailsDataSource = EventDetailsDataSource(event: event)
+            let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+            navigationController?.pushViewController(eventDetailsViewController, animated: true)
+        default:
+            break
         }
     }
     

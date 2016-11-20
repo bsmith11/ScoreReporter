@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+public enum GameViewState {
+    case Full
+    case Division
+    case Minimal
+}
+
 public struct GameViewModel {
     public let game: Game?
     public let homeTeamName: NSAttributedString
@@ -17,7 +23,7 @@ public struct GameViewModel {
     public let awayTeamScore: NSAttributedString?
     public let fieldName: String
     public let status: String?
-    public let displayDivision: Bool
+    public let state: GameViewState
     
     fileprivate let winnerAttributes = [
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
@@ -27,7 +33,7 @@ public struct GameViewModel {
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
     ]
     
-    public init(game: Game?, displayDivision: Bool = false) {
+    public init(game: Game?, state: GameViewState = .Full ) {
         self.game = game
         
         var homeAttributes = loserAttributes
@@ -61,6 +67,6 @@ public struct GameViewModel {
         fieldName = game?.fieldName ?? "TBD"
         status = game?.status
         
-        self.displayDivision = displayDivision
+        self.state = state
     }
 }

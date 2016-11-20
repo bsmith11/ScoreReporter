@@ -64,15 +64,15 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
         dataSource.refreshBlock = { [weak self] in
             self?.reloadSegmentedControl()
             
-            if self?.segmentedControl.numberOfSegments ?? 0 > 0 {
-                self?.segmentedControl.selectedSegmentIndex = 0
-            }
+//            if self?.segmentedControl.numberOfSegments ?? 0 > 0 {
+//                self?.segmentedControl.selectedSegmentIndex = 0
+//            }
         }
         
         reloadSegmentedControl()
         
         if segmentedControl.numberOfSegments > 0 {
-            segmentedControl.selectedSegmentIndex = 0
+            segmentedControl.selectedIndex = 0
         }
     }
     
@@ -89,7 +89,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
 
 private extension GroupDetailsViewController {
     func configureViews() {
-        segmentedControl.setTitleColor(viewModel.divisionColor, for: .selected)
+        segmentedControl.tintColor = viewModel.divisionColor
         segmentedControl.delegate = self
         view.addSubview(segmentedControl)
         
@@ -124,11 +124,8 @@ private extension GroupDetailsViewController {
     }
     
     func reloadSegmentedControl() {
-        segmentedControl.removeAllSegments()
-        
-        for (index, viewController) in dataSource.items.enumerated() {
-            segmentedControl.insertSegment(withTitle: viewController.title, at: index, animated: false)
-        }
+        let titles = dataSource.items.map { $0.title }
+        segmentedControl.setSegments(with: titles)
     }
     
     func displayViewController(_ viewController: UIViewController?) {
@@ -152,7 +149,7 @@ private extension GroupDetailsViewController {
 // MARK: - SegmentedControlDelegate
 
 extension GroupDetailsViewController: SegmentedControlDelegate {
-    func segmentedControlDidSelect(index: Int) {
+    func didSelect(index: Int, segmentedControl: SegmentedControl) {
         let indexPath = IndexPath(row: index, section: 0)
         let item = dataSource.item(at: indexPath)
         

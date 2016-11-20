@@ -24,6 +24,16 @@ public extension Team {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
+    static func fetchedBookmarkedTeams() -> NSFetchedResultsController<Team> {
+        let predicate = NSPredicate(format: "%K == YES", "bookmarked")
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
     static func fetchedTeams() -> NSFetchedResultsController<Team> {
         let predicate = NSPredicate(format: "%K != %@", "state", "")
         
