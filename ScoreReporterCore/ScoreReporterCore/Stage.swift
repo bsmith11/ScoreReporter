@@ -29,7 +29,7 @@ public extension Stage {
 
 extension Stage: Fetchable {
     public static var primaryKey: String {
-        return "stageID"
+        return #keyPath(Stage.stageID)
     }
 }
 

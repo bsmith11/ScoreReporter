@@ -26,16 +26,16 @@ public extension Event {
     
     static func fetchedUpcomingEvents(for team: Team) -> NSFetchedResultsController<Event> {
         let predicates = [
-            NSPredicate(format: "%K == %@", "type", "Tournament"),
-            NSPredicate(format: "%K > %@", "startDate", NSDate()),
-            NSPredicate(format: "SUBQUERY(groups, $x, $x in %@).@count > 0", team.groups)
+            NSPredicate(format: "%K == %@", #keyPath(Event.type), "Tournament"),
+            NSPredicate(format: "%K > %@", #keyPath(Event.startDate), NSDate()),
+            NSPredicate(format: "SUBQUERY(%K, $x, $x in %@).@count > 0", #keyPath(Event.groups), team.groups)
         ]
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDate", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -45,15 +45,15 @@ public extension Event {
         let datesTuple = Date.enclosingDatesForCurrentWeek
         
         let predicates = [
-            NSPredicate(format: "%K == %@", "type", "Tournament"),
-            NSPredicate(format: "%K > %@ AND %K < %@", "startDate", datesTuple.0 as NSDate, "startDate", datesTuple.1 as NSDate)
+            NSPredicate(format: "%K == %@", #keyPath(Event.type), "Tournament"),
+            NSPredicate(format: "%K > %@ AND %K < %@", #keyPath(Event.startDate), datesTuple.0 as NSDate, #keyPath(Event.startDate), datesTuple.1 as NSDate)
         ]
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDate", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -61,40 +61,40 @@ public extension Event {
     
     static func fetchedBookmarkedEvents() -> NSFetchedResultsController<Event> {
         let predicates = [
-            NSPredicate(format: "%K == %@", "type", "Tournament"),
-            NSPredicate(format: "%K == YES", "bookmarked")
+            NSPredicate(format: "%K == %@", #keyPath(Event.type), "Tournament"),
+            NSPredicate(format: "%K == YES", #keyPath(Event.bookmarked))
         ]
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDate", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedEvents() -> NSFetchedResultsController<Event> {
-        let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), "Tournament")
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDate", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
         
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
     }
     
     public static var searchFetchedResultsController: NSFetchedResultsController<Event> {
-        let predicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), "Tournament")
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDate", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
         
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDate")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
     }
 }
 
@@ -102,7 +102,7 @@ public extension Event {
 
 extension Event: Fetchable {
     public static var primaryKey: String {
-        return "eventID"
+        return #keyPath(Event.eventID)
     }
 }
 
@@ -198,7 +198,7 @@ extension Event: Searchable {
     }
     
     public static func predicate(with searchText: String?) -> NSPredicate? {
-        let typePredicate = NSPredicate(format: "%K == %@", "type", "Tournament")
+        let typePredicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), "Tournament")
         
         guard let searchText = searchText, !searchText.isEmpty else {
             return typePredicate
@@ -206,7 +206,7 @@ extension Event: Searchable {
         
         let predicates = [
             typePredicate,
-            NSPredicate(format: "%K contains[cd] %@", "name", searchText)
+            NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
         ]
         
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

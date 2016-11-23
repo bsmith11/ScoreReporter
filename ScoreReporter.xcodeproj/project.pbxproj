@@ -30,10 +30,7 @@
 		485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */; };
 		485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */; };
 		4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */; };
-		4864A8C31DCFC2D1001561D4 /* TeamSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C21DCFC2D1001561D4 /* TeamSearchViewController.swift */; };
-		4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */; };
 		4864A8C71DCFC349001561D4 /* TeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C61DCFC349001561D4 /* TeamViewModel.swift */; };
-		4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */; };
 		486797191DE5464000C70324 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797181DE5464000C70324 /* EventsViewController.swift */; };
 		4867971B1DE5465200C70324 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971A1DE5465200C70324 /* EventsViewModel.swift */; };
 		4867971D1DE5465E00C70324 /* EventsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971C1DE5465E00C70324 /* EventsDataSource.swift */; };
@@ -137,10 +134,7 @@
 		485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackInteractionController.swift; sourceTree = "<group>"; };
 		4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScoreReporter.entitlements; sourceTree = "<group>"; };
-		4864A8C21DCFC2D1001561D4 /* TeamSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchViewController.swift; sourceTree = "<group>"; };
-		4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchDataSource.swift; sourceTree = "<group>"; };
 		4864A8C61DCFC349001561D4 /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
-		4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchViewModel.swift; sourceTree = "<group>"; };
 		486797181DE5464000C70324 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		4867971A1DE5465200C70324 /* EventsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		4867971C1DE5465E00C70324 /* EventsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsDataSource.swift; sourceTree = "<group>"; };
@@ -266,6 +260,7 @@
 				4867971E1DE54B0900C70324 /* TeamsViewController.swift */,
 				486797201DE54B1300C70324 /* TeamsViewModel.swift */,
 				486797221DE54B1A00C70324 /* TeamsDataSource.swift */,
+				4864A8C61DCFC349001561D4 /* TeamViewModel.swift */,
 			);
 			name = Teams;
 			sourceTree = "<group>";
@@ -317,17 +312,6 @@
 				484951791D9653E600C95F2F /* PoolsDataSource.swift */,
 			);
 			name = Pools;
-			sourceTree = "<group>";
-		};
-		4864A8C11DCFC2BC001561D4 /* Team Search */ = {
-			isa = PBXGroup;
-			children = (
-				4864A8C21DCFC2D1001561D4 /* TeamSearchViewController.swift */,
-				4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */,
-				4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */,
-				4864A8C61DCFC349001561D4 /* TeamViewModel.swift */,
-			);
-			name = "Team Search";
 			sourceTree = "<group>";
 		};
 		486797171DE5459400C70324 /* Events */ = {
@@ -480,7 +464,6 @@
 				484951781D9653D600C95F2F /* Pools */,
 				487BF3721D9856760082D6FC /* Game List */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
-				4864A8C11DCFC2BC001561D4 /* Team Search */,
 				E2E5ED9D04AACD67F94ABF4E /* Application */,
 				8C9462C06DBD76CB33CD55E2 /* Controllers */,
 				2E91F1BFF2A58D6F931A75C4 /* Resources */,
@@ -802,7 +785,6 @@
 				48A2E71B1DA4B02200B7B422 /* AcknowledgementListDataSource.swift in Sources */,
 				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
-				4864A8C31DCFC2D1001561D4 /* TeamSearchViewController.swift in Sources */,
 				068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */,
 				4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */,
 				487877091DDD4B13008789A0 /* TeamDetailsViewModel.swift in Sources */,
@@ -817,8 +799,6 @@
 				487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */,
 				487876D41DDBFFC4008789A0 /* GameListDataSource.swift in Sources */,
 				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,
-				4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */,
-				4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */,
 				487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */,
 				487BF3881D9A0B630082D6FC /* BracketListViewController.swift in Sources */,
 				48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */,

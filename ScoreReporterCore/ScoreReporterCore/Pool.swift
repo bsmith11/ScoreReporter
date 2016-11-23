@@ -17,20 +17,20 @@ public class Pool: NSManagedObject {
 
 public extension Pool {
     static func fetchedPoolsForRound(_ round: Round) -> NSFetchedResultsController<Pool> {
-        let predicate = NSPredicate(format: "%K == %@", "round", round)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round), round)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "poolID", ascending: true),
+            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true),
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedPoolsForGroup(_ group: Group) -> NSFetchedResultsController<Pool> {
-        let predicate = NSPredicate(format: "%K == %@", "round.group", group)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round.group), group)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "poolID", ascending: true),
+            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true),
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)

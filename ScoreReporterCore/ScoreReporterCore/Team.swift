@@ -37,35 +37,35 @@ public extension Team {
     }
     
     static func fetchedBookmarkedTeams() -> NSFetchedResultsController<Team> {
-        let predicate = NSPredicate(format: "%K == YES", "bookmarked")
+        let predicate = NSPredicate(format: "%K == YES", #keyPath(Team.bookmarked))
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedTeams() -> NSFetchedResultsController<Team> {
-        let predicate = NSPredicate(format: "%K != %@", "state", "")
+        let predicate = NSPredicate(format: "%K != %@", #keyPath(Team.state), "")
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "state", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Team.state), ascending: true),
+            NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
         ]
         
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Team.state))
     }
     
     public static var searchFetchedResultsController: NSFetchedResultsController<Team> {
-        let predicate = NSPredicate(format: "%K != nil", "state")
+        let predicate = NSPredicate(format: "%K != nil", #keyPath(Team.state))
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "state", ascending: true),
-            NSSortDescriptor(key: "name", ascending: true)
+            NSSortDescriptor(key: #keyPath(Team.state), ascending: true),
+            NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
         ]
         
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "state")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Team.state))
     }
     
     static func stateName(fromAbbreviation abbreviation: String?) -> String? {
@@ -149,7 +149,7 @@ public extension Team {
 
 extension Team: Fetchable {
     public static var primaryKey: String {
-        return "teamID"
+        return #keyPath(Team.teamID)
     }
 }
 
@@ -213,15 +213,15 @@ extension Team: Searchable {
     }
     
     public static func predicate(with searchText: String?) -> NSPredicate? {
-        let statePredicate = NSPredicate(format: "%K != nil", "state")
+        let statePredicate = NSPredicate(format: "%K != nil", #keyPath(Team.state))
         
         guard let searchText = searchText, !searchText.isEmpty else {
             return statePredicate
         }
         
         let orPredicates = [
-            NSPredicate(format: "%K contains[cd] %@", "name", searchText),
-            NSPredicate(format: "%K contains[cd] %@", "school", searchText)
+            NSPredicate(format: "%K contains[cd] %@", #keyPath(Team.name), searchText),
+            NSPredicate(format: "%K contains[cd] %@", #keyPath(Team.school), searchText)
         ]
         
         let predicates = [

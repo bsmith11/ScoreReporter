@@ -83,7 +83,7 @@ private extension BracketListViewController {
     }
     
     func configureObservers() {
-        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: #keyPath(BracketListDataSource.empty)) { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }

@@ -62,32 +62,32 @@ public extension Game {
     }
     
     static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<Game> {
-        let predicate = NSPredicate(format: "%K == %@", "pool", pool)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Game.pool), pool)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "sortOrder", ascending: true),
-            NSSortDescriptor(key: "startDateFull", ascending: true)
+            NSSortDescriptor(key: #keyPath(Game.sortOrder), ascending: true),
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
         ]
         
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Game.startDateFull))
     }
     
     static func fetchedGamesForClusters(_ clusters: [Cluster]) -> NSFetchedResultsController<Game> {
-        let predicate = NSPredicate(format: "%K IN %@", "cluster", clusters)
+        let predicate = NSPredicate(format: "%K IN %@", #keyPath(Game.cluster), clusters)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "sortOrder", ascending: true),
-            NSSortDescriptor(key: "startDateFull", ascending: true)
+            NSSortDescriptor(key: #keyPath(Game.sortOrder), ascending: true),
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
         ]
         
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: "startDateFull")
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Game.startDateFull))
     }
     
     static func fetchedGames(for team: Team) -> NSFetchedResultsController<Game> {
-        let predicate = NSPredicate(format: "%@ in %K", team, "teams")
+        let predicate = NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams))
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDateFull", ascending: true)
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -95,13 +95,13 @@ public extension Game {
     
     static func fetchedActiveGamesForTeam(_ team: Team) -> NSFetchedResultsController<Game> {
         let predicates = [
-            NSPredicate(format: "%@ in %K", team, "teams"),
+            NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams)),
         ]
         
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "startDateFull", ascending: true)
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -109,18 +109,18 @@ public extension Game {
     
     static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<Game> {
         let gamePredicates = [
-            NSPredicate(format: "%K == %@", "pool.round.group.event", event),
-            NSPredicate(format: "%K == %@", "cluster.round.group.event", event),
-            NSPredicate(format: "%K == %@", "stage.bracket.round.group.event", event)
+            NSPredicate(format: "%K == %@", #keyPath(Game.pool.round.group.event), event),
+            NSPredicate(format: "%K == %@", #keyPath(Game.cluster.round.group.event), event),
+            NSPredicate(format: "%K == %@", #keyPath(Game.stage.bracket.round.group.event), event)
         ]
         
         let gamePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: gamePredicates)
-        let activePredicate = NSPredicate(format: "%K == %@", "status", "In Progress")
+        let activePredicate = NSPredicate(format: "%K == %@", #keyPath(Game.status), "In Progress")
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [gamePredicate, activePredicate])
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "sortOrder", ascending: true),
-            NSSortDescriptor(key: "startDateFull", ascending: true)
+            NSSortDescriptor(key: #keyPath(Game.sortOrder), ascending: true),
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)

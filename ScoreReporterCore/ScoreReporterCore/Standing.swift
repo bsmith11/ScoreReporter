@@ -17,10 +17,10 @@ public class Standing: NSManagedObject {
 
 public extension Standing {
     static func fetchedStandingsForPool(_ pool: Pool) -> NSFetchedResultsController<Standing> {
-        let predicate = NSPredicate(format: "%K == %@", "pool", pool)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Standing.pool), pool)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "sortOrder", ascending: true),
+            NSSortDescriptor(key: #keyPath(Standing.sortOrder), ascending: true),
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)

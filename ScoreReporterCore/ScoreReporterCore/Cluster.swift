@@ -29,7 +29,7 @@ public extension Cluster {
 
 extension Cluster: Fetchable {
     public static var primaryKey: String {
-        return "clusterID"
+        return #keyPath(Cluster.clusterID)
     }
 }
 

@@ -45,7 +45,7 @@ public extension Group {
 
 extension Group: Fetchable {
     public static var primaryKey: String {
-        return "groupID"
+        return #keyPath(Group.groupID)
     }
 }
 

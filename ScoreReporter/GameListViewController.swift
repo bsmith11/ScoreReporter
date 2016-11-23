@@ -79,7 +79,7 @@ private extension GameListViewController {
     }
     
     func configureObservers() {
-        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: #keyPath(GameListDataSource.empty)) { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }

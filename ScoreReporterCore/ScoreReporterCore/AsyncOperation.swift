@@ -26,10 +26,10 @@ class AsyncOperation: Operation {
     
     private var _executing = false {
         willSet {
-            willChangeValue(forKey: "isExecuting")
+            willChangeValue(forKey: #keyPath(isExecuting))
         }
         didSet {
-            didChangeValue(forKey: "isExecuting")
+            didChangeValue(forKey: #keyPath(isExecuting))
         }
     }
     
@@ -39,11 +39,11 @@ class AsyncOperation: Operation {
     
     private var _finished = false {
         willSet {
-            willChangeValue(forKey: "isFinished")
+            willChangeValue(forKey: #keyPath(isFinished))
         }
         
         didSet {
-            didChangeValue(forKey: "isFinished")
+            didChangeValue(forKey: #keyPath(isFinished))
         }
     }
     

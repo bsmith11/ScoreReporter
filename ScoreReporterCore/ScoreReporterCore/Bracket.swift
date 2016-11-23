@@ -17,10 +17,10 @@ public class Bracket: NSManagedObject {
 
 public extension Bracket {
     static func fetchedBracketsForGroup(_ group: Group) -> NSFetchedResultsController<Bracket> {
-        let predicate = NSPredicate(format: "%K == %@", "round.group", group)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Bracket.round.group), group)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "bracketID", ascending: true)
+            NSSortDescriptor(key: #keyPath(Bracket.bracketID), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -39,7 +39,7 @@ public extension Bracket {
 
 extension Bracket: Fetchable {
     public static var primaryKey: String {
-        return "bracketID"
+        return #keyPath(Bracket.bracketID)
     }
 }
 

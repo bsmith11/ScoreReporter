@@ -48,7 +48,7 @@ public extension User {
 
 extension User: Fetchable {
     public static var primaryKey: String {
-        return "userID"
+        return #keyPath(User.userID)
     }
 }
 

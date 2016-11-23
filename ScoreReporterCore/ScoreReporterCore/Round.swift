@@ -64,7 +64,7 @@ public extension Round {
 
 extension Round: Fetchable {
     public static var primaryKey: String {
-        return "roundID"
+        return #keyPath(Round.roundID)
     }
 }
 

@@ -106,7 +106,7 @@ private extension EventsViewController {
     }
     
     func configureObservers() {
-        kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: #keyPath(EventsDataSource.empty)) { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
     }

@@ -129,7 +129,7 @@ private extension EventDetailsViewController {
     }
     
     func configureObservers() {
-        kvoController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
+        kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.loading)) { [weak self] (loading: Bool) in
             if loading {
                 self?.display(message: "Loading...", animated: true)
             }
@@ -138,7 +138,7 @@ private extension EventDetailsViewController {
             }
         }
         
-        kvoController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
+        kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.error)) { [weak self] (error: NSError) in
             self?.display(message: "Error", animated: true)
         }
     }
