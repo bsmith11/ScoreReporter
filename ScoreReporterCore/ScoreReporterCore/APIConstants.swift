@@ -10,6 +10,8 @@ import Foundation
 
 struct APIConstants {
     struct Path {
+        static let baseURL = "https://play.usaultimate.org/"
+
         struct Keys {
             static let function = "f"
         }

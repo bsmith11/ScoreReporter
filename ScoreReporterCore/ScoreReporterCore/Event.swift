@@ -219,7 +219,7 @@ extension Event: Searchable {
     }
 
     public var searchLogoURL: URL? {
-        let baseURL = "https://play.usaultimate.org/"
+        let baseURL = APIConstants.Path.baseURL
 
         return logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
     }

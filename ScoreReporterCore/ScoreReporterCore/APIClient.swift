@@ -16,12 +16,13 @@ public class APIClient {
 
     fileprivate let manager: SessionManager
     fileprivate let baseURL: URL = {
-        let string = "https://play.usaultimate.org/ajax/api.aspx"
-        guard let baseURL = URL(string: string) else {
-            fatalError("Failed to initial baseURL as \(string)")
+        guard let url = URL(string: APIConstants.Path.baseURL) else {
+            fatalError("Failed to initialize baseURL: \(APIConstants.Path.baseURL)")
         }
 
-        return baseURL
+        let pathComponent = "ajax/api.aspx"
+
+        return url.appendingPathComponent(pathComponent)
     }()
 
     private init() {
