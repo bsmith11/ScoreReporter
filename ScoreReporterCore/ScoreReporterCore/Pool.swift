@@ -49,7 +49,7 @@ public extension Pool {
 
 extension Pool: Fetchable {
     public static var primaryKey: String {
-        return "poolID"
+        return #keyPath(Pool.poolID)
     }
 }
 
@@ -57,7 +57,7 @@ extension Pool: Fetchable {
 
 extension Pool: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
-        guard let poolID = dictionary["PoolId"] as? NSNumber else {
+        guard let poolID = dictionary[APIConstants.Response.Keys.poolID] as? NSNumber else {
             return nil
         }
 
@@ -66,9 +66,9 @@ extension Pool: CoreDataImportable {
         }
 
         pool.poolID = poolID
-        pool.name = dictionary <~ "Name"
+        pool.name = dictionary <~ APIConstants.Response.Keys.name
 
-        let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
+        let games = dictionary[APIConstants.Response.Keys.games] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
 
         for (index, game) in gamesArray.enumerated() {
@@ -77,7 +77,7 @@ extension Pool: CoreDataImportable {
 
         pool.games = NSSet(array: gamesArray)
 
-        let standings = dictionary["Standings"] as? [[String: AnyObject]] ?? []
+        let standings = dictionary[APIConstants.Response.Keys.standings] as? [[String: AnyObject]] ?? []
         pool.standings = NSSet(array: Standing.objects(from: standings, context: context))
 
         if !pool.hasPersistentChangedValues {

@@ -47,7 +47,7 @@ extension Bracket: Fetchable {
 
 extension Bracket: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Bracket? {
-        guard let bracketID = dictionary["BracketId"] as? NSNumber else {
+        guard let bracketID = dictionary[APIConstants.Response.Keys.bracketID] as? NSNumber else {
             return nil
         }
 
@@ -56,9 +56,9 @@ extension Bracket: CoreDataImportable {
         }
 
         bracket.bracketID = bracketID
-        bracket.name = dictionary <~ "BracketName"
+        bracket.name = dictionary <~ APIConstants.Response.Keys.bracketName
 
-        let stages = dictionary["Stage"] as? [[String: AnyObject]] ?? []
+        let stages = dictionary[APIConstants.Response.Keys.stage] as? [[String: AnyObject]] ?? []
         bracket.stages = NSSet(array: Stage.objects(from: stages, context: context))
 
         if !bracket.hasPersistentChangedValues {

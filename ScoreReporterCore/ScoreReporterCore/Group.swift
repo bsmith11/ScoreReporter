@@ -53,7 +53,7 @@ extension Group: Fetchable {
 
 extension Group: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Group? {
-        guard let groupID = dictionary["EventGroupId"] as? NSNumber else {
+        guard let groupID = dictionary[APIConstants.Response.Keys.groupID] as? NSNumber else {
             return nil
         }
 
@@ -63,22 +63,22 @@ extension Group: CoreDataImportable {
 
         group.groupID = groupID
 
-        if let divisionName = dictionary["DivisionName"] {
+        if let divisionName = dictionary[APIConstants.Response.Keys.divisionName] {
             group.divisionName = divisionName as? String
         }
 
-        if let teamCount = dictionary["TeamCount"] {
+        if let teamCount = dictionary[APIConstants.Response.Keys.teamCount] {
             group.teamCount = teamCount as? String
         }
 
-        let groupName = (dictionary["GroupName"] as? String) ?? dictionary["EventGroupName"] as? String
+        let groupName = (dictionary[APIConstants.Response.Keys.groupName] as? String) ?? dictionary[APIConstants.Response.Keys.eventGroupName] as? String
         group.name = groupName
 
         let typeDivision = self.typeDivision(from: groupName)
         group.type = typeDivision.0
         group.division = typeDivision.1
 
-        if let rounds = dictionary["EventRounds"] {
+        if let rounds = dictionary[APIConstants.Response.Keys.eventRounds] {
             let roundsArray = rounds as? [[String: AnyObject]] ?? []
             group.rounds = NSSet(array: Round.objects(from: roundsArray, context: context))
         }

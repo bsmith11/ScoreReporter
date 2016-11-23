@@ -32,9 +32,9 @@ public struct LoginService {
 public extension LoginService {
     func login(with credentials: Credentials, completion: DownloadCompletion?) {
         let parameters = [
-            "f": "MemberLogin",
-            "username": credentials.username,
-            "password": credentials.password
+            APIConstants.Path.Keys.function: APIConstants.Path.Values.login,
+            APIConstants.Request.Keys.username: credentials.username,
+            APIConstants.Request.Keys.password: credentials.password
         ]
 
         let requestCompletion = { (result: Result<Any>) in
@@ -66,8 +66,8 @@ private extension LoginService {
             return
         }
 
-        guard let success = responseObject["success"] as? Bool, success else {
-            if let message = responseObject["message"] as? String {
+        guard let success = responseObject[APIConstants.Response.Keys.success] as? Bool, success else {
+            if let message = responseObject[APIConstants.Response.Keys.message] as? String {
                 print("Error Message: \(message)")
                 completion?(nil)
             }
@@ -79,7 +79,7 @@ private extension LoginService {
             return
         }
 
-        guard let accessToken = responseObject["UserToken"] as? String else {
+        guard let accessToken = responseObject[APIConstants.Response.Keys.userToken] as? String else {
             print("Error Message: No Access Token")
             completion?(nil)
             return

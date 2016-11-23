@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		486797271DE5726800C70324 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797261DE5726800C70324 /* APIConstants.swift */; };
 		4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876031DDBF79C008789A0 /* APIClient.swift */; };
 		4878760B1DDBF79C008789A0 /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876041DDBF79C008789A0 /* DateService.swift */; };
 		4878760C1DDBF79C008789A0 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876051DDBF79C008789A0 /* EventService.swift */; };
@@ -89,6 +90,7 @@
 /* Begin PBXFileReference section */
 		2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35671254706CA2ECA9CF3D01 /* Pods-ScoreReporterCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.release.xcconfig"; sourceTree = "<group>"; };
+		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		487875821DDBEFFD008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875861DDBEFFD008789A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		487876031DDBF79C008789A0 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -226,14 +228,15 @@
 		487876111DDBF79F008789A0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				486797261DE5726800C70324 /* APIConstants.swift */,
 				487876031DDBF79C008789A0 /* APIClient.swift */,
-				487876041DDBF79C008789A0 /* DateService.swift */,
-				487876051DDBF79C008789A0 /* EventService.swift */,
-				487876061DDBF79C008789A0 /* KeychainService.swift */,
 				487876071DDBF79C008789A0 /* LoginService.swift */,
-				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
+				487876051DDBF79C008789A0 /* EventService.swift */,
 				487876091DDBF79C008789A0 /* TeamService.swift */,
 				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
+				487876041DDBF79C008789A0 /* DateService.swift */,
+				487876061DDBF79C008789A0 /* KeychainService.swift */,
+				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				487876E41DDC064A008789A0 /* SearchViewController.swift in Sources */,
+				486797271DE5726800C70324 /* APIConstants.swift in Sources */,
 				487876671DDBF88A008789A0 /* UITableView+Extensions.swift in Sources */,
 				487876EC1DDC0890008789A0 /* SectionHeaderView.swift in Sources */,
 				487876B51DDBFAF6008789A0 /* Event.swift in Sources */,

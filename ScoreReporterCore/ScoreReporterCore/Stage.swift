@@ -37,7 +37,7 @@ extension Stage: Fetchable {
 
 extension Stage: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Stage? {
-        guard let stageID = dictionary["StageId"] as? NSNumber else {
+        guard let stageID = dictionary[APIConstants.Response.Keys.stageID] as? NSNumber else {
             return nil
         }
 
@@ -46,9 +46,9 @@ extension Stage: CoreDataImportable {
         }
 
         stage.stageID = stageID
-        stage.name = dictionary <~ "StageName"
+        stage.name = dictionary <~ APIConstants.Response.Keys.stageName
 
-        let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
+        let games = dictionary[APIConstants.Response.Keys.games] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
 
         for (index, game) in gamesArray.enumerated() {

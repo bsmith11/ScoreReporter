@@ -56,8 +56,8 @@ extension User: Fetchable {
 
 extension User: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> User? {
-        guard let userID = dictionary["MemberId"] as? NSNumber,
-              let accountID = dictionary["AccountId"] as? NSNumber else {
+        guard let userID = dictionary[APIConstants.Response.Keys.memberID] as? NSNumber,
+              let accountID = dictionary[APIConstants.Response.Keys.accountID] as? NSNumber else {
             return nil
         }
 

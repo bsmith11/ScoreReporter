@@ -22,7 +22,7 @@ public struct TeamService {
 public extension TeamService {
     func downloadTeamList(completion: DownloadCompletion?) {
         let parameters = [
-            "f": "GetTeams"
+            APIConstants.Path.Keys.function: APIConstants.Path.Values.teams
         ]
 
         let requestCompletion = { (result: Result<Any>) in
@@ -39,8 +39,8 @@ public extension TeamService {
 
     func downloadDetails(for team: Team, completion: DownloadCompletion?) {
         let parameters = [
-            "f": "GetGamesByTeam",
-            "TeamId": team.teamID.intValue
+            APIConstants.Path.Keys.function: APIConstants.Path.Values.teamDetails,
+            APIConstants.Request.Keys.teamID: team.teamID.intValue
         ] as [String : Any]
 
         let requestCompletion = { (result: Result<Any>) in
@@ -61,7 +61,7 @@ public extension TeamService {
 private extension TeamService {
     func handleSuccessfulTeamListResponse(_ response: Any?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject],
-                  let teamArray = responseObject["Teams"] as? [[String: AnyObject]] else {
+                  let teamArray = responseObject[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
@@ -72,20 +72,20 @@ private extension TeamService {
 
     func handleSuccessfulTeamResponse(_ response: Any?, team: Team, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject],
-              let responseArray = responseObject["EventGroups"] as? [[String: AnyObject]] else {
+              let responseArray = responseObject[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
         }
 
         let partialEventDictionaries = responseArray.flatMap { dictionary -> [String: AnyObject]? in
-            guard let eventID = dictionary["EventId"] as? NSNumber else {
+            guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber else {
                 return nil
             }
 
             var partial = [String: AnyObject]()
-            partial["EventId"] = eventID
-            partial["EventName"] = dictionary["EventName"]
+            partial[APIConstants.Response.Keys.eventID] = eventID
+            partial[APIConstants.Response.Keys.eventName] = dictionary[APIConstants.Response.Keys.eventName]
 
             return partial
         }
@@ -93,15 +93,15 @@ private extension TeamService {
         let eventImportOperations = partialEventDictionaries.map { EventImportOperation(eventDictionary: $0) }
 
         let groupEventTuples = responseArray.flatMap { dictionary -> (NSNumber, NSNumber)? in
-            guard let eventID = dictionary["EventId"] as? NSNumber,
-                  let groupID = dictionary["EventGroupId"] as? NSNumber else {
+            guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber,
+                  let groupID = dictionary[APIConstants.Response.Keys.groupID] as? NSNumber else {
                 return nil
             }
 
             return (groupID, eventID)
         }
 
-        let eventIDs = responseArray.flatMap { $0["EventId"] as? NSNumber }
+        let eventIDs = responseArray.flatMap { $0[APIConstants.Response.Keys.eventID] as? NSNumber }
         let eventDetailsOperations = eventIDs.map { EventDetailsOperation(eventID: $0) }
 
         let terminalOperation = BlockOperation {

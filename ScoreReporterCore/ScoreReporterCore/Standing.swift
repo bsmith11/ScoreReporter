@@ -43,11 +43,11 @@ extension Standing: CoreDataImportable {
             return nil
         }
 
-        standing.wins = dictionary["Wins"] as? NSNumber
-        standing.losses = dictionary["Losses"] as? NSNumber
-        standing.sortOrder = dictionary["SortOrder"] as? NSNumber
+        standing.wins = dictionary[APIConstants.Response.Keys.wins] as? NSNumber
+        standing.losses = dictionary[APIConstants.Response.Keys.losses] as? NSNumber
+        standing.sortOrder = dictionary[APIConstants.Response.Keys.sortOrder] as? NSNumber
 
-        let teamName = dictionary <~ "TeamName"
+        let teamName = dictionary <~ APIConstants.Response.Keys.teamName
         let seed = self.seed(from: teamName)
         standing.seed = seed as NSNumber
 

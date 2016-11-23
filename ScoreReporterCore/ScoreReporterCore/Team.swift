@@ -157,7 +157,7 @@ extension Team: Fetchable {
 
 extension Team: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Team? {
-        guard let teamID = dictionary["TeamId"] as? NSNumber else {
+        guard let teamID = dictionary[APIConstants.Response.Keys.teamID] as? NSNumber else {
             return nil
         }
 
@@ -166,15 +166,15 @@ extension Team: CoreDataImportable {
         }
 
         team.teamID = teamID
-        team.name = dictionary <~ "TeamName"
-        team.logoPath = dictionary <~ "TeamLogo"
-        team.city = dictionary <~ "City"
-        team.state = dictionary <~ "State"
+        team.name = dictionary <~ APIConstants.Response.Keys.teamName
+        team.logoPath = dictionary <~ APIConstants.Response.Keys.teamLogo
+        team.city = dictionary <~ APIConstants.Response.Keys.city
+        team.state = dictionary <~ APIConstants.Response.Keys.state
         team.stateFull = Team.stateName(fromAbbreviation: team.state) ?? team.state
-        team.school = dictionary <~ "SchoolName"
-        team.division = dictionary <~ "DivisionName"
-        team.competitionLevel = dictionary <~ "CompetitionLevel"
-        team.designation = dictionary <~ "TeamDesignation"
+        team.school = dictionary <~ APIConstants.Response.Keys.schoolName
+        team.division = dictionary <~ APIConstants.Response.Keys.divisionName
+        team.competitionLevel = dictionary <~ APIConstants.Response.Keys.competitionLevel
+        team.designation = dictionary <~ APIConstants.Response.Keys.teamDesignation
 
         if !team.hasPersistentChangedValues {
             context.refresh(team, mergeChanges: false)

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		01F48093C80BC7197AFDE3D8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C9687C4D6702C6F0E9312B6 /* Images.xcassets */; };
 		068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0680347F1D3F140A006BD4C1 /* BaseNavigationController.swift */; };
-		068034821D3F1BBC006BD4C1 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068034811D3F1BBC006BD4C1 /* EventViewModel.swift */; };
 		23D6656E7061DE4669BA6CEE /* Pods_TodayExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6790E9A1995603B6542D1BC2 /* Pods_TodayExtension.framework */; };
 		31229FBAC89902DC8BB026C0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */; };
 		4815808B1DC86A50008F141B /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815808A1DC86A50008F141B /* NavigationButton.swift */; };
@@ -112,7 +111,6 @@
 /* Begin PBXFileReference section */
 		01D2D59648E4497DDEA9D944 /* Pods-ScoreReporter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporter.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScoreReporter/Pods-ScoreReporter.release.xcconfig"; sourceTree = "<group>"; };
 		0680347F1D3F140A006BD4C1 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
-		068034811D3F1BBC006BD4C1 /* EventViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventViewModel.swift; path = "View Models/EventViewModel.swift"; sourceTree = "<group>"; };
 		0EECBD668089EE283C31E7A7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		4815808A1DC86A50008F141B /* NavigationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
@@ -282,7 +280,6 @@
 				48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */,
 				48400E8E1D8F4B5D00927EB6 /* EventDetailsDataSource.swift */,
 				48400E871D8EE6B700927EB6 /* EventDetailsInfoCell.swift */,
-				068034811D3F1BBC006BD4C1 /* EventViewModel.swift */,
 			);
 			name = "Event Details";
 			sourceTree = "<group>";
@@ -829,7 +826,6 @@
 				4867971F1DE54B0900C70324 /* TeamsViewController.swift in Sources */,
 				48A2E71E1DA4B55900B7B422 /* AcknowledgementViewController.swift in Sources */,
 				487877071DDD4A8D008789A0 /* TeamDetailsViewController.swift in Sources */,
-				068034821D3F1BBC006BD4C1 /* EventViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

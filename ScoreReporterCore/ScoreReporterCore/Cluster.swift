@@ -37,7 +37,7 @@ extension Cluster: Fetchable {
 
 extension Cluster: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Cluster? {
-        guard let clusterID = dictionary["ClusterId"] as? NSNumber else {
+        guard let clusterID = dictionary[APIConstants.Response.Keys.clusterID] as? NSNumber else {
             return nil
         }
 
@@ -46,9 +46,9 @@ extension Cluster: CoreDataImportable {
         }
 
         cluster.clusterID = clusterID
-        cluster.name = dictionary <~ "Name"
+        cluster.name = dictionary <~ APIConstants.Response.Keys.name
 
-        let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
+        let games = dictionary[APIConstants.Response.Keys.games] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
 
         for (index, game) in gamesArray.enumerated() {

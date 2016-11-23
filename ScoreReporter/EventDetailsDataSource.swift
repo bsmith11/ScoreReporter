@@ -88,19 +88,14 @@ extension EventDetailsDataSource {
 
 private extension EventDetailsDataSource {
     func configureSections() {
-        let eventViewModel = EventViewModel(event: event)
-
         sections.removeAll()
 
         sections.append(EventDetailsSection(title: nil, items: [.event(event)]))
 
-//        sections.append(EventDetailsSection(title: "Info", items: [
-//            .address(eventViewModel.address),
-//            .date(eventViewModel.eventDates)
-//        ]))
-
-        let divisions = eventViewModel.groups.map { EventDetailsInfo.division($0) }
-        sections.append(EventDetailsSection(title: "Divisions", items: divisions))
+        if let groups = (event.groups as? Set<Group>)?.sorted(by: { $0.0.groupID.intValue < $0.1.groupID.intValue }) {
+            let divisions = groups.map { EventDetailsInfo.division($0) }
+            sections.append(EventDetailsSection(title: "Divisions", items: divisions))
+        }
 
         if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
             sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))

@@ -24,7 +24,7 @@ public struct EventService {
 public extension EventService {
     func downloadEventList(completion: DownloadCompletion?) {
         let parameters = [
-            "f": "GETALLEVENTS"
+            APIConstants.Path.Keys.function: APIConstants.Path.Values.events
         ]
 
         let requestCompletion = { (result: Result<Any>) in
@@ -39,15 +39,15 @@ public extension EventService {
         client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
-    func downloadDetails(for eventID: NSNumber, eventDictionary: [String: AnyObject]? = nil, completion: DownloadCompletion?) {
+    func downloadDetails(for eventID: NSNumber, completion: DownloadCompletion?) {
         let parameters: [String: Any] = [
-            "f": "GETGAMESBYEVENT",
-            "EventId": eventID
+            APIConstants.Path.Keys.function: APIConstants.Path.Values.eventDetails,
+            APIConstants.Request.Keys.eventID: eventID
         ]
 
         let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
-                self.handleSuccessfulEventResponse(result.value, eventDictionary: eventDictionary, completion: completion)
+                self.handleSuccessfulEventResponse(result.value, completion: completion)
             }
             else {
                 completion?(result.error as NSError?)
@@ -67,7 +67,7 @@ public extension EventService {
 private extension EventService {
     func handleSuccessfulEventListResponse(_ response: Any?, completion: DownloadCompletion?) {
         guard let responseObject = response as? [String: AnyObject],
-                  let eventArray = responseObject["Events"] as? [[String: AnyObject]] else {
+                  let eventArray = responseObject[APIConstants.Response.Keys.events] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
@@ -83,8 +83,8 @@ private extension EventService {
             return
         }
 
-        guard let groupArray = responseObject["EventGroups"] as? [[String: AnyObject]] else {
-            if let message = responseObject["error"] as? String {
+        guard let groupArray = responseObject[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
+            if let message = responseObject[APIConstants.Response.Keys.error] as? String {
                 print("Error Message: \(message)")
                 completion?(nil)
             }

@@ -115,7 +115,7 @@ public extension Game {
         ]
 
         let gamePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: gamePredicates)
-        let activePredicate = NSPredicate(format: "%K == %@", #keyPath(Game.status), "In Progress")
+        let activePredicate = NSPredicate(format: "%K == %@", #keyPath(Game.status), APIConstants.Response.Values.inProgress)
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [gamePredicate, activePredicate])
 
         let sortDescriptors = [
@@ -131,7 +131,7 @@ public extension Game {
 
 extension Game: Fetchable {
     public static var primaryKey: String {
-        return "gameID"
+        return #keyPath(Game.gameID)
     }
 }
 
@@ -139,7 +139,7 @@ extension Game: Fetchable {
 
 extension Game: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
-        guard let gameID = dictionary["EventGameId"] as? NSNumber else {
+        guard let gameID = dictionary[APIConstants.Response.Keys.gameID] as? NSNumber else {
             return nil
         }
 
@@ -149,25 +149,25 @@ extension Game: CoreDataImportable {
 
         game.gameID = gameID
 
-        let homeValue = dictionary <~ "HomeTeamName"
+        let homeValue = dictionary <~ APIConstants.Response.Keys.homeTeamName
         let homeTuple = Game.split(name: homeValue)
         game.homeTeamName = homeTuple.0
         game.homeTeamSeed = homeTuple.1
-        game.homeTeamScore = dictionary <~ "HomeTeamScore"
+        game.homeTeamScore = dictionary <~ APIConstants.Response.Keys.homeTeamScore
 
-        let awayValue = dictionary <~ "AwayTeamName"
+        let awayValue = dictionary <~ APIConstants.Response.Keys.awayTeamName
         let awayTuple = Game.split(name: awayValue)
         game.awayTeamName = awayTuple.0
         game.awayTeamSeed = awayTuple.1
-        game.awayTeamScore = dictionary <~ "AwayTeamScore"
+        game.awayTeamScore = dictionary <~ APIConstants.Response.Keys.awayTeamScore
 
-        game.fieldName = dictionary <~ "FieldName"
-        game.status = dictionary <~ "GameStatus"
+        game.fieldName = dictionary <~ APIConstants.Response.Keys.fieldName
+        game.status = dictionary <~ APIConstants.Response.Keys.gameStatus
 
-        let startDate = dictionary <~ "StartDate"
+        let startDate = dictionary <~ APIConstants.Response.Keys.startDate
         game.startDate = startDate.flatMap { DateService.gameDateFormatter.date(from: $0) }
 
-        let startTime = dictionary <~ "StartTime"
+        let startTime = dictionary <~ APIConstants.Response.Keys.startTime
         game.startTime = startTime.flatMap { DateService.gameTimeFormatter.date(from: $0) }
 
         game.startDateFull = Date.date(fromDate: game.startDate, time: game.startTime)

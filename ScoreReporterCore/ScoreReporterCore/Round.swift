@@ -72,7 +72,7 @@ extension Round: Fetchable {
 
 extension Round: CoreDataImportable {
     public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Round? {
-        guard let roundID = dictionary["RoundId"] as? NSNumber else {
+        guard let roundID = dictionary[APIConstants.Response.Keys.roundID] as? NSNumber else {
             return nil
         }
 
@@ -82,7 +82,7 @@ extension Round: CoreDataImportable {
 
         round.roundID = roundID
 
-        let brackets = dictionary["Brackets"] as? [[String: AnyObject]] ?? []
+        let brackets = dictionary[APIConstants.Response.Keys.brackets] as? [[String: AnyObject]] ?? []
         let bracketsArray = Bracket.objects(from: brackets, context: context)
 
         for (index, bracket) in bracketsArray.enumerated() {
@@ -91,10 +91,10 @@ extension Round: CoreDataImportable {
 
         round.brackets = NSSet(array: bracketsArray)
 
-        let clusters = dictionary["Clusters"] as? [[String: AnyObject]] ?? []
+        let clusters = dictionary[APIConstants.Response.Keys.clusters] as? [[String: AnyObject]] ?? []
         round.clusters = NSSet(array: Cluster.objects(from: clusters, context: context))
 
-        let pools = dictionary["Pools"] as? [[String: AnyObject]] ?? []
+        let pools = dictionary[APIConstants.Response.Keys.pools] as? [[String: AnyObject]] ?? []
         round.pools = NSSet(array: Pool.objects(from: pools, context: context))
 
         if !round.hasPersistentChangedValues {
