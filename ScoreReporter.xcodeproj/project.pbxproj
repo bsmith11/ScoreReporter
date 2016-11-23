@@ -22,8 +22,6 @@
 		48400E8B1D8EFAB400927EB6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E8A1D8EFAB400927EB6 /* LoginViewController.swift */; };
 		48400E8F1D8F4B5D00927EB6 /* EventDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E8E1D8F4B5D00927EB6 /* EventDetailsDataSource.swift */; };
 		48400E931D8F573300927EB6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E921D8F573300927EB6 /* TabBarController.swift */; };
-		48400E961D8F5D6100927EB6 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E951D8F5D6100927EB6 /* BookmarksViewController.swift */; };
-		48400E9E1D90C7CA00927EB6 /* BookmarksDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E9D1D90C7CA00927EB6 /* BookmarksDataSource.swift */; };
 		48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */; };
 		484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951741D964A6600C95F2F /* GroupDetailsViewController.swift */; };
 		484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */; };
@@ -36,6 +34,12 @@
 		4864A8C51DCFC301001561D4 /* TeamSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */; };
 		4864A8C71DCFC349001561D4 /* TeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C61DCFC349001561D4 /* TeamViewModel.swift */; };
 		4864A8C91DCFC48E001561D4 /* TeamSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */; };
+		486797191DE5464000C70324 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797181DE5464000C70324 /* EventsViewController.swift */; };
+		4867971B1DE5465200C70324 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971A1DE5465200C70324 /* EventsViewModel.swift */; };
+		4867971D1DE5465E00C70324 /* EventsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971C1DE5465E00C70324 /* EventsDataSource.swift */; };
+		4867971F1DE54B0900C70324 /* TeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971E1DE54B0900C70324 /* TeamsViewController.swift */; };
+		486797211DE54B1300C70324 /* TeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797201DE54B1300C70324 /* TeamsViewModel.swift */; };
+		486797231DE54B1A00C70324 /* TeamsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797221DE54B1A00C70324 /* TeamsDataSource.swift */; };
 		487875681DDBC974008789A0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487875671DDBC974008789A0 /* NotificationCenter.framework */; };
 		4878756B1DDBC974008789A0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878756A1DDBC974008789A0 /* TodayViewController.swift */; };
 		487875721DDBC974008789A0 /* TodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 487875661DDBC974008789A0 /* TodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -124,8 +128,6 @@
 		48400E8A1D8EFAB400927EB6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		48400E8E1D8F4B5D00927EB6 /* EventDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsDataSource.swift; sourceTree = "<group>"; };
 		48400E921D8F573300927EB6 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBarController.swift; path = ../Application/TabBarController.swift; sourceTree = "<group>"; };
-		48400E951D8F5D6100927EB6 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
-		48400E9D1D90C7CA00927EB6 /* BookmarksDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksDataSource.swift; sourceTree = "<group>"; };
 		48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		484951741D964A6600C95F2F /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsDataSource.swift; sourceTree = "<group>"; };
@@ -139,6 +141,12 @@
 		4864A8C41DCFC301001561D4 /* TeamSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchDataSource.swift; sourceTree = "<group>"; };
 		4864A8C61DCFC349001561D4 /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
 		4864A8C81DCFC48E001561D4 /* TeamSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSearchViewModel.swift; sourceTree = "<group>"; };
+		486797181DE5464000C70324 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		4867971A1DE5465200C70324 /* EventsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
+		4867971C1DE5465E00C70324 /* EventsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsDataSource.swift; sourceTree = "<group>"; };
+		4867971E1DE54B0900C70324 /* TeamsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
+		486797201DE54B1300C70324 /* TeamsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsViewModel.swift; sourceTree = "<group>"; };
+		486797221DE54B1A00C70324 /* TeamsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsDataSource.swift; sourceTree = "<group>"; };
 		487875661DDBC974008789A0 /* TodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875671DDBC974008789A0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		4878756A1DDBC974008789A0 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -252,11 +260,14 @@
 			tabWidth = 4;
 			usesTabs = 0;
 		};
-		482E43C91DD04E11005790F2 /* My Teams */ = {
+		482E43C91DD04E11005790F2 /* Teams */ = {
 			isa = PBXGroup;
 			children = (
+				4867971E1DE54B0900C70324 /* TeamsViewController.swift */,
+				486797201DE54B1300C70324 /* TeamsViewModel.swift */,
+				486797221DE54B1A00C70324 /* TeamsDataSource.swift */,
 			);
-			name = "My Teams";
+			name = Teams;
 			sourceTree = "<group>";
 		};
 		483453BD1D8D8A0D00F0918A /* Home */ = {
@@ -290,15 +301,6 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
-		48400E941D8F5D5000927EB6 /* Bookmarks */ = {
-			isa = PBXGroup;
-			children = (
-				48400E951D8F5D6100927EB6 /* BookmarksViewController.swift */,
-				48400E9D1D90C7CA00927EB6 /* BookmarksDataSource.swift */,
-			);
-			name = Bookmarks;
-			sourceTree = "<group>";
-		};
 		484951731D9649D700C95F2F /* Group Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +328,16 @@
 				4864A8C61DCFC349001561D4 /* TeamViewModel.swift */,
 			);
 			name = "Team Search";
+			sourceTree = "<group>";
+		};
+		486797171DE5459400C70324 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				486797181DE5464000C70324 /* EventsViewController.swift */,
+				4867971A1DE5465200C70324 /* EventsViewModel.swift */,
+				4867971C1DE5465E00C70324 /* EventsDataSource.swift */,
+			);
+			name = Events;
 			sourceTree = "<group>";
 		};
 		487875691DDBC974008789A0 /* TodayExtension */ = {
@@ -459,8 +471,8 @@
 				4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */,
 				48400E891D8EF94F00927EB6 /* Login */,
 				483453BD1D8D8A0D00F0918A /* Home */,
-				48400E941D8F5D5000927EB6 /* Bookmarks */,
-				482E43C91DD04E11005790F2 /* My Teams */,
+				486797171DE5459400C70324 /* Events */,
+				482E43C91DD04E11005790F2 /* Teams */,
 				48A2E70E1DA49CF200B7B422 /* Settings */,
 				483453BE1D8D8A3700F0918A /* Event Details */,
 				484951731D9649D700C95F2F /* Group Details */,
@@ -781,6 +793,7 @@
 				4878770B1DDD4B1F008789A0 /* TeamDetailsDataSource.swift in Sources */,
 				4815808D1DC86A5A008F141B /* NavigationItemView.swift in Sources */,
 				48400E881D8EE6B700927EB6 /* EventDetailsInfoCell.swift in Sources */,
+				486797211DE54B1300C70324 /* TeamsViewModel.swift in Sources */,
 				487BF3861D9A0A340082D6FC /* BracketListDataSource.swift in Sources */,
 				48A2E7101DA49D2300B7B422 /* SettingsViewController.swift in Sources */,
 				487876FF1DDCD8A6008789A0 /* SettingsCell.swift in Sources */,
@@ -790,16 +803,17 @@
 				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
 				4864A8C31DCFC2D1001561D4 /* TeamSearchViewController.swift in Sources */,
-				48400E961D8F5D6100927EB6 /* BookmarksViewController.swift in Sources */,
 				068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */,
 				4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */,
 				487877091DDD4B13008789A0 /* TeamDetailsViewModel.swift in Sources */,
 				48400E8B1D8EFAB400927EB6 /* LoginViewController.swift in Sources */,
-				48400E9E1D90C7CA00927EB6 /* BookmarksDataSource.swift in Sources */,
 				483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */,
+				486797191DE5464000C70324 /* EventsViewController.swift in Sources */,
 				48A2E7191DA4B01600B7B422 /* AcknowledgementListViewController.swift in Sources */,
 				488CAA6C1D7E4A5E00C3E597 /* HomeViewModel.swift in Sources */,
 				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
+				4867971D1DE5465E00C70324 /* EventsDataSource.swift in Sources */,
+				4867971B1DE5465200C70324 /* EventsViewModel.swift in Sources */,
 				487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */,
 				487876D41DDBFFC4008789A0 /* GameListDataSource.swift in Sources */,
 				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,
@@ -810,12 +824,14 @@
 				48400EA01D90DC4800927EB6 /* EventDetailsViewModel.swift in Sources */,
 				4864A8C71DCFC349001561D4 /* TeamViewModel.swift in Sources */,
 				48400E8F1D8F4B5D00927EB6 /* EventDetailsDataSource.swift in Sources */,
+				486797231DE54B1A00C70324 /* TeamsDataSource.swift in Sources */,
 				485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */,
 				483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */,
 				4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */,
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
 				48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */,
 				484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */,
+				4867971F1DE54B0900C70324 /* TeamsViewController.swift in Sources */,
 				48A2E71E1DA4B55900B7B422 /* AcknowledgementViewController.swift in Sources */,
 				487877071DDD4A8D008789A0 /* TeamDetailsViewController.swift in Sources */,
 				068034821D3F1BBC006BD4C1 /* EventViewModel.swift in Sources */,

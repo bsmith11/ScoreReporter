@@ -78,11 +78,11 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
-            self?.navigationController?.navigationBar.barTintColor = UIColor.scBlue
-            }, completion: { [weak self] _ in
-                self?.teamCell?.isHidden = false
-        })
+        let completion: TransitionCoordinatorBlock = { [weak self] context in
+            self?.teamCell?.isHidden = false
+        }
+        
+        transitionCoordinator?.animate(alongsideTransition: nil, completion: completion)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -186,6 +186,7 @@ extension TeamDetailsViewController: UITableViewDataSource {
         case .team(let team):
             let cell = tableView.dequeueCell(for: indexPath) as TeamCell
             teamCell = cell
+            cell.isHidden = !viewDidAppear
             cell.configure(with: team)
             cell.separatorHidden = true
             return cell

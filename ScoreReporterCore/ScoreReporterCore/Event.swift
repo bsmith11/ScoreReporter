@@ -24,6 +24,23 @@ public extension Event {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
     
+    static func fetchedUpcomingEvents(for team: Team) -> NSFetchedResultsController<Event> {
+        let predicates = [
+            NSPredicate(format: "%K == %@", "type", "Tournament"),
+            NSPredicate(format: "%K > %@", "startDate", NSDate()),
+            NSPredicate(format: "SUBQUERY(groups, $x, $x in %@).@count > 0", team.groups)
+        ]
+        
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: "startDate", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
     static func fetchedEventsThisWeek() -> NSFetchedResultsController<Event> {
         let datesTuple = Date.enclosingDatesForCurrentWeek
         

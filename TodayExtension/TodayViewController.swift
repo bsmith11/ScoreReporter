@@ -28,21 +28,25 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        team = Team.fetchedBookmarkedTeams().fetchedObjects?.first
-//        
-//        let datesTuple = Date.enclosingDatesForCurrentWeek
-//        let predicates = [
-//            NSPredicate(format: "%K == %@", "type", "Tournament"),
-//            NSPredicate(format: "%K > %@ AND %K < %@", "event.startDate", datesTuple.0 as NSDate, "event.startDate", datesTuple.1 as NSDate)
-//        ]
-//        
-////        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-//        let currentGroup = (team?.groups as? Set<Group>)?.first
-////        let currentGroup = (team?.groups.filtered(using: predicate) as? Set<Group>)?.first
-//        games = team.flatMap { currentGroup?.games(for: $0) }
-//        
-//        let count = games?.count ?? 1
-//        extensionContext?.widgetLargestAvailableDisplayMode = count > 1 ? .expanded : .compact
+        let emptyMessage: String
+        if let team = dataSource.team {
+            if let name = team.fullName {
+                emptyMessage = "\(name) has no upcoming events or games"
+            }
+            else {
+                emptyMessage = "No upcoming events or games"
+            }
+        }
+        else {
+            emptyMessage = "Favorite a team to see their upcoming events and games"
+            
+        }
+        
+        let emptyInfo = DefaultViewStateInfo(image: nil, title: nil, message: emptyMessage)
+        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.empty = dataSource.empty
+        
+        extensionContext?.widgetLargestAvailableDisplayMode = dataSource.empty ? .compact : .expanded
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
@@ -50,9 +54,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         case .compact:
             preferredContentSize = maxSize
         case .expanded:
-            let count = 1//games?.count ?? 1
-            let height = Double(count) * 93.5
-            preferredContentSize = CGSize(width: 0.0, height: height)
+            preferredContentSize = maxSize
         }
     }
     
@@ -85,11 +87,7 @@ private extension TodayViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
         
-        let emptyImage = UIImage(named: "icn-home")
-        let emptyTitle = "No Events"
-        let emptyMessage = "Nothing is happening this week"
-        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.tintColor = UIColor.darkGray
         view.addSubview(defaultView)
     }
     
@@ -112,21 +110,23 @@ extension TodayViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let game = dataSource.item(at: indexPath) else {
+        guard let item = dataSource.item(at: indexPath) else {
             return UITableViewCell()
         }
         
-        let gameViewModel = GameViewModel(game: game, state: .Minimal)
-        let cell = tableView.dequeueCell(for: indexPath) as GameCell
-        cell.configure(with: gameViewModel)
-        cell.separatorHidden = indexPath.item == 0
-        return cell
-//        else {
-//            let cell = tableView.dequeueCell(for: indexPath) as EventCell
-//            cell.configure(with: event)
-//            cell.separatorHidden = indexPath.item == 0
-//            return cell
-//        }
+        switch item {
+        case .game(let game):
+            let gameViewModel = GameViewModel(game: game, state: .Minimal)
+            let cell = tableView.dequeueCell(for: indexPath) as GameCell
+            cell.configure(with: gameViewModel)
+            cell.separatorHidden = indexPath.item == 0
+            return cell
+        case .event(let event):
+            let cell = tableView.dequeueCell(for: indexPath) as EventCell
+            cell.configure(with: event)
+            cell.separatorHidden = indexPath.item == 0
+            return cell
+        }
     }
 }
 

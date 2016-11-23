@@ -33,14 +33,15 @@ private extension TabBarController {
         let homeViewController = HomeViewController(viewModel: homeViewModel, dataSource: homeDataSource)
         let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
         
-        let bookmarksDataSource = BookmarksDataSource()
-        let bookmarksViewController = BookmarksViewController(dataSource: bookmarksDataSource)
-        let bookmarksNavigationController = BaseNavigationController(rootViewController: bookmarksViewController)
+        let eventsViewModel = EventsViewModel()
+        let eventsDataSource = EventsDataSource()
+        let eventsViewController = EventsViewController(viewModel: eventsViewModel, dataSource: eventsDataSource)
+        let eventsNavigationController = BaseNavigationController(rootViewController: eventsViewController)
         
-        let teamSearchViewModel = TeamSearchViewModel()
-        let teamSearchDataSource = TeamSearchDataSource()
-        let teamSearchViewController = TeamSearchViewController(viewModel: teamSearchViewModel, dataSource: teamSearchDataSource)
-        let teamSearchNavigationController = BaseNavigationController(rootViewController: teamSearchViewController)
+        let teamsViewModel = TeamsViewModel()
+        let teamsDataSource = TeamsDataSource()
+        let teamsViewController = TeamsViewController(viewModel: teamsViewModel, dataSource: teamsDataSource)
+        let teamsNavigationController = BaseNavigationController(rootViewController: teamsViewController)
         
         let settingsDataSource = SettingsDataSource()
         let settingsViewController = SettingsViewController(dataSource: settingsDataSource)
@@ -48,8 +49,8 @@ private extension TabBarController {
         
         let navigationControllers = [
             homeNavigationController,
-            bookmarksNavigationController,
-            teamSearchNavigationController,
+            eventsNavigationController,
+            teamsNavigationController,
             settingsNavigationController
         ]
         

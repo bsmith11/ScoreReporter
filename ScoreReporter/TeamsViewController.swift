@@ -1,8 +1,8 @@
 //
-//  HomeViewController.swift
+//  TeamsViewController.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/5/16.
+//  Created by Bradley Smith on 11/22/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
@@ -11,32 +11,35 @@ import Anchorage
 import KVOController
 import ScoreReporterCore
 
-class HomeViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: HomeViewModel
-    fileprivate let dataSource: HomeDataSource
+class TeamsViewController: UIViewController, MessageDisplayable {
+    fileprivate let viewModel: TeamsViewModel
+    fileprivate let dataSource: TeamsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
     
     fileprivate var selectedCell: UITableViewCell?
-        
+    
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
         
         return messageLayoutGuide
     }
     
-    init(viewModel: HomeViewModel, dataSource: HomeDataSource) {
+    init(viewModel: TeamsViewModel, dataSource: TeamsDataSource) {
         self.viewModel = viewModel
         self.dataSource = dataSource
-
+        
         super.init(nibName: nil, bundle: nil)
         
-        title = "Home"
+        title = "Teams"
         
-        let image = UIImage(named: "icn-home")
-        let selectedImage = UIImage(named: "icn-home-selected")
+        let image = UIImage(named: "icn-teams")
+        let selectedImage = UIImage(named: "icn-teams-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
         tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
+        
+        let searchButton = UIBarButtonItem(image: UIImage(named: "icn-search"), style: .plain, target: self, action: #selector(searchButtonPressed))
+        navigationItem.rightBarButtonItem = searchButton
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -52,7 +55,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.white
         
         configureViews()
         configureLayout()
@@ -66,8 +68,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
         dataSource.fetchedChangeHandler = { [weak self] changes in
             self?.tableView.handle(changes: changes)
         }
-        
-        viewModel.downloadEvents()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -81,22 +81,19 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
 // MARK: - Private
 
-private extension HomeViewController {
+private extension TeamsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(headerFooterClass: SectionHeaderView.self)
-        tableView.register(cellClass: EventCell.self)
+        tableView.register(cellClass: TeamCell.self)
         tableView.backgroundColor = UIColor.white
-        tableView.estimatedRowHeight = 100.0
+        tableView.estimatedRowHeight = 90.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
-        let emptyTitle = "No Events"
-        let emptyMessage = "Nothing is happening this week"
+        let emptyTitle = "No Teams"
+        let emptyMessage = "Bookmark teams for easy access"
         let emptyInfo = DefaultViewStateInfo(image: nil, title: emptyTitle, message: emptyMessage)
         defaultView.setInfo(emptyInfo, state: .empty)
         view.addSubview(defaultView)
@@ -104,7 +101,7 @@ private extension HomeViewController {
     
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
+        
         defaultView.edgeAnchors == tableView.edgeAnchors
     }
     
@@ -112,25 +109,19 @@ private extension HomeViewController {
         kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
-        
-        kvoController.observe(viewModel, keyPath: "loading") { [weak self] (loading: Bool) in
-            if loading {
-                self?.display(message: "Loading...", animated: true)
-            }
-            else {
-                self?.hideMessage(animated: true)
-            }
-        }
-        
-        kvoController.observe(viewModel, keyPath: "error") { [weak self] (error: NSError) in
-            self?.display(message: "Error", animated: true)
-        }
+    }
+    
+    @objc func searchButtonPressed() {
+        let searchDataSource = SearchDataSource(fetchedResultsController: Team.searchFetchedResultsController)
+        let searchViewController = SearchViewController(dataSource: searchDataSource)
+        searchViewController.delegate = self
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
 }
 
 // MARK: - UITableViewDataSource
 
-extension HomeViewController: UITableViewDataSource {
+extension TeamsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
@@ -140,9 +131,9 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let event = dataSource.item(at: indexPath)
-        let cell = tableView.dequeueCell(for: indexPath) as EventCell
-        cell.configure(with: event)
+        let team = dataSource.item(at: indexPath)
+        let cell = tableView.dequeueCell(for: indexPath) as TeamCell
+        cell.configure(with: team)
         cell.separatorHidden = indexPath.item == 0
         
         return cell
@@ -151,39 +142,49 @@ extension HomeViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension HomeViewController: UITableViewDelegate {
+extension TeamsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let event = dataSource.item(at: indexPath) else {
+        guard let team = dataSource.item(at: indexPath) else {
             return
         }
         
         selectedCell = tableView.cellForRow(at: indexPath)
         
-        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-        
-        navigationController?.pushViewController(eventDetailsViewController, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = dataSource.title(for: section)
-        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        headerView.configure(with: title)
-        
-        return headerView
+        let teamDetailsViewModel = TeamDetailsViewModel(team: team)
+        let teamDetailsDataSource = TeamDetailsDataSource(team: team)
+        let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
+        navigationController?.pushViewController(teamDetailsViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.0001
+    }
+}
+
+// MARK: - SearchViewControllerDelegate
+
+extension TeamsViewController: SearchViewControllerDelegate {
+    func didSelect(item: Searchable) {
+        guard let team = item as? Team else {
+            return
+        }
+        
+        let teamDetailsViewModel = TeamDetailsViewModel(team: team)
+        let teamDetailsDataSource = TeamDetailsDataSource(team: team)
+        let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
+        navigationController?.pushViewController(teamDetailsViewController, animated: true)
+    }
 }
 
 // MARK: - ListDetailAnimationControllerDelegate
 
-extension HomeViewController: ListDetailAnimationControllerDelegate {
+extension TeamsViewController: ListDetailAnimationControllerDelegate {
     var viewToAnimate: UIView {
-        guard let cell = selectedCell as? EventCell,
+        guard let cell = selectedCell as? TeamCell,
             let navView = navigationController?.view,
             let snapshot = cell.snapshot(rect: cell.contentFrame) else {
                 return UIView()
@@ -198,6 +199,6 @@ extension HomeViewController: ListDetailAnimationControllerDelegate {
     }
     
     func shouldAnimate(to viewController: UIViewController) -> Bool {
-        return viewController is EventDetailsViewController
+        return viewController is TeamDetailsViewController
     }
 }

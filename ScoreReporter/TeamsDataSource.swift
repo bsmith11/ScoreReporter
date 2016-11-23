@@ -1,8 +1,8 @@
 //
-//  BookmarksDataSource.swift
+//  TeamsDataSource.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/19/16.
+//  Created by Bradley Smith on 11/22/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 import ScoreReporterCore
 
-class BookmarksDataSource: NSObject, FetchedDataSource, FetchedChangable {
-    typealias ModelType = Event
+class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
+    typealias ModelType = Team
     
-    fileprivate(set) var fetchedResultsController = Event.fetchedBookmarkedEvents()
+    fileprivate(set) var fetchedResultsController = Team.fetchedBookmarkedTeams()
     
     dynamic var empty = false
     

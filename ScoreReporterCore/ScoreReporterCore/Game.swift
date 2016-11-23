@@ -43,6 +43,24 @@ public extension Game {
         return isHomeTeam || isAwayTeam
     }
     
+    static func gamesToday(for team: Team) -> [Game] {
+        guard let games = Game.fetchedGames(for: team).fetchedObjects else {
+            return []
+        }
+        
+        let calendar = Calendar.current
+        let today = Date()
+        let currentGames = games.filter { game -> Bool in
+            guard let startDate = game.startDate else {
+                return false
+            }
+            
+            return calendar.compare(startDate, to: today, toGranularity: .day) == .orderedSame
+        }
+        
+        return currentGames
+    }
+    
     static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%K == %@", "pool", pool)
         
@@ -69,7 +87,6 @@ public extension Game {
         let predicate = NSPredicate(format: "%@ in %K", team, "teams")
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "sortOrder", ascending: true),
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
@@ -77,15 +94,17 @@ public extension Game {
     }
     
     static func fetchedActiveGamesForTeam(_ team: Team) -> NSFetchedResultsController<Game> {
-        //TODO: - Change        
-        let activePredicate = NSPredicate(format: "%K == %@", "status", "In Progress")
+        let predicates = [
+            NSPredicate(format: "%@ in %K", team, "teams"),
+        ]
+        
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: "sortOrder", ascending: true),
             NSSortDescriptor(key: "startDateFull", ascending: true)
         ]
         
-        return fetchedResultsController(predicate: activePredicate, sortDescriptors: sortDescriptors)
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
     
     static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<Game> {

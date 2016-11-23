@@ -41,15 +41,11 @@ extension AppDelegate: UIApplicationDelegate {
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: .normal)
         UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 49.0)
-//        UITabBarItem.appearance().imageInsets = UIEdgeInsets(top: 11.5, left: 0.0, bottom: 0.0, right: 0.0)
         
         let tabBarController = TabBarController(nibName: nil, bundle: nil)
-//        let loginViewModel = LoginViewModel()
-//        let loginViewController = LoginViewController(viewModel: loginViewModel)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = tabBarController
-//        window?.rootViewController = loginViewController
         window?.makeKeyAndVisible()
 
         return true

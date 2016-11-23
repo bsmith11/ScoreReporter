@@ -74,7 +74,7 @@ private extension TeamDetailsDataSource {
         sections.append(TeamDetailsSection(title: nil, items: [.team(team)]))
         
         if let groups = team.groups as? Set<Group> {
-            let events = groups.flatMap { $0.event }
+            let events = groups.flatMap { $0.event }.sorted(by: { ($0.0.name ?? "") < ($0.1.name ?? "") })
             let eventItems = events.map { TeamDetailsInfo.event($0) }
             
             if !eventItems.isEmpty {

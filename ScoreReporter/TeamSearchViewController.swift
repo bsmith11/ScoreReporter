@@ -32,8 +32,8 @@ class TeamSearchViewController: UIViewController, MessageDisplayable {
         
         title = "Teams"
         
-        let image = UIImage(named: "icn-home")
-        let selectedImage = UIImage(named: "icn-home-selected")
+        let image = UIImage(named: "icn-teams")
+        let selectedImage = UIImage(named: "icn-teams-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
         tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
         

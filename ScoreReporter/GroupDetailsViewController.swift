@@ -63,10 +63,6 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
         
         dataSource.refreshBlock = { [weak self] in
             self?.reloadSegmentedControl()
-            
-//            if self?.segmentedControl.numberOfSegments ?? 0 > 0 {
-//                self?.segmentedControl.selectedSegmentIndex = 0
-//            }
         }
         
         reloadSegmentedControl()
@@ -78,10 +74,12 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
+                
+        let animation: TransitionCoordinatorBlock = { [weak self] _ in
             self?.navigationController?.navigationBar.barTintColor = self?.viewModel.divisionColor
-        }, completion: nil)
+        }
+        
+        transitionCoordinator?.animate(alongsideTransition: animation, completion: nil)
     }
 }
 

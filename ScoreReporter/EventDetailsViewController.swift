@@ -11,6 +11,8 @@ import Anchorage
 import KVOController
 import ScoreReporterCore
 
+typealias TransitionCoordinatorBlock = (UIViewControllerTransitionCoordinatorContext) -> Void
+
 class EventDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: EventDetailsViewModel
     fileprivate let dataSource: EventDetailsDataSource
@@ -76,11 +78,21 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
+        let previousColor = navigationController?.navigationBar.barTintColor
+        
+        let animation: TransitionCoordinatorBlock = { [weak self] _ in
             self?.navigationController?.navigationBar.barTintColor = UIColor.scBlue
-        }, completion: { [weak self] _ in
+        }
+        
+        let completion: TransitionCoordinatorBlock = { [weak self] context in
+            if context.isCancelled {
+                self?.navigationController?.navigationBar.barTintColor = previousColor
+            }
+            
             self?.eventCell?.isHidden = false
-        })
+        }
+        
+        transitionCoordinator?.animate(alongsideTransition: animation, completion: completion)
     }
     
     override func viewDidAppear(_ animated: Bool) {
