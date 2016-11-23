@@ -13,14 +13,14 @@ struct Acknowledgement {
     let title: String
     let info: String
     let URL: URL?
-    
+
     init?(dictionary: [String: AnyObject]) {
         guard let title = dictionary["Title"] as? String,
               let info = dictionary["FooterText"] as? String,
               !title.isEmpty else {
             return nil
         }
-        
+
         self.title = title
         self.info = info
         URL = nil
@@ -29,9 +29,9 @@ struct Acknowledgement {
 
 class AcknowledgementListDataSource: ArrayDataSource {
     typealias ModelType = Acknowledgement
-    
+
     fileprivate(set) var items = [Acknowledgement]()
-    
+
     init() {
         configureItems()
     }
@@ -48,9 +48,9 @@ private extension AcknowledgementListDataSource {
               var pods = plist["PreferenceSpecifiers"] as? [[String: AnyObject]] else {
             return
         }
-        
+
         pods.removeFirst()
-        
+
         items = pods.flatMap { Acknowledgement(dictionary: $0) }
     }
 }

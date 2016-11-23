@@ -15,6 +15,7 @@ public class APIClient {
     public static let sharedInstance = APIClient()
 
     fileprivate let manager: SessionManager
+    //TODO: - Remove force unwrap
     fileprivate let baseURL = URL(string: "https://play.usaultimate.org/ajax/api.aspx")!
 
     private init() {

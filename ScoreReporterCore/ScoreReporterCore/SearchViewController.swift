@@ -43,7 +43,7 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override var preferredStatusBarStyle : UIStatusBarStyle {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     

@@ -53,7 +53,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     

@@ -18,7 +18,7 @@ public extension UIView {
         drawFrame.origin.x = -rect.minX
         drawFrame.origin.y = -rect.minY
         
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0);
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
         drawHierarchy(in: drawFrame, afterScreenUpdates: false)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

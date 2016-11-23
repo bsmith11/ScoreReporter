@@ -16,6 +16,7 @@ public extension Date {
 //        }
 //        
 //        var calendar = Calendar.current
+//        //TODO: - Remove force unwrap
 //        calendar.timeZone = TimeZone(abbreviation: "UTC")!
 //        
 //        var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)
@@ -36,6 +37,7 @@ public extension Date {
         }
 
         var calendar = Calendar.current
+        //TODO: - Remove force unwrap
         calendar.timeZone = TimeZone(abbreviation: "UTC")!
 
         var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)

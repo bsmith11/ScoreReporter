@@ -16,32 +16,32 @@ class AcknowledgementListViewController: UIViewController, MessageDisplayable {
     
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
-        
+
         return messageLayoutGuide
     }
-    
+
     init(dataSource: AcknowledgementListDataSource) {
         self.dataSource = dataSource
-        
+
         super.init(nibName: nil, bundle: nil)
-        
+
         title = "Acknowledgements"
-        
+
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     override func loadView() {
         view = UIView()
-        
+
         configureViews()
         configureLayout()
     }
@@ -67,7 +67,7 @@ private extension AcknowledgementListViewController {
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
     }
-    
+
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
     }
@@ -79,17 +79,17 @@ extension AcknowledgementListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(for: indexPath) as SettingsCell
         let item = dataSource.item(at: indexPath)
-        
+
         cell.configure(with: item?.title)
-        
+
         return cell
     }
 }
@@ -101,7 +101,7 @@ extension AcknowledgementListViewController: UITableViewDelegate {
         guard let item = dataSource.item(at: indexPath) else {
             return
         }
-        
+
         let acknowledgementViewController = AcknowledgementViewController(acknowledgement: item)
         navigationController?.pushViewController(acknowledgementViewController, animated: true)
     }

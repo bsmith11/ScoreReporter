@@ -162,11 +162,11 @@ private extension BackInteractionController {
 // MARK: - UIViewControllerInteractiveTransitioning
 
 extension BackInteractionController: UIViewControllerInteractiveTransitioning {
-    var completionSpeed : CGFloat {
+    var completionSpeed: CGFloat {
         return 1.0
     }
     
-    var completionCurve : UIViewAnimationCurve {
+    var completionCurve: UIViewAnimationCurve {
         return .linear
     }
     

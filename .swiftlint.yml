@@ -1,0 +1,12 @@
+disabled_rules:
+  - line_length
+  - todo
+  - trailing_whitespace
+  - cyclomatic_complexity
+  - function_body_length
+
+excluded:
+  - Pods
+
+statement_position:
+  statement_mode: uncuddled_else

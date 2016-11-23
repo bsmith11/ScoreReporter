@@ -19,4 +19,3 @@ public extension Sizable where Self: UICollectionViewCell {
         return contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
     }
 }
-

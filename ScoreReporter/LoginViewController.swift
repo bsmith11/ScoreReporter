@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     fileprivate let spacerView = UIView(frame: .zero)
     fileprivate let skipButton = UIButton(type: .system)
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     

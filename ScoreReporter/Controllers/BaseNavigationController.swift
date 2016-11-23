@@ -30,7 +30,7 @@ class BaseNavigationController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var childViewControllerForStatusBarStyle : UIViewController? {
+    override var childViewControllerForStatusBarStyle: UIViewController? {
         return topViewController
     }
     
