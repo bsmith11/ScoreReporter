@@ -9,36 +9,19 @@
 import Foundation
 
 public extension Date {
-//    init?(date: Date?, time: Date?) {
-//        guard let date = date,
-//              let time = time else {
-//            return nil
-//        }
-//
-//        var calendar = Calendar.current
-//        //TODO: - Remove force unwrap
-//        calendar.timeZone = TimeZone(abbreviation: "UTC")!
-//
-//        var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)
-//        let timeComponents = (calendar as NSCalendar).components([.hour, .minute], from: time)
-//
-//        dateComponents.hour = timeComponents.hour
-//        dateComponents.minute = timeComponents.minute
-//
-//        let newDate = calendar.date(from: dateComponents)
-//
-//        self.init()
-//    }
-
     static func date(fromDate date: Date?, time: Date?) -> Date? {
         guard let date = date,
               let time = time else {
             return nil
         }
 
+        guard let timeZone = TimeZone(abbreviation: "UTC") else {
+            print("Failed to initialize UTC timezone")
+            return nil
+        }
+
         var calendar = Calendar.current
-        //TODO: - Remove force unwrap
-        calendar.timeZone = TimeZone(abbreviation: "UTC")!
+        calendar.timeZone = timeZone
 
         var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)
         let timeComponents = (calendar as NSCalendar).components([.hour, .minute], from: time)

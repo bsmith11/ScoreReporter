@@ -15,8 +15,14 @@ public class APIClient {
     public static let sharedInstance = APIClient()
 
     fileprivate let manager: SessionManager
-    //TODO: - Remove force unwrap
-    fileprivate let baseURL = URL(string: "https://play.usaultimate.org/ajax/api.aspx")!
+    fileprivate let baseURL: URL = {
+        let string = "https://play.usaultimate.org/ajax/api.aspx"
+        guard let baseURL = URL(string: string) else {
+            fatalError("Failed to initial baseURL as \(string)")
+        }
+
+        return baseURL
+    }()
 
     private init() {
         let config = URLSessionConfiguration.default
