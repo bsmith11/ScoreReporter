@@ -12,21 +12,21 @@ import ScoreReporterCore
 
 class HomeDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Event
-    
+
     fileprivate(set) var fetchedResultsController = Event.fetchedEventsThisWeek()
-    
+
     dynamic var empty = false
-    
+
     var fetchedChangeHandler: FetchedChangeHandler?
-    
+
     override init() {
         super.init()
-        
+
         register(fetchedResultsController: fetchedResultsController)
-        
+
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
-    
+
     deinit {
         unregister(fetchedResultsController: fetchedResultsController)
     }
@@ -39,7 +39,7 @@ extension HomeDataSource {
         guard !(fetchedResultsController.fetchedObjects?.isEmpty ?? true) else {
             return nil
         }
-        
+
         return "This Week"
     }
 }

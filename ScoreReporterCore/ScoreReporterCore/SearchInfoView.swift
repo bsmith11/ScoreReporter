@@ -16,14 +16,14 @@ public class SearchInfoView: UIView {
     fileprivate let infoStackView = UIStackView(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
     fileprivate let subtitleLabel = UILabel(frame: .zero)
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         configureViews()
         configureLayout()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -37,7 +37,7 @@ public extension SearchInfoView {
         titleLabel.text = searchable?.searchTitle
         subtitleLabel.text = searchable?.searchSubtitle
     }
-    
+
     func cancelImageDownload() {
         logoImageView.pin_cancelImageDownload()
     }
@@ -51,28 +51,28 @@ private extension SearchInfoView {
         contentStackView.alignment = .center
         contentStackView.spacing = 8.0
         addSubview(contentStackView)
-        
+
         logoImageView.contentMode = .scaleAspectFit
         contentStackView.addArrangedSubview(logoImageView)
-        
+
         infoStackView.axis = .vertical
         infoStackView.spacing = 2.0
         contentStackView.addArrangedSubview(infoStackView)
-        
+
         titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
         titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         infoStackView.addArrangedSubview(titleLabel)
-        
+
         subtitleLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
         subtitleLabel.textColor = UIColor.black
         infoStackView.addArrangedSubview(subtitleLabel)
     }
-    
+
     func configureLayout() {
         contentStackView.edgeAnchors == edgeAnchors
-        
+
         logoImageView.widthAnchor == 55.0
         logoImageView.heightAnchor == 55.0
     }

@@ -12,27 +12,27 @@ import PINRemoteImage
 
 public class TeamCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
-    
+
     public var contentFrame: CGRect {
         return searchInfoView.frame
     }
-    
+
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         selectionStyle = .none
-        
+
         configureViews()
         configureLayout()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         searchInfoView.cancelImageDownload()
     }
 }
@@ -43,7 +43,7 @@ public extension TeamCell {
     func configure(with team: Team?) {
         searchInfoView.configure(with: team)
     }
-    
+
     func contentFrameFrom(view: UIView) -> CGRect {
         return view.convert(searchInfoView.frame, from: searchInfoView.superview)
     }
@@ -55,7 +55,7 @@ private extension TeamCell {
     func configureViews() {
         contentView.addSubview(searchInfoView)
     }
-    
+
     func configureLayout() {
         searchInfoView.edgeAnchors == contentView.edgeAnchors + 16.0
     }

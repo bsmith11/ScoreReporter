@@ -13,18 +13,18 @@ public extension UIViewController {
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
-        
+
         if let transitionCoordinator = transitionCoordinator {
             let animation = { (context: UIViewControllerTransitionCoordinatorContext) -> Void in
                 tableView.deselectRow(at: indexPath, animated: animated)
             }
-            
+
             let completion = { (context: UIViewControllerTransitionCoordinatorContext) in
                 if context.isCancelled {
                     tableView.selectRow(at: indexPath, animated: animated, scrollPosition: .none)
                 }
             }
-            
+
             transitionCoordinator.animate(alongsideTransition: animation, completion: completion)
         }
         else {

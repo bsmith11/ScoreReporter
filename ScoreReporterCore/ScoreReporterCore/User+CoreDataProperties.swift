@@ -10,8 +10,8 @@ import Foundation
 import CoreData
 
 public extension User {
-    
+
     @NSManaged var accountID: NSNumber
     @NSManaged var userID: NSNumber
-    
+
 }

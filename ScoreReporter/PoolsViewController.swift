@@ -15,32 +15,32 @@ class PoolsViewController: UIViewController {
     fileprivate let dataSource: PoolsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
-    
+
     init(dataSource: PoolsDataSource) {
         self.dataSource = dataSource
-        
+
         super.init(nibName: nil, bundle: nil)
-        
+
         title = "Pools"
-        
+
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func loadView() {
         view = UIView()
-        
+
         configureViews()
         configureLayout()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureObservers()
     }
 }
@@ -60,16 +60,16 @@ private extension PoolsViewController {
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
-        
+
         view.addSubview(defaultView)
     }
-    
+
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-        
+
         defaultView.edgeAnchors == tableView.edgeAnchors
     }
-    
+
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(PoolsDataSource.empty)) { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
@@ -83,17 +83,17 @@ extension PoolsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let standing = dataSource.item(at: indexPath)
         let cell = tableView.dequeueCell(for: indexPath) as StandingCell
         cell.configure(with: standing)
         cell.separatorHidden = indexPath.item == 0
-        
+
         return cell
     }
 }
@@ -102,17 +102,17 @@ extension PoolsViewController: UITableViewDataSource {
 
 extension PoolsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = dataSource.title(for: section)
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title, actionButtonTitle: "View Games")
-        
+
         return headerView
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
     }
@@ -125,7 +125,7 @@ extension PoolsViewController: SectionHeaderViewDelegate {
         guard let pool = dataSource.pool(for: headerView.tag) else {
             return
         }
-        
+
         let gameListDataSource = GameListDataSource(pool: pool)
         let gameListViewController = GameListViewController(dataSource: gameListDataSource)
         navigationController?.pushViewController(gameListViewController, animated: true)

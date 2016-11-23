@@ -17,90 +17,90 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: EventDetailsViewModel
     fileprivate let dataSource: EventDetailsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    
+
     fileprivate var favoriteButton: UIBarButtonItem?
     fileprivate var unfavoriteButton: UIBarButtonItem?
     fileprivate var eventCell: UITableViewCell?
     fileprivate var viewDidAppear = false
-    
+
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
-        
+
         return messageLayoutGuide
     }
-    
+
     init(viewModel: EventDetailsViewModel, dataSource: EventDetailsDataSource) {
         self.viewModel = viewModel
         self.dataSource = dataSource
-        
+
         super.init(nibName: nil, bundle: nil)
-        
+
         title = "Event Details"
-        
+
         let favoriteImage = UIImage(named: "icn-star")
         favoriteButton = UIBarButtonItem(image: favoriteImage, style: .plain, target: self, action: #selector(favoriteButtonTapped))
-        
+
         let unfavoriteImage = UIImage(named: "icn-star-selected")
         unfavoriteButton = UIBarButtonItem(image: unfavoriteImage, style: .plain, target: self, action: #selector(unfavoriteButtonTapped))
-        
+
         navigationItem.rightBarButtonItem = dataSource.event.bookmarked.boolValue ? unfavoriteButton : favoriteButton
-        
+
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     override func loadView() {
         view = UIView()
         view.backgroundColor = UIColor.white
-        
+
         configureViews()
         configureLayout()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         dataSource.refreshBlock = { [weak self] in
             self?.tableView.reloadData()
         }
-        
+
         viewModel.downloadEventDetails()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         let previousColor = navigationController?.navigationBar.barTintColor
-        
+
         let animation: TransitionCoordinatorBlock = { [weak self] _ in
             self?.navigationController?.navigationBar.barTintColor = UIColor.scBlue
         }
-        
+
         let completion: TransitionCoordinatorBlock = { [weak self] context in
             if context.isCancelled {
                 self?.navigationController?.navigationBar.barTintColor = previousColor
             }
-            
+
             self?.eventCell?.isHidden = false
         }
-        
+
         transitionCoordinator?.animate(alongsideTransition: animation, completion: completion)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         if !viewDidAppear {
             viewDidAppear = true
-            
+
             configureObservers()
         }
     }
@@ -123,11 +123,11 @@ private extension EventDetailsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
     }
-    
+
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
     }
-    
+
     func configureObservers() {
         kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.loading)) { [weak self] (loading: Bool) in
             if loading {
@@ -137,18 +137,18 @@ private extension EventDetailsViewController {
                 self?.hideMessage(animated: true)
             }
         }
-        
+
         kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.error)) { [weak self] (error: NSError) in
             self?.display(message: "Error", animated: true)
         }
     }
-    
+
     @objc func favoriteButtonTapped() {
         navigationItem.setRightBarButton(unfavoriteButton, animated: true)
-        
+
         let event = dataSource.event
         event.bookmarked = true
-        
+
         do {
             try event.managedObjectContext?.save()
         }
@@ -156,13 +156,13 @@ private extension EventDetailsViewController {
             print("Error: \(error)")
         }
     }
-    
+
     @objc func unfavoriteButtonTapped() {
         navigationItem.setRightBarButton(favoriteButton, animated: true)
-        
+
         let event = dataSource.event
         event.bookmarked = false
-        
+
         do {
             try event.managedObjectContext?.save()
         }
@@ -178,16 +178,16 @@ extension EventDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = dataSource.item(at: indexPath) else {
             return UITableViewCell()
         }
-        
+
         switch item {
         case .event(let event):
             let cell = tableView.dequeueCell(for: indexPath) as EventCell
@@ -221,7 +221,7 @@ extension EventDetailsViewController: UITableViewDelegate {
         guard let item = dataSource.item(at: indexPath) else {
             return
         }
-        
+
         switch item {
         case .division(let group):
             let groupDetailsDataSource = GroupDetailsDataSource(group: group)
@@ -231,18 +231,18 @@ extension EventDetailsViewController: UITableViewDelegate {
             break
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let title = dataSource.title(for: section) else {
             return nil
         }
-        
+
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
-        
+
         return headerView
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let _ = dataSource.title(for: section) else {
             return 0.0001
@@ -250,7 +250,7 @@ extension EventDetailsViewController: UITableViewDelegate {
 
         return 55.0
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
     }
@@ -263,31 +263,31 @@ extension EventDetailsViewController: UITableViewDelegate {
 //        guard let item = dataSource.item(at: indexPath) else {
 //            return
 //        }
-//        
+//
 //        switch item {
 //        case .address:
 //            let eventViewModel = EventViewModel(event: dataSource.event)
-//            
+//
 //            guard  let coordinate = eventViewModel.coordinate else {
 //                return
 //            }
-//            
+//
 //            let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
 //            let mapItem = MKMapItem(placemark: placemark)
 //            mapItem.name = eventViewModel.name
-//            
+//
 //            let options = [
 //                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
 //            ]
 //            mapItem.openInMaps(launchOptions: options)
-//            
+//
 //            tableView.deselectRow(at: indexPath, animated: true)
 //        case .date:
 //            break
 //        case .division(let group):
 //            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
 //            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
-//            
+//
 //            navigationController?.pushViewController(groupDetailsViewController, animated: true)
 //        default:
 //            break

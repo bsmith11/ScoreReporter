@@ -13,26 +13,26 @@ import ScoreReporterCore
 
 class GroupDetailsDataSource: NSObject, ArrayDataSource {
     typealias ModelType = UIViewController
-    
+
     fileprivate let groupObserver: ManagedObjectObserver
-    
+
     fileprivate(set) var items = [UIViewController]()
-    
+
     fileprivate(set) dynamic var empty = false
-    
+
     let group: Group
-    
+
     var refreshBlock: RefreshBlock?
-    
+
     init(group: Group) {
         self.group = group
-        
+
         groupObserver = ManagedObjectObserver(objects: [group])
-        
+
         super.init()
-        
+
         groupObserver.delegate = self
-        
+
         configureItems()
     }
 }
@@ -42,15 +42,15 @@ class GroupDetailsDataSource: NSObject, ArrayDataSource {
 private extension GroupDetailsDataSource {
     func configureItems() {
         items.removeAll()
-        
+
         let rounds = group.rounds.allObjects as? [Round]
         let sortedRounds = rounds.flatMap { $0 }?.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue }) ?? []
-        
+
         var poolsViewController: UIViewController?
         var bracketsViewController: UIViewController?
-        
+
         var clusters = [Cluster]()
-        
+
         sortedRounds.forEach { round in
             switch round.type {
             case .pools:
@@ -69,21 +69,21 @@ private extension GroupDetailsDataSource {
                 }
             }
         }
-        
+
         if let poolsViewController = poolsViewController {
             items.append(poolsViewController)
         }
-        
+
         if !clusters.isEmpty {
             let gameListDataSource = GameListDataSource(clusters: clusters)
             let gameListViewController = GameListViewController(dataSource: gameListDataSource)
             items.append(gameListViewController)
         }
-        
+
         if let bracketsViewController = bracketsViewController {
             items.append(bracketsViewController)
         }
-        
+
         empty = items.isEmpty
     }
 }

@@ -12,13 +12,13 @@ import ScoreReporterCore
 class EventDetailsViewModel: NSObject {
     fileprivate let event: Event
     fileprivate let eventService = EventService(client: APIClient.sharedInstance)
-    
+
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil
-    
+
     init(event: Event) {
         self.event = event
-        
+
         super.init()
     }
 }
@@ -28,7 +28,7 @@ class EventDetailsViewModel: NSObject {
 extension EventDetailsViewModel {
     func downloadEventDetails() {
         loading = true
-        
+
         eventService.downloadDetails(for: event) { [weak self] error in
             self?.loading = false
             self?.error = error

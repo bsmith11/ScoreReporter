@@ -17,17 +17,17 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     fileprivate let dataSource = TodayDataSource()
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     fileprivate let defaultView = DefaultView(frame: .zero)
-    
+
     override func loadView() {
         view = UIView()
-        
+
         configureViews()
         configureLayout()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let emptyMessage: String
         if let team = dataSource.team {
             if let name = team.fullName {
@@ -39,16 +39,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
         else {
             emptyMessage = "Favorite a team to see their upcoming events and games"
-            
+
         }
-        
+
         let emptyInfo = DefaultViewStateInfo(image: nil, title: nil, message: emptyMessage)
         defaultView.setInfo(emptyInfo, state: .empty)
         defaultView.empty = dataSource.empty
-        
+
         extensionContext?.widgetLargestAvailableDisplayMode = dataSource.empty ? .compact : .expanded
     }
-    
+
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         switch activeDisplayMode {
         case .compact:
@@ -57,16 +57,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             preferredContentSize = maxSize
         }
     }
-    
+
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
 //        let teamService = TeamService(client: APIClient.sharedInstance)
 //        teamService.downloadDetails(for: team, completion: { error in
 //            let result: NCUpdateResult = (error == nil) ? .newData : .failed
 //            completionHandler(result)
 //        })
-        
+
         // Perform any setup necessary in order to update the view.
-        
+
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
@@ -86,14 +86,14 @@ private extension TodayViewController {
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
-        
+
         defaultView.tintColor = UIColor.darkGray
         view.addSubview(defaultView)
     }
-    
+
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-        
+
         defaultView.edgeAnchors == tableView.edgeAnchors
     }
 }
@@ -104,16 +104,16 @@ extension TodayViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = dataSource.item(at: indexPath) else {
             return UITableViewCell()
         }
-        
+
         switch item {
         case .game(let game):
             let gameViewModel = GameViewModel(game: game, state: .Minimal)
@@ -134,6 +134,6 @@ extension TodayViewController: UITableViewDataSource {
 
 extension TodayViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
     }
 }

@@ -47,7 +47,7 @@ public extension UICollectionView {
                 switch change {
                 case .section(let type, let index):
                     let indexSet = IndexSet(integer: index)
-                    
+
                     switch type {
                     case .insert:
                         self?.insertSections(indexSet)

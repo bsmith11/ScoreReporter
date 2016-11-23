@@ -12,7 +12,7 @@ import Alamofire
 public struct Credentials {
     public let username: String
     public let password: String
-    
+
     public init(username: String, password: String) {
         self.username = username
         self.password = password
@@ -21,7 +21,7 @@ public struct Credentials {
 
 public struct LoginService {
     fileprivate let client: APIClient
-    
+
     public init(client: APIClient) {
         self.client = client
     }
@@ -36,7 +36,7 @@ public extension LoginService {
             "username": credentials.username,
             "password": credentials.password
         ]
-        
+
         let requestCompletion = { (result: Result<Any>) in
             if result.isSuccess {
                 self.handleSuccessfulLoginResponse(result.value, completion: completion)
@@ -45,13 +45,13 @@ public extension LoginService {
                 completion?(result.error as NSError?)
             }
         }
-        
+
         client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
-    
+
     func logout() {
         KeychainService.deleteAllStoredValues()
-        
+
         //TODO: - Delete all User objects
     }
 }
@@ -65,7 +65,7 @@ private extension LoginService {
             completion?(error)
             return
         }
-        
+
         guard let success = responseObject["success"] as? Bool, success else {
             if let message = responseObject["message"] as? String {
                 print("Error Message: \(message)")
@@ -75,25 +75,25 @@ private extension LoginService {
                 let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
                 completion?(error)
             }
-            
+
             return
         }
-        
+
         guard let accessToken = responseObject["UserToken"] as? String else {
             print("Error Message: No Access Token")
             completion?(nil)
             return
         }
-        
+
         User.user(from: responseObject) { user in
             guard let userID = user?.userID else {
                 completion?(nil)
                 return
             }
-            
+
             KeychainService.save(.userID, value: userID.stringValue)
             KeychainService.save(.accessToken, value: accessToken)
-            
+
             completion?(nil)
         }
     }

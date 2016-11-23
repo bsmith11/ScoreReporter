@@ -29,7 +29,7 @@ public class APIClient {
 public extension APIClient {
     func request(_ method: HTTPMethod, path: String, encoding: ParameterEncoding = URLEncoding.default, parameters: [String: Any]? = nil, completion: APICompletion?) {
         let URL = baseURL.appendingPathComponent(path)
-        
+
         manager.request(URL, method: method, parameters: parameters, encoding: encoding, headers: nil).validate(statusCode: 200...399).responseJSON { response -> Void in
             completion?(response.result)
         }

@@ -37,12 +37,12 @@ public struct DateService {
 
         return dateFormatter
     }()
-    
+
     public static let gameStartDateFullFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = gameStartDateFullFormat
-        
+
         return dateFormatter
     }()
 }

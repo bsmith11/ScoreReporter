@@ -24,24 +24,24 @@ public extension UITableView {
     func register(cellClass: UITableViewCell.Type) {
         register(cellClass, forCellReuseIdentifier: cellClass.reuseID)
     }
-    
+
     func register(headerFooterClass: UITableViewHeaderFooterView.Type) {
         register(headerFooterClass, forHeaderFooterViewReuseIdentifier: headerFooterClass.reuseID)
     }
-    
+
     func dequeueCell<T: UITableViewCell>(for indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withIdentifier: T.reuseID, for: indexPath) as? T else {
             preconditionFailure("Cell must of class \(T.reuseID)")
         }
-        
+
         return cell
     }
-    
+
     func dequeueHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
         guard let headerFooterView = dequeueReusableHeaderFooterView(withIdentifier: T.reuseID) as? T else {
             preconditionFailure("Header footer view must be of class \(T.reuseID)")
         }
-        
+
         return headerFooterView
     }
 }
@@ -49,12 +49,12 @@ public extension UITableView {
 public extension UITableView {
     func handle(changes: [FetchedChange], completion: ((Bool) -> Void)? = nil) {
         beginUpdates()
-        
+
         changes.forEach { change in
             switch change {
             case .section(let type, let index):
                 let indexSet = IndexSet(integer: index)
-                
+
                 switch type {
                 case .insert:
                     insertSections(indexSet, with: .none)
@@ -84,9 +84,9 @@ public extension UITableView {
                 }
             }
         }
-        
+
         endUpdates()
-        
+
         completion?(true)
     }
 }

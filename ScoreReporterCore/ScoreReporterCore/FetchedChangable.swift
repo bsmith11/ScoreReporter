@@ -13,10 +13,10 @@ public typealias FetchedChangeHandler = ([FetchedChange]) -> Void
 
 public protocol FetchedChangable: FetchedChangeObjectDelegate {
     associatedtype ModelType: NSManagedObject
-    
+
     var empty: Bool { get set }
     var fetchedChangeHandler: FetchedChangeHandler? { get set }
-    
+
     func register(fetchedResultsController: NSFetchedResultsController<ModelType>)
     func unregister(fetchedResultsController: NSFetchedResultsController<ModelType>)
 }
@@ -27,7 +27,7 @@ public extension FetchedChangable where Self: NSObject {
     func register(fetchedResultsController: NSFetchedResultsController<ModelType>) {
         fetchedResultsController.delegate = fetchedChangeObject
     }
-    
+
     func unregister(fetchedResultsController: NSFetchedResultsController<ModelType>) {
         fetchedResultsController.delegate = nil
     }
@@ -41,10 +41,10 @@ private extension FetchedChangable where Self: NSObject {
             let object = FetchedChangeObject()
             objc_setAssociatedObject(self, &FetchedChangeObject.associatedKey, object, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             object.delegate = self
-            
+
             return object
         }
-        
+
         return object
     }
 }

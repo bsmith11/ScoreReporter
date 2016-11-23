@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 public class Standing: NSManagedObject {
-    
+
 }
 
 // MARK: - Public
@@ -18,11 +18,11 @@ public class Standing: NSManagedObject {
 public extension Standing {
     static func fetchedStandingsForPool(_ pool: Pool) -> NSFetchedResultsController<Standing> {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Standing.pool), pool)
-        
+
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Standing.sortOrder), ascending: true),
         ]
-        
+
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 }
@@ -46,24 +46,24 @@ extension Standing: CoreDataImportable {
         standing.wins = dictionary["Wins"] as? NSNumber
         standing.losses = dictionary["Losses"] as? NSNumber
         standing.sortOrder = dictionary["SortOrder"] as? NSNumber
-        
+
         let teamName = dictionary <~ "TeamName"
         let seed = self.seed(from: teamName)
         standing.seed = seed as NSNumber
-        
+
         let seedString = "(\(seed))"
         standing.teamName = teamName?.replacingOccurrences(of: seedString, with: "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
+
         if !standing.hasPersistentChangedValues {
             context.refresh(standing, mergeChanges: false)
         }
-        
+
         return standing
     }
-    
+
     static func seed(from teamName: String?) -> Int {
         let pattern = "([0-9]+)"
-        
+
         if let seed = teamName?.matching(regexPattern: pattern), !seed.isEmpty {
             return Int(seed) ?? 0
         }

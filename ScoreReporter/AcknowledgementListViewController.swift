@@ -13,7 +13,7 @@ import ScoreReporterCore
 class AcknowledgementListViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: AcknowledgementListDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
-    
+
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
 
@@ -48,7 +48,7 @@ class AcknowledgementListViewController: UIViewController, MessageDisplayable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         deselectRows(in: tableView, animated: animated)
     }
 }

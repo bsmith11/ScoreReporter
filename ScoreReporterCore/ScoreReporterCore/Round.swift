@@ -13,7 +13,7 @@ public enum RoundType: Int {
     case pools
     case clusters
     case brackets
-    
+
     var title: String {
         switch self {
         case .pools:
@@ -27,7 +27,7 @@ public enum RoundType: Int {
 }
 
 public class Round: NSManagedObject {
-    
+
 }
 
 // MARK: - Public
@@ -44,16 +44,16 @@ public extension Round {
             return .brackets
         }
     }
-    
+
     func add(team: Team) {
         if let pools = pools.allObjects as? [Pool] {
             pools.forEach { $0.add(team: team) }
         }
-        
+
         if let clusters = clusters.allObjects as? [Cluster] {
             clusters.forEach { $0.add(team: team) }
         }
-        
+
         if let brackets = brackets.allObjects as? [Bracket] {
             brackets.forEach { $0.add(team: team) }
         }
@@ -75,32 +75,32 @@ extension Round: CoreDataImportable {
         guard let roundID = dictionary["RoundId"] as? NSNumber else {
             return nil
         }
-        
+
         guard let round = object(primaryKey: roundID, context: context, createNew: true) else {
             return nil
         }
-        
+
         round.roundID = roundID
-        
+
         let brackets = dictionary["Brackets"] as? [[String: AnyObject]] ?? []
         let bracketsArray = Bracket.objects(from: brackets, context: context)
-        
+
         for (index, bracket) in bracketsArray.enumerated() {
             bracket.sortOrder = index as NSNumber
         }
-        
+
         round.brackets = NSSet(array: bracketsArray)
-        
+
         let clusters = dictionary["Clusters"] as? [[String: AnyObject]] ?? []
         round.clusters = NSSet(array: Cluster.objects(from: clusters, context: context))
-        
+
         let pools = dictionary["Pools"] as? [[String: AnyObject]] ?? []
         round.pools = NSSet(array: Pool.objects(from: pools, context: context))
-        
+
         if !round.hasPersistentChangedValues {
             context.refresh(round, mergeChanges: false)
         }
-        
+
         return round
     }
 }

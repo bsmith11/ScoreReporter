@@ -12,35 +12,35 @@ import ScoreReporterCore
 
 class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Game
-    
+
     fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Game>
-    
+
     let title: String?
-    
+
     dynamic var empty = false
-    
+
     var fetchedChangeHandler: FetchedChangeHandler?
-    
+
     init(pool: Pool) {
         title = pool.name
         fetchedResultsController = Game.fetchedGamesForPool(pool)
-        
+
         super.init()
-        
+
         register(fetchedResultsController: fetchedResultsController)
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
-    
+
     init(clusters: [Cluster]) {
         title = "Crossovers"
         fetchedResultsController = Game.fetchedGamesForClusters(clusters)
-        
+
         super.init()
-        
+
         register(fetchedResultsController: fetchedResultsController)
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
-    
+
     deinit {
         unregister(fetchedResultsController: fetchedResultsController)
     }
@@ -53,7 +53,7 @@ extension GameListDataSource {
         let indexPath = IndexPath(item: 0, section: section)
         let game = item(at: indexPath)
         let dateFormatter = DateService.gameStartDateFullFormatter
-        
+
         return game?.startDateFull.flatMap { dateFormatter.string(from: $0) }
     }
 }

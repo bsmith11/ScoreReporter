@@ -28,9 +28,9 @@ public protocol FetchedChangeObjectDelegate: class {
 
 public class FetchedChangeObject: NSObject {
     static var associatedKey = "com.bradsmith.scorereporter.fetchedChangeObjectAssociatedKey"
-    
+
     fileprivate var fetchedChanges = [FetchedChange]()
-    
+
     weak var delegate: FetchedChangeObjectDelegate?
 }
 
@@ -40,25 +40,25 @@ extension FetchedChangeObject: NSFetchedResultsControllerDelegate {
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         fetchedChanges.removeAll()
     }
-    
+
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         guard let changeType = FetchedChangeType(rawValue: type.rawValue) else {
             return
         }
-        
+
         let sectionChange = FetchedChange.section(type: changeType, index: sectionIndex)
         fetchedChanges.append(sectionChange)
     }
-    
+
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         guard let changeType = FetchedChangeType(rawValue: type.rawValue) else {
             return
         }
-        
+
         let objectChange = FetchedChange.object(type: changeType, indexPath: indexPath, newIndexPath: newIndexPath)
         fetchedChanges.append(objectChange)
     }
-    
+
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.empty = controller.fetchedObjects?.isEmpty ?? true
         delegate?.fetchedChangeHandler?(fetchedChanges)

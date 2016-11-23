@@ -18,7 +18,7 @@ struct SettingsSection {
 enum SettingsItem {
     case acknowledgements
     case about
-    
+
     var image: UIImage? {
         switch self {
         case .acknowledgements:
@@ -27,7 +27,7 @@ enum SettingsItem {
             return UIImage(named: "")
         }
     }
-    
+
     var title: String {
         switch self {
         case .acknowledgements:
@@ -40,9 +40,9 @@ enum SettingsItem {
 
 class SettingsDataSource {
     typealias ModelType = SettingsItem
-    
+
     fileprivate var sections = [SettingsSection]()
-    
+
     init() {
         configureSections()
     }
@@ -55,7 +55,7 @@ extension SettingsDataSource {
         guard section < sections.count else {
             return nil
         }
-        
+
         return sections[section].title
     }
 }
@@ -75,26 +75,26 @@ extension SettingsDataSource: DataSource {
     func numberOfSections() -> Int {
         return sections.count
     }
-    
+
     func numberOfItems(in section: Int) -> Int {
         guard section < sections.count else {
             return 0
         }
-        
+
         return sections[section].items.count
     }
-    
+
     func item(at indexPath: IndexPath) -> SettingsItem? {
         guard indexPath.section < sections.count else {
             return nil
         }
-        
+
         let section = sections[indexPath.section]
-        
+
         guard indexPath.item < section.items.count else {
             return nil
         }
-        
+
         return section.items[indexPath.item]
     }
 }

@@ -11,7 +11,7 @@ import CoreData
 
 public protocol Importable {
     associatedtype ImportType = Self
-    
+
     @discardableResult
     static func object(from dictionary: [String: AnyObject]) -> ImportType?
 }
@@ -25,7 +25,7 @@ public extension Importable {
 
 public protocol CoreDataImportable {
     associatedtype CoreDataImportType: NSManagedObject = Self
-    
+
     @discardableResult
     static func object(from dictionary: [String: AnyObject], context: NSManagedObjectContext) -> CoreDataImportType?
 }

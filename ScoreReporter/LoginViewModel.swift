@@ -13,7 +13,7 @@ typealias LoginCompletion = (NSError?) -> Void
 
 class LoginViewModel: NSObject {
     fileprivate let loginService = LoginService(client: APIClient.sharedInstance)
-    
+
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil
 }
@@ -23,11 +23,11 @@ class LoginViewModel: NSObject {
 extension LoginViewModel {
     func login(with credentials: Credentials, completion: LoginCompletion?) {
         loading = true
-        
+
         loginService.login(with: credentials) { [weak self] error in
             self?.loading = false
             self?.error = error
-            
+
             completion?(error)
         }
     }

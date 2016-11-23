@@ -24,7 +24,7 @@ protocol TableViewProxyDelegate: class {
 class TableViewProxy: NSObject {
     fileprivate unowned let dataSource: TableViewProxyDataSource
     fileprivate unowned let delegate: TableViewProxyDelegate
-    
+
     init(dataSource: TableViewProxyDataSource, delegate: TableViewProxyDelegate) {
         self.dataSource = dataSource
         self.delegate = delegate
@@ -35,11 +35,11 @@ extension TableViewProxy: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSectionsInTableView(tableView)
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.tableView(tableView, numberOfRowsInSection: section)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return dataSource.tableView(tableView, cellForRowAtIndexPath: indexPath)
     }
@@ -49,11 +49,11 @@ extension TableViewProxy: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return delegate.tableView(tableView, estimatedHeightForHeaderInSection: section)
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return delegate.tableView(tableView, viewForHeaderInSection: section)
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate.tableView(tableView, didSelectRowAtIndexPath: indexPath)
     }

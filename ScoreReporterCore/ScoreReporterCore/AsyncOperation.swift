@@ -13,17 +13,17 @@ typealias AsyncOperationBlock = (_ completionHandler: @escaping AsyncOperationCo
 
 class AsyncOperation: Operation {
     fileprivate let block: AsyncOperationBlock
-    
+
     init(block: @escaping AsyncOperationBlock) {
         self.block = block
-        
+
         super.init()
     }
-    
+
     override var isAsynchronous: Bool {
         return true
     }
-    
+
     private var _executing = false {
         willSet {
             willChangeValue(forKey: #keyPath(isExecuting))
@@ -32,36 +32,36 @@ class AsyncOperation: Operation {
             didChangeValue(forKey: #keyPath(isExecuting))
         }
     }
-    
+
     override var isExecuting: Bool {
         return _executing
     }
-    
+
     private var _finished = false {
         willSet {
             willChangeValue(forKey: #keyPath(isFinished))
         }
-        
+
         didSet {
             didChangeValue(forKey: #keyPath(isFinished))
         }
     }
-    
+
     override var isFinished: Bool {
         return _finished
     }
-    
+
     override func start() {
         _executing = true
         execute()
     }
-    
+
     func execute() {
         block { [weak self] in
             self?.finish()
         }
     }
-    
+
     func finish() {
         _executing = false
         _finished = true

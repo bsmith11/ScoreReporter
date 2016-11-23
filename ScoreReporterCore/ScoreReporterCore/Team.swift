@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 public class Team: NSManagedObject {
-    
+
 }
 
 // MARK: - Public
@@ -22,57 +22,57 @@ public extension Team {
             name,
             designation
         ].flatMap { $0 }
-        
+
         let fullName = strings.joined(separator: " ")
-        
+
         return fullName.isEmpty ? nil : fullName
     }
-    
+
     static func teams(from array: [[String: AnyObject]], completion: DownloadCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Team.objects(from: array, context: context)
         }
-        
+
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
-    
+
     static func fetchedBookmarkedTeams() -> NSFetchedResultsController<Team> {
         let predicate = NSPredicate(format: "%K == YES", #keyPath(Team.bookmarked))
-        
+
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
         ]
-        
+
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
-    
+
     static func fetchedTeams() -> NSFetchedResultsController<Team> {
         let predicate = NSPredicate(format: "%K != %@", #keyPath(Team.state), "")
-        
+
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Team.state), ascending: true),
             NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
         ]
-        
+
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Team.state))
     }
-    
+
     public static var searchFetchedResultsController: NSFetchedResultsController<Team> {
         let predicate = NSPredicate(format: "%K != nil", #keyPath(Team.state))
-        
+
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Team.state), ascending: true),
             NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
         ]
-        
+
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Team.state))
     }
-    
+
     static func stateName(fromAbbreviation abbreviation: String?) -> String? {
         guard let abbreviation = abbreviation else {
             return nil
         }
-        
+
         let states = [
             "AL": "Alabama",
             "AK": "Alaska",
@@ -125,7 +125,7 @@ public extension Team {
             "WV": "West Virginia",
             "WI": "Wisconsin",
             "WY": "Wyoming",
-            
+
             "AB": "Alberta",
             "BC": "British Columbia",
             "MB": "Manitoba",
@@ -140,7 +140,7 @@ public extension Team {
             "SK": "Saskatchewan",
             "YT": "Yukon"
         ]
-        
+
         return states[abbreviation]
     }
 }
@@ -160,11 +160,11 @@ extension Team: CoreDataImportable {
         guard let teamID = dictionary["TeamId"] as? NSNumber else {
             return nil
         }
-        
+
         guard let team = object(primaryKey: teamID, context: context, createNew: true) else {
             return nil
         }
-        
+
         team.teamID = teamID
         team.name = dictionary <~ "TeamName"
         team.logoPath = dictionary <~ "TeamLogo"
@@ -175,11 +175,11 @@ extension Team: CoreDataImportable {
         team.division = dictionary <~ "DivisionName"
         team.competitionLevel = dictionary <~ "CompetitionLevel"
         team.designation = dictionary <~ "TeamDesignation"
-        
+
         if !team.hasPersistentChangedValues {
             context.refresh(team, mergeChanges: false)
         }
-        
+
         return team
     }
 }
@@ -193,7 +193,7 @@ func <~ (lhs: [String: AnyObject], rhs: String) -> String? {
     guard let value = lhs[rhs] as? String, !value.isEmpty else {
         return nil
     }
-    
+
     return value
 }
 
@@ -203,53 +203,53 @@ extension Team: Searchable {
     public static var searchBarPlaceholder: String? {
         return "Find teams"
     }
-    
+
     public static var searchEmptyTitle: String? {
         return "No Teams"
     }
-    
+
     public static var searchEmptyMessage: String? {
         return "No teams exist by that name"
     }
-    
+
     public static func predicate(with searchText: String?) -> NSPredicate? {
         let statePredicate = NSPredicate(format: "%K != nil", #keyPath(Team.state))
-        
+
         guard let searchText = searchText, !searchText.isEmpty else {
             return statePredicate
         }
-        
+
         let orPredicates = [
             NSPredicate(format: "%K contains[cd] %@", #keyPath(Team.name), searchText),
             NSPredicate(format: "%K contains[cd] %@", #keyPath(Team.school), searchText)
         ]
-        
+
         let predicates = [
             statePredicate,
             NSCompoundPredicate(orPredicateWithSubpredicates: orPredicates)
         ]
-        
+
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
-    
+
     public var searchSectionTitle: String? {
         return stateFull
     }
-    
+
     public var searchLogoURL: URL? {
         let baseURL = "https://play.usaultimate.org/"
-        
+
         return logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
     }
-    
+
     public var searchTitle: String? {
         return name ?? "No Name"
     }
-    
+
     public var searchSubtitle: String? {
         let cityValue = city ?? "City"
         let stateValue = state ?? "State"
-        
+
         return "\(cityValue), \(stateValue)"
     }
 }

@@ -15,15 +15,15 @@ public extension FBKVOController {
             .initial,
             .new
         ]
-        
+
         let internalBlock = { (observer: Any?, object: Any, change: [String: Any]) in
             guard let observedValue = change[NSKeyValueChangeKey.newKey.rawValue] as? T else {
                 return
             }
-            
+
             block(observedValue)
         }
-        
+
         kvoController.observe(object, keyPath: keyPath, options: options, block: internalBlock)
-    }    
+    }
 }

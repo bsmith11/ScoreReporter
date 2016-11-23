@@ -16,7 +16,7 @@ protocol SearchBarProxyDelegate: class {
 
 class SearchBarProxy: NSObject {
     fileprivate unowned let delegate: SearchBarProxyDelegate
-    
+
     init(delegate: SearchBarProxyDelegate) {
         self.delegate = delegate
     }
@@ -26,7 +26,7 @@ extension SearchBarProxy: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         delegate.searchBarCancelButtonClicked(searchBar)
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         delegate.searchBar(searchBar, textDidChange: searchText)
     }

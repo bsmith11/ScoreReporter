@@ -26,27 +26,27 @@ public extension ArrayDataSource {
     func numberOfSections() -> Int {
         return 1
     }
-    
+
     func numberOfItems(in section: Int) -> Int {
         guard section == 0 else {
             return 0
         }
-        
+
         return items.count
     }
-    
+
     func item(at indexPath: IndexPath) -> ModelType? {
         guard indexPath.section == 0 && indexPath.item < items.count else {
             return nil
         }
-        
+
         return items[indexPath.item]
     }
 }
 
 public protocol FetchedDataSource: DataSource {
     associatedtype ModelType: NSManagedObject
-    
+
     var fetchedResultsController: NSFetchedResultsController<ModelType> { get }
 }
 
@@ -67,7 +67,7 @@ public extension FetchedDataSource {
         guard fetchedResultsController.contains(indexPath: indexPath) else {
             return nil
         }
-        
+
         return fetchedResultsController.object(at: indexPath)
     }
 }
@@ -77,7 +77,7 @@ public extension NSFetchedResultsController {
         guard let sections = sections, indexPath.section < sections.count else {
             return false
         }
-        
+
         return indexPath.item < sections[indexPath.section].numberOfObjects
     }
 }

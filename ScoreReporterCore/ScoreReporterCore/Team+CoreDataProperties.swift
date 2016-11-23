@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 public extension Team {
-    
+
     @NSManaged var bookmarked: NSNumber
     @NSManaged var city: String?
     @NSManaged var competitionLevel: String?
@@ -24,5 +24,5 @@ public extension Team {
     @NSManaged var teamID: NSNumber
     @NSManaged var games: NSSet
     @NSManaged var groups: NSSet
-    
+
 }

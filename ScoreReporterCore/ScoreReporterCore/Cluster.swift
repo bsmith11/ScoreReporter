@@ -20,7 +20,7 @@ public extension Cluster {
         guard let games = games.allObjects as? [Game] else {
             return
         }
-        
+
         games.forEach { $0.add(team: team) }
     }
 }
@@ -40,27 +40,27 @@ extension Cluster: CoreDataImportable {
         guard let clusterID = dictionary["ClusterId"] as? NSNumber else {
             return nil
         }
-        
+
         guard let cluster = object(primaryKey: clusterID, context: context, createNew: true) else {
             return nil
         }
-        
+
         cluster.clusterID = clusterID
         cluster.name = dictionary <~ "Name"
-        
+
         let games = dictionary["Games"] as? [[String: AnyObject]] ?? []
         let gamesArray = Game.objects(from: games, context: context)
-        
+
         for (index, game) in gamesArray.enumerated() {
             game.sortOrder = index as NSNumber
         }
-        
+
         cluster.games = NSSet(array: gamesArray)
-        
+
         if !cluster.hasPersistentChangedValues {
             context.refresh(cluster, mergeChanges: false)
         }
-        
+
         return cluster
     }
 }

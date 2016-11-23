@@ -13,16 +13,16 @@ public struct GroupViewModel {
     public let fullName: String
     public let divisionIdentifier: String
     public let divisionColor: UIColor
-    
+
     public init(group: Group?) {
         let strings = [
             group?.type,
             group?.division,
             group?.divisionName
         ]
-        
+
         fullName = strings.flatMap { $0 }.joined(separator: " ")
-        
+
         if let division = group?.division {
             switch division {
             case "Men", "Boys":

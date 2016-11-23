@@ -12,21 +12,21 @@ import ScoreReporterCore
 
 class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Team
-    
+
     fileprivate(set) var fetchedResultsController = Team.fetchedBookmarkedTeams()
-    
+
     dynamic var empty = false
-    
+
     var fetchedChangeHandler: FetchedChangeHandler?
-    
+
     override init() {
         super.init()
-        
+
         register(fetchedResultsController: fetchedResultsController)
-        
+
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
-    
+
     deinit {
         unregister(fetchedResultsController: fetchedResultsController)
     }

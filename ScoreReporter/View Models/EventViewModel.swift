@@ -23,13 +23,13 @@ struct EventViewModel {
 
     init(event: Event?) {
         name = event?.name ?? "No Name"
-        
+
         let city = event?.city ?? "City"
         let state = event?.state ?? "State"
         location = "\(city), \(state)"
-        
+
         address = location
-        
+
         if let latitude = event?.latitude,
                let longitude = event?.longitude {
             coordinate = CLLocationCoordinate2D(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
@@ -44,13 +44,13 @@ struct EventViewModel {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         eventStartDate = dateFormatter.string(from: startDate)
-        
+
         let endDate = event?.endDate ?? Date()
         eventDates = "\(dateFormatter.string(from: startDate)) - \(dateFormatter.string(from: endDate))"
-        
+
         let groups = event?.groups as? Set<Group> ?? []
         self.groups = groups.sorted(by: {$0.0.groupID.intValue < $0.1.groupID.intValue})
-        
+
         self.event = event
     }
 }

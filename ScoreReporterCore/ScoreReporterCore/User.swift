@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 public class User: NSManagedObject {
-    
+
 }
 
 // MARK: - Public
@@ -21,17 +21,17 @@ public extension User {
               let userID = Int(userIDString) else {
             return nil
         }
-        
+
         return object(primaryKey: NSNumber(value: userID), context: User.coreDataStack.mainContext)
     }
-    
+
     static func user(from dictionary: [String: AnyObject], completion: ((User?) -> Void)?) {
         var userID: NSNumber?
-        
+
         let block = { (context: NSManagedObjectContext) -> Void in
             userID = User.object(from: dictionary, context: context)?.userID
         }
-        
+
         coreDataStack.performBlockUsingBackgroundContext(block) { error in
             if let userID = userID {
                 let user = User.object(primaryKey: userID, context: User.coreDataStack.mainContext)
@@ -60,18 +60,18 @@ extension User: CoreDataImportable {
               let accountID = dictionary["AccountId"] as? NSNumber else {
             return nil
         }
-        
+
         guard let user = object(primaryKey: userID, context: context, createNew: true) else {
             return nil
         }
-        
+
         user.userID = userID
         user.accountID = accountID
-        
+
         if !user.hasPersistentChangedValues {
             context.refresh(user, mergeChanges: false)
         }
-        
+
         return user
     }
 }

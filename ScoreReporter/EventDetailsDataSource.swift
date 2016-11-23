@@ -23,7 +23,7 @@ enum EventDetailsInfo {
     case date(String)
     case division(Group)
     case activeGame(Game)
-    
+
     var image: UIImage? {
         switch self {
         case .address:
@@ -36,7 +36,7 @@ enum EventDetailsInfo {
             return nil
         }
     }
-    
+
     var title: String {
         switch self {
         case .address(let address):
@@ -54,20 +54,20 @@ enum EventDetailsInfo {
 
 class EventDetailsDataSource: NSObject {
     fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<Game>
-    
+
     fileprivate var sections = [EventDetailsSection]()
-    
+
     let event: Event
-    
+
     var refreshBlock: RefreshBlock?
-    
+
     init(event: Event) {
         self.event = event
-        
+
         activeGamesFetchedResultsController = Game.fetchedActiveGamesForEvent(event)
-        
+
         super.init()
-        
+
         configureSections()
     }
 }
@@ -79,7 +79,7 @@ extension EventDetailsDataSource {
         guard section < sections.count else {
             return nil
         }
-        
+
         return sections[section].title
     }
 }
@@ -89,19 +89,19 @@ extension EventDetailsDataSource {
 private extension EventDetailsDataSource {
     func configureSections() {
         let eventViewModel = EventViewModel(event: event)
-        
+
         sections.removeAll()
-        
+
         sections.append(EventDetailsSection(title: nil, items: [.event(event)]))
-        
+
 //        sections.append(EventDetailsSection(title: "Info", items: [
 //            .address(eventViewModel.address),
 //            .date(eventViewModel.eventDates)
 //        ]))
-        
+
         let divisions = eventViewModel.groups.map { EventDetailsInfo.division($0) }
         sections.append(EventDetailsSection(title: "Divisions", items: divisions))
-        
+
         if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
             sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))
         }
@@ -114,20 +114,20 @@ extension EventDetailsDataSource: DataSource {
     func numberOfSections() -> Int {
         return sections.count
     }
-    
+
     func numberOfItems(in section: Int) -> Int {
         guard section < sections.count else {
             return 0
         }
-        
+
         return sections[section].items.count
     }
-    
+
     func item(at indexPath: IndexPath) -> EventDetailsInfo? {
         guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else {
             return nil
         }
-        
+
         return sections[indexPath.section].items[indexPath.item]
     }
 }

@@ -61,11 +61,11 @@ public extension UIColor {
     static var scRed: UIColor {
         return UIColor(hexString: "#DF5F6D")
     }
-    
+
     static var scBlue: UIColor {
         return UIColor(hexString: "#4C69AB")
     }
-    
+
     static var messageGreen: UIColor {
         return UIColor(hexString: "#32B92D")
     }
