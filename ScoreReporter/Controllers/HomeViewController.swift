@@ -67,7 +67,7 @@ class HomeViewController: UIViewController, MessageDisplayable {
             self?.tableView.handle(changes: changes)
         }
 
-        viewModel.downloadEvents()
+//        viewModel.downloadEvents()
     }
 
     override func viewWillDisappear(_ animated: Bool) {

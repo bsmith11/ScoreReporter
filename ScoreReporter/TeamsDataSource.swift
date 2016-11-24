@@ -31,3 +31,15 @@ class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
         unregister(fetchedResultsController: fetchedResultsController)
     }
 }
+
+// MARK: - Public
+
+extension TeamsDataSource {
+    func title(for section: Int) -> String? {
+        guard !(fetchedResultsController.fetchedObjects?.isEmpty ?? true) else {
+            return nil
+        }
+
+        return "Bookmarks"
+    }
+}

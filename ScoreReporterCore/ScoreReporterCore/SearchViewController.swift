@@ -13,17 +13,20 @@ import CoreData
 
 public protocol SearchViewControllerDelegate: class {
     func didSelect(item: Searchable)
+    func didSelectCancel()
+    func didBeginEditing()
 }
 
 public class SearchViewController<Model: NSManagedObject where Model: Searchable>: UIViewController {
     fileprivate let dataSource: SearchDataSource<Model>
-    fileprivate let searchBar = UISearchBar(frame: .zero)
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     fileprivate let defaultView = DefaultView(frame: .zero)
 
     fileprivate var tableViewProxy: TableViewProxy?
     fileprivate var searchBarProxy: SearchBarProxy?
     fileprivate var selectedCell: UITableViewCell?
+
+    public let searchBar = UISearchBar(frame: .zero)
 
     public weak var delegate: SearchViewControllerDelegate?
 
@@ -34,6 +37,13 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
 
         tableViewProxy = TableViewProxy(dataSource: self, delegate: self)
         searchBarProxy = SearchBarProxy(delegate: self)
+
+        searchBar.autocapitalizationType = .none
+        searchBar.autocorrectionType = .no
+        searchBar.spellCheckingType = .no
+        searchBar.placeholder = Model.searchBarPlaceholder
+        searchBar.tintColor = UIColor.scBlue
+        searchBar.delegate = searchBarProxy
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -87,14 +97,6 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
 
 private extension SearchViewController {
     func configureViews() {
-        searchBar.autocapitalizationType = .none
-        searchBar.autocorrectionType = .no
-        searchBar.spellCheckingType = .no
-        searchBar.placeholder = Model.searchBarPlaceholder
-        searchBar.tintColor = UIColor.scBlue
-        searchBar.delegate = searchBarProxy
-        navigationItem.titleView = searchBar
-
         tableView.dataSource = tableViewProxy
         tableView.delegate = tableViewProxy
         tableView.register(headerFooterClass: SectionHeaderView.self)
@@ -188,13 +190,21 @@ extension SearchViewController: TableViewProxyDelegate {
 extension SearchViewController: SearchBarProxyDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
+        searchBar.setShowsCancelButton(false, animated: true)
+
         dataSource.search(for: nil)
 
-        _ = navigationController?.popViewController(animated: true)
+        delegate?.didSelectCancel()
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         dataSource.search(for: searchText)
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+
+        delegate?.didBeginEditing()
     }
 }
 
@@ -203,9 +213,9 @@ extension SearchViewController: SearchBarProxyDelegate {
 extension SearchViewController: ListDetailAnimationControllerDelegate {
     public var viewToAnimate: UIView {
         guard let cell = selectedCell as? SearchCell,
-            let navView = navigationController?.view,
-            let snapshot = cell.snapshot(rect: cell.contentFrame) else {
-                return UIView()
+              let navView = navigationController?.view,
+              let snapshot = cell.snapshot(rect: cell.contentFrame) else {
+            return UIView()
         }
 
         let frame = cell.contentFrameFrom(view: navView)

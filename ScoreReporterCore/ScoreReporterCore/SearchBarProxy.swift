@@ -12,6 +12,7 @@ import UIKit
 protocol SearchBarProxyDelegate: class {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
 }
 
 class SearchBarProxy: NSObject {
@@ -29,5 +30,9 @@ extension SearchBarProxy: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         delegate.searchBar(searchBar, textDidChange: searchText)
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        delegate.searchBarTextDidBeginEditing(searchBar)
     }
 }

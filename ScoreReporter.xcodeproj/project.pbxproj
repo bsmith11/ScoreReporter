@@ -36,6 +36,7 @@
 		4867971F1DE54B0900C70324 /* TeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971E1DE54B0900C70324 /* TeamsViewController.swift */; };
 		486797211DE54B1300C70324 /* TeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797201DE54B1300C70324 /* TeamsViewModel.swift */; };
 		486797231DE54B1A00C70324 /* TeamsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797221DE54B1A00C70324 /* TeamsDataSource.swift */; };
+		486797291DE63F5A00C70324 /* SettingsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797281DE63F5A00C70324 /* SettingsHeaderView.swift */; };
 		487875681DDBC974008789A0 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487875671DDBC974008789A0 /* NotificationCenter.framework */; };
 		4878756B1DDBC974008789A0 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878756A1DDBC974008789A0 /* TodayViewController.swift */; };
 		487875721DDBC974008789A0 /* TodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 487875661DDBC974008789A0 /* TodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -139,6 +140,7 @@
 		4867971E1DE54B0900C70324 /* TeamsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
 		486797201DE54B1300C70324 /* TeamsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsViewModel.swift; sourceTree = "<group>"; };
 		486797221DE54B1A00C70324 /* TeamsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsDataSource.swift; sourceTree = "<group>"; };
+		486797281DE63F5A00C70324 /* SettingsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHeaderView.swift; sourceTree = "<group>"; };
 		487875661DDBC974008789A0 /* TodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875671DDBC974008789A0 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		4878756A1DDBC974008789A0 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				48A2E7171DA4AFF800B7B422 /* Acknowledgement List */,
 				48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */,
 				48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */,
+				486797281DE63F5A00C70324 /* SettingsHeaderView.swift */,
 				487876FE1DDCD8A6008789A0 /* SettingsCell.swift */,
 			);
 			name = Settings;
@@ -450,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */,
+				E2E5ED9D04AACD67F94ABF4E /* Application */,
 				48400E891D8EF94F00927EB6 /* Login */,
 				483453BD1D8D8A0D00F0918A /* Home */,
 				486797171DE5459400C70324 /* Events */,
@@ -461,7 +465,6 @@
 				484951781D9653D600C95F2F /* Pools */,
 				487BF3721D9856760082D6FC /* Game List */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
-				E2E5ED9D04AACD67F94ABF4E /* Application */,
 				8C9462C06DBD76CB33CD55E2 /* Controllers */,
 				2E91F1BFF2A58D6F931A75C4 /* Resources */,
 			);
@@ -819,6 +822,7 @@
 				486797231DE54B1A00C70324 /* TeamsDataSource.swift in Sources */,
 				485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */,
 				483453C31D8DA87900F0918A /* EventDetailsViewController.swift in Sources */,
+				486797291DE63F5A00C70324 /* SettingsHeaderView.swift in Sources */,
 				4815808F1DC86A66008F141B /* NavigationItemButtonView.swift in Sources */,
 				488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */,
 				48A2E7121DA49E1800B7B422 /* SettingsDataSource.swift in Sources */,

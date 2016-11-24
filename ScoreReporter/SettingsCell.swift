@@ -10,19 +10,16 @@ import UIKit
 import Anchorage
 import ScoreReporterCore
 
-class SettingsCell: UITableViewCell {
+class SettingsCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
-    fileprivate let iconImageView = UIImageView(frame: .zero)
+//    fileprivate let avatarContainerView = UIView(frame: .zero)
+//    fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.backgroundColor = UIColor.white
-        preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsets.zero
-        separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
-        accessoryType = .disclosureIndicator
+        selectionStyle = .none
 
         configureViews()
         configureLayout()
@@ -37,14 +34,12 @@ class SettingsCell: UITableViewCell {
 
 extension SettingsCell {
     func configure(with item: SettingsItem?) {
-        iconImageView.image = item?.image
-        iconImageView.isHidden = iconImageView.image == nil
+//        iconImageView.image = item?.image
+//        iconImageView.isHidden = iconImageView.image == nil
         titleLabel.text = item?.title
     }
 
     func configure(with title: String?) {
-        iconImageView.image = nil
-        iconImageView.isHidden = true
         titleLabel.text = title
     }
 }
@@ -54,15 +49,22 @@ extension SettingsCell {
 private extension SettingsCell {
     func configureViews() {
         contentStackView.axis = .horizontal
-        contentStackView.spacing = 16.0
+        contentStackView.spacing = 8.0
         contentStackView.alignment = .center
         contentView.addSubview(contentStackView)
 
-        iconImageView.contentMode = .center
-        iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        contentStackView.addArrangedSubview(iconImageView)
+//        avatarContainerView.layer.cornerRadius = 8.0
+//        avatarContainerView.layer.masksToBounds = true
+//        avatarContainerView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+//        contentStackView.addArrangedSubview(avatarContainerView)
 
-        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightLight)
+//        avatarLabel.font = UIFont.systemFont(ofSize: 24.0, weight: UIFontWeightBlack)
+//        avatarLabel.textColor = UIColor.white
+//        avatarLabel.numberOfLines = 1
+//        avatarLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+//        avatarContainerView.addSubview(avatarLabel)
+
+        titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
         titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
@@ -71,5 +73,10 @@ private extension SettingsCell {
 
     func configureLayout() {
         contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
+
+//        avatarContainerView.heightAnchor == 45.0
+//        avatarContainerView.widthAnchor == 45.0
+
+//        avatarLabel.centerAnchors == avatarContainerView.centerAnchors
     }
 }

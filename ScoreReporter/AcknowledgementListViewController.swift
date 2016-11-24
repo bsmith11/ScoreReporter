@@ -63,8 +63,8 @@ private extension AcknowledgementListViewController {
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
     }
 
@@ -89,6 +89,7 @@ extension AcknowledgementListViewController: UITableViewDataSource {
         let item = dataSource.item(at: indexPath)
 
         cell.configure(with: item?.title)
+        cell.separatorHidden = indexPath.item == 0
 
         return cell
     }

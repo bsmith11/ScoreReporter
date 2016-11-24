@@ -70,7 +70,6 @@ private extension BracketListViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
 
         view.addSubview(defaultView)

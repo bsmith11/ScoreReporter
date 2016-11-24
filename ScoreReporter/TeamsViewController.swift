@@ -16,6 +16,7 @@ class TeamsViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: TeamsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let searchViewController: SearchViewController<Team>
 
     fileprivate var selectedCell: UITableViewCell?
 
@@ -29,17 +30,19 @@ class TeamsViewController: UIViewController, MessageDisplayable {
         self.viewModel = viewModel
         self.dataSource = dataSource
 
+        let searchDataSource = SearchDataSource(fetchedResultsController: Team.searchFetchedResultsController)
+        searchViewController = SearchViewController(dataSource: searchDataSource)
+
         super.init(nibName: nil, bundle: nil)
 
+        searchViewController.delegate = self
+        
         title = "Teams"
 
         let image = UIImage(named: "icn-teams")
         let selectedImage = UIImage(named: "icn-teams-selected")
         tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage)
         tabBarItem.imageInsets = UIEdgeInsets(top: 5.5, left: 0.0, bottom: -5.5, right: 0.0)
-
-        let searchButton = UIBarButtonItem(image: UIImage(named: "icn-search"), style: .plain, target: self, action: #selector(searchButtonPressed))
-        navigationItem.rightBarButtonItem = searchButton
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -68,6 +71,8 @@ class TeamsViewController: UIViewController, MessageDisplayable {
         dataSource.fetchedChangeHandler = { [weak self] changes in
             self?.tableView.handle(changes: changes)
         }
+
+        navigationItem.titleView = searchViewController.searchBar
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,10 +90,12 @@ private extension TeamsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.register(cellClass: TeamCell.self)
         tableView.backgroundColor = UIColor.white
         tableView.estimatedRowHeight = 90.0
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
@@ -109,13 +116,6 @@ private extension TeamsViewController {
         kvoController.observe(dataSource, keyPath: #keyPath(TeamsDataSource.empty)) { [weak self] (empty: Bool) in
             self?.defaultView.empty = empty
         }
-    }
-
-    @objc func searchButtonPressed() {
-        let searchDataSource = SearchDataSource(fetchedResultsController: Team.searchFetchedResultsController)
-        let searchViewController = SearchViewController(dataSource: searchDataSource)
-        searchViewController.delegate = self
-        navigationController?.pushViewController(searchViewController, animated: true)
     }
 }
 
@@ -156,11 +156,26 @@ extension TeamsViewController: UITableViewDelegate {
         navigationController?.pushViewController(teamDetailsViewController, animated: true)
     }
 
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.0001
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let title = dataSource.title(for: section) else {
+            return nil
+        }
+
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
+        headerView.configure(with: title)
+
+        return headerView
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        guard let _ = dataSource.title(for: section) else {
+            return 0.0001
+        }
+
+        return 44.0
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
     }
 }
@@ -177,6 +192,27 @@ extension TeamsViewController: SearchViewControllerDelegate {
         let teamDetailsDataSource = TeamDetailsDataSource(team: team)
         let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
         navigationController?.pushViewController(teamDetailsViewController, animated: true)
+    }
+
+    func didSelectCancel() {
+        guard childViewControllers.contains(searchViewController) else {
+            return
+        }
+
+        searchViewController.willMove(toParentViewController: nil)
+        searchViewController.view.removeFromSuperview()
+        searchViewController.removeFromParentViewController()
+    }
+
+    func didBeginEditing() {
+        guard !childViewControllers.contains(searchViewController) else {
+            return
+        }
+
+        addChildViewController(searchViewController)
+        view.addSubview(searchViewController.view)
+        searchViewController.view.edgeAnchors == edgeAnchors
+        searchViewController.didMove(toParentViewController: self)
     }
 }
 

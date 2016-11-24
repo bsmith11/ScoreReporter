@@ -73,8 +73,8 @@ private extension SettingsViewController {
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = true
-        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
     }
 
@@ -99,6 +99,7 @@ extension SettingsViewController: UITableViewDataSource {
         let item = dataSource.item(at: indexPath)
 
         cell.configure(with: item)
+        cell.separatorHidden = indexPath.item == 0
 
         return cell
     }

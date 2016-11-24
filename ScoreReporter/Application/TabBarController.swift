@@ -54,6 +54,9 @@ private extension TabBarController {
             settingsNavigationController
         ]
 
+        eventsViewModel.downloadEvents()
+        teamsViewModel.downloadTeams()
+
         setViewControllers(navigationControllers, animated: false)
     }
 }
