@@ -9,6 +9,8 @@
 import UIKit
 import Anchorage
 import ScoreReporterCore
+import KVOController
+import SafariServices
 
 class LoginViewController: UIViewController {
     fileprivate let viewModel: LoginViewModel
@@ -16,9 +18,10 @@ class LoginViewController: UIViewController {
     fileprivate let emailTextField = UITextField(frame: .zero)
     fileprivate let separatorView = UIView(frame: .zero)
     fileprivate let passwordTextField = UITextField(frame: .zero)
-    fileprivate let spacerView = UIView(frame: .zero)
-    fileprivate let skipButton = UIButton(type: .system)
-
+    fileprivate let loginButton = UIButton(type: .system)
+    fileprivate let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    fileprivate let forgotPasswordButton = UIButton(type: .system)
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -27,6 +30,10 @@ class LoginViewController: UIViewController {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
+        
+        let dismissImage = UIImage(named: "icn-dismiss")
+        let dismissButton = UIBarButtonItem(image: dismissImage, style: .plain, target: self, action: #selector(dismissButtonPressed))
+        navigationItem.rightBarButtonItem = dismissButton
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,11 +44,20 @@ class LoginViewController: UIViewController {
         view = UIView()
         view.backgroundColor = UIColor.scBlue
 
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        view.addGestureRecognizer(gesture)
-
         configureViews()
         configureLayout()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureObservers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        emailTextField.becomeFirstResponder()
     }
 }
 
@@ -57,72 +73,118 @@ private extension LoginViewController {
         ]
 
         emailTextField.delegate = self
-        emailTextField.font = UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBlack)
+        emailTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
         emailTextField.textColor = UIColor.white
-        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: placeholderAttributes)
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "username", attributes: placeholderAttributes)
         emailTextField.tintColor = UIColor.white
+        emailTextField.returnKeyType = .next
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
         emailTextField.spellCheckingType = .no
         emailTextField.keyboardType = .emailAddress
         contentStackView.addArrangedSubview(emailTextField)
 
-        separatorView.backgroundColor = UIColor(hexString: "#C6C6CC")
+        separatorView.backgroundColor = UIColor(red: 0.78, green: 0.78, blue: 0.8, alpha: 1.0)
         contentStackView.addArrangedSubview(separatorView)
 
         passwordTextField.delegate = self
-        passwordTextField.font = UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBlack)
+        passwordTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
         passwordTextField.textColor = UIColor.white
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: placeholderAttributes)
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "password", attributes: placeholderAttributes)
         passwordTextField.tintColor = UIColor.white
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.returnKeyType = .go
         contentStackView.addArrangedSubview(passwordTextField)
-
-        contentStackView.addArrangedSubview(spacerView)
-
-        skipButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
-        skipButton.setTitle("Later", for: .normal)
-        skipButton.setTitleColor(UIColor.white, for: .normal)
-        skipButton.titleLabel?.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
-        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
-        view.addSubview(skipButton)
+        
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBlack)
+        loginButton.setTitleColor(UIColor.white, for: .normal)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        loginButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        view.addSubview(loginButton)
+        
+        spinner.hidesWhenStopped = true
+        view.addSubview(spinner)
+        
+        forgotPasswordButton.setTitle("Forgot Password?", for: .normal)
+        forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
+        forgotPasswordButton.setTitleColor(UIColor.white, for: .normal)
+        forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonPressed), for: .touchUpInside)
+        forgotPasswordButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        view.addSubview(forgotPasswordButton)
     }
 
     func configureLayout() {
-        contentStackView.horizontalAnchors == horizontalAnchors + 48.0
-        contentStackView.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor - 100.0
+        contentStackView.topAnchor == topLayoutGuide.bottomAnchor
+        contentStackView.horizontalAnchors == horizontalAnchors + 16.0
 
         emailTextField.heightAnchor == 44.0
 
-        separatorView.heightAnchor == 1.0
+        separatorView.heightAnchor == 1.0 / UIScreen.main.scale
 
         passwordTextField.heightAnchor == 44.0
-
-        spacerView.heightAnchor == 60.0
-
-        skipButton.trailingAnchor == view.trailingAnchor
-        skipButton.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor
+        
+        loginButton.topAnchor == contentStackView.bottomAnchor + 32.0
+        loginButton.centerXAnchor == view.centerXAnchor
+        
+        spinner.centerAnchors == loginButton.centerAnchors
+        
+        forgotPasswordButton.trailingAnchor == view.trailingAnchor
+        forgotPasswordButton.keyboardLayoutGuide.bottomAnchor == view.bottomAnchor
+    }
+    
+    func configureObservers() {
+        kvoController.observe(viewModel, keyPath: #keyPath(LoginViewModel.loading)) { [weak self] (loading: Bool) in
+            self?.navigationItem.rightBarButtonItem?.isEnabled = !loading
+            self?.loginButton.isHidden = loading
+            
+            if loading {
+                self?.spinner.startAnimating()
+            }
+            else {
+                self?.spinner.stopAnimating()
+            }
+        }
+        
+        kvoController.observe(viewModel, keyPath: #keyPath(LoginViewModel.error)) { [weak self] (error: NSError) in
+            
+        }
     }
 
-    @objc func handleTap() {
+    @objc func dismissButtonPressed() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
+        
+        dismiss(animated: true, completion: nil)
     }
-
-    @objc func skipButtonTapped() {
-
+    
+    @objc func loginButtonPressed() {
+        login()
+    }
+    
+    @objc func forgotPasswordButtonPressed() {
+        guard let url = URL(string: "https://play.usaultimate.org/members/forgot/") else {
+            return
+        }
+        
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
 
     func login() {
         guard let username = emailTextField.text,
-                  let password = passwordTextField.text, !username.isEmpty && !password.isEmpty else {
+              let password = passwordTextField.text, !username.isEmpty && !password.isEmpty else {
             return
         }
 
         let credentials = Credentials(username: username, password: password)
 
-        viewModel.login(with: credentials) { error in
-
+        viewModel.login(with: credentials) { [weak self] error in
+            if error == nil {
+                self?.emailTextField.resignFirstResponder()
+                self?.passwordTextField.resignFirstResponder()
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }
@@ -135,9 +197,7 @@ extension LoginViewController: UITextFieldDelegate {
         case emailTextField:
             passwordTextField.becomeFirstResponder()
         case passwordTextField:
-            print("\(User.currentUser)")
             login()
-            break
         default:
             break
         }

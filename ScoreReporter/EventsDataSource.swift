@@ -40,6 +40,6 @@ extension EventsDataSource {
             return nil
         }
 
-        return "Bookmarks"
+        return "My Events"
     }
 }

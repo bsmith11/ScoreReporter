@@ -12,6 +12,7 @@ import ScoreReporterCore
 
 class SettingsCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let iconImageView = UIImageView(frame: .zero)
 //    fileprivate let avatarContainerView = UIView(frame: .zero)
 //    fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
@@ -34,12 +35,13 @@ class SettingsCell: TableViewCell {
 
 extension SettingsCell {
     func configure(with item: SettingsItem?) {
-//        iconImageView.image = item?.image
-//        iconImageView.isHidden = iconImageView.image == nil
+        iconImageView.image = item?.image
+        iconImageView.isHidden = iconImageView.image == nil
         titleLabel.text = item?.title
     }
 
     func configure(with title: String?) {
+        iconImageView.isHidden = true
         titleLabel.text = title
     }
 }
@@ -49,10 +51,14 @@ extension SettingsCell {
 private extension SettingsCell {
     func configureViews() {
         contentStackView.axis = .horizontal
-        contentStackView.spacing = 8.0
+        contentStackView.spacing = 16.0
         contentStackView.alignment = .center
         contentView.addSubview(contentStackView)
 
+//        iconImageView.contentMode = .center
+//        iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+//        contentStackView.addArrangedSubview(iconImageView)
+        
 //        avatarContainerView.layer.cornerRadius = 8.0
 //        avatarContainerView.layer.masksToBounds = true
 //        avatarContainerView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)

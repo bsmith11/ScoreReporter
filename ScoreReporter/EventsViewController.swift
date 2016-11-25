@@ -95,7 +95,6 @@ private extension EventsViewController {
         tableView.backgroundColor = UIColor.white
         tableView.estimatedRowHeight = 90.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
@@ -168,12 +167,12 @@ extension EventsViewController: UITableViewDelegate {
         return headerView
     }
 
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let _ = dataSource.title(for: section) else {
             return 0.0001
         }
-
-        return 44.0
+        
+        return SectionHeaderView.height
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

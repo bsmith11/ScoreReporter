@@ -119,7 +119,6 @@ private extension EventDetailsViewController {
         tableView.backgroundColor = UIColor.white
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
-//        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
     }
@@ -248,7 +247,7 @@ extension EventDetailsViewController: UITableViewDelegate {
             return 0.0001
         }
 
-        return 55.0
+        return SectionHeaderView.height
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

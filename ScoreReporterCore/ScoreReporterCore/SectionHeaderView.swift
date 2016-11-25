@@ -18,6 +18,11 @@ public class SectionHeaderView: UITableViewHeaderFooterView {
     fileprivate let actionButton = UIButton(type: .system)
 
     fileprivate var actionButtonWidth: NSLayoutConstraint?
+    
+    public class var height: CGFloat {
+        let fontHeight = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBlack).lineHeight
+        return fontHeight + 16.0
+    }
 
     public weak var delegate: SectionHeaderViewDelegate?
 
@@ -50,7 +55,7 @@ public extension SectionHeaderView {
 
 private extension SectionHeaderView {
     func configureViews() {
-        titleLabel.font = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightBlack)
+        titleLabel.font = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBlack)
         titleLabel.textColor = UIColor.black
         contentView.addSubview(titleLabel)
 

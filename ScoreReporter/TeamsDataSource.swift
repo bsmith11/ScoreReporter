@@ -40,6 +40,6 @@ extension TeamsDataSource {
             return nil
         }
 
-        return "Bookmarks"
+        return "My Teams"
     }
 }

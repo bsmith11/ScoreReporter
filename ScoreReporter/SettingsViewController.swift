@@ -13,6 +13,9 @@ import ScoreReporterCore
 class SettingsViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: SettingsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    
+    fileprivate var loginButton: UIBarButtonItem?
+    fileprivate var logoutButton: UIBarButtonItem?
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -34,6 +37,16 @@ class SettingsViewController: UIViewController, MessageDisplayable {
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
+        
+        loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginButtonPressed))
+        logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonPressed))
+        
+        if let _ = User.currentUser {
+            navigationItem.rightBarButtonItem = logoutButton
+        }
+        else {
+            navigationItem.rightBarButtonItem = loginButton
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -80,6 +93,18 @@ private extension SettingsViewController {
 
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
+    }
+    
+    @objc func loginButtonPressed() {
+        let loginViewModel = LoginViewModel()
+        let loginViewController = LoginViewController(viewModel: loginViewModel)
+        let loginNavigationController = BaseNavigationController(rootViewController: loginViewController)
+        
+        present(loginNavigationController, animated: true, completion: nil)
+    }
+    
+    @objc func logoutButtonPressed() {
+        
     }
 }
 

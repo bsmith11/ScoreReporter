@@ -17,14 +17,17 @@ struct SettingsSection {
 
 enum SettingsItem {
     case acknowledgements
+    case help
     case about
 
     var image: UIImage? {
         switch self {
         case .acknowledgements:
             return nil
+        case .help:
+            return nil
         case .about:
-            return UIImage(named: "")
+            return UIImage(named: "icn-about")
         }
     }
 
@@ -32,6 +35,8 @@ enum SettingsItem {
         switch self {
         case .acknowledgements:
             return "Acknowledgements"
+        case .help:
+            return "Help"
         case .about:
             return "About"
         }
@@ -64,7 +69,7 @@ extension SettingsDataSource {
 
 private extension SettingsDataSource {
     func configureSections() {
-        let section = SettingsSection(title: nil, items: [.acknowledgements])
+        let section = SettingsSection(title: nil, items: [.acknowledgements, .help, .about])
         sections.append(section)
     }
 }

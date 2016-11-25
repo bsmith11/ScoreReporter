@@ -24,6 +24,9 @@ class BaseNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         delegate = self
+        
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
     }
 
     required init?(coder aDecoder: NSCoder) {

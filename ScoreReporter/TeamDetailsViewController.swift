@@ -234,8 +234,8 @@ extension TeamDetailsViewController: UITableViewDelegate {
         guard let _ = dataSource.title(for: section) else {
             return 0.0001
         }
-
-        return 55.0
+        
+        return SectionHeaderView.height
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

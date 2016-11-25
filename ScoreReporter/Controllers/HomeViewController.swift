@@ -90,8 +90,6 @@ private extension HomeViewController {
         tableView.backgroundColor = UIColor.white
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 44.0
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
@@ -172,6 +170,14 @@ extension HomeViewController: UITableViewDelegate {
         headerView.configure(with: title)
 
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let _ = dataSource.title(for: section) else {
+            return 0.0001
+        }
+        
+        return SectionHeaderView.height
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
