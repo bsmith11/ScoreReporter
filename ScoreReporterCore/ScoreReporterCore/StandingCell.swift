@@ -39,6 +39,8 @@ public extension StandingCell {
         let wins = standing?.wins ?? 0
         let losses = standing?.losses ?? 0
         resultsLabel.text = "\(wins) - \(losses)"
+        
+        contentStackView.layoutIfNeeded()
     }
 }
 
@@ -47,7 +49,7 @@ public extension StandingCell {
 private extension StandingCell {
     func configureViews() {
         contentStackView.axis = .horizontal
-        contentStackView.spacing = 16.0
+        contentStackView.spacing = 8.0
         contentView.addSubview(contentStackView)
 
         nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)

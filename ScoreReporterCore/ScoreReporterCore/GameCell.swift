@@ -10,9 +10,9 @@ import UIKit
 import Anchorage
 
 public class GameCell: TableViewCell {
-//    fileprivate let stackView = UIStackView(frame: .zero)
-//    fileprivate let avatarContainerView = UIView(frame: .zero)
-//    fileprivate let avatarLabel = UILabel(frame: .zero)
+    fileprivate let stackView = UIStackView(frame: .zero)
+    fileprivate let avatarContainerView = UIView(frame: .zero)
+    fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let homeStackView = UIStackView(frame: .zero)
     fileprivate let homeNameLabel = UILabel(frame: .zero)
@@ -42,10 +42,10 @@ public class GameCell: TableViewCell {
 
 public extension GameCell {
     func configure(with viewModel: GameViewModel) {
-//        let group = viewModel.game?.group
-//        let groupViewModel = GroupViewModel(group: group)
-//        avatarLabel.text = groupViewModel.divisionIdentifier
-//        avatarContainerView.backgroundColor = groupViewModel.divisionColor
+        let group = viewModel.game?.group
+        let groupViewModel = GroupViewModel(group: group)
+        avatarLabel.text = groupViewModel.divisionIdentifier
+        avatarContainerView.backgroundColor = groupViewModel.divisionColor
 
         homeNameLabel.attributedText = viewModel.homeTeamName
 
@@ -63,17 +63,19 @@ public extension GameCell {
         statusLabel.text = viewModel.status
         statusLabel.isHidden = statusLabel.text == nil
 
-//        switch viewModel.state {
-//        case .Full:
-//            infoStackView.isHidden = false
-//            avatarContainerView.isHidden = true
-//        case .Division:
-//            infoStackView.isHidden = true
-//            avatarContainerView.isHidden = false
-//        case .Minimal:
-//            infoStackView.isHidden = true
-//            avatarContainerView.isHidden = true
-//        }
+        switch viewModel.state {
+        case .Full:
+            infoStackView.isHidden = false
+            avatarContainerView.isHidden = true
+        case .Division:
+            infoStackView.isHidden = true
+            avatarContainerView.isHidden = false
+        case .Minimal:
+            infoStackView.isHidden = true
+            avatarContainerView.isHidden = true
+        }
+        
+        stackView.layoutIfNeeded()
     }
 }
 
@@ -81,29 +83,28 @@ public extension GameCell {
 
 private extension GameCell {
     func configureViews() {
-//        stackView.axis = .horizontal
-//        stackView.spacing = 8.0
-//        stackView.alignment = .center
-//        contentView.addSubview(stackView)
-//
-//        avatarContainerView.layer.cornerRadius = 4.0
-//        avatarContainerView.layer.masksToBounds = true
-//        avatarContainerView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-//        stackView.addArrangedSubview(avatarContainerView)
-//
-//        avatarLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightBlack)
-//        avatarLabel.textColor = UIColor.white
-//        avatarLabel.numberOfLines = 1
-//        avatarLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-//        avatarContainerView.addSubview(avatarLabel)
+        stackView.axis = .horizontal
+        stackView.spacing = 8.0
+        stackView.alignment = .center
+        contentView.addSubview(stackView)
+
+        avatarContainerView.layer.cornerRadius = 4.0
+        avatarContainerView.layer.masksToBounds = true
+        avatarContainerView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        stackView.addArrangedSubview(avatarContainerView)
+
+        avatarLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightBlack)
+        avatarLabel.textColor = UIColor.white
+        avatarLabel.numberOfLines = 1
+        avatarLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        avatarContainerView.addSubview(avatarLabel)
 
         contentStackView.axis = .vertical
         contentStackView.spacing = 4.0
-        contentView.addSubview(contentStackView)
-//        stackView.addArrangedSubview(contentStackView)
+        stackView.addArrangedSubview(contentStackView)
 
         homeStackView.axis = .horizontal
-//        homeStackView.spacing = 16.0
+        homeStackView.spacing = 16.0
         contentStackView.addArrangedSubview(homeStackView)
 
         homeNameLabel.textColor = UIColor.black
@@ -115,7 +116,7 @@ private extension GameCell {
         homeStackView.addArrangedSubview(homeScoreLabel)
 
         awayStackView.axis = .horizontal
-//        awayStackView.spacing = 16.0
+        awayStackView.spacing = 16.0
         contentStackView.addArrangedSubview(awayStackView)
 
         awayNameLabel.textColor = UIColor.black
@@ -127,7 +128,7 @@ private extension GameCell {
         awayStackView.addArrangedSubview(awayScoreLabel)
 
         infoStackView.axis = .horizontal
-//        infoStackView.spacing = 16.0
+        infoStackView.spacing = 16.0
         contentStackView.addArrangedSubview(infoStackView)
 
         fieldLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightThin)
@@ -143,12 +144,11 @@ private extension GameCell {
     }
 
     func configureLayout() {
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
-//        stackView.edgeAnchors == contentView.edgeAnchors + 16.0
-//
-//        avatarContainerView.heightAnchor == 25.0
-//        avatarContainerView.widthAnchor == 25.0
-//
-//        avatarLabel.centerAnchors == avatarContainerView.centerAnchors
+        stackView.edgeAnchors == contentView.edgeAnchors + 16.0
+
+        avatarContainerView.heightAnchor == 25.0
+        avatarContainerView.widthAnchor == 25.0
+
+        avatarLabel.centerAnchors == avatarContainerView.centerAnchors
     }
 }
