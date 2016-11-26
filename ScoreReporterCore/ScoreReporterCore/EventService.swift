@@ -63,7 +63,7 @@ public extension EventService {
 private extension EventService {
     func parseEventList(response: [String: Any], completion: DownloadCompletion?) {
         guard let eventArray = response[APIConstants.Response.Keys.events] as? [[String: AnyObject]] else {
-            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+            let error = NSError(type: .invalidResponse)
             completion?(error)
             return
         }
@@ -73,7 +73,7 @@ private extension EventService {
 
     func parseEvent(response: [String: Any], completion: DownloadCompletion?) {
         guard let groupArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
-            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+            let error = NSError(type: .invalidResponse)
             completion?(error)
             return
         }

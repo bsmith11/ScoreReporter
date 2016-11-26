@@ -38,8 +38,16 @@ public class MessageView: UIView {
 // MARK: - Public
 
 public extension MessageView {
-    func configure(with title: String) {
+    func configureWith(title: String) {
         titleLabel.text = title
+        backgroundColor = UIColor.messageGreen
+    }
+    
+    func configureWith(error: NSError) {
+        let title = error.message ?? error.localizedFailureReason ?? "Something went wrong..."
+        
+        titleLabel.text = title
+        backgroundColor = UIColor.red
     }
 
     func display(_ display: Bool, animated: Bool) {

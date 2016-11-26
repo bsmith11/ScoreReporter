@@ -133,12 +133,12 @@ private extension EventDetailsViewController {
                 self?.display(message: "Loading...", animated: true)
             }
             else {
-                self?.hideMessage(animated: true)
+                self?.hide(animated: true)
             }
         }
 
         kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.error)) { [weak self] (error: NSError) in
-            self?.display(message: "Error", animated: true)
+            self?.display(error: error, animated: true)
         }
     }
 

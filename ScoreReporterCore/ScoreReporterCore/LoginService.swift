@@ -58,14 +58,14 @@ public extension LoginService {
 private extension LoginService {
     func parseLogin(response: [String: Any], completion: DownloadCompletion?) {
         guard let accessToken = response[APIConstants.Response.Keys.userToken] as? String else {
-            let error = NSError(domain: "No Access Token", code: 0, userInfo: nil)
+            let error = NSError(type: .invalidAccessToken)
             completion?(error)
             return
         }
 
         User.user(from: response) { user in
             guard let userID = user?.userID else {
-                let error = NSError(domain: "Failed to parse User", code: 0, userInfo: nil)
+                let error = NSError(type: .importFailure)
                 completion?(error)
                 return
             }

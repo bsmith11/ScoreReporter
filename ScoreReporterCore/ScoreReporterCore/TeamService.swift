@@ -57,7 +57,7 @@ public extension TeamService {
 private extension TeamService {
     func parseTeamList(response: [String: Any], completion: DownloadCompletion?) {
         guard let teamArray = response[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
-            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+            let error = NSError(type: .invalidResponse)
             completion?(error)
             return
         }
@@ -67,7 +67,7 @@ private extension TeamService {
 
     func parseTeam(response: [String: Any], team: Team, completion: DownloadCompletion?) {
         guard let responseArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
-            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+            let error = NSError(type: .invalidResponse)
             completion?(error)
             return
         }

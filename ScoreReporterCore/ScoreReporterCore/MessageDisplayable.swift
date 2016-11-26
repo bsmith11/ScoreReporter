@@ -12,7 +12,8 @@ import Anchorage
 public protocol MessageDisplayable {
     func configureMessageView(_ topLayoutGuide: UILayoutSupport)
     func display(message: String, animated: Bool)
-    func hideMessage(animated: Bool)
+    func display(error: NSError, animated: Bool)
+    func hide(animated: Bool)
 }
 
 // MARK: - Public
@@ -33,11 +34,16 @@ public extension MessageDisplayable where Self: UIViewController {
     }
 
     func display(message: String, animated: Bool) {
-        messageView.configure(with: message)
+        messageView.configureWith(title: message)
+        messageView.display(true, animated: animated)
+    }
+    
+    func display(error: NSError, animated: Bool) {
+        messageView.configureWith(error: error)
         messageView.display(true, animated: animated)
     }
 
-    func hideMessage(animated: Bool) {
+    func hide(animated: Bool) {
         messageView.display(false, animated: animated)
     }
 }

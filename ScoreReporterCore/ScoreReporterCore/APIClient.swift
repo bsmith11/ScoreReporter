@@ -49,13 +49,13 @@ extension DataResponse {
         case .success(let value):
             guard let responseObject = value as? [String: Any],
                   let success = responseObject[APIConstants.Response.Keys.success] as? Bool else {
-                let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+                let error = NSError(type: .invalidResponse)
                 return Result.failure(error)
             }
             
             guard success else {
                 let message = responseObject[APIConstants.Response.Keys.message] as? String ?? "Something went wrong..."
-                let error = NSError(domain: message, code: 0, userInfo: nil)
+                let error = NSError(message: message)
                 return Result.failure(error)
             }
             

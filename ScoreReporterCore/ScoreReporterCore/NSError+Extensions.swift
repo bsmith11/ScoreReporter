@@ -7,3 +7,42 @@
 //
 
 import Foundation
+
+public enum ErrorType {
+    case invalidResponse
+    case invalidAccessToken
+    case importFailure
+    
+    var message: String {
+        switch self {
+        case .invalidResponse:
+            return "Invalid response structure"
+        case .invalidAccessToken:
+            return "No access token"
+        case .importFailure:
+            return "Failed to import User"
+        }
+    }
+}
+
+public extension NSError {
+    private static var messageKey: String {
+        return "com.bradsmith.ScoreReporter.error.message"
+    }
+    
+    convenience init(message: String) {
+        let userInfo = [
+            NSError.messageKey: message
+        ]
+        
+        self.init(domain: "com.bradsmith.ScoreReporter", code: 0, userInfo: userInfo)
+    }
+    
+    convenience init(type: ErrorType) {
+        self.init(message: type.message)
+    }
+    
+    var message: String? {
+        return userInfo[NSError.messageKey] as? String
+    }
+}
