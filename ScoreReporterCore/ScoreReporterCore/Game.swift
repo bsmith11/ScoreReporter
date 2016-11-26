@@ -138,7 +138,7 @@ extension Game: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Game: CoreDataImportable {
-    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Game? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Game? {
         guard let gameID = dictionary[APIConstants.Response.Keys.gameID] as? NSNumber else {
             return nil
         }

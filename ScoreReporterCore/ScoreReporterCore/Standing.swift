@@ -38,7 +38,7 @@ extension Standing: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Standing: CoreDataImportable {
-    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Standing? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Standing? {
         guard let standing = createObject(in: context) else {
             return nil
         }

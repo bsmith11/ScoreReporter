@@ -28,4 +28,27 @@ public extension UIView {
 
         return imageView
     }
+    
+    func shake() {
+        let animation = CAKeyframeAnimation(keyPath: #keyPath(CALayer.position))
+        animation.duration = 0.5
+        animation.values = [
+            NSValue(cgPoint: CGPoint(x: layer.position.x - 10.0, y: layer.position.y)),
+            NSValue(cgPoint: CGPoint(x: layer.position.x + 8.0, y: layer.position.y)),
+            NSValue(cgPoint: CGPoint(x: layer.position.x - 6.0, y: layer.position.y)),
+            NSValue(cgPoint: CGPoint(x: layer.position.x + 4.0, y: layer.position.y)),
+            NSValue(cgPoint: CGPoint(x: layer.position.x - 2.0, y: layer.position.y)),
+            NSValue(cgPoint: layer.position)
+        ]
+        
+        animation.timingFunctions = [
+            CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault),
+            CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault),
+            CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault),
+            CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault),
+            CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
+        ]
+        
+        layer.add(animation, forKey: #keyPath(CALayer.position))
+    }
 }

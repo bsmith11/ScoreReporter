@@ -79,7 +79,7 @@ private extension LoginViewController {
         ]
 
         emailTextField.delegate = self
-        emailTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
+        emailTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightRegular)
         emailTextField.textColor = UIColor.white
         emailTextField.attributedPlaceholder = NSAttributedString(string: "username", attributes: placeholderAttributes)
         emailTextField.tintColor = UIColor.white
@@ -94,7 +94,7 @@ private extension LoginViewController {
         contentStackView.addArrangedSubview(separatorView)
 
         passwordTextField.delegate = self
-        passwordTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBlack)
+        passwordTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightRegular)
         passwordTextField.textColor = UIColor.white
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "password", attributes: placeholderAttributes)
         passwordTextField.tintColor = UIColor.white
@@ -178,8 +178,20 @@ private extension LoginViewController {
     }
 
     func login() {
-        guard let username = emailTextField.text,
-              let password = passwordTextField.text, !username.isEmpty && !password.isEmpty else {
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.prepare()
+        
+        guard let username = emailTextField.text, !username.isEmpty else {
+            emailTextField.shake()
+            feedbackGenerator.notificationOccurred(.error)
+            
+            return
+        }
+        
+        guard let password = passwordTextField.text, !password.isEmpty else {
+            passwordTextField.shake()
+            feedbackGenerator.notificationOccurred(.error)
+            
             return
         }
 

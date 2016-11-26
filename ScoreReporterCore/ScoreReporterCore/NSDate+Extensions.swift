@@ -23,8 +23,8 @@ public extension Date {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
 
-        var dateComponents = (calendar as NSCalendar).components([.day, .month, .year], from: date)
-        let timeComponents = (calendar as NSCalendar).components([.hour, .minute], from: time)
+        var dateComponents = calendar.dateComponents([.day, .month, .year], from: date)
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: time)
 
         dateComponents.hour = timeComponents.hour
         dateComponents.minute = timeComponents.minute

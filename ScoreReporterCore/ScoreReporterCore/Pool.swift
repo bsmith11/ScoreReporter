@@ -56,7 +56,7 @@ extension Pool: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Pool: CoreDataImportable {
-    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Pool? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Pool? {
         guard let poolID = dictionary[APIConstants.Response.Keys.poolID] as? NSNumber else {
             return nil
         }

@@ -75,7 +75,7 @@ extension User: Fetchable {
 // MARK: - CoreDataImportable
 
 extension User: CoreDataImportable {
-    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> User? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> User? {
         guard let userID = dictionary[APIConstants.Response.Keys.memberID] as? NSNumber,
               let accountID = dictionary[APIConstants.Response.Keys.accountID] as? NSNumber else {
             return nil

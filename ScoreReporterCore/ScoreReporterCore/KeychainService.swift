@@ -66,12 +66,12 @@ public extension KeychainService {
 private extension KeychainService {
     static func save(_ service: String, string: String) {
         if let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false) {
-            let query = [
+            let query: [String: Any] = [
                 kSecClassValue: kSecClassGenericPasswordValue,
                 kSecAttrServiceValue: service,
                 kSecAttrAccountValue: userAccount,
                 kSecValueDataValue: data
-            ] as [String : Any]
+            ]
 
             SecItemDelete(query as CFDictionary)
             SecItemAdd(query as CFDictionary, nil)
@@ -79,13 +79,13 @@ private extension KeychainService {
     }
 
     static func load(_ service: String) -> String? {
-        let query = [
+        let query: [String: Any] = [
             kSecClassValue: kSecClassGenericPasswordValue,
             kSecAttrServiceValue: service,
             kSecAttrAccountValue: userAccount,
             kSecReturnDataValue: true,
             kSecMatchLimitValue: kSecMatchLimitOneValue
-        ] as [String : Any]
+        ]
 
         var result: AnyObject?
         let status = withUnsafeMutablePointer(to: &result) { SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0)) }

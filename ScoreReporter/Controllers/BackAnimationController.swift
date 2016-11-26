@@ -28,7 +28,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
 
         guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
                   let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
-                  let _ = fromViewController.navigationController?.navigationBar else {
+                  let navigationBar = fromViewController.navigationController?.navigationBar else {
             transitionContext.completeTransition(true)
             return
         }
@@ -66,9 +66,9 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         fromContainerView.layer.position = fromPositionBegin
         toContainerView.layer.position = toPositionBegin
 
-//        let navigationBarAnimatorView = NavigationBarAnimatorView(fromViewController: fromViewController, toViewController: toViewController, navigationBar: navigationBar)
-//        container.addSubview(navigationBarAnimatorView)
-//        navigationBarAnimatorView.prepareForAnimation()
+        let navigationBarAnimatorView = NavigationBarAnimatorView(fromViewController: fromViewController, toViewController: toViewController, navigationBar: navigationBar)
+        container.addSubview(navigationBarAnimatorView)
+        navigationBarAnimatorView.prepareForAnimation()
 
         let completion = {
             let finished = !transitionContext.transitionWasCancelled
@@ -85,7 +85,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
             self.toContainerView.removeFromSuperview()
             self.dimmingView.removeFromSuperview()
 
-//            navigationBarAnimatorView.finishAnimation()
+            navigationBarAnimatorView.finishAnimation()
 
             transitionContext.completeTransition(finished)
         }
@@ -130,7 +130,7 @@ extension BackAnimationController: UIViewControllerAnimatedTransitioning {
         dimmingView.layer.add(dimmingAnimation, forKey: "opacity")
         shadowImageView.layer.add(shadowAnimation, forKey: "opacity")
 
-//        navigationBarAnimatorView.animate(duration: duration, interactive: transitionContext.isInteractive())
+        navigationBarAnimatorView.animate(with: duration, interactive: transitionContext.isInteractive)
 
         CATransaction.commit()
     }

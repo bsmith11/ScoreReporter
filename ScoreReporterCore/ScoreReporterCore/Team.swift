@@ -156,7 +156,7 @@ extension Team: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Team: CoreDataImportable {
-    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Team? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Team? {
         guard let teamID = dictionary[APIConstants.Response.Keys.teamID] as? NSNumber else {
             return nil
         }
