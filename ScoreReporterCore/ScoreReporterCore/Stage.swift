@@ -36,7 +36,7 @@ extension Stage: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Stage: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Stage? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Stage? {
         guard let stageID = dictionary[APIConstants.Response.Keys.stageID] as? NSNumber else {
             return nil
         }

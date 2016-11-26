@@ -36,7 +36,7 @@ extension Cluster: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Cluster: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Cluster? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Cluster? {
         guard let clusterID = dictionary[APIConstants.Response.Keys.clusterID] as? NSNumber else {
             return nil
         }

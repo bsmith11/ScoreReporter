@@ -44,7 +44,7 @@ public extension Game {
     }
 
     static func gamesToday(for team: Team) -> [Game] {
-        guard let games = Game.fetchedGames(for: team).fetchedObjects else {
+        guard let games = Game.fetchedGamesFor(team: team).fetchedObjects else {
             return []
         }
 
@@ -61,7 +61,7 @@ public extension Game {
         return currentGames
     }
 
-    static func fetchedGamesForPool(_ pool: Pool) -> NSFetchedResultsController<Game> {
+    static func fetchedGamesFor(pool: Pool) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Game.pool), pool)
 
         let sortDescriptors = [
@@ -72,7 +72,7 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Game.startDateFull))
     }
 
-    static func fetchedGamesForClusters(_ clusters: [Cluster]) -> NSFetchedResultsController<Game> {
+    static func fetchedGamesFor(clusters: [Cluster]) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%K IN %@", #keyPath(Game.cluster), clusters)
 
         let sortDescriptors = [
@@ -83,7 +83,7 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Game.startDateFull))
     }
 
-    static func fetchedGames(for team: Team) -> NSFetchedResultsController<Game> {
+    static func fetchedGamesFor(team: Team) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams))
 
         let sortDescriptors = [
@@ -93,7 +93,7 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedActiveGamesForTeam(_ team: Team) -> NSFetchedResultsController<Game> {
+    static func fetchedActiveGamesFor(team: Team) -> NSFetchedResultsController<Game> {
         let predicates = [
             NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams)),
         ]
@@ -107,7 +107,7 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedActiveGamesForEvent(_ event: Event) -> NSFetchedResultsController<Game> {
+    static func fetchedActiveGamesFor(event: Event) -> NSFetchedResultsController<Game> {
         let gamePredicates = [
             NSPredicate(format: "%K == %@", #keyPath(Game.pool.round.group.event), event),
             NSPredicate(format: "%K == %@", #keyPath(Game.cluster.round.group.event), event),
@@ -138,7 +138,7 @@ extension Game: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Game: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Game? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Game? {
         guard let gameID = dictionary[APIConstants.Response.Keys.gameID] as? NSNumber else {
             return nil
         }

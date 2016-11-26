@@ -34,7 +34,7 @@ class TeamDetailsDataSource: NSObject {
     init(team: Team) {
         self.team = team
 
-        gamesFetchedResultsController = Game.fetchedGames(for: team)
+        gamesFetchedResultsController = Game.fetchedGamesFor(team: team)
 
         super.init()
 

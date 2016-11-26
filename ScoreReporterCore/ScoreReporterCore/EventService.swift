@@ -23,20 +23,18 @@ public struct EventService {
 
 public extension EventService {
     func downloadEventList(completion: DownloadCompletion?) {
-        let parameters = [
+        let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.events
         ]
 
-        let requestCompletion = { (result: Result<Any>) in
-            if result.isSuccess {
-                self.handleSuccessfulEventListResponse(result.value, completion: completion)
-            }
-            else {
-                completion?(result.error as NSError?)
+        client.request(.get, path: "", parameters: parameters) { result in
+            switch result {
+            case .success(let value):
+                self.parseEventList(response: value, completion: completion)
+            case .failure(let error):
+                completion?(error as NSError)
             }
         }
-
-        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
     func downloadDetails(for eventID: NSNumber, completion: DownloadCompletion?) {
@@ -45,16 +43,14 @@ public extension EventService {
             APIConstants.Request.Keys.eventID: eventID
         ]
 
-        let requestCompletion = { (result: Result<Any>) in
-            if result.isSuccess {
-                self.handleSuccessfulEventResponse(result.value, completion: completion)
-            }
-            else {
-                completion?(result.error as NSError?)
+        client.request(.get, path: "", parameters: parameters) { result in
+            switch result {
+            case .success(let value):
+                self.parseEvent(response: value, completion: completion)
+            case .failure(let error):
+                completion?(error as NSError)
             }
         }
-
-        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
     func downloadDetails(for event: Event, completion: DownloadCompletion?) {
@@ -65,9 +61,8 @@ public extension EventService {
 // MARK: - Private
 
 private extension EventService {
-    func handleSuccessfulEventListResponse(_ response: Any?, completion: DownloadCompletion?) {
-        guard let responseObject = response as? [String: AnyObject],
-                  let eventArray = responseObject[APIConstants.Response.Keys.events] as? [[String: AnyObject]] else {
+    func parseEventList(response: [String: Any], completion: DownloadCompletion?) {
+        guard let eventArray = response[APIConstants.Response.Keys.events] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
@@ -76,23 +71,10 @@ private extension EventService {
         Event.events(from: eventArray, completion: completion)
     }
 
-    func handleSuccessfulEventResponse(_ response: Any?, eventDictionary: [String: AnyObject]? = nil, completion: DownloadCompletion?) {
-        guard let responseObject = response as? [String: AnyObject] else {
+    func parseEvent(response: [String: Any], completion: DownloadCompletion?) {
+        guard let groupArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
-            return
-        }
-
-        guard let groupArray = responseObject[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
-            if let message = responseObject[APIConstants.Response.Keys.error] as? String {
-                print("Error Message: \(message)")
-                completion?(nil)
-            }
-            else {
-                let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
-                completion?(error)
-            }
-
             return
         }
 

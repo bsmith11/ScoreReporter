@@ -24,8 +24,28 @@ public extension User {
 
         return object(primaryKey: NSNumber(value: userID), context: User.coreDataStack.mainContext)
     }
+    
+    static func deleteAll() {
+        let fetchRequest = NSFetchRequest<User>(entityName: entityName)
+        
+        do {
+            let context = coreDataStack.mainContext
+            let objects = try context.fetch(fetchRequest)
+            
+            context.perform {
+                objects.forEach { context.delete($0) }
+                
+                if let error = context.saveToStore() {
+                    print("Failed to save context: \(context) with error: \(error)")
+                }
+            }
+        }
+        catch let error {
+            print("Failed to delete objects of type: \(self) with error: \(error)")
+        }
+    }
 
-    static func user(from dictionary: [String: AnyObject], completion: ((User?) -> Void)?) {
+    static func user(from dictionary: [String: Any], completion: ((User?) -> Void)?) {
         var userID: NSNumber?
 
         let block = { (context: NSManagedObjectContext) -> Void in
@@ -55,7 +75,7 @@ extension User: Fetchable {
 // MARK: - CoreDataImportable
 
 extension User: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> User? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> User? {
         guard let userID = dictionary[APIConstants.Response.Keys.memberID] as? NSNumber,
               let accountID = dictionary[APIConstants.Response.Keys.accountID] as? NSNumber else {
             return nil

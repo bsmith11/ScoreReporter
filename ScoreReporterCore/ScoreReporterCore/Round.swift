@@ -71,7 +71,7 @@ extension Round: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Round: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Round? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Round? {
         guard let roundID = dictionary[APIConstants.Response.Keys.roundID] as? NSNumber else {
             return nil
         }

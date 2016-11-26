@@ -64,7 +64,7 @@ class EventDetailsDataSource: NSObject {
     init(event: Event) {
         self.event = event
 
-        activeGamesFetchedResultsController = Game.fetchedActiveGamesForEvent(event)
+        activeGamesFetchedResultsController = Game.fetchedActiveGamesFor(event: event)
 
         super.init()
 

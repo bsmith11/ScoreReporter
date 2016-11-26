@@ -52,7 +52,7 @@ extension Group: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Group: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Group? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Group? {
         guard let groupID = dictionary[APIConstants.Response.Keys.groupID] as? NSNumber else {
             return nil
         }

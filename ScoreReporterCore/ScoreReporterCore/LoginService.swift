@@ -31,63 +31,42 @@ public struct LoginService {
 
 public extension LoginService {
     func login(with credentials: Credentials, completion: DownloadCompletion?) {
-        let parameters = [
+        let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.login,
             APIConstants.Request.Keys.username: credentials.username,
             APIConstants.Request.Keys.password: credentials.password
         ]
 
-        let requestCompletion = { (result: Result<Any>) in
-            if result.isSuccess {
-                self.handleSuccessfulLoginResponse(result.value, completion: completion)
-            }
-            else {
-                completion?(result.error as NSError?)
+        client.request(.get, path: "", parameters: parameters) { result in
+            switch result {
+            case .success(let value):
+                self.parseLogin(response: value, completion: completion)
+            case .failure(let error):
+                completion?(error as NSError)
             }
         }
-
-        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
     func logout() {
         KeychainService.deleteAllStoredValues()
-
-        //TODO: - Delete all User objects
+        User.deleteAll()
     }
 }
 
 // MARK: - Private
 
 private extension LoginService {
-    func handleSuccessfulLoginResponse(_ response: Any?, completion: DownloadCompletion?) {
-        guard let responseObject = response as? [String: AnyObject] else {
-            let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+    func parseLogin(response: [String: Any], completion: DownloadCompletion?) {
+        guard let accessToken = response[APIConstants.Response.Keys.userToken] as? String else {
+            let error = NSError(domain: "No Access Token", code: 0, userInfo: nil)
             completion?(error)
             return
         }
 
-        guard let success = responseObject[APIConstants.Response.Keys.success] as? Bool, success else {
-            if let message = responseObject[APIConstants.Response.Keys.message] as? String {
-                print("Error Message: \(message)")
-                completion?(nil)
-            }
-            else {
-                let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
-                completion?(error)
-            }
-
-            return
-        }
-
-        guard let accessToken = responseObject[APIConstants.Response.Keys.userToken] as? String else {
-            print("Error Message: No Access Token")
-            completion?(nil)
-            return
-        }
-
-        User.user(from: responseObject) { user in
+        User.user(from: response) { user in
             guard let userID = user?.userID else {
-                completion?(nil)
+                let error = NSError(domain: "Failed to parse User", code: 0, userInfo: nil)
+                completion?(error)
                 return
             }
 

@@ -16,7 +16,7 @@ public class Pool: NSManagedObject {
 // MARK: - Public
 
 public extension Pool {
-    static func fetchedPoolsForRound(_ round: Round) -> NSFetchedResultsController<Pool> {
+    static func fetchedPoolsFor(round: Round) -> NSFetchedResultsController<Pool> {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round), round)
 
         let sortDescriptors = [
@@ -26,7 +26,7 @@ public extension Pool {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedPoolsForGroup(_ group: Group) -> NSFetchedResultsController<Pool> {
+    static func fetchedPoolsFor(group: Group) -> NSFetchedResultsController<Pool> {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round.group), group)
 
         let sortDescriptors = [
@@ -56,7 +56,7 @@ extension Pool: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Pool: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Pool? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Pool? {
         guard let poolID = dictionary[APIConstants.Response.Keys.poolID] as? NSNumber else {
             return nil
         }

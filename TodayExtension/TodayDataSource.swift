@@ -50,7 +50,7 @@ struct TodayEventSection: TodaySection {
     fileprivate(set) var title: String?
 
     init?(team: Team) {
-        guard let events = Event.fetchedUpcomingEvents(for: team).fetchedObjects, !events.isEmpty else {
+        guard let events = Event.fetchedUpcomingEventsFor(team: team).fetchedObjects, !events.isEmpty else {
             return nil
         }
 

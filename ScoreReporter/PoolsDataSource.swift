@@ -43,7 +43,7 @@ class PoolsDataSource: NSObject, DataSource {
     fileprivate(set) dynamic var empty = false
 
     init(group: Group) {
-        fetchedResultsController = Pool.fetchedPoolsForGroup(group)
+        fetchedResultsController = Pool.fetchedPoolsFor(group: group)
 
         super.init()
 

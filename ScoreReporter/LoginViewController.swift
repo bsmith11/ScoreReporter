@@ -12,6 +12,10 @@ import ScoreReporterCore
 import KVOController
 import SafariServices
 
+protocol LoginViewControllerDelegate: class {
+    func didLogin()
+}
+
 class LoginViewController: UIViewController {
     fileprivate let viewModel: LoginViewModel
     fileprivate let contentStackView = UIStackView(frame: .zero)
@@ -21,6 +25,8 @@ class LoginViewController: UIViewController {
     fileprivate let loginButton = UIButton(type: .system)
     fileprivate let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
     fileprivate let forgotPasswordButton = UIButton(type: .system)
+    
+    weak var delegate: LoginViewControllerDelegate?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -181,8 +187,11 @@ private extension LoginViewController {
 
         viewModel.login(with: credentials) { [weak self] error in
             if error == nil {
+                self?.delegate?.didLogin()
+                
                 self?.emailTextField.resignFirstResponder()
                 self?.passwordTextField.resignFirstResponder()
+                
                 self?.dismiss(animated: true, completion: nil)
             }
         }

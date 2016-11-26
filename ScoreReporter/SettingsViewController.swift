@@ -98,13 +98,25 @@ private extension SettingsViewController {
     @objc func loginButtonPressed() {
         let loginViewModel = LoginViewModel()
         let loginViewController = LoginViewController(viewModel: loginViewModel)
+        loginViewController.delegate = self
         let loginNavigationController = BaseNavigationController(rootViewController: loginViewController)
         
         present(loginNavigationController, animated: true, completion: nil)
     }
     
     @objc func logoutButtonPressed() {
+        let alertController = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
+            self?.navigationItem.rightBarButtonItem = self?.loginButton
+            
+            let loginService = LoginService(client: APIClient.sharedInstance)
+            loginService.logout()
+        }
         
+        alertController.addAction(cancelAction)
+        alertController.addAction(logoutAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -146,5 +158,13 @@ extension SettingsViewController: UITableViewDelegate {
         default:
             break
         }
+    }
+}
+
+// MARK: - LoginViewControllerDelegate
+
+extension SettingsViewController: LoginViewControllerDelegate {
+    func didLogin() {
+        navigationItem.rightBarButtonItem = logoutButton
     }
 }

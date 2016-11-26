@@ -20,7 +20,7 @@ class BracketListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     var fetchedChangeHandler: FetchedChangeHandler?
 
     init(group: Group) {
-        fetchedResultsController = Bracket.fetchedBracketsForGroup(group)
+        fetchedResultsController = Bracket.fetchedBracketsFor(group: group)
 
         super.init()
 

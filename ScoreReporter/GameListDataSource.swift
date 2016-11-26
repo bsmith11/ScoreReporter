@@ -23,7 +23,7 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
 
     init(pool: Pool) {
         title = pool.name
-        fetchedResultsController = Game.fetchedGamesForPool(pool)
+        fetchedResultsController = Game.fetchedGamesFor(pool: pool)
 
         super.init()
 
@@ -33,7 +33,7 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
 
     init(clusters: [Cluster]) {
         title = "Crossovers"
-        fetchedResultsController = Game.fetchedGamesForClusters(clusters)
+        fetchedResultsController = Game.fetchedGamesFor(clusters: clusters)
 
         super.init()
 

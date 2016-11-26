@@ -24,7 +24,7 @@ public extension Event {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
 
-    static func fetchedUpcomingEvents(for team: Team) -> NSFetchedResultsController<Event> {
+    static func fetchedUpcomingEventsFor(team: Team) -> NSFetchedResultsController<Event> {
         let predicates = [
             NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament),
             NSPredicate(format: "%K > %@", #keyPath(Event.startDate), NSDate()),
@@ -109,7 +109,7 @@ extension Event: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Event: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Event? {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Event? {
         guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber else {
             return nil
         }

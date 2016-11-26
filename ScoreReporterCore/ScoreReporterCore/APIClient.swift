@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-public typealias APICompletion = (Result<Any>) -> Void
+public typealias APICompletion = (Result<[String: Any]>) -> Void
 
 public class APIClient {
     public static let sharedInstance = APIClient()
@@ -37,8 +37,31 @@ public extension APIClient {
     func request(_ method: HTTPMethod, path: String, encoding: ParameterEncoding = URLEncoding.default, parameters: [String: Any]? = nil, completion: APICompletion?) {
         let URL = baseURL.appendingPathComponent(path)
 
-        manager.request(URL, method: method, parameters: parameters, encoding: encoding, headers: nil).validate(statusCode: 200...399).responseJSON { response -> Void in
-            completion?(response.result)
+        manager.request(URL, method: method, parameters: parameters, encoding: encoding, headers: nil).validate(statusCode: 200...399).responseJSON { response in
+            completion?(response.validate())
+        }
+    }
+}
+
+extension DataResponse {
+    func validate() -> Result<[String: Any]> {
+        switch result {
+        case .success(let value):
+            guard let responseObject = value as? [String: Any],
+                  let success = responseObject[APIConstants.Response.Keys.success] as? Bool else {
+                let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
+                return Result.failure(error)
+            }
+            
+            guard success else {
+                let message = responseObject[APIConstants.Response.Keys.message] as? String ?? "Something went wrong..."
+                let error = NSError(domain: message, code: 0, userInfo: nil)
+                return Result.failure(error)
+            }
+            
+            return Result.success(responseObject)
+        case .failure(let error):
+            return Result.failure(error)
         }
     }
 }

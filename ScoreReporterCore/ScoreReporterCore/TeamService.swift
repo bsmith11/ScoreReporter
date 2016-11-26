@@ -21,47 +21,42 @@ public struct TeamService {
 
 public extension TeamService {
     func downloadTeamList(completion: DownloadCompletion?) {
-        let parameters = [
+        let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teams
         ]
-
-        let requestCompletion = { (result: Result<Any>) in
-            if result.isSuccess {
-                self.handleSuccessfulTeamListResponse(result.value, completion: completion)
-            }
-            else {
-                completion?(result.error as NSError?)
+        
+        client.request(.get, path: "", parameters: parameters) { result in
+            switch result {
+            case .success(let value):
+                self.parseTeamList(response: value, completion: completion)
+            case .failure(let error):
+                completion?(error as NSError)
             }
         }
-
-        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 
     func downloadDetails(for team: Team, completion: DownloadCompletion?) {
-        let parameters = [
+        let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teamDetails,
             APIConstants.Request.Keys.teamID: team.teamID.intValue
-        ] as [String : Any]
+        ]
 
-        let requestCompletion = { (result: Result<Any>) in
-            if result.isSuccess {
-                self.handleSuccessfulTeamResponse(result.value, team: team, completion: completion)
-            }
-            else {
-                completion?(result.error as NSError?)
+        client.request(.get, path: "", parameters: parameters) { result in
+            switch result {
+            case .success(let value):
+                self.parseTeam(response: value, team: team, completion: completion)
+            case .failure(let error):
+                completion?(error as NSError)
             }
         }
-
-        client.request(.get, path: "", parameters: parameters, completion: requestCompletion)
     }
 }
 
 // MARK: - Private
 
 private extension TeamService {
-    func handleSuccessfulTeamListResponse(_ response: Any?, completion: DownloadCompletion?) {
-        guard let responseObject = response as? [String: AnyObject],
-                  let teamArray = responseObject[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
+    func parseTeamList(response: [String: Any], completion: DownloadCompletion?) {
+        guard let teamArray = response[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return
@@ -70,9 +65,8 @@ private extension TeamService {
         Team.teams(from: teamArray, completion: completion)
     }
 
-    func handleSuccessfulTeamResponse(_ response: Any?, team: Team, completion: DownloadCompletion?) {
-        guard let responseObject = response as? [String: AnyObject],
-              let responseArray = responseObject[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
+    func parseTeam(response: [String: Any], team: Team, completion: DownloadCompletion?) {
+        guard let responseArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(domain: "Invalid response structure", code: 0, userInfo: nil)
             completion?(error)
             return

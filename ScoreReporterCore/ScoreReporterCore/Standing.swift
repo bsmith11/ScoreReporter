@@ -16,7 +16,7 @@ public class Standing: NSManagedObject {
 // MARK: - Public
 
 public extension Standing {
-    static func fetchedStandingsForPool(_ pool: Pool) -> NSFetchedResultsController<Standing> {
+    static func fetchedStandingsFor(pool: Pool) -> NSFetchedResultsController<Standing> {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Standing.pool), pool)
 
         let sortDescriptors = [
@@ -38,7 +38,7 @@ extension Standing: Fetchable {
 // MARK: - CoreDataImportable
 
 extension Standing: CoreDataImportable {
-    public static func object(from dictionary: [String : AnyObject], context: NSManagedObjectContext) -> Standing? {
+    public static func object(from dictionary: [String : Any], context: NSManagedObjectContext) -> Standing? {
         guard let standing = createObject(in: context) else {
             return nil
         }
