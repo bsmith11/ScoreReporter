@@ -18,8 +18,6 @@ class EventsViewController: UIViewController, MessageDisplayable {
     fileprivate let defaultView = DefaultView(frame: .zero)
     fileprivate let searchViewController: SearchViewController<Event>
 
-    fileprivate var selectedCell: UITableViewCell?
-
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
 
@@ -74,13 +72,11 @@ class EventsViewController: UIViewController, MessageDisplayable {
 
         navigationItem.titleView = searchViewController.searchBar
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
-            self?.selectedCell?.isHidden = false
-        })
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -147,8 +143,6 @@ extension EventsViewController: UITableViewDelegate {
             return
         }
 
-        selectedCell = tableView.cellForRow(at: indexPath)
-
         let eventDetailsViewModel = EventDetailsViewModel(event: event)
         let eventDetailsDataSource = EventDetailsDataSource(event: event)
         let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
@@ -213,28 +207,5 @@ extension EventsViewController: SearchViewControllerDelegate {
         view.addSubview(searchViewController.view)
         searchViewController.view.edgeAnchors == edgeAnchors
         searchViewController.didMove(toParentViewController: self)
-    }
-}
-
-// MARK: - ListDetailAnimationControllerDelegate
-
-extension EventsViewController: ListDetailAnimationControllerDelegate {
-    var viewToAnimate: UIView {
-        guard let cell = selectedCell as? EventCell,
-            let navView = navigationController?.view,
-            let snapshot = cell.snapshot(rect: cell.contentFrame) else {
-                return UIView()
-        }
-
-        let frame = cell.contentFrameFrom(view: navView)
-        snapshot.frame = frame
-
-        cell.isHidden = true
-
-        return snapshot
-    }
-
-    func shouldAnimate(to viewController: UIViewController) -> Bool {
-        return viewController is EventDetailsViewController
     }
 }

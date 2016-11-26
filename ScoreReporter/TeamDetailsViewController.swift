@@ -18,8 +18,6 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
 
     fileprivate var favoriteButton: UIBarButtonItem?
     fileprivate var unfavoriteButton: UIBarButtonItem?
-    fileprivate var teamCell: UITableViewCell?
-    fileprivate var viewDidAppear = false
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -77,22 +75,14 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        let completion: TransitionCoordinatorBlock = { [weak self] context in
-            self?.teamCell?.isHidden = false
-        }
-
-        transitionCoordinator?.animate(alongsideTransition: nil, completion: completion)
+        
+        deselectRows(in: tableView, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        if !viewDidAppear {
-            viewDidAppear = true
-
-            configureObservers()
-        }
+        
+        configureObservers()
     }
 }
 
@@ -182,13 +172,6 @@ extension TeamDetailsViewController: UITableViewDataSource {
             let cell = tableView.dequeueCell(for: indexPath) as EventCell
             cell.configure(with: event)
             cell.separatorHidden = indexPath.item == 0
-            return cell
-        case .team(let team):
-            let cell = tableView.dequeueCell(for: indexPath) as TeamCell
-            teamCell = cell
-            cell.isHidden = !viewDidAppear
-            cell.configure(with: team)
-            cell.separatorHidden = true
             return cell
         case .game(let game):
             let gameViewModel = GameViewModel(game: game, state: .Full)

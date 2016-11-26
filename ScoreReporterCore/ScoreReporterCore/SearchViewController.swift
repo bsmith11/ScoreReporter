@@ -24,7 +24,6 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
 
     fileprivate var tableViewProxy: TableViewProxy?
     fileprivate var searchBarProxy: SearchBarProxy?
-    fileprivate var selectedCell: UITableViewCell?
 
     public let searchBar = UISearchBar(frame: .zero)
 
@@ -86,10 +85,6 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
         super.viewWillDisappear(animated)
 
         searchBar.resignFirstResponder()
-
-        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
-            self?.selectedCell?.isHidden = false
-        })
     }
 }
 
@@ -179,8 +174,6 @@ extension SearchViewController: TableViewProxyDelegate {
             return
         }
 
-        selectedCell = tableView.cellForRow(at: indexPath)
-
         delegate?.didSelect(item: searchable)
     }
 }
@@ -205,28 +198,5 @@ extension SearchViewController: SearchBarProxyDelegate {
         searchBar.setShowsCancelButton(true, animated: true)
 
         delegate?.didBeginEditing()
-    }
-}
-
-// MARK: - ListDetailAnimationControllerDelegate
-
-extension SearchViewController: ListDetailAnimationControllerDelegate {
-    public var viewToAnimate: UIView {
-        guard let cell = selectedCell as? SearchCell,
-              let navView = navigationController?.view,
-              let snapshot = cell.snapshot(rect: cell.contentFrame) else {
-            return UIView()
-        }
-
-        let frame = cell.contentFrameFrom(view: navView)
-        snapshot.frame = frame
-
-        cell.isHidden = true
-
-        return snapshot
-    }
-
-    public func shouldAnimate(to viewController: UIViewController) -> Bool {
-        return true
     }
 }

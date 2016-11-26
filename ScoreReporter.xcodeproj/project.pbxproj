@@ -26,6 +26,7 @@
 		484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */; };
 		4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951791D9653E600C95F2F /* PoolsDataSource.swift */; };
 		4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517B1D9657AA00C95F2F /* PoolsViewController.swift */; };
+		48496D911DE94CE800AE5942 /* EventDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */; };
 		485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */; };
 		485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */; };
 		4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */; };
@@ -129,6 +130,7 @@
 		484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsDataSource.swift; sourceTree = "<group>"; };
 		484951791D9653E600C95F2F /* PoolsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsDataSource.swift; sourceTree = "<group>"; };
 		4849517B1D9657AA00C95F2F /* PoolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsViewController.swift; sourceTree = "<group>"; };
+		48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsHeaderView.swift; sourceTree = "<group>"; };
 		485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarAnimatorView.swift; sourceTree = "<group>"; };
 		485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackInteractionController.swift; sourceTree = "<group>"; };
 		4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 				48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */,
 				48400E8E1D8F4B5D00927EB6 /* EventDetailsDataSource.swift */,
 				48400E871D8EE6B700927EB6 /* EventDetailsInfoCell.swift */,
+				48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */,
 			);
 			name = "Event Details";
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
 				068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */,
 				4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */,
+				48496D911DE94CE800AE5942 /* EventDetailsHeaderView.swift in Sources */,
 				487877091DDD4B13008789A0 /* TeamDetailsViewModel.swift in Sources */,
 				48400E8B1D8EFAB400927EB6 /* LoginViewController.swift in Sources */,
 				483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */,

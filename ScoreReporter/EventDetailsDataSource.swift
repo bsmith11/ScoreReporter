@@ -18,7 +18,6 @@ struct EventDetailsSection {
 }
 
 enum EventDetailsInfo {
-    case event(Event)
     case address(String)
     case date(String)
     case division(Group)
@@ -89,8 +88,6 @@ extension EventDetailsDataSource {
 private extension EventDetailsDataSource {
     func configureSections() {
         sections.removeAll()
-
-        sections.append(EventDetailsSection(title: nil, items: [.event(event)]))
 
         if let groups = (event.groups as? Set<Group>)?.sorted(by: { $0.0.groupID.intValue < $0.1.groupID.intValue }) {
             let divisions = groups.map { EventDetailsInfo.division($0) }

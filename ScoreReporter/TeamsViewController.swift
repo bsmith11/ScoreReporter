@@ -18,8 +18,6 @@ class TeamsViewController: UIViewController, MessageDisplayable {
     fileprivate let defaultView = DefaultView(frame: .zero)
     fileprivate let searchViewController: SearchViewController<Team>
 
-    fileprivate var selectedCell: UITableViewCell?
-
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
 
@@ -74,13 +72,11 @@ class TeamsViewController: UIViewController, MessageDisplayable {
 
         navigationItem.titleView = searchViewController.searchBar
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
-            self?.selectedCell?.isHidden = false
-        })
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
@@ -147,8 +143,6 @@ extension TeamsViewController: UITableViewDelegate {
             return
         }
 
-        selectedCell = tableView.cellForRow(at: indexPath)
-
         let teamDetailsViewModel = TeamDetailsViewModel(team: team)
         let teamDetailsDataSource = TeamDetailsDataSource(team: team)
         let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
@@ -212,28 +206,5 @@ extension TeamsViewController: SearchViewControllerDelegate {
         view.addSubview(searchViewController.view)
         searchViewController.view.edgeAnchors == edgeAnchors
         searchViewController.didMove(toParentViewController: self)
-    }
-}
-
-// MARK: - ListDetailAnimationControllerDelegate
-
-extension TeamsViewController: ListDetailAnimationControllerDelegate {
-    var viewToAnimate: UIView {
-        guard let cell = selectedCell as? TeamCell,
-            let navView = navigationController?.view,
-            let snapshot = cell.snapshot(rect: cell.contentFrame) else {
-                return UIView()
-        }
-
-        let frame = cell.contentFrameFrom(view: navView)
-        snapshot.frame = frame
-
-        cell.isHidden = true
-
-        return snapshot
-    }
-
-    func shouldAnimate(to viewController: UIViewController) -> Bool {
-        return viewController is TeamDetailsViewController
     }
 }

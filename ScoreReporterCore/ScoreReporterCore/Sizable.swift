@@ -19,3 +19,10 @@ public extension Sizable where Self: UICollectionViewCell {
         return contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
     }
 }
+
+public extension Sizable where Self: UIView {
+    func size(with width: CGFloat) -> CGSize {
+        let targetSize = CGSize(width: width, height: UILayoutFittingCompressedSize.height)
+        return systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityDefaultLow)
+    }
+}

@@ -17,7 +17,6 @@ struct TeamDetailsSection {
 }
 
 enum TeamDetailsInfo {
-    case team(Team)
     case event(Event)
     case game(Game)
 }
@@ -70,8 +69,6 @@ extension TeamDetailsDataSource {
 private extension TeamDetailsDataSource {
     func configureSections() {
         sections.removeAll()
-
-        sections.append(TeamDetailsSection(title: nil, items: [.team(team)]))
 
         if let groups = team.groups as? Set<Group> {
             let events = groups.flatMap { $0.event }.sorted(by: { ($0.0.name ?? "") < ($0.1.name ?? "") })

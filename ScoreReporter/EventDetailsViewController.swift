@@ -17,11 +17,10 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: EventDetailsViewModel
     fileprivate let dataSource: EventDetailsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
+    fileprivate let headerView = EventDetailsHeaderView(frame: .zero)
 
     fileprivate var favoriteButton: UIBarButtonItem?
     fileprivate var unfavoriteButton: UIBarButtonItem?
-    fileprivate var eventCell: UITableViewCell?
-    fileprivate var viewDidAppear = false
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -74,6 +73,16 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
 
         viewModel.downloadEventDetails()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if !tableView.bounds.width.isEqual(to: headerView.bounds.width) {
+            let size = headerView.size(with: tableView.bounds.width)
+            headerView.frame = CGRect(origin: .zero, size: size)
+            tableView.tableHeaderView = headerView
+        }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -88,21 +97,17 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
             if context.isCancelled {
                 self?.navigationController?.navigationBar.barTintColor = previousColor
             }
-
-            self?.eventCell?.isHidden = false
         }
 
         transitionCoordinator?.animate(alongsideTransition: animation, completion: completion)
+        
+        deselectRows(in: tableView, animated: animated)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        if !viewDidAppear {
-            viewDidAppear = true
-
-            configureObservers()
-        }
+        
+        configureObservers()
     }
 }
 
@@ -113,7 +118,6 @@ private extension EventDetailsViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(headerFooterClass: SectionHeaderView.self)
-        tableView.register(cellClass: EventCell.self)
         tableView.register(cellClass: GroupCell.self)
         tableView.register(cellClass: GameCell.self)
         tableView.backgroundColor = UIColor.white
@@ -121,6 +125,8 @@ private extension EventDetailsViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
+        
+        headerView.configure(with: dataSource.event)
     }
 
     func configureLayout() {
@@ -188,18 +194,11 @@ extension EventDetailsViewController: UITableViewDataSource {
         }
 
         switch item {
-        case .event(let event):
-            let cell = tableView.dequeueCell(for: indexPath) as EventCell
-            eventCell = cell
-            cell.isHidden = !viewDidAppear
-            cell.configure(with: event)
-            cell.separatorHidden = indexPath.item == 0
-            return cell
         case .division(let group):
             let groupViewModel = GroupViewModel(group: group)
             let cell = tableView.dequeueCell(for: indexPath) as GroupCell
             cell.configure(with: groupViewModel)
-            cell.separatorHidden = true
+            cell.separatorHidden = indexPath.item == 0
             return cell
         case .activeGame(let game):
             let gameViewModel = GameViewModel(game: game, state: .Division)
@@ -252,5 +251,17 @@ extension EventDetailsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension EventDetailsViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y / -50.0
+        let value = min(1.0, max(0.0, offset))
+        
+        headerView.fractionComplete = value
+        headerView.verticalOffset = scrollView.contentOffset.y
     }
 }
