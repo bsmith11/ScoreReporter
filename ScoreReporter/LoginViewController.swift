@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
 
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.scBlue
+        view.backgroundColor = UIColor.white
 
         configureViews()
         configureLayout()
@@ -80,9 +80,9 @@ private extension LoginViewController {
 
         emailTextField.delegate = self
         emailTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightRegular)
-        emailTextField.textColor = UIColor.white
+        emailTextField.textColor = UIColor.black
         emailTextField.attributedPlaceholder = NSAttributedString(string: "username", attributes: placeholderAttributes)
-        emailTextField.tintColor = UIColor.white
+        emailTextField.tintColor = UIColor.black
         emailTextField.returnKeyType = .next
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
@@ -95,33 +95,34 @@ private extension LoginViewController {
 
         passwordTextField.delegate = self
         passwordTextField.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightRegular)
-        passwordTextField.textColor = UIColor.white
+        passwordTextField.textColor = UIColor.black
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "password", attributes: placeholderAttributes)
-        passwordTextField.tintColor = UIColor.white
+        passwordTextField.tintColor = UIColor.black
         passwordTextField.isSecureTextEntry = true
         passwordTextField.returnKeyType = .go
         contentStackView.addArrangedSubview(passwordTextField)
         
         loginButton.setTitle("Login", for: .normal)
         loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBlack)
-        loginButton.setTitleColor(UIColor.white, for: .normal)
+        loginButton.setTitleColor(UIColor.black, for: .normal)
         loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
         loginButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         view.addSubview(loginButton)
         
         spinner.hidesWhenStopped = true
+        spinner.color = UIColor.black
         view.addSubview(spinner)
         
         forgotPasswordButton.setTitle("Forgot Password?", for: .normal)
         forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
-        forgotPasswordButton.setTitleColor(UIColor.white, for: .normal)
+        forgotPasswordButton.setTitleColor(UIColor.black, for: .normal)
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonPressed), for: .touchUpInside)
         forgotPasswordButton.contentEdgeInsets = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         view.addSubview(forgotPasswordButton)
     }
 
     func configureLayout() {
-        contentStackView.topAnchor == topLayoutGuide.bottomAnchor
+        contentStackView.topAnchor == topLayoutGuide.bottomAnchor + 16.0
         contentStackView.horizontalAnchors == horizontalAnchors + 16.0
 
         emailTextField.heightAnchor == 44.0
