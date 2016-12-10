@@ -86,6 +86,8 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        headerView.resetBlurAnimation()
 
         let previousColor = navigationController?.navigationBar.barTintColor
 
@@ -127,6 +129,7 @@ private extension EventDetailsViewController {
         view.addSubview(tableView)
         
         headerView.configure(with: dataSource.event)
+        headerView.delegate = self
     }
 
     func configureLayout() {
@@ -260,8 +263,25 @@ extension EventDetailsViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y / -50.0
         let value = min(1.0, max(0.0, offset))
-        
+
         headerView.fractionComplete = value
         headerView.verticalOffset = scrollView.contentOffset.y
+    }
+}
+
+// MARK: - EventDetailsHeaderViewDelegate
+
+extension EventDetailsViewController: EventDetailsHeaderViewDelegate {
+    func didSelectMaps() {
+        guard var urlComponenets = URLComponents(string: "http://maps.apple.com/"),
+              let address = dataSource.event.searchSubtitle else {
+            return
+        }
+        
+        urlComponenets.queryItems = [URLQueryItem(name: "q", value: address)]
+        
+        if let url = urlComponenets.url, UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }

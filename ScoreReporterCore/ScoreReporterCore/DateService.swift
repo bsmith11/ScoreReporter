@@ -14,6 +14,7 @@ public struct DateService {
     fileprivate static let gameTimeFormat = "h:mm a"
     fileprivate static let gameStartDateFullFormat = "E h:mm a"
     fileprivate static let eventSearchDateFormat = "MMM dd, yyyy"
+    fileprivate static let eventDetailsDateFormat = "MMM dd"
 
     public static let eventDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -51,6 +52,14 @@ public struct DateService {
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         dateFormatter.dateFormat = gameStartDateFullFormat
 
+        return dateFormatter
+    }()
+    
+    public static let eventDetailsDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = eventDetailsDateFormat
+        
         return dateFormatter
     }()
 }

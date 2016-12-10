@@ -79,6 +79,8 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
         transitionCoordinator?.animate(alongsideTransition: nil) { [weak self] _ in
             self?.searchBar.becomeFirstResponder()
         }
+        
+        deselectRows(in: tableView, animated: animated)
     }
 
     public override func viewWillDisappear(_ animated: Bool) {

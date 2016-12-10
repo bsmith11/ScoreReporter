@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */; };
+		48496D931DEB72E600AE5942 /* FloatingPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */; };
 		486797271DE5726800C70324 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797261DE5726800C70324 /* APIConstants.swift */; };
 		4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876031DDBF79C008789A0 /* APIClient.swift */; };
 		4878760B1DDBF79C008789A0 /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876041DDBF79C008789A0 /* DateService.swift */; };
@@ -92,6 +93,7 @@
 		2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35671254706CA2ECA9CF3D01 /* Pods-ScoreReporterCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.release.xcconfig"; sourceTree = "<group>"; };
 		48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
+		48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Extensions.swift"; sourceTree = "<group>"; };
 		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		487875821DDBEFFD008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875861DDBEFFD008789A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				4878765F1DDBF88A008789A0 /* UIViewController+Extensions.swift */,
 				487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */,
 				48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */,
+				48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				487876DF1DDC064A008789A0 /* CollectionViewProxy.swift in Sources */,
 				487876631DDBF88A008789A0 /* NSDate+Extensions.swift in Sources */,
 				487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */,
+				48496D931DEB72E600AE5942 /* FloatingPoint+Extensions.swift in Sources */,
 				487876E81DDC07AD008789A0 /* ListDetailAnimationController.swift in Sources */,
 				487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */,
 				487876541DDBF823008789A0 /* Sizable.swift in Sources */,

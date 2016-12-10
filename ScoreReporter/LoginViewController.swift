@@ -16,7 +16,7 @@ protocol LoginViewControllerDelegate: class {
     func didLogin()
 }
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: LoginViewModel
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let emailTextField = UITextField(frame: .zero)
@@ -27,6 +27,12 @@ class LoginViewController: UIViewController {
     fileprivate let forgotPasswordButton = UIButton(type: .system)
     
     weak var delegate: LoginViewControllerDelegate?
+    
+    override var topLayoutGuide: UILayoutSupport {
+        configureMessageView(super.topLayoutGuide)
+        
+        return messageLayoutGuide
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -154,7 +160,7 @@ private extension LoginViewController {
         }
         
         kvoController.observe(viewModel, keyPath: #keyPath(LoginViewModel.error)) { [weak self] (error: NSError) in
-            
+            self?.display(error: error, animated: true)
         }
     }
 

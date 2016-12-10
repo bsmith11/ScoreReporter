@@ -56,7 +56,7 @@ private extension SearchInfoView {
         contentStackView.addArrangedSubview(logoImageView)
 
         infoStackView.axis = .vertical
-        infoStackView.spacing = 2.0
+        infoStackView.spacing = 0.0
         contentStackView.addArrangedSubview(infoStackView)
 
         titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
@@ -73,7 +73,7 @@ private extension SearchInfoView {
     func configureLayout() {
         contentStackView.edgeAnchors == edgeAnchors
 
-        logoImageView.widthAnchor == 55.0
-        logoImageView.heightAnchor == 55.0
+        logoImageView.widthAnchor == 45.0
+        logoImageView.heightAnchor == 45.0
     }
 }

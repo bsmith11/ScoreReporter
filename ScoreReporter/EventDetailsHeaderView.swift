@@ -10,23 +10,23 @@ import UIKit
 import ScoreReporterCore
 import Anchorage
 
+protocol EventDetailsHeaderViewDelegate: class {
+    func didSelectMaps()
+}
+
 class EventDetailsHeaderView: UIView, Sizable {
     fileprivate let backgroundImageView = UIImageView(frame: .zero)
-    fileprivate let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-    fileprivate let infoStackView = UIStackView(frame: .zero)
-    fileprivate let titleLabel = UILabel(frame: .zero)
-    fileprivate let subtitleLabel = UILabel(frame: .zero)
+    fileprivate let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    fileprivate let separatorView = TableViewCellSeparatorView(frame: .zero)
+    fileprivate let infoView = EventDetailsInfoView(frame: .zero)
     
     fileprivate var backgroundImageViewTop: NSLayoutConstraint?
-    fileprivate var animator: UIViewPropertyAnimator?
+    var backgroundAnimator: UIViewPropertyAnimator?
     
-    var fractionComplete: CGFloat {
-        get {
-            return animator?.fractionComplete ?? 0.0
-        }
-        
-        set {
-            animator?.fractionComplete = newValue
+    var fractionComplete: CGFloat = 1.0 {
+        didSet {
+            let scaledValue = Double(fractionComplete).scaled(from: 0.0 ... 1.0, to: 0.5 ... 1.0, clamp: true)
+            backgroundAnimator?.fractionComplete = CGFloat(scaledValue)
         }
     }
     
@@ -45,6 +45,8 @@ class EventDetailsHeaderView: UIView, Sizable {
         }
     }
     
+    weak var delegate: EventDetailsHeaderViewDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -53,13 +55,7 @@ class EventDetailsHeaderView: UIView, Sizable {
         configureViews()
         configureLayout()
         
-        animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear, animations: { [weak self] in
-            self?.visualEffectView.effect = nil
-            self?.titleLabel.alpha = 0.0
-            self?.subtitleLabel.alpha = 0.0
-        })
-        animator?.fractionComplete = 0.0
-        animator?.pauseAnimation()
+        resetBlurAnimation()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,8 +68,23 @@ class EventDetailsHeaderView: UIView, Sizable {
 extension EventDetailsHeaderView {
     func configure(with event: Event) {
         backgroundImageView.pin_setImage(from: event.searchLogoURL)
-        titleLabel.text = event.searchTitle
-        subtitleLabel.text = event.searchSubtitle
+        
+        infoView.configure(with: event)
+    }
+    
+    func resetBlurAnimation() {
+        backgroundAnimator?.stopAnimation(true)
+        
+        visualEffectView.effect = UIBlurEffect(style: .light)
+        
+        backgroundAnimator = UIViewPropertyAnimator(duration: 0.5, curve: .linear, animations: { [weak self] in
+            self?.visualEffectView.effect = nil
+        })
+        
+        backgroundAnimator?.startAnimation()
+        backgroundAnimator?.pauseAnimation()
+        
+        fractionComplete = 0.0
     }
 }
 
@@ -87,32 +98,36 @@ private extension EventDetailsHeaderView {
         
         addSubview(visualEffectView)
         
-        infoStackView.axis = .vertical
-        infoStackView.spacing = 0.0
-        addSubview(infoStackView)
+        addSubview(separatorView)
         
-        titleLabel.font = UIFont.systemFont(ofSize: 24.0, weight: UIFontWeightBlack)
-        titleLabel.textColor = UIColor.black
-        titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        infoStackView.addArrangedSubview(titleLabel)
-        
-        subtitleLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightRegular)
-        subtitleLabel.textColor = UIColor.black
-        subtitleLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        infoStackView.addArrangedSubview(subtitleLabel)
+        infoView.delegate = self
+        addSubview(infoView)
     }
     
     func configureLayout() {
         backgroundImageViewTop = backgroundImageView.topAnchor == topAnchor
         backgroundImageView.horizontalAnchors == horizontalAnchors
-        backgroundImageView.bottomAnchor == bottomAnchor
+        backgroundImageView.bottomAnchor == infoView.centerYAnchor
         
         visualEffectView.edgeAnchors == backgroundImageView.edgeAnchors
         
-        infoStackView.topAnchor == topAnchor + 64.0
-        infoStackView.horizontalAnchors == horizontalAnchors + 16.0
-        infoStackView.bottomAnchor == bottomAnchor - 16.0
+        separatorView.horizontalAnchors == backgroundImageView.horizontalAnchors
+        separatorView.bottomAnchor == backgroundImageView.bottomAnchor
+        
+        infoView.topAnchor == topAnchor + 96.0
+        infoView.horizontalAnchors == horizontalAnchors + 16.0
+        infoView.bottomAnchor == bottomAnchor - 16.0        
+    }
+    
+    func updateAnimator(fractionComplete: CGFloat) {
+        
+    }
+}
+
+// MARK: - EventDetailsInfoViewDelegate
+
+extension EventDetailsHeaderView: EventDetailsInfoViewDelegate {
+    func didSelectMaps() {
+        delegate?.didSelectMaps()
     }
 }
