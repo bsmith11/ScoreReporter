@@ -14,12 +14,10 @@ class AppDelegate: UIResponder {
     var window: UIWindow?
 }
 
-// MARK: - UIApplicationDelegate
+// MARK: - Private
 
-extension AppDelegate: UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        _ = CoreDataStack.sharedInstance
-
+private extension AppDelegate {
+    func configureAppearance() {
         UINavigationBar.appearance().barTintColor = UIColor.scBlue
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().tintColor = UIColor.white
@@ -27,20 +25,30 @@ extension AppDelegate: UIApplicationDelegate {
             NSFontAttributeName: UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBlack),
             NSForegroundColorAttributeName: UIColor.white
         ]
-
+        
         let titleTextAttributes = [
             NSFontAttributeName: UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBlack),
             NSForegroundColorAttributeName: UIColor.white
         ]
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, for: .normal)
-
+        
         UITabBar.appearance().barTintColor = UIColor.scBlue
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().tintColor = UIColor.white
-
+        
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: .normal)
         UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 49.0)
+    }
+}
+
+// MARK: - UIApplicationDelegate
+
+extension AppDelegate: UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        _ = CoreDataStack.sharedInstance
+
+        configureAppearance()
 
         let tabBarController = TabBarController(nibName: nil, bundle: nil)
 

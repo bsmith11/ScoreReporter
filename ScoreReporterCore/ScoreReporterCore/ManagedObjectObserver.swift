@@ -52,7 +52,7 @@ public extension ManagedObjectObserver {
         objects.removeAll()
     }
 
-    func addObjects(_ objects: [NSManagedObject]) {
+    func add(objects: [NSManagedObject]) {
         self.objects.formUnion(objects)
     }
 }

@@ -92,7 +92,7 @@ private extension HomeViewController {
         let emptyTitle = "No Events"
         let emptyMessage = "Nothing is happening this week"
         let emptyInfo = DefaultViewStateInfo(image: nil, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.set(info: emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
 

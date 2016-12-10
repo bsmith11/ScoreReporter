@@ -109,7 +109,7 @@ public class DefaultView: UIView {
 // MARK: - Public
 
 public extension DefaultView {
-    func setInfo(_ info: DefaultViewStateInfo, state: DefaultViewState) {
+    func set(info: DefaultViewStateInfo, state: DefaultViewState) {
         stateInfo[state] = info
     }
 }

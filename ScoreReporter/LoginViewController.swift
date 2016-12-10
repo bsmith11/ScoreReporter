@@ -13,7 +13,7 @@ import KVOController
 import SafariServices
 
 protocol LoginViewControllerDelegate: class {
-    func didLogin()
+    func didLogin(in controller: LoginViewController)
 }
 
 class LoginViewController: UIViewController, MessageDisplayable {
@@ -205,13 +205,13 @@ private extension LoginViewController {
         let credentials = Credentials(username: username, password: password)
 
         viewModel.login(with: credentials) { [weak self] error in
-            if error == nil {
-                self?.delegate?.didLogin()
+            if let sself = self, error == nil {
+                sself.delegate?.didLogin(in: sself)
                 
-                self?.emailTextField.resignFirstResponder()
-                self?.passwordTextField.resignFirstResponder()
+                sself.emailTextField.resignFirstResponder()
+                sself.passwordTextField.resignFirstResponder()
                 
-                self?.dismiss(animated: true, completion: nil)
+                sself.dismiss(animated: true, completion: nil)
             }
         }
     }

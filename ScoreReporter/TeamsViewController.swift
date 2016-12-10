@@ -97,7 +97,7 @@ private extension TeamsViewController {
         let emptyTitle = "No Teams"
         let emptyMessage = "Bookmark teams for easy access"
         let emptyInfo = DefaultViewStateInfo(image: nil, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.set(info: emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
 

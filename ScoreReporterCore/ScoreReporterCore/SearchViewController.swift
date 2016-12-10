@@ -109,7 +109,7 @@ private extension SearchViewController {
         let emptyTitle = Model.searchEmptyTitle
         let emptyMessage = Model.searchEmptyMessage
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.set(info: emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
 

@@ -97,7 +97,7 @@ private extension GroupDetailsViewController {
         let emptyTitle = "No Schedule Available"
         let emptyMessage = "No pools, crossovers, or brackets have been created for this event"
         let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.set(info: emptyInfo, state: .empty)
         view.addSubview(defaultView)
     }
 

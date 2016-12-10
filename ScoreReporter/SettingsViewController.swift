@@ -164,7 +164,7 @@ extension SettingsViewController: UITableViewDelegate {
 // MARK: - LoginViewControllerDelegate
 
 extension SettingsViewController: LoginViewControllerDelegate {
-    func didLogin() {
+    func didLogin(in controller: LoginViewController) {
         navigationItem.rightBarButtonItem = logoutButton
     }
 }

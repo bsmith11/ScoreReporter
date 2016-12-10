@@ -43,7 +43,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
 
         let emptyInfo = DefaultViewStateInfo(image: nil, title: nil, message: emptyMessage)
-        defaultView.setInfo(emptyInfo, state: .empty)
+        defaultView.set(info: emptyInfo, state: .empty)
         defaultView.empty = dataSource.empty
 
         extensionContext?.widgetLargestAvailableDisplayMode = dataSource.empty ? .compact : .expanded
