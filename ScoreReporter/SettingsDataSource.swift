@@ -10,11 +10,6 @@ import Foundation
 import UIKit
 import ScoreReporterCore
 
-struct SettingsSection {
-    let title: String?
-    let items: [SettingsItem]
-}
-
 enum SettingsItem {
     case acknowledgements
     case help
@@ -43,25 +38,13 @@ enum SettingsItem {
     }
 }
 
-class SettingsDataSource {
+class SettingsDataSource: SectionedDataSource {
     typealias ModelType = SettingsItem
 
-    fileprivate var sections = [SettingsSection]()
+    fileprivate(set) var sections = [DataSourceSection<ModelType>]()
 
     init() {
         configureSections()
-    }
-}
-
-// MARK: - Public
-
-extension SettingsDataSource {
-    func title(for section: Int) -> String? {
-        guard section < sections.count else {
-            return nil
-        }
-
-        return sections[section].title
     }
 }
 
@@ -69,37 +52,12 @@ extension SettingsDataSource {
 
 private extension SettingsDataSource {
     func configureSections() {
-        let section = SettingsSection(title: nil, items: [.acknowledgements, .help, .about])
-        sections.append(section)
-    }
-}
-
-// MARK: - DataSource
-
-extension SettingsDataSource: DataSource {
-    func numberOfSections() -> Int {
-        return sections.count
-    }
-
-    func numberOfItems(in section: Int) -> Int {
-        guard section < sections.count else {
-            return 0
-        }
-
-        return sections[section].items.count
-    }
-
-    func item(at indexPath: IndexPath) -> SettingsItem? {
-        guard indexPath.section < sections.count else {
-            return nil
-        }
-
-        let section = sections[indexPath.section]
-
-        guard indexPath.item < section.items.count else {
-            return nil
-        }
-
-        return section.items[indexPath.item]
+        let items: [SettingsItem] = [
+            .acknowledgements,
+            .help,
+            .about
+        ]
+        
+        sections.append(DataSourceSection(items: items))
     }
 }

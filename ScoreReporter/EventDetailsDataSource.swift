@@ -12,11 +12,6 @@ import UIKit
 import CoreData
 import ScoreReporterCore
 
-struct EventDetailsSection {
-    let title: String?
-    let items: [EventDetailsInfo]
-}
-
 enum EventDetailsInfo {
     case address(String)
     case date(String)
@@ -51,10 +46,12 @@ enum EventDetailsInfo {
     }
 }
 
-class EventDetailsDataSource: NSObject {
+class EventDetailsDataSource: NSObject, SectionedDataSource {
+    typealias ModelType = EventDetailsInfo
+    
     fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<Game>
 
-    fileprivate var sections = [EventDetailsSection]()
+    fileprivate(set) var sections = [DataSourceSection<ModelType>]()
 
     let event: Event
 
@@ -71,18 +68,6 @@ class EventDetailsDataSource: NSObject {
     }
 }
 
-// MARK: - Public
-
-extension EventDetailsDataSource {
-    func title(for section: Int) -> String? {
-        guard section < sections.count else {
-            return nil
-        }
-
-        return sections[section].title
-    }
-}
-
 // MARK: - Private
 
 private extension EventDetailsDataSource {
@@ -91,36 +76,12 @@ private extension EventDetailsDataSource {
 
         if let groups = (event.groups as? Set<Group>)?.sorted(by: { $0.0.groupID.intValue < $0.1.groupID.intValue }) {
             let divisions = groups.map { EventDetailsInfo.division($0) }
-            sections.append(EventDetailsSection(title: "Divisions", items: divisions))
+            sections.append(DataSourceSection(items: divisions, headerTitle: "Divisions"))
         }
 
         if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
-            sections.append(EventDetailsSection(title: "Active Games", items: activeGames.map { .activeGame($0) }))
+            sections.append(DataSourceSection(items: activeGames.map { .activeGame($0) }, headerTitle: "Active Games"))
         }
-    }
-}
-
-// MARK: - DataSource
-
-extension EventDetailsDataSource: DataSource {
-    func numberOfSections() -> Int {
-        return sections.count
-    }
-
-    func numberOfItems(in section: Int) -> Int {
-        guard section < sections.count else {
-            return 0
-        }
-
-        return sections[section].items.count
-    }
-
-    func item(at indexPath: IndexPath) -> EventDetailsInfo? {
-        guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else {
-            return nil
-        }
-
-        return sections[indexPath.section].items[indexPath.item]
     }
 }
 

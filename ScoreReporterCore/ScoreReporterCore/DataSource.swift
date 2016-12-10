@@ -18,6 +18,8 @@ public protocol DataSource {
     func item(at indexPath: IndexPath) -> ModelType?
 }
 
+// MARK: - ArrayDataSource
+
 public protocol ArrayDataSource: DataSource {
     var items: [ModelType] { get }
 }
@@ -43,6 +45,75 @@ public extension ArrayDataSource {
         return items[indexPath.item]
     }
 }
+
+// MARK: - SectionedDataSource
+
+public protocol SectionedDataSource: DataSource {
+    var sections: [DataSourceSection<ModelType>] { get }
+    
+    func headerTitle(for section: Int) -> String?
+    func footerTitle(for section: Int) -> String?
+}
+
+public extension SectionedDataSource {
+    func numberOfSections() -> Int {
+        return sections.count
+    }
+    
+    func numberOfItems(in section: Int) -> Int {
+        guard section < sections.count else {
+            return 0
+        }
+        
+        return sections[section].items.count
+    }
+    
+    func item(at indexPath: IndexPath) -> ModelType? {
+        guard indexPath.section < sections.count else {
+            return nil
+        }
+        
+        let section = sections[indexPath.section]
+        
+        guard indexPath.item < section.items.count else {
+            return nil
+        }
+        
+        return section.items[indexPath.item]
+    }
+    
+    func headerTitle(for section: Int) -> String? {
+        guard section < sections.count else {
+            return nil
+        }
+        
+        return sections[section].headerTitle
+    }
+    
+    func footerTitle(for section: Int) -> String? {
+        guard section < sections.count else {
+            return nil
+        }
+        
+        return sections[section].footerTitle
+    }
+}
+
+// MARK: - DataSourceSection
+
+public struct DataSourceSection<T> {
+    public var items: [T]
+    public var headerTitle: String?
+    public var footerTitle: String?
+    
+    public init(items: [T], headerTitle: String? = nil, footerTitle: String? = nil) {
+        self.items = items
+        self.headerTitle = headerTitle
+        self.footerTitle = footerTitle
+    }
+}
+
+// MARK: - FetchedDataSource
 
 public protocol FetchedDataSource: DataSource {
     associatedtype ModelType: NSManagedObject

@@ -234,7 +234,7 @@ extension EventDetailsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.title(for: section) else {
+        guard let title = dataSource.headerTitle(for: section) else {
             return nil
         }
 
@@ -245,7 +245,7 @@ extension EventDetailsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
+        guard let _ = dataSource.headerTitle(for: section) else {
             return 0.0001
         }
 

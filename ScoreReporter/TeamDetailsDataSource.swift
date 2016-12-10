@@ -11,20 +11,17 @@ import UIKit
 import CoreData
 import ScoreReporterCore
 
-struct TeamDetailsSection {
-    let title: String?
-    let items: [TeamDetailsInfo]
-}
-
 enum TeamDetailsInfo {
     case event(Event)
     case game(Game)
 }
 
-class TeamDetailsDataSource: NSObject {
+class TeamDetailsDataSource: NSObject, SectionedDataSource {
+    typealias ModelType = TeamDetailsInfo
+    
     fileprivate let gamesFetchedResultsController: NSFetchedResultsController<Game>
 
-    fileprivate var sections = [TeamDetailsSection]()
+    fileprivate(set) var sections = [DataSourceSection<ModelType>]()
 
     let team: Team
 
@@ -50,14 +47,6 @@ class TeamDetailsDataSource: NSObject {
 // MARK: - Public
 
 extension TeamDetailsDataSource {
-    func title(for section: Int) -> String? {
-        guard section < sections.count else {
-            return nil
-        }
-
-        return sections[section].title
-    }
-
     func refresh() {
         configureSections()
         refreshBlock?()
@@ -75,37 +64,13 @@ private extension TeamDetailsDataSource {
             let eventItems = events.map { TeamDetailsInfo.event($0) }
 
             if !eventItems.isEmpty {
-                sections.append(TeamDetailsSection(title: "Events", items: eventItems))
+                sections.append(DataSourceSection(items: eventItems, headerTitle: "Events"))
             }
         }
 
         if let games = gamesFetchedResultsController.fetchedObjects, !games.isEmpty {
-            sections.append(TeamDetailsSection(title: "Active Games", items: games.map { .game($0) }))
+            sections.append(DataSourceSection(items: games.map { .game($0) }, headerTitle: "Active Games"))
         }
-    }
-}
-
-// MARK: - DataSource
-
-extension TeamDetailsDataSource: DataSource {
-    func numberOfSections() -> Int {
-        return sections.count
-    }
-
-    func numberOfItems(in section: Int) -> Int {
-        guard section < sections.count else {
-            return 0
-        }
-
-        return sections[section].items.count
-    }
-
-    func item(at indexPath: IndexPath) -> TeamDetailsInfo? {
-        guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].items.count else {
-            return nil
-        }
-
-        return sections[indexPath.section].items[indexPath.item]
     }
 }
 

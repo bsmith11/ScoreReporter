@@ -1,5 +1,5 @@
 //
-//  NSDate+Extensions.swift
+//  Date+Extensions.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/19/16.

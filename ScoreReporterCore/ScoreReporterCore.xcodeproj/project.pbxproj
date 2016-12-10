@@ -29,7 +29,7 @@
 		487876601DDBF88A008789A0 /* CAAnimation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876561DDBF88A008789A0 /* CAAnimation+Extensions.swift */; };
 		487876611DDBF88A008789A0 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876571DDBF88A008789A0 /* CALayer+Extensions.swift */; };
 		487876621DDBF88A008789A0 /* KVOController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876581DDBF88A008789A0 /* KVOController+Extensions.swift */; };
-		487876631DDBF88A008789A0 /* NSDate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876591DDBF88A008789A0 /* NSDate+Extensions.swift */; };
+		487876631DDBF88A008789A0 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876591DDBF88A008789A0 /* Date+Extensions.swift */; };
 		487876641DDBF88A008789A0 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878765A1DDBF88A008789A0 /* String+Extensions.swift */; };
 		487876651DDBF88A008789A0 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878765B1DDBF88A008789A0 /* UICollectionView+Extensions.swift */; };
 		487876661DDBF88A008789A0 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878765C1DDBF88A008789A0 /* UIColor+Extensions.swift */; };
@@ -116,7 +116,7 @@
 		487876561DDBF88A008789A0 /* CAAnimation+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAAnimation+Extensions.swift"; sourceTree = "<group>"; };
 		487876571DDBF88A008789A0 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		487876581DDBF88A008789A0 /* KVOController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KVOController+Extensions.swift"; sourceTree = "<group>"; };
-		487876591DDBF88A008789A0 /* NSDate+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extensions.swift"; sourceTree = "<group>"; };
+		487876591DDBF88A008789A0 /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		4878765A1DDBF88A008789A0 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		4878765B1DDBF88A008789A0 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		4878765C1DDBF88A008789A0 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 				487876561DDBF88A008789A0 /* CAAnimation+Extensions.swift */,
 				487876571DDBF88A008789A0 /* CALayer+Extensions.swift */,
 				487876581DDBF88A008789A0 /* KVOController+Extensions.swift */,
-				487876591DDBF88A008789A0 /* NSDate+Extensions.swift */,
+				487876591DDBF88A008789A0 /* Date+Extensions.swift */,
 				4878765A1DDBF88A008789A0 /* String+Extensions.swift */,
 				4878765B1DDBF88A008789A0 /* UICollectionView+Extensions.swift */,
 				4878765C1DDBF88A008789A0 /* UIColor+Extensions.swift */,
@@ -548,7 +548,7 @@
 				487876521DDBF823008789A0 /* MessageDisplayable.swift in Sources */,
 				4878764B1DDBF823008789A0 /* DataSource.swift in Sources */,
 				487876DF1DDC064A008789A0 /* CollectionViewProxy.swift in Sources */,
-				487876631DDBF88A008789A0 /* NSDate+Extensions.swift in Sources */,
+				487876631DDBF88A008789A0 /* Date+Extensions.swift in Sources */,
 				487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */,
 				48496D931DEB72E600AE5942 /* FloatingPoint+Extensions.swift in Sources */,
 				487876E81DDC07AD008789A0 /* ListDetailAnimationController.swift in Sources */,
