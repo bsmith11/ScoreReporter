@@ -52,11 +52,11 @@ private extension StandingCell {
         contentStackView.spacing = 8.0
         contentView.addSubview(contentStackView)
 
-        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
         nameLabel.textColor = UIColor.black
         contentStackView.addArrangedSubview(nameLabel)
 
-        resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        resultsLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
         resultsLabel.textColor = UIColor.black
         resultsLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         resultsLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)

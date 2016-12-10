@@ -106,8 +106,9 @@ extension PoolsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = dataSource.title(for: section)
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
-        headerView.configure(with: title, actionButtonTitle: "View Games")
-
+        headerView.configure(with: title, actionButtonTitle: "View")
+        headerView.delegate = self
+        
         return headerView
     }
     
@@ -127,7 +128,7 @@ extension PoolsViewController: UITableViewDelegate {
 // MARK: - SectionHeaderViewDelegate
 
 extension PoolsViewController: SectionHeaderViewDelegate {
-    func headerViewDidSelectActionButton(_ headerView: SectionHeaderView) {
+    func didSelectActionButton(in headerView: SectionHeaderView) {
         guard let pool = dataSource.pool(for: headerView.tag) else {
             return
         }

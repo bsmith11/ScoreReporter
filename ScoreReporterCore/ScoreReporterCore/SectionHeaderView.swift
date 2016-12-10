@@ -10,7 +10,7 @@ import UIKit
 import Anchorage
 
 @objc public protocol SectionHeaderViewDelegate: class {
-    @objc optional func headerViewDidSelectActionButton(_ headerView: SectionHeaderView)
+    @objc optional func didSelectActionButton(in headerView: SectionHeaderView)
 }
 
 public class SectionHeaderView: UITableViewHeaderFooterView {
@@ -48,6 +48,8 @@ public extension SectionHeaderView {
 
         actionButton.setTitle(actionButtonTitle, for: .normal)
         actionButtonWidth?.isActive = actionButtonTitle == nil
+        
+        layoutIfNeeded()
     }
 }
 
@@ -59,11 +61,13 @@ private extension SectionHeaderView {
         titleLabel.textColor = UIColor.black
         contentView.addSubview(titleLabel)
 
-        actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
+        actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
         actionButton.setTitleColor(UIColor.scRed, for: .normal)
+        actionButton.titleEdgeInsets.top = 23.0
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         actionButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        actionButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         contentView.addSubview(actionButton)
     }
 
@@ -75,11 +79,11 @@ private extension SectionHeaderView {
         actionButton.topAnchor == contentView.topAnchor
         actionButton.leadingAnchor == titleLabel.trailingAnchor
         actionButton.trailingAnchor == contentView.trailingAnchor
-        actionButton.firstBaselineAnchor == titleLabel.firstBaselineAnchor
+        actionButton.bottomAnchor == contentView.bottomAnchor
         actionButtonWidth = actionButton.widthAnchor == 0.0
     }
 
     @objc func actionButtonTapped() {
-        delegate?.headerViewDidSelectActionButton?(self)
+        delegate?.didSelectActionButton?(in: self)
     }
 }
