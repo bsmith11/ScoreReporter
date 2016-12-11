@@ -42,6 +42,20 @@ public extension Game {
 
         return isHomeTeam || isAwayTeam
     }
+    
+    static func update(with gameUpdate: GameUpdate, completion: DownloadCompletion?) {
+        let block = { (context: NSManagedObjectContext) in
+            guard let game = Game.object(primaryKey: gameUpdate.gameID, context: context) else {
+                return
+            }
+            
+            game.homeTeamScore = gameUpdate.homeTeamScore
+            game.awayTeamScore = gameUpdate.awayTeamScore
+            game.status = gameUpdate.gameStatus
+        }
+        
+        coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
+    }
 
     static func gamesToday(for team: Team) -> [Game] {
         guard let games = Game.fetchedGamesFor(team: team).fetchedObjects else {
@@ -59,6 +73,40 @@ public extension Game {
         }
 
         return currentGames
+    }
+    
+    static func fetchedBracketGamesFor(group: Group, teamName: String) -> NSFetchedResultsController<Game> {
+        let groupPredicates = NSPredicate(format: "%K == %@", #keyPath(Game.stage.bracket.round.group), group)
+        
+        return fetchedGamesFor(group: group, teamName: teamName, predicate: groupPredicates)
+    }
+    
+    static func fetchedPoolGamesFor(group: Group, teamName: String) -> NSFetchedResultsController<Game> {
+        let groupPredicate = NSPredicate(format: "%K == %@", #keyPath(Game.pool.round.group), group)
+        
+        return fetchedGamesFor(group: group, teamName: teamName, predicate: groupPredicate)
+    }
+    
+    static func fetchedCrossoverGamesFor(group: Group, teamName: String) -> NSFetchedResultsController<Game> {
+        let groupPredicate = NSPredicate(format: "%K == %@", #keyPath(Game.cluster.round.group), group)
+        
+        return fetchedGamesFor(group: group, teamName: teamName, predicate: groupPredicate)
+    }
+    
+    static func fetchedGamesFor(group: Group, teamName: String, predicate: NSPredicate) -> NSFetchedResultsController<Game> {
+        let namePredicates = [
+            NSPredicate(format: "%K == %@", #keyPath(Game.homeTeamName), teamName),
+            NSPredicate(format: "%K == %@", #keyPath(Game.awayTeamName), teamName),
+        ]
+        
+        let namePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: namePredicates)
+        let fullPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, namePredicate])
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: fullPredicate, sortDescriptors: sortDescriptors)
     }
 
     static func fetchedGamesFor(pool: Pool) -> NSFetchedResultsController<Game> {

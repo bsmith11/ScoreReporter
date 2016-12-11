@@ -10,13 +10,14 @@ import Foundation
 import UIKit
 
 public enum GameViewState {
-    case Full
-    case Division
-    case Minimal
+    case full
+    case normal
+    case minimal
 }
 
 public struct GameViewModel {
     public let game: Game?
+    public let startDate: String?
     public let homeTeamName: NSAttributedString
     public let homeTeamScore: NSAttributedString?
     public let awayTeamName: NSAttributedString
@@ -33,8 +34,11 @@ public struct GameViewModel {
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
     ]
 
-    public init(game: Game?, state: GameViewState = .Full ) {
+    public init(game: Game?, state: GameViewState = .normal ) {
         self.game = game
+        
+        let dateFormatter = DateService.gameStartDateFullFormatter
+        startDate = game?.startDateFull.flatMap { dateFormatter.string(from: $0) }
 
         var homeAttributes = loserAttributes
         var awayAttributes = loserAttributes

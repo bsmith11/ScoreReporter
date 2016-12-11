@@ -1,8 +1,8 @@
 //
-//  GameListViewController.swift
+//  GroupTeamDetailsViewController.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 9/25/16.
+//  Created by Bradley Smith on 12/10/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
@@ -11,104 +11,97 @@ import Anchorage
 import KVOController
 import ScoreReporterCore
 
-class GameListViewController: UIViewController {
-    fileprivate let dataSource: GameListDataSource
+class GroupTeamDetailsViewController: UIViewController {
+    fileprivate let dataSource: GroupTeamDetailsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    fileprivate let defaultView = DefaultView(frame: .zero)
-
-    init(dataSource: GameListDataSource) {
+    
+    init(dataSource: GroupTeamDetailsDataSource) {
         self.dataSource = dataSource
-
+        
         super.init(nibName: nil, bundle: nil)
-
-        title = dataSource.title
-
+        
+        title = dataSource.teamName
+        
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
+    
     override func loadView() {
         view = UIView()
-
+        view.backgroundColor = UIColor.white
+        
         configureViews()
         configureLayout()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureObservers()
-
-        dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+        
+        dataSource.refreshBlock = { [weak self] in
+            self?.tableView.reloadData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        deselectRows(in: tableView, animated: animated)
     }
 }
 
 // MARK: - Private
 
-private extension GameListViewController {
+private extension GroupTeamDetailsViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.register(cellClass: GameCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.backgroundColor = UIColor.white
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
-
-        view.addSubview(defaultView)
     }
-
+    
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
-    }
-
-    func configureObservers() {
-        kvoController.observe(dataSource, keyPath: #keyPath(GameListDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
-        }
     }
 }
 
 // MARK: - UITableViewDataSource
 
-extension GameListViewController: UITableViewDataSource {
+extension GroupTeamDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections()
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let game = dataSource.item(at: indexPath)
-        let gameViewModel = GameViewModel(game: game)
-
         let cell = tableView.dequeueCell(for: indexPath) as GameCell
+        let gameViewModel = GameViewModel(game: game, state: .full)
         cell.configure(with: gameViewModel)
         cell.separatorHidden = indexPath.item == 0
-
+        
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension GameListViewController: UITableViewDelegate {
+extension GroupTeamDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let game = dataSource.item(at: indexPath) else {
             return
@@ -118,23 +111,23 @@ extension GameListViewController: UITableViewDelegate {
         let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
         navigationController?.pushViewController(gameDetailsViewController, animated: true)
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = dataSource.title(for: section)
+        let title = dataSource.headerTitle(for: section)
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
-
+        
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
+        guard let _ = dataSource.headerTitle(for: section) else {
             return 0.0001
         }
         
         return SectionHeaderView.height
     }
-
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
     }

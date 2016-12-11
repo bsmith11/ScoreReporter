@@ -174,7 +174,7 @@ extension TeamDetailsViewController: UITableViewDataSource {
             cell.separatorHidden = indexPath.item == 0
             return cell
         case .game(let game):
-            let gameViewModel = GameViewModel(game: game, state: .Full)
+            let gameViewModel = GameViewModel(game: game, state: .full)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
             cell.separatorHidden = indexPath.item == 0
@@ -197,8 +197,10 @@ extension TeamDetailsViewController: UITableViewDelegate {
             let eventDetailsDataSource = EventDetailsDataSource(event: event)
             let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
             navigationController?.pushViewController(eventDetailsViewController, animated: true)
-        default:
-            break
+        case .game(let game):
+            let gameDetailsViewModel = GameDetailsViewModel(game: game)
+            let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
+            navigationController?.pushViewController(gameDetailsViewController, animated: true)
         }
     }
 

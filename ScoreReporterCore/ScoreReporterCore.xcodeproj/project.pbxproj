@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
 		48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */; };
 		48496D931DEB72E600AE5942 /* FloatingPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */; };
 		486797271DE5726800C70324 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797261DE5726800C70324 /* APIConstants.swift */; };
@@ -92,6 +93,7 @@
 /* Begin PBXFileReference section */
 		2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35671254706CA2ECA9CF3D01 /* Pods-ScoreReporterCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.release.xcconfig"; sourceTree = "<group>"; };
+		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
 		48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Extensions.swift"; sourceTree = "<group>"; };
 		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				487876071DDBF79C008789A0 /* LoginService.swift */,
 				487876051DDBF79C008789A0 /* EventService.swift */,
 				487876091DDBF79C008789A0 /* TeamService.swift */,
+				4812A16D1DFD08EF00587173 /* GameService.swift */,
 				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
 				487876041DDBF79C008789A0 /* DateService.swift */,
 				487876061DDBF79C008789A0 /* KeychainService.swift */,
@@ -504,6 +507,7 @@
 				487876B51DDBFAF6008789A0 /* Event.swift in Sources */,
 				4878760C1DDBF79C008789A0 /* EventService.swift in Sources */,
 				487876FD1DDCD720008789A0 /* StandingCell.swift in Sources */,
+				4812A16E1DFD08EF00587173 /* GameService.swift in Sources */,
 				4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */,
 				487876BD1DDBFAF6008789A0 /* Round.swift in Sources */,
 				4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */,

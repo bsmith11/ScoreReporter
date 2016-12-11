@@ -16,7 +16,11 @@ class NavigationItemButtonView: UIView {
     }
 
     var centerPosition: CGPoint {
-        let x = ((superview?.bounds.width ?? 0.0) / 2.0) - 3.0 - 6.5
+        guard let width = superview?.bounds.width else {
+            return .zero
+        }
+        
+        let x = (width / 2.0) - 3.0 - 6.5
         let y = layer.position.y
         return CGPoint(x: x, y: y)
     }

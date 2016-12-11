@@ -43,6 +43,12 @@ class PoolsViewController: UIViewController {
 
         configureObservers()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        deselectRows(in: tableView, animated: animated)
+    }
 }
 
 // MARK: - Private
@@ -100,7 +106,15 @@ extension PoolsViewController: UITableViewDataSource {
 
 extension PoolsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        guard let standing = dataSource.item(at: indexPath),
+              let group = standing.pool?.round?.group,
+              let teamName = standing.teamName else {
+            return
+        }
+        
+        let groupTeamDetailsDataSource = GroupTeamDetailsDataSource(group: group, teamName: teamName)
+        let groupTeamDetailsViewController = GroupTeamDetailsViewController(dataSource: groupTeamDetailsDataSource)
+        navigationController?.pushViewController(groupTeamDetailsViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

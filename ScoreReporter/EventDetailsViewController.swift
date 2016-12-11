@@ -204,7 +204,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.separatorHidden = indexPath.item == 0
             return cell
         case .activeGame(let game):
-            let gameViewModel = GameViewModel(game: game, state: .Division)
+            let gameViewModel = GameViewModel(game: game, state: .full)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
             cell.separatorHidden = indexPath.item == 0
@@ -228,6 +228,10 @@ extension EventDetailsViewController: UITableViewDelegate {
             let groupDetailsDataSource = GroupDetailsDataSource(group: group)
             let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
             navigationController?.pushViewController(groupDetailsViewController, animated: true)
+        case .activeGame(let game):
+            let gameDetailsViewModel = GameDetailsViewModel(game: game)
+            let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
+            navigationController?.pushViewController(gameDetailsViewController, animated: true)
         default:
             break
         }

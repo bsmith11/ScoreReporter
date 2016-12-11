@@ -12,6 +12,7 @@ public enum ErrorType {
     case invalidResponse
     case invalidAccessToken
     case importFailure
+    case invalidUserToken
     
     var message: String {
         switch self {
@@ -21,6 +22,8 @@ public enum ErrorType {
             return "No access token"
         case .importFailure:
             return "Failed to import User"
+        case .invalidUserToken:
+            return "Please login to access this feature"
         }
     }
 }

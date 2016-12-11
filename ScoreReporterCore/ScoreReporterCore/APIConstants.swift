@@ -36,6 +36,7 @@ struct APIConstants {
             static let homeScore = "HomeScore"
             static let awayScore = "AwayScore"
             static let gameStatus = "GameStatus"
+            static let userToken = "UserToken"
         }
     }
 
@@ -108,6 +109,8 @@ struct APIConstants {
 
             static let memberID = "MemberId"
             static let accountID = "AccountId"
+            
+            static let updatedGameRecord = "Updated GameRecord"
         }
 
         struct Values {

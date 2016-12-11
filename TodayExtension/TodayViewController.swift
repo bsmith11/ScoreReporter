@@ -116,7 +116,7 @@ extension TodayViewController: UITableViewDataSource {
 
         switch item {
         case .game(let game):
-            let gameViewModel = GameViewModel(game: game, state: .Minimal)
+            let gameViewModel = GameViewModel(game: game, state: .minimal)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
             cell.configure(with: gameViewModel)
             cell.separatorHidden = indexPath.item == 0

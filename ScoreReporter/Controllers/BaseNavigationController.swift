@@ -45,6 +45,20 @@ class BaseNavigationController: UINavigationController {
     }
 }
 
+// MARK: - Public
+
+extension BaseNavigationController {
+    var interactionControllerEnabled: Bool {
+        get {
+            return interactionController.panGestureRecognizer.isEnabled
+        }
+        
+        set {
+            interactionController.panGestureRecognizer.isEnabled = newValue
+        }
+    }
+}
+
 // MARK: - BackInteractionControllerDelegate
 
 extension BaseNavigationController: BackInteractionControllerDelegate {
@@ -69,5 +83,11 @@ extension BaseNavigationController: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         interactionController.panGestureRecognizer.isEnabled = navigationController.viewControllers.first != viewController
+    }
+}
+
+extension UIViewController {
+    var baseNavigationController: BaseNavigationController? {
+        return navigationController as? BaseNavigationController
     }
 }
