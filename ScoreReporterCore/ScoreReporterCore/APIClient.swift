@@ -47,8 +47,16 @@ extension DataResponse {
     func validate() -> Result<[String: Any]> {
         switch result {
         case .success(let value):
-            guard let responseObject = value as? [String: Any],
-                  let success = responseObject[APIConstants.Response.Keys.success] as? Bool else {
+            guard let responseObject = value as? [String: Any] else {
+                let error = NSError(type: .invalidResponse)
+                return Result.failure(error)
+            }
+            
+            if let error = responseObject[APIConstants.Response.Keys.error] as? String {
+                return Result.success([:])
+            }
+            
+            guard let success = responseObject[APIConstants.Response.Keys.success] as? Bool else {
                 let error = NSError(type: .invalidResponse)
                 return Result.failure(error)
             }

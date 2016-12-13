@@ -81,4 +81,11 @@ public struct GameUpdate {
         self.awayTeamScore = awayTeamScore
         self.gameStatus = gameStatus
     }
+    
+    public init(game: Game, homeTeamScore: String, awayTeamScore: String, gameStatus: String) {
+        self.gameID = game.gameID
+        self.homeTeamScore = homeTeamScore
+        self.awayTeamScore = awayTeamScore
+        self.gameStatus = gameStatus
+    }
 }

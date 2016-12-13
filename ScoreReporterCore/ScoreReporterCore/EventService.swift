@@ -72,6 +72,11 @@ private extension EventService {
     }
 
     func parseEvent(response: [String: Any], completion: DownloadCompletion?) {
+        guard !response.isEmpty else {
+            completion?(nil)
+            return
+        }
+        
         guard let groupArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
             completion?(error)

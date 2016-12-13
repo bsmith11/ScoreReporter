@@ -27,13 +27,15 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let editButton = UIBarButtonItem()
     fileprivate let cancelButton = UIBarButtonItem()
     fileprivate let saveButton = UIBarButtonItem()
+    fileprivate let loadingButton = UIBarButtonItem()
+    fileprivate let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
     
     fileprivate var contentStackViewTop: NSLayoutConstraint?
     fileprivate var pickerViewOffset: CGFloat {
-        let pickerHeight = homeScorePickerView.bounds.height
+        let pickerHeight = CGFloat(160.0)
         let rowHeight = homeScorePickerView.rowSize(forComponent: 0).height
         let offset = max(0.0, (pickerHeight - rowHeight)) / 2.0
-        
+                
         return ceil(offset)
     }
     
@@ -53,6 +55,7 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
         editButton.title = "Edit"
         editButton.target = self
         editButton.action = #selector(editButtonTapped)
+        editButton.isEnabled = User.currentUser != nil
         
         cancelButton.title = "Cancel"
         cancelButton.target = self
@@ -61,6 +64,9 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
         saveButton.title = "Save"
         saveButton.target = self
         saveButton.action = #selector(saveButtonTapped)
+        
+        spinner.hidesWhenStopped = true
+        loadingButton.customView = spinner
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -161,13 +167,13 @@ private extension GameDetailsViewController {
     func configureObservers() {
         kvoController.observe(viewModel, keyPath: #keyPath(GameDetailsViewModel.loading)) { [weak self] (loading: Bool) in
             if loading {
-                self?.display(message: "Loading...", animated: true)
+                self?.spinner.startAnimating()
+                self?.navigationItem.setRightBarButton(self?.loadingButton, animated: true)
             }
             else {
-                self?.hide(animated: true)
-            }
-            
-            self?.navigationItem.rightBarButtonItem?.isEnabled = !loading
+                self?.spinner.stopAnimating()
+                self?.navigationItem.setRightBarButton(self?.editButton, animated: true)
+            }            
         }
         
         kvoController.observe(viewModel, keyPath: #keyPath(GameDetailsViewModel.error)) { [weak self] (error: NSError) in
@@ -185,6 +191,15 @@ private extension GameDetailsViewController {
     
     @objc func saveButtonTapped() {
         set(editing: false, animated: true)
+        
+        hide(animated: true)
+        
+        let homeTeamScore = String(homeScorePickerView.selectedRow(inComponent: 0))
+        let awayTeamScore = String(awayScorePickerView.selectedRow(inComponent: 0))
+        let gameStatus = viewModel.game.status ?? "Scheduled"
+        let gameUpdate = GameUpdate(game: viewModel.game, homeTeamScore: homeTeamScore, awayTeamScore: awayTeamScore, gameStatus: gameStatus)
+        
+        viewModel.update(with: gameUpdate)
     }
 }
 
