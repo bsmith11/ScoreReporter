@@ -35,5 +35,12 @@ post_install do | installer |
     puts 'Copying acknowledgements to Settings.bundle'
     FileUtils.cp_r(pods_acknowledgements_path, "#{settings_bundle_path}/Acknowledgements.plist", :remove_destination => true)
   end
+  
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['SWIFT_VERSION'] = '3.0'
+    end
+  end
+  
 end
 
