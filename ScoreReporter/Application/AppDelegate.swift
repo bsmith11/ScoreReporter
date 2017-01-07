@@ -30,6 +30,7 @@ private extension AppDelegate {
             NSFontAttributeName: UIFont.systemFont(ofSize: 17.0, weight: UIFontWeightBlack),
             NSForegroundColorAttributeName: UIColor.white
         ]
+        
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(titleTextAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(titleTextAttributes, for: .normal)
         
@@ -39,6 +40,38 @@ private extension AppDelegate {
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: .normal)
         UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0.0, vertical: 49.0)
+    }
+    
+    func handle(url: URL) {
+        guard let host = url.host else {
+            print("Invalid URL: No host")
+            return
+        }
+        
+        guard let tabBarController = window?.rootViewController as? TabBarController else {
+            print("Invalid view heirarchy")
+            return
+        }
+        
+        switch host {
+        case "events":
+            guard let eventID = url.pathComponents.last.flatMap({ Int($0) }),
+                  let event = Event.object(primaryKey: NSNumber(value: eventID), context: Event.coreDataStack.mainContext),
+                  let navigationController = tabBarController.selectedViewController as? UINavigationController else {
+                return
+            }
+            
+            let eventDetailsViewModel = EventDetailsViewModel(event: event)
+            let eventDetailsDataSource = EventDetailsDataSource(event: event)
+            let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+            
+            navigationController.pushViewController(eventDetailsViewController, animated: false)
+        case "games":
+            break
+        default:
+            print("Invalid URL: Unknown host \(host)")
+            break
+        }
     }
 }
 
@@ -56,6 +89,12 @@ extension AppDelegate: UIApplicationDelegate {
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
 
+        return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        handle(url: url)
+        
         return true
     }
 }

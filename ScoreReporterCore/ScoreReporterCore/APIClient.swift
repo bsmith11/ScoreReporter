@@ -11,31 +11,6 @@ import Alamofire
 
 public typealias APICompletion = (APIResult<[String: Any]>) -> Void
 
-public enum APIResult<Value> {
-    case success(Value)
-    case failure(Error)
-}
-
-public extension APIResult {
-    var value: Value? {
-        switch self {
-        case .success(let value):
-            return value
-        case .failure:
-            return nil
-        }
-    }
-    
-    var error: Error? {
-        switch self {
-        case .success:
-            return nil
-        case .failure(let error):
-            return error
-        }
-    }
-}
-
 public enum APIMethod: String {
     case get = "GET"
     case post = "POST"

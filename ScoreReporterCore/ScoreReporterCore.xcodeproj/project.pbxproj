@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
+		481689401E2095300064236B /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4816893F1E2095300064236B /* APIResult.swift */; };
 		48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */; };
 		48496D931DEB72E600AE5942 /* FloatingPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */; };
 		486797271DE5726800C70324 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797261DE5726800C70324 /* APIConstants.swift */; };
@@ -94,6 +95,7 @@
 		2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35671254706CA2ECA9CF3D01 /* Pods-ScoreReporterCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.release.xcconfig"; sourceTree = "<group>"; };
 		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
+		4816893F1E2095300064236B /* APIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
 		48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Extensions.swift"; sourceTree = "<group>"; };
 		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			children = (
 				486797261DE5726800C70324 /* APIConstants.swift */,
 				487876031DDBF79C008789A0 /* APIClient.swift */,
+				4816893F1E2095300064236B /* APIResult.swift */,
 				487876071DDBF79C008789A0 /* LoginService.swift */,
 				487876051DDBF79C008789A0 /* EventService.swift */,
 				487876091DDBF79C008789A0 /* TeamService.swift */,
@@ -545,6 +548,7 @@
 				487876E01DDC064A008789A0 /* SearchBarProxy.swift in Sources */,
 				487876C21DDBFAF6008789A0 /* Standing.swift in Sources */,
 				487876E51DDC064A008789A0 /* TableViewProxy.swift in Sources */,
+				481689401E2095300064236B /* APIResult.swift in Sources */,
 				48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */,
 				487876BF1DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld in Sources */,
 				487876501DDBF823008789A0 /* Importable.swift in Sources */,

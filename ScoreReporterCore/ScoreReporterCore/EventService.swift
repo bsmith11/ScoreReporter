@@ -99,8 +99,12 @@ private extension EventService {
 
     func parseEvent(response: [String: Any], completion: DownloadCompletion?) {
         guard !response.isEmpty else {
-            let error = NSError(type: .emptyResponse)
-            completion?(DownloadResult(error: error))
+            //
+            // This happens when the API returns empty because there is no game data.
+            // This shouldn't actually be an error, since it just means the event hasn't
+            // been filled out yet
+            //
+            completion?(.success)
             return
         }
         

@@ -16,6 +16,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     fileprivate let viewModel = TodayViewModel()
     fileprivate let dataSource = TodayDataSource()
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let headerView = TodayTeamHeaderView(frame: .zero)
     fileprivate let defaultView = DefaultView(frame: .zero)
 
     override func loadView() {
@@ -48,6 +49,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
         extensionContext?.widgetLargestAvailableDisplayMode = dataSource.empty ? .compact : .expanded
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let size = headerView.size(with: tableView.bounds.width)
+        headerView.frame = CGRect(origin: .zero, size: size)
+        tableView.tableHeaderView = headerView
+    }
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         switch activeDisplayMode {
@@ -79,13 +88,17 @@ private extension TodayViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(cellClass: EventCell.self)
+        tableView.register(cellClass: TodayEventCell.self)
         tableView.register(cellClass: GameCell.self)
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
+        
+        if let team = dataSource.team {
+            headerView.configure(with: team)
+        }
 
         defaultView.tintColor = UIColor.darkGray
         view.addSubview(defaultView)
@@ -122,9 +135,8 @@ extension TodayViewController: UITableViewDataSource {
             cell.separatorHidden = indexPath.item == 0
             return cell
         case .event(let event):
-            let cell = tableView.dequeueCell(for: indexPath) as EventCell
+            let cell = tableView.dequeueCell(for: indexPath) as TodayEventCell
             cell.configure(with: event)
-            cell.separatorHidden = indexPath.item == 0
             return cell
         }
     }
@@ -134,6 +146,19 @@ extension TodayViewController: UITableViewDataSource {
 
 extension TodayViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        guard let item = dataSource.item(at: indexPath) else {
+            return
+        }
+        
+        switch item {
+        case .event(let event):
+            if let url = URL(string: "scrreporter://events/\(event.eventID.intValue)") {
+                extensionContext?.open(url, completionHandler: nil)
+            }
+        case .game(let game):
+            if let url = URL(string: "scrreporter://games/\(game.gameID.intValue)") {
+                extensionContext?.open(url, completionHandler: nil)
+            }
+        }
     }
 }
