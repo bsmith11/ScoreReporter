@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 public struct GameService {
     fileprivate let client: APIClient
@@ -23,7 +22,7 @@ public extension GameService {
     func update(with gameUpdate: GameUpdate, completion: DownloadCompletion?) {
         guard let userToken = KeychainService.load(.accessToken) else {
             let error = NSError(type: .invalidUserToken)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
         
@@ -41,7 +40,7 @@ public extension GameService {
             case .success(let value):
                 self.parseUpdateGame(response: value, completion: completion)
             case .failure(let error):
-                completion?(error as NSError)
+                completion?(DownloadResult(error: error))
             }
         }
     }
@@ -54,11 +53,13 @@ private extension GameService {
         guard let updateDictionary = response[APIConstants.Response.Keys.updatedGameRecord] as? [String: AnyObject],
               let gameUpdate = GameUpdate(dictionary: updateDictionary) else {
             let error = NSError(type: .invalidResponse)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
         
-        Game.update(with: gameUpdate, completion: completion)
+        Game.update(with: gameUpdate) { error in
+            completion?(DownloadResult(error: error))
+        }
     }
 }
 

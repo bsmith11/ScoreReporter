@@ -22,9 +22,9 @@ extension TeamsViewModel {
     func downloadTeams() {
         loading = true
 
-        teamService.downloadTeamList { [weak self] error in
+        teamService.downloadTeamList { [weak self] result in
             self?.loading = false
-            self?.error = error
+            self?.error = result.error
         }
     }
 }

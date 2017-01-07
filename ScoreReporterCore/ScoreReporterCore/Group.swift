@@ -16,7 +16,7 @@ public class Group: NSManagedObject {
 // MARK: - Public
 
 public extension Group {
-    static func groups(from array: [[String: AnyObject]], team: Team? = nil, completion: DownloadCompletion?) {
+    static func groups(from array: [[String: AnyObject]], team: Team? = nil, completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             let groups = Group.objects(from: array, context: context)
 

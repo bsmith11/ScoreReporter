@@ -39,7 +39,7 @@ public extension Event {
         return "\(startDateString) - \(endDateString)"
     }
     
-    static func events(from array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func events(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Event.objects(from: array, context: context)
         }

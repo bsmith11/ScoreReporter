@@ -43,7 +43,7 @@ public extension Game {
         return isHomeTeam || isAwayTeam
     }
     
-    static func update(with gameUpdate: GameUpdate, completion: DownloadCompletion?) {
+    static func update(with gameUpdate: GameUpdate, completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) in
             guard let game = Game.object(primaryKey: gameUpdate.gameID, context: context) else {
                 return

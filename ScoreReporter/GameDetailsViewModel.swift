@@ -30,9 +30,9 @@ extension GameDetailsViewModel {
     func update(with gameUpdate: GameUpdate) {
         loading = true
         
-        gameService.update(with: gameUpdate) { [weak self] error in
+        gameService.update(with: gameUpdate) { [weak self] result in
             self?.loading = false
-            self?.error = error
+            self?.error = result.error
         }
     }
 }

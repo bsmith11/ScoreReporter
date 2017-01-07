@@ -24,11 +24,11 @@ extension LoginViewModel {
     func login(with credentials: Credentials, completion: LoginCompletion?) {
         loading = true
 
-        loginService.login(with: credentials) { [weak self] error in
+        loginService.login(with: credentials) { [weak self] result in
             self?.loading = false
-            self?.error = error
+            self?.error = result.error
 
-            completion?(error)
+            completion?(result.error)
         }
     }
 }

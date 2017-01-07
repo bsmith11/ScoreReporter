@@ -29,9 +29,9 @@ extension EventDetailsViewModel {
     func downloadEventDetails() {
         loading = true
 
-        eventService.downloadDetails(for: event) { [weak self] error in
+        eventService.downloadDetails(for: event) { [weak self] result in
             self?.loading = false
-            self?.error = error
+            self?.error = result.error
         }
     }
 }

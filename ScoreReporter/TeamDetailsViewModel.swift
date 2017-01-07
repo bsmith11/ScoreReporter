@@ -29,11 +29,11 @@ extension TeamDetailsViewModel {
     func downloadTeamDetails(completion: DownloadCompletion?) {
         loading = true
 
-        teamService.downloadDetails(for: team) { [weak self] error in
+        teamService.downloadDetails(for: team) { [weak self] result in
             self?.loading = false
-            self?.error = error
+            self?.error = result.error
 
-            completion?(error)
+            completion?(result)
         }
     }
 }

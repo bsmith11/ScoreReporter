@@ -7,9 +7,33 @@
 //
 
 import Foundation
-import Alamofire
 
-public typealias DownloadCompletion = (NSError?) -> Void
+public typealias DownloadCompletion = (DownloadResult) -> Void
+
+public enum DownloadResult {
+    case success
+    case failure(NSError)
+    
+    public init(error: Error?) {
+        if let error = error as? NSError {
+            self = .failure(error)
+        }
+        else {
+            self = .success
+        }
+    }
+}
+
+public extension DownloadResult {
+    var error: NSError? {
+        switch self {
+        case .success:
+            return nil
+        case .failure(let error):
+            return error
+        }
+    }
+}
 
 public struct EventService {
     fileprivate let client: APIClient
@@ -32,7 +56,7 @@ public extension EventService {
             case .success(let value):
                 self.parseEventList(response: value, completion: completion)
             case .failure(let error):
-                completion?(error as NSError)
+                completion?(DownloadResult(error: error))
             }
         }
     }
@@ -48,7 +72,7 @@ public extension EventService {
             case .success(let value):
                 self.parseEvent(response: value, completion: completion)
             case .failure(let error):
-                completion?(error as NSError)
+                completion?(DownloadResult(error: error))
             }
         }
     }
@@ -64,25 +88,30 @@ private extension EventService {
     func parseEventList(response: [String: Any], completion: DownloadCompletion?) {
         guard let eventArray = response[APIConstants.Response.Keys.events] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
 
-        Event.events(from: eventArray, completion: completion)
+        Event.events(from: eventArray) { error in
+            completion?(DownloadResult(error: error))
+        }
     }
 
     func parseEvent(response: [String: Any], completion: DownloadCompletion?) {
         guard !response.isEmpty else {
-            completion?(nil)
+            let error = NSError(type: .emptyResponse)
+            completion?(DownloadResult(error: error))
             return
         }
         
         guard let groupArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
 
-        Group.groups(from: groupArray, completion: completion)
+        Group.groups(from: groupArray) { error in
+            completion?(DownloadResult(error: error))
+        }
     }
 }

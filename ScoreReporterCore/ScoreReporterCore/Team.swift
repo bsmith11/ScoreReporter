@@ -9,6 +9,8 @@
 import Foundation
 import CoreData
 
+public typealias ImportCompletion = (NSError?) -> Void
+
 public class Team: NSManagedObject {
 
 }
@@ -28,7 +30,7 @@ public extension Team {
         return fullName.isEmpty ? nil : fullName
     }
 
-    static func teams(from array: [[String: AnyObject]], completion: DownloadCompletion?) {
+    static func teams(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Team.objects(from: array, context: context)
         }

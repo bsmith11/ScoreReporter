@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 public struct TeamService {
     fileprivate let client: APIClient
@@ -30,7 +29,7 @@ public extension TeamService {
             case .success(let value):
                 self.parseTeamList(response: value, completion: completion)
             case .failure(let error):
-                completion?(error as NSError)
+                completion?(DownloadResult(error: error))
             }
         }
     }
@@ -46,7 +45,7 @@ public extension TeamService {
             case .success(let value):
                 self.parseTeam(response: value, team: team, completion: completion)
             case .failure(let error):
-                completion?(error as NSError)
+                completion?(DownloadResult(error: error))
             }
         }
     }
@@ -58,17 +57,19 @@ private extension TeamService {
     func parseTeamList(response: [String: Any], completion: DownloadCompletion?) {
         guard let teamArray = response[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
 
-        Team.teams(from: teamArray, completion: completion)
+        Team.teams(from: teamArray) { error in
+            completion?(DownloadResult(error: error))
+        }
     }
 
     func parseTeam(response: [String: Any], team: Team, completion: DownloadCompletion?) {
         guard let responseArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
 
@@ -109,7 +110,9 @@ private extension TeamService {
                         group?.event = event
                     }
                 }
-            }, completion: completion)
+            }, completion: { error in
+                completion?(DownloadResult(error: error))
+            })
         }
 
         eventImportOperations.forEach { operation in

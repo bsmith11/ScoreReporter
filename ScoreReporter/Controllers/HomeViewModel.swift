@@ -22,9 +22,9 @@ extension HomeViewModel {
     func downloadEvents() {
         loading = true
 
-        eventService.downloadEventList { [weak self] error in
+        eventService.downloadEventList { [weak self] result in
             self?.loading = false
-            self?.error = error
+            self?.error = result.error
         }
     }
 }

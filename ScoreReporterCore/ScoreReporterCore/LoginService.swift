@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 public struct Credentials {
     public let username: String
@@ -42,7 +41,7 @@ public extension LoginService {
             case .success(let value):
                 self.parseLogin(response: value, completion: completion)
             case .failure(let error):
-                completion?(error as NSError)
+                completion?(DownloadResult(error: error))
             }
         }
     }
@@ -59,21 +58,21 @@ private extension LoginService {
     func parseLogin(response: [String: Any], completion: DownloadCompletion?) {
         guard let accessToken = response[APIConstants.Response.Keys.userToken] as? String else {
             let error = NSError(type: .invalidAccessToken)
-            completion?(error)
+            completion?(DownloadResult(error: error))
             return
         }
 
         User.user(from: response) { user in
             guard let userID = user?.userID else {
                 let error = NSError(type: .importFailure)
-                completion?(error)
+                completion?(DownloadResult(error: error))
                 return
             }
 
             KeychainService.save(.userID, value: userID.stringValue)
             KeychainService.save(.accessToken, value: accessToken)
 
-            completion?(nil)
+            completion?(.success)
         }
     }
 }
