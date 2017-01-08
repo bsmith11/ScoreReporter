@@ -12,14 +12,13 @@ import PINRemoteImage
 
 public class SearchCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
-
-    public var contentFrame: CGRect {
-        return searchInfoView.frame
-    }
-
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
+        
         configureViews()
         configureLayout()
     }
@@ -40,10 +39,6 @@ public class SearchCell: TableViewCell {
 public extension SearchCell {
     func configure(with searchable: Searchable?) {
         searchInfoView.configure(with: searchable)
-    }
-
-    func contentFrameFrom(view: UIView) -> CGRect {
-        return view.convert(searchInfoView.frame, from: searchInfoView.superview)
     }
 }
 

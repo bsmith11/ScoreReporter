@@ -13,10 +13,6 @@ import PINRemoteImage
 public class TeamCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
 
-    public var contentFrame: CGRect {
-        return searchInfoView.frame
-    }
-
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -40,10 +36,6 @@ public class TeamCell: TableViewCell {
 public extension TeamCell {
     func configure(with team: Team?) {
         searchInfoView.configure(with: team)
-    }
-
-    func contentFrameFrom(view: UIView) -> CGRect {
-        return view.convert(searchInfoView.frame, from: searchInfoView.superview)
     }
 }
 

@@ -30,6 +30,7 @@ public class SectionHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
 
         contentView.backgroundColor = UIColor.white
+        backgroundView = UIView(frame: .zero)
 
         configureViews()
         configureLayout()

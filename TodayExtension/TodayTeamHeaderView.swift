@@ -1,5 +1,5 @@
 //
-//  TodayTeamHeader.swift
+//  TodayTeamHeaderView.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 1/7/17.

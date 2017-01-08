@@ -13,10 +13,6 @@ import PINRemoteImage
 public class EventCell: TableViewCell {
     fileprivate let searchInfoView = SearchInfoView(frame: .zero)
 
-    public var contentFrame: CGRect {
-        return searchInfoView.frame
-    }
-
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -40,10 +36,6 @@ public class EventCell: TableViewCell {
 public extension EventCell {
     func configure(with event: Event?) {
         searchInfoView.configure(with: event)
-    }
-
-    func contentFrameFrom(view: UIView) -> CGRect {
-        return view.convert(searchInfoView.frame, from: searchInfoView.superview)
     }
 }
 

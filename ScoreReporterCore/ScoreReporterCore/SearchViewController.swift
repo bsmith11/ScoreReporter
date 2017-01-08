@@ -11,15 +11,18 @@ import Anchorage
 import KVOController
 import CoreData
 
+public typealias SearchAnimationCompletion = () -> Void
+
 public protocol SearchViewControllerDelegate: class {
     func didSelect(item: Searchable)
     func didSelectCancel()
-    func didBeginEditing()
+    func willBeginEditing()
 }
 
-public class SearchViewController<Model: NSManagedObject where Model: Searchable>: UIViewController {
+public class SearchViewController<Model: NSManagedObject where Model: Searchable>: UIViewController, KeyboardObservable {
     fileprivate let dataSource: SearchDataSource<Model>
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let visualEffectView = UIVisualEffectView(effect: nil)
+    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
 
     fileprivate var tableViewProxy: TableViewProxy?
@@ -58,7 +61,8 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
 
     public override func loadView() {
         view = UIView()
-
+        view.backgroundColor = UIColor.clear
+        
         configureViews()
         configureLayout()
     }
@@ -68,6 +72,18 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
 
         configureObservers()
 
+        addKeyboardObserver { [weak self] (_, keyboardFrame) in
+            guard let sself = self else {
+                return
+            }
+
+            let frameInWindow = sself.view.convert(sself.tableView.frame, to: nil)
+            let bottomInset = max(0.0, frameInWindow.maxY - keyboardFrame.minY)
+            
+            self?.tableView.contentInset.bottom = bottomInset
+            self?.tableView.scrollIndicatorInsets.bottom = bottomInset
+        }
+        
         dataSource.refreshBlock = { [weak self] in
             self?.tableView.reloadData()
         }
@@ -90,15 +106,51 @@ public class SearchViewController<Model: NSManagedObject where Model: Searchable
     }
 }
 
+// MARK: - Public
+
+public extension SearchViewController {
+    func beginAppearanceAnimation(completion: SearchAnimationCompletion?) {
+        tableView.alpha = 0.0
+        tableView.transform = CGAffineTransform(translationX: 0.0, y: 44.0)
+        
+        let animations = {
+            self.visualEffectView.effect = UIBlurEffect(style: .light)
+            self.tableView.alpha = 1.0
+            self.tableView.transform = CGAffineTransform.identity
+        }
+        
+        UIView.animate(withDuration: 0.25, animations: animations) { finished in
+            completion?()
+        }
+    }
+    
+    func beginDisappearanceAnimation(completion: SearchAnimationCompletion?) {
+        let animations = {
+            self.visualEffectView.effect = nil
+            self.tableView.alpha = 0.0
+            self.tableView.transform = CGAffineTransform(translationX: 0.0, y: 44.0)
+        }
+        
+        UIView.animate(withDuration: 0.25, animations: animations) { finished in
+            self.tableView.alpha = 1.0
+            self.tableView.transform = CGAffineTransform.identity
+            
+            completion?()
+        }
+    }
+}
+
 // MARK: - Private
 
 private extension SearchViewController {
     func configureViews() {
+        view.addSubview(visualEffectView)
+        
         tableView.dataSource = tableViewProxy
         tableView.delegate = tableViewProxy
         tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.register(cellClass: SearchCell.self)
-        tableView.backgroundColor = UIColor.white
+        tableView.backgroundColor = UIColor.clear
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
@@ -114,9 +166,9 @@ private extension SearchViewController {
     }
 
     func configureLayout() {
-        tableView.topAnchor == topLayoutGuide.bottomAnchor
-        tableView.horizontalAnchors == horizontalAnchors
-        tableView.keyboardLayoutGuide.bottomAnchor == bottomLayoutGuide.topAnchor
+        visualEffectView.edgeAnchors == edgeAnchors
+        
+        tableView.edgeAnchors == edgeAnchors
 
         defaultView.edgeAnchors == tableView.edgeAnchors
     }
@@ -157,7 +209,7 @@ extension SearchViewController: TableViewProxyDelegate {
             return 0.0
         }
 
-        return 44.0
+        return SectionHeaderView.height
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -166,6 +218,7 @@ extension SearchViewController: TableViewProxyDelegate {
         }
 
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
+        headerView.contentView.backgroundColor = UIColor.clear
         headerView.configure(with: title)
 
         return headerView
@@ -186,7 +239,8 @@ extension SearchViewController: SearchBarProxyDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.setShowsCancelButton(false, animated: true)
-
+        searchBar.resignFirstResponder()
+        
         dataSource.search(for: nil)
 
         delegate?.didSelectCancel()
@@ -196,9 +250,9 @@ extension SearchViewController: SearchBarProxyDelegate {
         dataSource.search(for: searchText)
     }
 
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    func searchBarTextWillBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
 
-        delegate?.didBeginEditing()
+        delegate?.willBeginEditing()
     }
 }

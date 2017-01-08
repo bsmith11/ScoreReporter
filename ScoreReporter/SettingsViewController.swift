@@ -13,6 +13,7 @@ import ScoreReporterCore
 class SettingsViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: SettingsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let headerView = SettingsHeaderView(frame: .zero)
     
     fileprivate var loginButton: UIBarButtonItem?
     fileprivate var logoutButton: UIBarButtonItem?
@@ -63,10 +64,15 @@ class SettingsViewController: UIViewController, MessageDisplayable {
         configureViews()
         configureLayout()
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let _ = User.currentUser {
+            let size = headerView.size(with: tableView.bounds.width)
+            headerView.frame = CGRect(origin: .zero, size: size)
+            tableView.tableHeaderView = headerView
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +95,10 @@ private extension SettingsViewController {
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = true
         view.addSubview(tableView)
+        
+        if let user = User.currentUser {
+            headerView.configure(with: user)
+        }
     }
 
     func configureLayout() {
@@ -112,6 +122,8 @@ private extension SettingsViewController {
             
             let loginService = LoginService(client: APIClient.sharedInstance)
             loginService.logout()
+            
+            self?.tableView.tableHeaderView = nil
         }
         
         alertController.addAction(cancelAction)
@@ -166,5 +178,12 @@ extension SettingsViewController: UITableViewDelegate {
 extension SettingsViewController: LoginViewControllerDelegate {
     func didLogin(in controller: LoginViewController) {
         navigationItem.rightBarButtonItem = logoutButton
+        
+        if let user = User.currentUser {
+            headerView.configure(with: user)
+            
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+        }
     }
 }

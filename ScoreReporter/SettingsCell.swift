@@ -13,13 +13,13 @@ import ScoreReporterCore
 class SettingsCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     fileprivate let iconImageView = UIImageView(frame: .zero)
-//    fileprivate let avatarContainerView = UIView(frame: .zero)
-//    fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        accessoryType = .disclosureIndicator
+        
         configureViews()
         configureLayout()
     }
@@ -53,21 +53,6 @@ private extension SettingsCell {
         contentStackView.alignment = .center
         contentView.addSubview(contentStackView)
 
-//        iconImageView.contentMode = .center
-//        iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-//        contentStackView.addArrangedSubview(iconImageView)
-        
-//        avatarContainerView.layer.cornerRadius = 8.0
-//        avatarContainerView.layer.masksToBounds = true
-//        avatarContainerView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-//        contentStackView.addArrangedSubview(avatarContainerView)
-
-//        avatarLabel.font = UIFont.systemFont(ofSize: 24.0, weight: UIFontWeightBlack)
-//        avatarLabel.textColor = UIColor.white
-//        avatarLabel.numberOfLines = 1
-//        avatarLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-//        avatarContainerView.addSubview(avatarLabel)
-
         titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
         titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 0
@@ -77,10 +62,5 @@ private extension SettingsCell {
 
     func configureLayout() {
         contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
-
-//        avatarContainerView.heightAnchor == 45.0
-//        avatarContainerView.widthAnchor == 45.0
-
-//        avatarLabel.centerAnchors == avatarContainerView.centerAnchors
     }
 }

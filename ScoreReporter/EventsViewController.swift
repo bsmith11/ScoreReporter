@@ -192,20 +192,28 @@ extension EventsViewController: SearchViewControllerDelegate {
         guard childViewControllers.contains(searchViewController) else {
             return
         }
-
-        searchViewController.willMove(toParentViewController: nil)
-        searchViewController.view.removeFromSuperview()
-        searchViewController.removeFromParentViewController()
+        
+        searchViewController.beginDisappearanceAnimation { [weak self] in
+            self?.searchViewController.willMove(toParentViewController: nil)
+            self?.searchViewController.view.removeFromSuperview()
+            self?.searchViewController.removeFromParentViewController()
+        }
     }
 
-    func didBeginEditing() {
+    func willBeginEditing() {
         guard !childViewControllers.contains(searchViewController) else {
             return
         }
         
         addChildViewController(searchViewController)
         view.addSubview(searchViewController.view)
-        searchViewController.view.edgeAnchors == edgeAnchors
+        
+        searchViewController.view.frame = view.bounds
+        searchViewController.view.setNeedsLayout()
+        searchViewController.view.layoutIfNeeded()
+        
         searchViewController.didMove(toParentViewController: self)
+        
+        searchViewController.beginAppearanceAnimation(completion: nil)
     }
 }
