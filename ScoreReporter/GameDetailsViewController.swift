@@ -12,38 +12,26 @@ import Anchorage
 
 class GameDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: GameDetailsViewModel
+    
     fileprivate let contentStackView = UIStackView(frame: .zero)
+    fileprivate let buttonStackView = UIStackView(frame: .zero)
     
+    fileprivate let cancelContainerView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    fileprivate let cancelButton = UIButton(type: .system)
+    
+    fileprivate let updateContainerView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    fileprivate let updateButton = UIButton(type: .system)
+    
+    fileprivate let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    
+    fileprivate let pickerContainerView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     fileprivate let pickerStackView = UIStackView(frame: .zero)
-    fileprivate let homeScorePickerView = UIPickerView(frame: .zero)
-    fileprivate let awayScorePickerView = UIPickerView(frame: .zero)
     
-    fileprivate let pickerStackViewCover = UIView(frame: .zero)
-    
-    fileprivate let teamStackView = UIStackView(frame: .zero)
+    fileprivate let labelStackView = UIStackView(frame: .zero)
     fileprivate let homeLabel = UILabel(frame: .zero)
     fileprivate let awayLabel = UILabel(frame: .zero)
     
-    fileprivate let editButton = UIBarButtonItem()
-    fileprivate let cancelButton = UIBarButtonItem()
-    fileprivate let saveButton = UIBarButtonItem()
-    fileprivate let loadingButton = UIBarButtonItem()
-    fileprivate let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
-    
-    fileprivate var contentStackViewTop: NSLayoutConstraint?
-    fileprivate var pickerViewOffset: CGFloat {
-        let pickerHeight = CGFloat(160.0)
-        let rowHeight = homeScorePickerView.rowSize(forComponent: 0).height
-        let offset = max(0.0, (pickerHeight - rowHeight)) / 2.0
-                
-        return ceil(offset)
-    }
-    
-    override var topLayoutGuide: UILayoutSupport {
-        configureMessageView(super.topLayoutGuide)
-        
-        return messageLayoutGuide
-    }
+    fileprivate let pickerView = UIPickerView(frame: .zero)
     
     init(viewModel: GameDetailsViewModel) {
         self.viewModel = viewModel
@@ -51,25 +39,8 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
         super.init(nibName: nil, bundle: nil)
         
         title = "Game Details"
-        
-        editButton.title = "Edit"
-        editButton.target = self
-        editButton.action = #selector(editButtonTapped)
-        editButton.isEnabled = User.currentUser != nil
-        
-        cancelButton.title = "Cancel"
-        cancelButton.target = self
-        cancelButton.action = #selector(cancelButtonTapped)
-        
-        saveButton.title = "Save"
-        saveButton.target = self
-        saveButton.action = #selector(saveButtonTapped)
-        
-        spinner.hidesWhenStopped = true
-        loadingButton.customView = spinner
-        
-        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = backButton
+        transitioningDelegate = self
+        modalPresentationStyle = .custom
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -82,7 +53,7 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.clear
         
         configureViews()
         configureLayout()
@@ -96,10 +67,16 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
         let homeScore = viewModel.game.homeTeamScore.flatMap { Int($0) } ?? 0
         let awayScore = viewModel.game.awayTeamScore.flatMap { Int($0) } ?? 0
         
-        homeScorePickerView.selectRow(homeScore, inComponent: 0, animated: false)
-        awayScorePickerView.selectRow(awayScore, inComponent: 0, animated: false)
-        
-        set(editing: false, animated: false)
+        pickerView.selectRow(homeScore, inComponent: 0, animated: false)
+        pickerView.selectRow(awayScore, inComponent: 1, animated: false)
+    }
+}
+
+// MARK: - Public
+
+extension GameDetailsViewController {
+    var height: CGFloat {
+        return 16.0 + 44.0 + 8.0 + 16.0 + homeLabel.font.lineHeight + 160.0 + 16.0
     }
 }
 
@@ -108,98 +85,159 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
 private extension GameDetailsViewController {
     func configureViews() {
         contentStackView.axis = .vertical
+        contentStackView.spacing = 8.0
         view.addSubview(contentStackView)
         
-        pickerStackView.axis = .horizontal
-        pickerStackView.spacing = 16.0
-        pickerStackView.distribution = .fillEqually
-        contentStackView.addArrangedSubview(pickerStackView)
+        buttonStackView.axis = .horizontal
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.spacing = 8.0
+        contentStackView.addArrangedSubview(buttonStackView)
         
-        homeScorePickerView.dataSource = self
-        homeScorePickerView.delegate = self
-        homeScorePickerView.backgroundColor = UIColor.white
-        pickerStackView.addArrangedSubview(homeScorePickerView)
+        cancelContainerView.layer.cornerRadius = 12.0
+        cancelContainerView.layer.masksToBounds = true
+        cancelContainerView.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
+        cancelContainerView.layer.borderWidth = (1.0 / UIScreen.main.scale)
+        buttonStackView.addArrangedSubview(cancelContainerView)
         
-        awayScorePickerView.dataSource = self
-        awayScorePickerView.delegate = self
-        awayScorePickerView.backgroundColor = UIColor.white
-        pickerStackView.addArrangedSubview(awayScorePickerView)
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(UIColor.black, for: .normal)
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        cancelContainerView.addSubview(cancelButton)
         
-        pickerStackViewCover.alpha = 0.0
-        pickerStackViewCover.backgroundColor = UIColor.white
-        pickerStackViewCover.isUserInteractionEnabled = false
-        pickerStackView.addSubview(pickerStackViewCover)
+        updateContainerView.layer.cornerRadius = 12.0
+        updateContainerView.layer.masksToBounds = true
+        updateContainerView.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
+        updateContainerView.layer.borderWidth = (1.0 / UIScreen.main.scale)
+        buttonStackView.addArrangedSubview(updateContainerView)
         
-        teamStackView.axis = .horizontal
-        teamStackView.spacing = 16.0
-        teamStackView.distribution = .fillEqually
-        teamStackView.alignment = .firstBaseline
-        contentStackView.addArrangedSubview(teamStackView)
+        updateButton.setTitle("Update", for: .normal)
+        updateButton.setTitleColor(UIColor.black, for: .normal)
+        updateButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        updateButton.addTarget(self, action: #selector(updateButtonTapped), for: .touchUpInside)
+        updateContainerView.addSubview(updateButton)
+        
+        spinner.hidesWhenStopped = true
+        spinner.color = UIColor.black
+        updateContainerView.addSubview(spinner)
+        
+        pickerContainerView.layer.cornerRadius = 12.0
+        pickerContainerView.layer.masksToBounds = true
+        pickerContainerView.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
+        pickerContainerView.layer.borderWidth = (1.0 / UIScreen.main.scale)
+        contentStackView.addArrangedSubview(pickerContainerView)
+        
+        pickerStackView.axis = .vertical
+        pickerContainerView.addSubview(pickerStackView)
+        
+        labelStackView.axis = .horizontal
+        labelStackView.spacing = 8.0
+        labelStackView.distribution = .fillEqually
+        labelStackView.alignment = .firstBaseline
+        pickerStackView.addArrangedSubview(labelStackView)
         
         homeLabel.text = viewModel.game.homeTeamName
-        homeLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        homeLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
         homeLabel.textColor = UIColor.black
-        homeLabel.numberOfLines = 0
-        homeLabel.lineBreakMode = .byWordWrapping
         homeLabel.textAlignment = .center
-        teamStackView.addArrangedSubview(homeLabel)
+        labelStackView.addArrangedSubview(homeLabel)
         
         awayLabel.text = viewModel.game.awayTeamName
-        awayLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+        awayLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightRegular)
         awayLabel.textColor = UIColor.black
-        awayLabel.numberOfLines = 0
-        awayLabel.lineBreakMode = .byWordWrapping
         awayLabel.textAlignment = .center
-        teamStackView.addArrangedSubview(awayLabel)
+        labelStackView.addArrangedSubview(awayLabel)
+        
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerStackView.addArrangedSubview(pickerView)
     }
     
     func configureLayout() {
-        contentStackViewTop = contentStackView.topAnchor == topLayoutGuide.bottomAnchor
-        contentStackView.horizontalAnchors == horizontalAnchors + 16.0
+        contentStackView.edgeAnchors == edgeAnchors + 16.0
         
-        pickerStackView.heightAnchor == 160.0
+        cancelContainerView.heightAnchor == 44.0
+        cancelButton.edgeAnchors == cancelContainerView.edgeAnchors
         
-        pickerStackViewCover.horizontalAnchors == pickerStackView.horizontalAnchors
-        pickerStackViewCover.bottomAnchor == pickerStackView.bottomAnchor
-        pickerStackViewCover.heightAnchor == 46.0
+        updateContainerView.heightAnchor == 44.0
+        updateButton.edgeAnchors == updateContainerView.edgeAnchors
+        spinner.centerAnchors == updateContainerView.centerAnchors
+        
+        pickerStackView.topAnchor == pickerContainerView.topAnchor + 16.0
+        pickerStackView.horizontalAnchors == pickerContainerView.horizontalAnchors
+        pickerStackView.bottomAnchor == pickerContainerView.bottomAnchor
+        pickerView.heightAnchor == 160.0
     }
     
     func configureObservers() {
         kvoController.observe(viewModel, keyPath: #keyPath(GameDetailsViewModel.loading)) { [weak self] (loading: Bool) in
+            guard let sself = self else {
+                return
+            }
+            
             if loading {
-                self?.spinner.startAnimating()
-                self?.navigationItem.setRightBarButton(self?.loadingButton, animated: true)
+                sself.spinner.startAnimating()
+                sself.updateButton.isHidden = true
             }
             else {
-                self?.spinner.stopAnimating()
-                self?.navigationItem.setRightBarButton(self?.editButton, animated: true)
-            }            
+                sself.spinner.stopAnimating()
+                sself.updateButton.isHidden = false
+            }
         }
         
-        kvoController.observe(viewModel, keyPath: #keyPath(GameDetailsViewModel.error)) { [weak self] (error: NSError) in
-            self?.display(error: error, animated: true)
-        }
-    }
-    
-    @objc func editButtonTapped() {
-        set(editing: true, animated: true)
+//        kvoController.observe(viewModel, keyPath: #keyPath(GameDetailsViewModel.error)) { [weak self] (error: NSError) in
+//            self?.display(error: error, animated: true)
+//        }
     }
     
     @objc func cancelButtonTapped() {
-        set(editing: false, animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
-    @objc func saveButtonTapped() {
-        set(editing: false, animated: true)
+    @objc func updateButtonTapped() {
+        if let _ = User.currentUser {
+            presentUpdateAlert()
+        }
+        else {
+            presentLogin()
+        }
+    }
+    
+    func presentLogin() {
+        let loginViewModel = LoginViewModel()
+        let loginViewController = LoginViewController(viewModel: loginViewModel)
+        let loginNavigationController = BaseNavigationController(rootViewController: loginViewController)
         
-        hide(animated: true)
+        present(loginNavigationController, animated: true, completion: nil)
+    }
+    
+    func presentUpdateAlert() {
+        let alertController = UIAlertController(title: "Update Game", message: "Are you sure you want to update this game?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        let homeTeamScore = String(homeScorePickerView.selectedRow(inComponent: 0))
-        let awayTeamScore = String(awayScorePickerView.selectedRow(inComponent: 0))
-        let gameStatus = viewModel.game.status ?? "Scheduled"
-        let gameUpdate = GameUpdate(game: viewModel.game, homeTeamScore: homeTeamScore, awayTeamScore: awayTeamScore, gameStatus: gameStatus)
+        let updateHandler = { [weak self] (action: UIAlertAction) in
+            guard let sself = self else {
+                return
+            }
+            
+            let homeTeamScore = String(sself.pickerView.selectedRow(inComponent: 0))
+            let awayTeamScore = String(sself.pickerView.selectedRow(inComponent: 1))
+            let gameStatus = sself.viewModel.game.status ?? "Scheduled"
+            let gameUpdate = GameUpdate(game: sself.viewModel.game, homeTeamScore: homeTeamScore, awayTeamScore: awayTeamScore, gameStatus: gameStatus)
+            
+            sself.viewModel.update(with: gameUpdate) { [weak self] success in
+                if success {
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
         
-        viewModel.update(with: gameUpdate)
+        let confirmAction = UIAlertAction(title: "Update", style: .default, handler: updateHandler)
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(confirmAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -207,7 +245,7 @@ private extension GameDetailsViewController {
 
 extension GameDetailsViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -233,37 +271,10 @@ extension GameDetailsViewController: UIPickerViewDelegate {
     }
 }
 
-// MARK: - Animations
+// MARK: - UIViewControllerTransitioningDelegate
 
-private extension GameDetailsViewController {
-    func set(editing: Bool, animated: Bool) {
-        pickerStackView.isUserInteractionEnabled = editing
-        baseNavigationController?.interactionControllerEnabled = !editing
-        
-        let offset = pickerViewOffset
-        let top = editing ? 0.0 : -offset
-        let spacing = editing ? 0.0 : -offset
-        let alpha: CGFloat = editing ? 0.0 : 1.0
-        
-        contentStackViewTop?.constant = top
-        contentStackView.spacing = spacing
-        
-        let animations = {
-            self.pickerStackViewCover.alpha = alpha
-            self.view.layoutIfNeeded()
-        }
-        
-        if animated {
-            UIView.animate(withDuration: 0.3, animations: animations)
-        }
-        else {
-            animations()
-        }
-        
-        let leftButton = editing ? cancelButton : nil
-        let rightButton = editing ? saveButton : editButton
-        
-        navigationItem.setLeftBarButton(leftButton, animated: animated)
-        navigationItem.setRightBarButton(rightButton, animated: animated)
+extension GameDetailsViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return GameDetailsPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

@@ -11,6 +11,7 @@
 		481689401E2095300064236B /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4816893F1E2095300064236B /* APIResult.swift */; };
 		48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */; };
 		48496D931DEB72E600AE5942 /* FloatingPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */; };
+		484FF0711E2302F90002F458 /* VisualEffectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FF0701E2302F90002F458 /* VisualEffectButton.swift */; };
 		486797271DE5726800C70324 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797261DE5726800C70324 /* APIConstants.swift */; };
 		4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876031DDBF79C008789A0 /* APIClient.swift */; };
 		4878760B1DDBF79C008789A0 /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876041DDBF79C008789A0 /* DateService.swift */; };
@@ -98,6 +99,7 @@
 		4816893F1E2095300064236B /* APIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
 		48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Extensions.swift"; sourceTree = "<group>"; };
+		484FF0701E2302F90002F458 /* VisualEffectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectButton.swift; sourceTree = "<group>"; };
 		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		487875821DDBEFFD008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875861DDBEFFD008789A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				487876C91DDBFBCA008789A0 /* BaselineButton.swift */,
 				487876CA1DDBFBCA008789A0 /* DefaultView.swift */,
 				487876CB1DDBFBCA008789A0 /* MessageView.swift */,
+				484FF0701E2302F90002F458 /* VisualEffectButton.swift */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				487876B41DDBFAF6008789A0 /* CoreDataStack.swift in Sources */,
 				487876D21DDBFBCA008789A0 /* TableViewCellSeparatorView.swift in Sources */,
 				4878764D1DDBF823008789A0 /* FetchedChangable.swift in Sources */,
+				484FF0711E2302F90002F458 /* VisualEffectButton.swift in Sources */,
 				487876C41DDBFAF6008789A0 /* Team.swift in Sources */,
 				487876B91DDBFAF6008789A0 /* Group.swift in Sources */,
 				487876101DDBF79C008789A0 /* TeamService.swift in Sources */,

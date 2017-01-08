@@ -51,6 +51,12 @@ class GameListViewController: UIViewController {
             self?.tableView.handle(changes: changes)
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        deselectRows(in: tableView, animated: animated)
+    }
 }
 
 // MARK: - Private
@@ -110,13 +116,18 @@ extension GameListViewController: UITableViewDataSource {
 
 extension GameListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         guard let game = dataSource.item(at: indexPath) else {
             return
         }
         
         let gameDetailsViewModel = GameDetailsViewModel(game: game)
         let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
-        navigationController?.pushViewController(gameDetailsViewController, animated: true)
+        
+        DispatchQueue.main.async {
+            self.present(gameDetailsViewController, animated: true, completion: nil)
+        }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

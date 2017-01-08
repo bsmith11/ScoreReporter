@@ -198,9 +198,14 @@ extension TeamDetailsViewController: UITableViewDelegate {
             let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
             navigationController?.pushViewController(eventDetailsViewController, animated: true)
         case .game(let game):
+            tableView.deselectRow(at: indexPath, animated: true)
+            
             let gameDetailsViewModel = GameDetailsViewModel(game: game)
             let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
-            navigationController?.pushViewController(gameDetailsViewController, animated: true)
+            
+            DispatchQueue.main.async {
+                self.present(gameDetailsViewController, animated: true, completion: nil)
+            }
         }
     }
 

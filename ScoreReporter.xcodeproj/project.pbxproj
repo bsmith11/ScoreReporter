@@ -33,6 +33,7 @@
 		4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517B1D9657AA00C95F2F /* PoolsViewController.swift */; };
 		48496D911DE94CE800AE5942 /* EventDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */; };
 		48496D951DEB8CF300AE5942 /* EventDetailsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D941DEB8CF300AE5942 /* EventDetailsInfoView.swift */; };
+		484EBC301E22117B00B7A61B /* GameDetailsPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484EBC2F1E22117B00B7A61B /* GameDetailsPresentationController.swift */; };
 		485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */; };
 		485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */; };
 		4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */; };
@@ -144,6 +145,7 @@
 		4849517B1D9657AA00C95F2F /* PoolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsViewController.swift; sourceTree = "<group>"; };
 		48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsHeaderView.swift; sourceTree = "<group>"; };
 		48496D941DEB8CF300AE5942 /* EventDetailsInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsInfoView.swift; sourceTree = "<group>"; };
+		484EBC2F1E22117B00B7A61B /* GameDetailsPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDetailsPresentationController.swift; sourceTree = "<group>"; };
 		485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarAnimatorView.swift; sourceTree = "<group>"; };
 		485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackInteractionController.swift; sourceTree = "<group>"; };
 		4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 		4812A1661DFD085900587173 /* Game Details */ = {
 			isa = PBXGroup;
 			children = (
+				484EBC2F1E22117B00B7A61B /* GameDetailsPresentationController.swift */,
 				4812A1691DFD087900587173 /* GameDetailsViewController.swift */,
 				4812A16B1DFD08BF00587173 /* GameDetailsViewModel.swift */,
 			);
@@ -858,6 +861,7 @@
 				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
 				4867971D1DE5465E00C70324 /* EventsDataSource.swift in Sources */,
 				4867971B1DE5465200C70324 /* EventsViewModel.swift in Sources */,
+				484EBC301E22117B00B7A61B /* GameDetailsPresentationController.swift in Sources */,
 				487BF38A1D9A0BD00082D6FC /* BracketListCell.swift in Sources */,
 				487876D41DDBFFC4008789A0 /* GameListDataSource.swift in Sources */,
 				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,

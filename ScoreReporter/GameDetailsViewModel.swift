@@ -9,6 +9,8 @@
 import Foundation
 import ScoreReporterCore
 
+typealias GameDetailsCompletion = (Bool) -> Void
+
 class GameDetailsViewModel: NSObject {
     fileprivate let gameService = GameService(client: APIClient.sharedInstance)
     
@@ -27,12 +29,15 @@ class GameDetailsViewModel: NSObject {
 // MARK: - Public
 
 extension GameDetailsViewModel {
-    func update(with gameUpdate: GameUpdate) {
+    func update(with gameUpdate: GameUpdate, completion: GameDetailsCompletion?) {
         loading = true
         
         gameService.update(with: gameUpdate) { [weak self] result in
             self?.loading = false
             self?.error = result.error
+            
+            let success = result.error == nil
+            completion?(success)
         }
     }
 }
