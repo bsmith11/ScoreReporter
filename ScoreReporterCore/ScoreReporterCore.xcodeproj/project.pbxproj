@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		480486AC1E3081190081609A /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486AB1E3081190081609A /* Sequence+Extensions.swift */; };
 		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
 		481689401E2095300064236B /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4816893F1E2095300064236B /* APIResult.swift */; };
 		48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */; };
@@ -95,6 +96,7 @@
 /* Begin PBXFileReference section */
 		2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35671254706CA2ECA9CF3D01 /* Pods-ScoreReporterCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.release.xcconfig"; sourceTree = "<group>"; };
+		480486AB1E3081190081609A /* Sequence+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
 		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		4816893F1E2095300064236B /* APIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */,
 				48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */,
 				48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */,
+				480486AB1E3081190081609A /* Sequence+Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				487876B31DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift in Sources */,
 				487876C31DDBFAF6008789A0 /* Standing+CoreDataProperties.swift in Sources */,
 				4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */,
+				480486AC1E3081190081609A /* Sequence+Extensions.swift in Sources */,
 				487876C01DDBFAF6008789A0 /* Stage.swift in Sources */,
 				487876691DDBF88A008789A0 /* UIViewController+Extensions.swift in Sources */,
 				487876611DDBF88A008789A0 /* CALayer+Extensions.swift in Sources */,

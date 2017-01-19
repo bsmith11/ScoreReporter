@@ -114,7 +114,8 @@ private extension TeamDetailsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
-        headerView.configure(with: dataSource.team)
+        let teamViewModel = TeamViewModel(team: dataSource.team)
+        headerView.configure(with: teamViewModel)
     }
 
     func configureLayout() {

@@ -9,13 +9,6 @@
 import Foundation
 import ScoreReporterCore
 
-extension Sequence where Iterator.Element == String? {
-    func joined(by separator: String) -> String? {
-        let string = flatMap { $0 }.joined(separator: separator)
-        return string.isEmpty ? nil : string
-    }
-}
-
 struct TeamViewModel {
     let fullName: String?
     let competitionDivision: String?
@@ -27,12 +20,7 @@ struct TeamViewModel {
         
         competitionDivision = [team?.competitionLevel, team?.division].joined(by: " ")
         
-        if let city = team?.city, let state = team?.state {
-            location = "\(city), \(state)"
-        }
-        else {
-            location = nil
-        }
+        location = [team?.city, team?.state].joined(by: ", ")
         
         logoURL = team?.searchLogoURL
     }
