@@ -15,6 +15,7 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: TeamDetailsViewModel
     fileprivate let dataSource: TeamDetailsDataSource
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
+    fileprivate let headerView = TeamDetailsHeaderView(frame: .zero)
 
     fileprivate var favoriteButton: UIBarButtonItem?
     fileprivate var unfavoriteButton: UIBarButtonItem?
@@ -68,13 +69,25 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
             self?.tableView.reloadData()
         }
 
-        viewModel.downloadTeamDetails { [weak self] error in
+        viewModel.downloadTeamDetails { [weak self] _ in
             self?.dataSource.refresh()
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if !tableView.bounds.width.isEqual(to: headerView.bounds.width) {
+            let size = headerView.size(with: tableView.bounds.width)
+            headerView.frame = CGRect(origin: .zero, size: size)
+            tableView.tableHeaderView = headerView
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        headerView.resetBlurAnimation()
         
         deselectRows(in: tableView, animated: animated)
     }
@@ -95,12 +108,13 @@ private extension TeamDetailsViewController {
         tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.register(cellClass: EventCell.self)
         tableView.register(cellClass: GameCell.self)
-        tableView.register(cellClass: TeamCell.self)
         tableView.backgroundColor = UIColor.white
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
         view.addSubview(tableView)
+        
+        headerView.configure(with: dataSource.team)
     }
 
     func configureLayout() {
@@ -230,5 +244,17 @@ extension TeamDetailsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension TeamDetailsViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y / -50.0
+        let value = min(1.0, max(0.0, offset))
+        
+        headerView.fractionComplete = value
+        headerView.verticalOffset = scrollView.contentOffset.y
     }
 }

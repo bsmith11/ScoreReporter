@@ -7,61 +7,33 @@
 //
 
 import Foundation
-import CoreLocation
 import ScoreReporterCore
 
+extension Sequence where Iterator.Element == String? {
+    func joined(by separator: String) -> String? {
+        let string = flatMap { $0 }.joined(separator: separator)
+        return string.isEmpty ? nil : string
+    }
+}
+
 struct TeamViewModel {
-    let name: String
-    let state: String
-    let location: String
-    let coordinate: CLLocationCoordinate2D?
+    let fullName: String?
+    let competitionDivision: String?
+    let location: String?
     let logoURL: URL?
 
-    let fullInfo: String
-
     init(team: Team?) {
-        name = team?.name ?? "No Name"
-
-        self.state = Team.stateName(fromAbbreviation: team?.state) ?? team?.state ?? "No State"
-
-        let city = team?.city ?? "City"
-        let state = team?.state ?? "State"
-        location = "\(city), \(state)"
-
-        coordinate = nil
-
-//        if let latitude = event?.latitude,
-//            longitude = event?.longitude {
-//            coordinate = CLLocationCoordinate2D(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
-//        }
-//        else {
-//            coordinate = nil
-//        }
-
+        fullName = [team?.school, team?.name].joined(by: " ")
+        
+        competitionDivision = [team?.competitionLevel, team?.division].joined(by: " ")
+        
+        if let city = team?.city, let state = team?.state {
+            location = "\(city), \(state)"
+        }
+        else {
+            location = nil
+        }
+        
         logoURL = team?.searchLogoURL
-
-        var fullInfo = ""
-
-        if let id = team?.teamID.stringValue {
-            fullInfo.append("\nID: \(id)")
-        }
-
-        if let school = team?.school {
-            fullInfo.append("\nSchool: \(school)")
-        }
-
-        if let division = team?.division {
-            fullInfo.append("\nDivision: \(division)")
-        }
-
-        if let compLevel = team?.competitionLevel {
-            fullInfo.append("\nComp Level: \(compLevel)")
-        }
-
-        if let desig = team?.designation {
-            fullInfo.append("\nDesig: \(desig)")
-        }
-
-        self.fullInfo = fullInfo
     }
 }

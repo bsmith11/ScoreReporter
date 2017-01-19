@@ -118,7 +118,10 @@ extension GroupTeamDetailsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = dataSource.headerTitle(for: section)
+        guard let title = dataSource.headerTitle(for: section) else {
+            return nil
+        }
+        
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
         

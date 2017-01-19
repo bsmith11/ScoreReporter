@@ -14,7 +14,7 @@ class TeamDetailsViewModel: NSObject {
     fileprivate let teamService = TeamService(client: APIClient.sharedInstance)
 
     fileprivate(set) dynamic var loading = false
-    fileprivate(set) dynamic var error: NSError? = nil
+    fileprivate(set) dynamic var error: NSError?
 
     init(team: Team) {
         self.team = team

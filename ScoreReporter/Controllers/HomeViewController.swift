@@ -64,8 +64,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
         dataSource.fetchedChangeHandler = { [weak self] changes in
             self?.tableView.handle(changes: changes)
         }
-
-//        viewModel.downloadEvents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -159,7 +157,10 @@ extension HomeViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = dataSource.title(for: section)
+        guard let title = dataSource.title(for: section) else {
+            return nil
+        }
+        
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
 

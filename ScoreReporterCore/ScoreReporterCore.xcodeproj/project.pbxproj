@@ -77,7 +77,6 @@
 		487876E41DDC064A008789A0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876DD1DDC064A008789A0 /* SearchViewController.swift */; };
 		487876E51DDC064A008789A0 /* TableViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876DE1DDC064A008789A0 /* TableViewProxy.swift */; };
 		487876E81DDC07AD008789A0 /* ListDetailAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876E61DDC07AD008789A0 /* ListDetailAnimationController.swift */; };
-		487876E91DDC07AD008789A0 /* TableCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876E71DDC07AD008789A0 /* TableCollectionViewLayout.swift */; };
 		487876EC1DDC0890008789A0 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EA1DDC0890008789A0 /* SectionHeaderView.swift */; };
 		487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EB1DDC0890008789A0 /* SegmentedControl.swift */; };
 		487876EF1DDC08EF008789A0 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */; };
@@ -168,7 +167,6 @@
 		487876DD1DDC064A008789A0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		487876DE1DDC064A008789A0 /* TableViewProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewProxy.swift; sourceTree = "<group>"; };
 		487876E61DDC07AD008789A0 /* ListDetailAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDetailAnimationController.swift; sourceTree = "<group>"; };
-		487876E71DDC07AD008789A0 /* TableCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCollectionViewLayout.swift; sourceTree = "<group>"; };
 		487876EA1DDC0890008789A0 /* SectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		487876EB1DDC0890008789A0 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -329,7 +327,6 @@
 				487876EB1DDC0890008789A0 /* SegmentedControl.swift */,
 				48B783C51DE20DDB00A7F796 /* SegmentView.swift */,
 				487876E61DDC07AD008789A0 /* ListDetailAnimationController.swift */,
-				487876E71DDC07AD008789A0 /* TableCollectionViewLayout.swift */,
 				487876C91DDBFBCA008789A0 /* BaselineButton.swift */,
 				487876CA1DDBFBCA008789A0 /* DefaultView.swift */,
 				487876CB1DDBFBCA008789A0 /* MessageView.swift */,
@@ -521,7 +518,6 @@
 				4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */,
 				487876BD1DDBFAF6008789A0 /* Round.swift in Sources */,
 				4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */,
-				487876E91DDC07AD008789A0 /* TableCollectionViewLayout.swift in Sources */,
 				487876C11DDBFAF6008789A0 /* Stage+CoreDataProperties.swift in Sources */,
 				487876651DDBF88A008789A0 /* UICollectionView+Extensions.swift in Sources */,
 				487876B11DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift in Sources */,

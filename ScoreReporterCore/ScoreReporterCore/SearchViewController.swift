@@ -119,7 +119,7 @@ public extension SearchViewController {
             self.tableView.transform = CGAffineTransform.identity
         }
         
-        UIView.animate(withDuration: 0.25, animations: animations) { finished in
+        UIView.animate(withDuration: 0.25, animations: animations) { _ in
             completion?()
         }
     }
@@ -131,7 +131,7 @@ public extension SearchViewController {
             self.tableView.transform = CGAffineTransform(translationX: 0.0, y: 44.0)
         }
         
-        UIView.animate(withDuration: 0.25, animations: animations) { finished in
+        UIView.animate(withDuration: 0.25, animations: animations) { _ in
             self.tableView.alpha = 1.0
             self.tableView.transform = CGAffineTransform.identity
             

@@ -20,7 +20,7 @@ public extension Standing {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Standing.pool), pool)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Standing.sortOrder), ascending: true),
+            NSSortDescriptor(key: #keyPath(Standing.sortOrder), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)

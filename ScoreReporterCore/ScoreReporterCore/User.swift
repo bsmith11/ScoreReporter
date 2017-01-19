@@ -52,7 +52,7 @@ public extension User {
             userID = User.object(from: dictionary, context: context)?.userID
         }
 
-        coreDataStack.performBlockUsingBackgroundContext(block) { error in
+        coreDataStack.performBlockUsingBackgroundContext(block) { _ in
             if let userID = userID {
                 let user = User.object(primaryKey: userID, context: User.coreDataStack.mainContext)
                 completion?(user)

@@ -17,12 +17,12 @@ public extension String {
             let options: NSRegularExpression.MatchingOptions = .reportProgress
             let range = NSRange(location: 0, length: (self as NSString).length)
 
-            regex.enumerateMatches(in: self, options: options, range: range, using: { (result: NSTextCheckingResult?, flags: NSRegularExpression.MatchingFlags, stop: UnsafeMutablePointer<ObjCBool>) in
+            regex.enumerateMatches(in: self, options: options, range: range) { (result: NSTextCheckingResult?, _, _) in
                 if let result = result {
                     let match = (self as NSString).substring(with: result.range)
                     strings.append(match)
                 }
-            })
+            }
 
             return strings.first
         }

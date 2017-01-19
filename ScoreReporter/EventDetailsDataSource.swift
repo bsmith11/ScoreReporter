@@ -7,36 +7,15 @@
 //
 
 import Foundation
-import CoreLocation
-import UIKit
 import CoreData
 import ScoreReporterCore
 
 enum EventDetailsInfo {
-    case address(String)
-    case date(String)
     case division(Group)
     case activeGame(Game)
 
-    var image: UIImage? {
-        switch self {
-        case .address:
-            return UIImage(named: "icn-map")
-        case .date:
-            return UIImage(named: "icn-calendar")
-        case .division:
-            return nil
-        default:
-            return nil
-        }
-    }
-
     var title: String {
         switch self {
-        case .address(let address):
-            return address
-        case .date(let date):
-            return date
         case .division(let group):
             let groupViewModel = GroupViewModel(group: group)
             return groupViewModel.fullName

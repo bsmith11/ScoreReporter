@@ -88,20 +88,6 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         super.viewWillAppear(animated)
         
         headerView.resetBlurAnimation()
-
-        let previousColor = navigationController?.navigationBar.barTintColor
-
-        let animation: TransitionCoordinatorBlock = { [weak self] _ in
-            self?.navigationController?.navigationBar.barTintColor = UIColor.scBlue
-        }
-
-        let completion: TransitionCoordinatorBlock = { [weak self] context in
-            if context.isCancelled {
-                self?.navigationController?.navigationBar.barTintColor = previousColor
-            }
-        }
-
-        transitionCoordinator?.animate(alongsideTransition: animation, completion: completion)
         
         deselectRows(in: tableView, animated: animated)
     }
@@ -209,8 +195,6 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.configure(with: gameViewModel)
             cell.separatorHidden = indexPath.item == 0
             return cell
-        default:
-            return UITableViewCell()
         }
     }
 }
@@ -237,8 +221,6 @@ extension EventDetailsViewController: UITableViewDelegate {
             DispatchQueue.main.async {
                 self.present(gameDetailsViewController, animated: true, completion: nil)
             }
-        default:
-            break
         }
     }
 
@@ -281,7 +263,7 @@ extension EventDetailsViewController {
 // MARK: - EventDetailsHeaderViewDelegate
 
 extension EventDetailsViewController: EventDetailsHeaderViewDelegate {
-    func didSelectMaps() {
+    func didSelectMaps(in headerView: EventDetailsHeaderView) {
         guard var urlComponenets = URLComponents(string: "http://maps.apple.com/"),
               let address = dataSource.event.searchSubtitle else {
             return

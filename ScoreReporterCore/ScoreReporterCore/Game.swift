@@ -96,7 +96,7 @@ public extension Game {
     static func fetchedGamesFor(group: Group, teamName: String, predicate: NSPredicate) -> NSFetchedResultsController<Game> {
         let namePredicates = [
             NSPredicate(format: "%K == %@", #keyPath(Game.homeTeamName), teamName),
-            NSPredicate(format: "%K == %@", #keyPath(Game.awayTeamName), teamName),
+            NSPredicate(format: "%K == %@", #keyPath(Game.awayTeamName), teamName)
         ]
         
         let namePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: namePredicates)
@@ -143,7 +143,7 @@ public extension Game {
 
     static func fetchedActiveGamesFor(team: Team) -> NSFetchedResultsController<Game> {
         let predicates = [
-            NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams)),
+            NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams))
         ]
 
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

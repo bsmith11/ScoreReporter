@@ -48,9 +48,7 @@ public extension SectionHeaderView {
         titleLabel.text = title
 
         actionButton.setTitle(actionButtonTitle, for: .normal)
-        actionButtonWidth?.isActive = actionButtonTitle == nil
-        
-        layoutIfNeeded()
+        actionButtonWidth?.isActive = actionButtonTitle == nil        
     }
 }
 

@@ -71,23 +71,13 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
             segmentedControl.selectedIndex = 0
         }
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        let animation: TransitionCoordinatorBlock = { [weak self] _ in
-            self?.navigationController?.navigationBar.barTintColor = self?.viewModel.divisionColor
-        }
-
-        transitionCoordinator?.animate(alongsideTransition: animation, completion: nil)
-    }
 }
 
 // MARK: - Private
 
 private extension GroupDetailsViewController {
     func configureViews() {
-        segmentedControl.tintColor = viewModel.divisionColor
+        segmentedControl.tintColor = UIColor.scBlue
         segmentedControl.delegate = self
         view.addSubview(segmentedControl)
 

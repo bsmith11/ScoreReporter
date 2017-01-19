@@ -1,24 +1,20 @@
 //
-//  EventDetailsHeaderView.swift
+//  TeamDetailsHeaderView.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 11/25/16.
-//  Copyright © 2016 Brad Smith. All rights reserved.
+//  Created by Brad Smith on 1/17/17.
+//  Copyright © 2017 Brad Smith. All rights reserved.
 //
 
 import UIKit
 import ScoreReporterCore
 import Anchorage
 
-protocol EventDetailsHeaderViewDelegate: class {
-    func didSelectMaps(in headerView: EventDetailsHeaderView)
-}
-
-class EventDetailsHeaderView: UIView, Sizable {
+class TeamDetailsHeaderView: UIView, Sizable {
     fileprivate let backgroundImageView = UIImageView(frame: .zero)
     fileprivate let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     fileprivate let separatorView = TableViewCellSeparatorView(frame: .zero)
-    fileprivate let infoView = EventDetailsInfoView(frame: .zero)
+    fileprivate let infoView = TeamDetailsInfoView(frame: .zero)
     
     fileprivate var backgroundImageViewTop: NSLayoutConstraint?
     var backgroundAnimator: UIViewPropertyAnimator?
@@ -65,11 +61,11 @@ class EventDetailsHeaderView: UIView, Sizable {
 
 // MARK: - Public
 
-extension EventDetailsHeaderView {
-    func configure(with event: Event) {
-        backgroundImageView.pin_setImage(from: event.searchLogoURL)
+extension TeamDetailsHeaderView {
+    func configure(with team: Team) {
+        backgroundImageView.pin_setImage(from: team.searchLogoURL)
         
-        infoView.configure(with: event)
+        infoView.configure(with: team)
     }
     
     func resetBlurAnimation() {
@@ -90,7 +86,7 @@ extension EventDetailsHeaderView {
 
 // MARK: - Private
 
-private extension EventDetailsHeaderView {
+private extension TeamDetailsHeaderView {
     func configureViews() {
         backgroundImageView.contentMode = .scaleAspectFill
         backgroundImageView.clipsToBounds = true
@@ -100,7 +96,6 @@ private extension EventDetailsHeaderView {
         
         addSubview(separatorView)
         
-        infoView.delegate = self
         addSubview(infoView)
     }
     
@@ -116,14 +111,6 @@ private extension EventDetailsHeaderView {
         
         infoView.topAnchor == topAnchor + 96.0
         infoView.horizontalAnchors == horizontalAnchors + 16.0
-        infoView.bottomAnchor == bottomAnchor - 16.0        
-    }
-}
-
-// MARK: - EventDetailsInfoViewDelegate
-
-extension EventDetailsHeaderView: EventDetailsInfoViewDelegate {
-    func didSelectMaps(in infoView: EventDetailsInfoView) {
-        delegate?.didSelectMaps(in: self)
+        infoView.bottomAnchor == bottomAnchor - 16.0
     }
 }

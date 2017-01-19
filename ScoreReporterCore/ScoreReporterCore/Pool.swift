@@ -20,7 +20,7 @@ public extension Pool {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round), round)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true),
+            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -30,7 +30,7 @@ public extension Pool {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round.group), group)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true),
+            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)

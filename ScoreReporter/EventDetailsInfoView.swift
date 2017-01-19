@@ -11,7 +11,7 @@ import ScoreReporterCore
 import Anchorage
 
 protocol EventDetailsInfoViewDelegate: class {
-    func didSelectMaps()
+    func didSelectMaps(in infoView: EventDetailsInfoView)
 }
 
 class EventDetailsInfoView: UIView {
@@ -102,6 +102,6 @@ private extension EventDetailsInfoView {
     }
     
     @objc func mapsButtonPressed() {
-        delegate?.didSelectMaps()
+        delegate?.didSelectMaps(in: self)
     }
 }
