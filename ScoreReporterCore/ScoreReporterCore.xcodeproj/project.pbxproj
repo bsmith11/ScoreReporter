@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		480486AC1E3081190081609A /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486AB1E3081190081609A /* Sequence+Extensions.swift */; };
+		480486AE1E30836B0081609A /* TeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486AD1E30836B0081609A /* TeamViewModel.swift */; };
+		480486B91E33217E0081609A /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486B81E33217E0081609A /* StageCell.swift */; };
 		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
 		481689401E2095300064236B /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4816893F1E2095300064236B /* APIResult.swift */; };
 		48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */; };
@@ -97,6 +99,8 @@
 		2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35671254706CA2ECA9CF3D01 /* Pods-ScoreReporterCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.release.xcconfig"; sourceTree = "<group>"; };
 		480486AB1E3081190081609A /* Sequence+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
+		480486AD1E30836B0081609A /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
+		480486B81E33217E0081609A /* StageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageCell.swift; sourceTree = "<group>"; };
 		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		4816893F1E2095300064236B /* APIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
@@ -361,6 +365,7 @@
 				487876F51DDCD720008789A0 /* GameCell.swift */,
 				487876F61DDCD720008789A0 /* GroupCell.swift */,
 				487876F81DDCD720008789A0 /* StandingCell.swift */,
+				480486B81E33217E0081609A /* StageCell.swift */,
 				487876EA1DDC0890008789A0 /* SectionHeaderView.swift */,
 				487876CC1DDBFBCA008789A0 /* TableViewCell.swift */,
 				487876CD1DDBFBCA008789A0 /* TableViewCellSeparatorView.swift */,
@@ -373,6 +378,7 @@
 			children = (
 				487877011DDCD909008789A0 /* GameViewModel.swift */,
 				487877021DDCD909008789A0 /* GroupViewModel.swift */,
+				480486AD1E30836B0081609A /* TeamViewModel.swift */,
 			);
 			name = "View Models";
 			sourceTree = "<group>";
@@ -550,6 +556,7 @@
 				487876511DDBF823008789A0 /* KeyboardObservable.swift in Sources */,
 				487876C61DDBFAF6008789A0 /* User.swift in Sources */,
 				487876B21DDBFAF6008789A0 /* Cluster.swift in Sources */,
+				480486AE1E30836B0081609A /* TeamViewModel.swift in Sources */,
 				487877031DDCD909008789A0 /* GameViewModel.swift in Sources */,
 				487876FB1DDCD720008789A0 /* GroupCell.swift in Sources */,
 				487876B61DDBFAF6008789A0 /* Event+CoreDataProperties.swift in Sources */,
@@ -582,6 +589,7 @@
 				4878764C1DDBF823008789A0 /* Fetchable.swift in Sources */,
 				487876C71DDBFAF6008789A0 /* User+CoreDataProperties.swift in Sources */,
 				487876D01DDBFBCA008789A0 /* MessageView.swift in Sources */,
+				480486B91E33217E0081609A /* StageCell.swift in Sources */,
 				4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */,
 				487876D11DDBFBCA008789A0 /* TableViewCell.swift in Sources */,
 				487876EF1DDC08EF008789A0 /* UIView+Extensions.swift in Sources */,

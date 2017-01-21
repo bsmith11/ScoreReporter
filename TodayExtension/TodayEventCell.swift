@@ -10,7 +10,7 @@ import UIKit
 import Anchorage
 import ScoreReporterCore
 
-public class TodayEventCell: UITableViewCell {
+public class TodayEventCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     
     fileprivate let dateStackView = UIStackView(frame: .zero)
@@ -104,10 +104,13 @@ private extension TodayEventCell {
         contentStackView.addArrangedSubview(spacer)
     }
     
-    func configureLayout() {        
-        contentStackView.edgeAnchors == contentView.edgeAnchors + 16.0
+    func configureLayout() {
+        contentStackView.horizontalAnchors == contentView.horizontalAnchors + 16.0
+        contentStackView.verticalAnchors == contentView.verticalAnchors + 8.0
+        
+        dateStackView.widthAnchor == 40.0
         
         separatorView.widthAnchor == (1.0 / UIScreen.main.scale)
-        separatorView.heightAnchor == contentStackView.heightAnchor
+        separatorView.heightAnchor == dateStackView.heightAnchor
     }
 }

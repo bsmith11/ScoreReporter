@@ -1,21 +1,21 @@
 //
 //  TeamViewModel.swift
-//  ScoreReporter
+//  ScoreReporterCore
 //
-//  Created by Bradley Smith on 11/6/16.
-//  Copyright © 2016 Brad Smith. All rights reserved.
+//  Created by Brad Smith on 1/19/17.
+//  Copyright © 2017 Brad Smith. All rights reserved.
 //
 
 import Foundation
 import ScoreReporterCore
 
-struct TeamViewModel {
-    let fullName: String?
-    let competitionDivision: String?
-    let location: String?
-    let logoURL: URL?
-
-    init(team: Team?) {
+public struct TeamViewModel {
+    public let fullName: String?
+    public let competitionDivision: String?
+    public let location: String?
+    public let logoURL: URL?
+    
+    public init(team: Team?) {
         fullName = [team?.school, team?.name].joined(by: " ")
         
         competitionDivision = [team?.competitionLevel, team?.division].joined(by: " ")

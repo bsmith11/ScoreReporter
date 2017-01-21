@@ -130,6 +130,17 @@ public extension Game {
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Game.startDateFull))
     }
+    
+    static func fetchedGamesFor(stage: Stage) -> NSFetchedResultsController<Game> {
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Game.stage), stage)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: #keyPath(Game.sortOrder), ascending: true),
+            NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Game.startDateFull))
+    }
 
     static func fetchedGamesFor(team: Team) -> NSFetchedResultsController<Game> {
         let predicate = NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams))

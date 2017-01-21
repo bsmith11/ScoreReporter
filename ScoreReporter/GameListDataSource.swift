@@ -40,6 +40,16 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
         register(fetchedResultsController: fetchedResultsController)
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
     }
+    
+    init(stage: Stage) {
+        title = stage.name
+        fetchedResultsController = Game.fetchedGamesFor(stage: stage)
+                
+        super.init()
+        
+        register(fetchedResultsController: fetchedResultsController)
+        empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
+    }
 
     deinit {
         unregister(fetchedResultsController: fetchedResultsController)

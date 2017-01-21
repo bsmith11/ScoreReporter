@@ -10,12 +10,13 @@ import UIKit
 import ScoreReporterCore
 import Anchorage
 
-class TodayTeamHeaderView: UIView, Sizable {
-    fileprivate let contentStackView = UIStackView(frame: .zero)
+class TodayTeamHeaderView: UITableViewHeaderFooterView {
     fileprivate let titleLabel = UILabel(frame: .zero)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        backgroundView = UIView(frame: .zero)
         
         configureViews()
         configureLayout()
@@ -29,8 +30,8 @@ class TodayTeamHeaderView: UIView, Sizable {
 // MARK: - Public
 
 extension TodayTeamHeaderView {
-    func configure(with team: Team) {
-        titleLabel.text = team.fullName
+    func configure(with title: String) {
+        titleLabel.text = title
     }
 }
 
@@ -38,18 +39,15 @@ extension TodayTeamHeaderView {
 
 private extension TodayTeamHeaderView {
     func configureViews() {
-        contentStackView.axis = .horizontal
-        contentStackView.spacing = 16.0
-        addSubview(contentStackView)
-        
         titleLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightHeavy)
         titleLabel.textColor = UIColor.black
         titleLabel.lineBreakMode = .byTruncatingTail
-        contentStackView.addArrangedSubview(titleLabel)
+        contentView.addSubview(titleLabel)
     }
     
     func configureLayout() {
-        contentStackView.horizontalAnchors == horizontalAnchors + 16.0
-        contentStackView.verticalAnchors == verticalAnchors + 8.0
+        titleLabel.topAnchor == contentView.topAnchor + 8.0
+        titleLabel.horizontalAnchors == contentView.horizontalAnchors + 16.0
+        titleLabel.bottomAnchor == contentView.bottomAnchor
     }
 }

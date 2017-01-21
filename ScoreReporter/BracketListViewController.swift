@@ -13,7 +13,7 @@ import ScoreReporterCore
 
 class BracketListViewController: UIViewController {
     fileprivate let dataSource: BracketListDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let defaultView = DefaultView(frame: .zero)
 
     init(dataSource: BracketListDataSource) {
@@ -47,8 +47,8 @@ class BracketListViewController: UIViewController {
 
         configureObservers()
 
-        dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+        dataSource.refreshBlock = { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 
@@ -65,7 +65,9 @@ private extension BracketListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(cellClass: BracketListCell.self)
+        tableView.register(headerFooterClass: SectionHeaderView.self)
+        tableView.register(cellClass: StageCell.self)
+        tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 70.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.backgroundColor = UIColor.white
@@ -100,10 +102,11 @@ extension BracketListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCell(for: indexPath) as BracketListCell
-        let bracket = dataSource.item(at: indexPath)
+        let cell = tableView.dequeueCell(for: indexPath) as StageCell
+        let stage = dataSource.item(at: indexPath)
 
-        cell.configure(with: bracket?.name)
+        cell.configure(with: stage?.name)
+        cell.separatorHidden = indexPath.item == 0
 
         return cell
     }
@@ -113,6 +116,34 @@ extension BracketListViewController: UITableViewDataSource {
 
 extension BracketListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        guard let stage = dataSource.item(at: indexPath) else {
+            return
+        }
+        
+        let gameListDataSource = GameListDataSource(stage: stage)
+        let gameListViewController = GameListViewController(dataSource: gameListDataSource)
+        navigationController?.pushViewController(gameListViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let title = dataSource.headerTitle(for: section) else {
+            return nil
+        }
+        
+        let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
+        headerView.configure(with: title)        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let _ = dataSource.headerTitle(for: section) else {
+            return 0.0001
+        }
+        
+        return SectionHeaderView.height
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.0001
     }
 }

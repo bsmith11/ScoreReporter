@@ -18,18 +18,6 @@ public class Team: NSManagedObject {
 // MARK: - Public
 
 public extension Team {
-    var fullName: String? {
-        let strings = [
-            school,
-            name,
-            designation
-        ].flatMap { $0 }
-
-        let fullName = strings.joined(separator: " ")
-
-        return fullName.isEmpty ? nil : fullName
-    }
-
     static func teams(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Team.objects(from: array, context: context)

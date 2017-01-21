@@ -8,7 +8,6 @@
 
 import UIKit
 import Anchorage
-import PINRemoteImage
 
 public class GroupCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)

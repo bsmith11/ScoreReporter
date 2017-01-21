@@ -11,6 +11,7 @@ import NotificationCenter
 import ScoreReporterCore
 import Anchorage
 import CoreData
+import KVOController
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     fileprivate let viewModel = TodayViewModel()
@@ -29,33 +30,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let emptyMessage: String
-        if let team = dataSource.team {
-            if let name = team.fullName {
-                emptyMessage = "\(name) has no upcoming events or games"
-            }
-            else {
-                emptyMessage = "No upcoming events or games"
-            }
+        kvoController.observe(tableView, keyPath: #keyPath(UITableView.contentSize)) { [weak self] (contentSize: CGSize) in
+            self?.preferredContentSize = contentSize
         }
-        else {
-            emptyMessage = "Favorite a team to see their upcoming events and games"
-
-        }
-
+        
+        let emptyMessage = dataSource.teams.isEmpty ? "Favorite a team to see their upcoming events and games" : "No upcoming events or games"
         let emptyInfo = DefaultViewStateInfo(image: nil, title: nil, message: emptyMessage)
         defaultView.set(info: emptyInfo, state: .empty)
         defaultView.empty = dataSource.empty
 
-        extensionContext?.widgetLargestAvailableDisplayMode = dataSource.empty ? .compact : .expanded
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let size = headerView.size(with: tableView.bounds.width)
-        headerView.frame = CGRect(origin: .zero, size: size)
-        tableView.tableHeaderView = headerView
+        extensionContext?.widgetLargestAvailableDisplayMode = .expanded
     }
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
@@ -63,7 +47,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         case .compact:
             preferredContentSize = maxSize
         case .expanded:
-            preferredContentSize = maxSize
+            preferredContentSize = tableView.contentSize
         }
     }
 
@@ -90,15 +74,14 @@ private extension TodayViewController {
         tableView.delegate = self
         tableView.register(cellClass: TodayEventCell.self)
         tableView.register(cellClass: GameCell.self)
+        tableView.register(headerFooterClass: TodayTeamHeaderView.self)
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
-        tableView.estimatedRowHeight = 100.0
+        tableView.estimatedRowHeight = 44.0
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 30.0
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
-        
-        if let team = dataSource.team {
-            headerView.configure(with: team)
-        }
 
         defaultView.tintColor = UIColor.darkGray
         view.addSubview(defaultView)
@@ -137,6 +120,7 @@ extension TodayViewController: UITableViewDataSource {
         case .event(let event):
             let cell = tableView.dequeueCell(for: indexPath) as TodayEventCell
             cell.configure(with: event)
+            cell.separatorHidden = indexPath.item == 0
             return cell
         }
     }
@@ -160,5 +144,15 @@ extension TodayViewController: UITableViewDelegate {
                 extensionContext?.open(url, completionHandler: nil)
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let title = dataSource.title(for: section) else {
+            return nil
+        }
+        
+        let headerView = tableView.dequeueHeaderFooterView() as TodayTeamHeaderView
+        headerView.configure(with: title)
+        return headerView
     }
 }

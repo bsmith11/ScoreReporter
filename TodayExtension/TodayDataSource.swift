@@ -43,17 +43,17 @@ struct TodayGameSection: TodaySection {
 }
 
 struct TodayEventSection: TodaySection {
+    let title: String?
     let team: Team
     let events: [Event]
     let items: [TodayItem]
-
-    fileprivate(set) var title: String?
 
     init?(team: Team) {
         guard let events = Event.fetchedUpcomingEventsFor(team: team).fetchedObjects, !events.isEmpty else {
             return nil
         }
 
+        self.title = TeamViewModel(team: team).fullName
         self.team = team
         self.events = events
         self.items = events.map { TodayItem.event($0) }
@@ -64,7 +64,7 @@ class TodayDataSource: NSObject {
     fileprivate var sections = [TodaySection]()
 
     fileprivate(set) var empty = false
-    fileprivate(set) var team: Team?
+    fileprivate(set) var teams = [Team]()
 
     override init() {
         super.init()
@@ -89,22 +89,9 @@ extension TodayDataSource {
 
 private extension TodayDataSource {
     func configureSections() {
-        sections.removeAll()
+        teams = Team.fetchedBookmarkedTeams().fetchedObjects ?? []
 
-        team = Team.fetchedBookmarkedTeams().fetchedObjects?.first
-
-        guard let team = team else {
-            empty = true
-            return
-        }
-
-        if let section = TodayGameSection(team: team) {
-            sections.append(section)
-        }
-        else if let section = TodayEventSection(team: team) {
-            sections.append(section)
-        }
-
+        sections = teams.map { TodayEventSection(team: $0) }.flatMap { $0 }
         empty = sections.isEmpty
     }
 }
