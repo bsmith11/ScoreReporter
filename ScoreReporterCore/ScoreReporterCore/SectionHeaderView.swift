@@ -57,6 +57,8 @@ public extension SectionHeaderView {
 private extension SectionHeaderView {
     func configureViews() {
         titleLabel.font = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBlack)
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.5
         titleLabel.textColor = UIColor.black
         contentView.addSubview(titleLabel)
 
@@ -76,7 +78,7 @@ private extension SectionHeaderView {
         titleLabel.leadingAnchor == contentView.leadingAnchor + 16.0
 
         actionButton.topAnchor == contentView.topAnchor
-        actionButton.leadingAnchor == titleLabel.trailingAnchor
+        actionButton.leadingAnchor == titleLabel.trailingAnchor + 16.0
         actionButton.trailingAnchor == contentView.trailingAnchor
         actionButton.bottomAnchor == contentView.bottomAnchor
         actionButtonWidth = actionButton.widthAnchor == 0.0
