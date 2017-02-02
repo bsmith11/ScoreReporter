@@ -23,7 +23,7 @@ class BaseNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-//        delegate = self
+        delegate = self
         
         navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationBar.shadowImage = UIImage()
@@ -41,7 +41,7 @@ class BaseNavigationController: UINavigationController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.white
-//        view.addGestureRecognizer(interactionController.panGestureRecognizer)
+        view.addGestureRecognizer(interactionController.panGestureRecognizer)
     }
 }
 

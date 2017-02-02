@@ -132,12 +132,12 @@
 		4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemButtonView.swift; sourceTree = "<group>"; };
 		481689411E209EB20064236B /* TodayEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayEventCell.swift; sourceTree = "<group>"; };
 		481689431E20B1510064236B /* TodayTeamHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayTeamHeaderView.swift; sourceTree = "<group>"; };
-		483453B71D8D009200F0918A /* HomeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeDataSource.swift; path = "View Models/HomeDataSource.swift"; sourceTree = "<group>"; };
+		483453B71D8D009200F0918A /* HomeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeDataSource.swift; path = HomeDataSource.swift; sourceTree = "<group>"; };
 		483453C21D8DA87900F0918A /* EventDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		483453C61D8DBB4C00F0918A /* BackAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackAnimationController.swift; sourceTree = "<group>"; };
 		48400E8A1D8EFAB400927EB6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		48400E8E1D8F4B5D00927EB6 /* EventDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsDataSource.swift; sourceTree = "<group>"; };
-		48400E921D8F573300927EB6 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBarController.swift; path = ../Application/TabBarController.swift; sourceTree = "<group>"; };
+		48400E921D8F573300927EB6 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBarController.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		484951741D964A6600C95F2F /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsDataSource.swift; sourceTree = "<group>"; };
@@ -175,8 +175,8 @@
 		487BF3871D9A0B630082D6FC /* BracketListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BracketListViewController.swift; sourceTree = "<group>"; };
 		488033C71E2F28530085A631 /* TeamDetailsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamDetailsHeaderView.swift; sourceTree = "<group>"; };
 		488033C91E2F28900085A631 /* TeamDetailsInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamDetailsInfoView.swift; sourceTree = "<group>"; };
-		488CAA631D7E367600C3E597 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Controllers/HomeViewController.swift; sourceTree = "<group>"; };
-		488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewModel.swift; path = Controllers/HomeViewModel.swift; sourceTree = "<group>"; };
+		488CAA631D7E367600C3E597 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewModel.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		489E007D1DFBDD62001268FA /* GroupTeamDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTeamDetailsViewController.swift; sourceTree = "<group>"; };
 		48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
@@ -235,8 +235,8 @@
 			isa = PBXGroup;
 			children = (
 				4C9687C4D6702C6F0E9312B6 /* Images.xcassets */,
-				38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */,
 				0EECBD668089EE283C31E7A7 /* Info.plist */,
+				38B928A7FFDA3B386C7371C6 /* LaunchScreen.xib */,
 				48F8B5321DC4FDD70031DB5B /* Settings.bundle */,
 			);
 			path = Resources;
@@ -260,12 +260,12 @@
 		3896B0DAF0B7AFBE95DE0E4B = {
 			isa = PBXGroup;
 			children = (
-				BDCB23798C38F5C0642B2160 /* ScoreReporter */,
-				D6765F0F8515402A5393BD58 /* UnitTests */,
-				487875691DDBC974008789A0 /* TodayExtension */,
 				3764A2B154BEA64F98903C0F /* Frameworks */,
-				9EFD5DD9B1ADAC3E3242E245 /* Products */,
 				DCC11C7EE4C5975D2493EB06 /* Pods */,
+				9EFD5DD9B1ADAC3E3242E245 /* Products */,
+				BDCB23798C38F5C0642B2160 /* ScoreReporter */,
+				487875691DDBC974008789A0 /* TodayExtension */,
+				D6765F0F8515402A5393BD58 /* UnitTests */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -275,10 +275,11 @@
 		480D9B3F1DFBDC0700DF1536 /* Group Team Details */ = {
 			isa = PBXGroup;
 			children = (
-				489E007D1DFBDD62001268FA /* GroupTeamDetailsViewController.swift */,
 				480D9B401DFBDC1F00DF1536 /* GroupTeamDetailsDataSource.swift */,
+				489E007D1DFBDD62001268FA /* GroupTeamDetailsViewController.swift */,
 			);
 			name = "Group Team Details";
+			path = "Group Team Details";
 			sourceTree = "<group>";
 		};
 		4812A1661DFD085900587173 /* Game Details */ = {
@@ -289,38 +290,42 @@
 				4812A16B1DFD08BF00587173 /* GameDetailsViewModel.swift */,
 			);
 			name = "Game Details";
+			path = "Game Details";
 			sourceTree = "<group>";
 		};
 		482E43C91DD04E11005790F2 /* Teams */ = {
 			isa = PBXGroup;
 			children = (
+				486797221DE54B1A00C70324 /* TeamsDataSource.swift */,
 				4867971E1DE54B0900C70324 /* TeamsViewController.swift */,
 				486797201DE54B1300C70324 /* TeamsViewModel.swift */,
-				486797221DE54B1A00C70324 /* TeamsDataSource.swift */,
 			);
 			name = Teams;
+			path = Teams;
 			sourceTree = "<group>";
 		};
 		483453BD1D8D8A0D00F0918A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				483453B71D8D009200F0918A /* HomeDataSource.swift */,
 				488CAA631D7E367600C3E597 /* HomeViewController.swift */,
 				488CAA6B1D7E4A5E00C3E597 /* HomeViewModel.swift */,
-				483453B71D8D009200F0918A /* HomeDataSource.swift */,
 			);
 			name = Home;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		483453BE1D8D8A3700F0918A /* Event Details */ = {
 			isa = PBXGroup;
 			children = (
-				483453C21D8DA87900F0918A /* EventDetailsViewController.swift */,
-				48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */,
 				48400E8E1D8F4B5D00927EB6 /* EventDetailsDataSource.swift */,
 				48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */,
 				48496D941DEB8CF300AE5942 /* EventDetailsInfoView.swift */,
+				483453C21D8DA87900F0918A /* EventDetailsViewController.swift */,
+				48400E9F1D90DC4800927EB6 /* EventDetailsViewModel.swift */,
 			);
 			name = "Event Details";
+			path = "Event Details";
 			sourceTree = "<group>";
 		};
 		48400E891D8EF94F00927EB6 /* Login */ = {
@@ -330,47 +335,51 @@
 				4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */,
 			);
 			name = Login;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		484951731D9649D700C95F2F /* Group Details */ = {
 			isa = PBXGroup;
 			children = (
-				484951741D964A6600C95F2F /* GroupDetailsViewController.swift */,
 				484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */,
+				484951741D964A6600C95F2F /* GroupDetailsViewController.swift */,
 			);
 			name = "Group Details";
+			path = "Group Details";
 			sourceTree = "<group>";
 		};
 		484951781D9653D600C95F2F /* Pools */ = {
 			isa = PBXGroup;
 			children = (
-				4849517B1D9657AA00C95F2F /* PoolsViewController.swift */,
 				484951791D9653E600C95F2F /* PoolsDataSource.swift */,
+				4849517B1D9657AA00C95F2F /* PoolsViewController.swift */,
 			);
 			name = Pools;
+			path = Pools;
 			sourceTree = "<group>";
 		};
 		486797171DE5459400C70324 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				4867971C1DE5465E00C70324 /* EventsDataSource.swift */,
 				486797181DE5464000C70324 /* EventsViewController.swift */,
 				4867971A1DE5465200C70324 /* EventsViewModel.swift */,
-				4867971C1DE5465E00C70324 /* EventsDataSource.swift */,
 			);
 			name = Events;
+			path = Events;
 			sourceTree = "<group>";
 		};
 		487875691DDBC974008789A0 /* TodayExtension */ = {
 			isa = PBXGroup;
 			children = (
+				4878756F1DDBC974008789A0 /* Info.plist */,
+				48E9F0B11DE0CD1000F8197B /* TodayDataSource.swift */,
+				480486AF1E3094E60081609A /* TodayEmptyCell.swift */,
+				481689411E209EB20064236B /* TodayEventCell.swift */,
 				487876F21DDC20B0008789A0 /* TodayExtension.entitlements */,
+				481689431E20B1510064236B /* TodayTeamHeaderView.swift */,
 				4878756A1DDBC974008789A0 /* TodayViewController.swift */,
 				48E9F0B31DE0D0EB00F8197B /* TodayViewModel.swift */,
-				48E9F0B11DE0CD1000F8197B /* TodayDataSource.swift */,
-				481689431E20B1510064236B /* TodayTeamHeaderView.swift */,
-				481689411E209EB20064236B /* TodayEventCell.swift */,
-				480486AF1E3094E60081609A /* TodayEmptyCell.swift */,
-				4878756F1DDBC974008789A0 /* Info.plist */,
 			);
 			path = TodayExtension;
 			sourceTree = "<group>";
@@ -378,31 +387,34 @@
 		487877051DDD4A66008789A0 /* Team Details */ = {
 			isa = PBXGroup;
 			children = (
-				487877061DDD4A8D008789A0 /* TeamDetailsViewController.swift */,
-				487877081DDD4B13008789A0 /* TeamDetailsViewModel.swift */,
 				4878770A1DDD4B1F008789A0 /* TeamDetailsDataSource.swift */,
 				488033C71E2F28530085A631 /* TeamDetailsHeaderView.swift */,
 				488033C91E2F28900085A631 /* TeamDetailsInfoView.swift */,
+				487877061DDD4A8D008789A0 /* TeamDetailsViewController.swift */,
+				487877081DDD4B13008789A0 /* TeamDetailsViewModel.swift */,
 			);
 			name = "Team Details";
+			path = "Team Details";
 			sourceTree = "<group>";
 		};
 		487BF3721D9856760082D6FC /* Game List */ = {
 			isa = PBXGroup;
 			children = (
-				487BF3751D985A230082D6FC /* GameListViewController.swift */,
 				487876D31DDBFFC4008789A0 /* GameListDataSource.swift */,
+				487BF3751D985A230082D6FC /* GameListViewController.swift */,
 			);
 			name = "Game List";
+			path = "Game List";
 			sourceTree = "<group>";
 		};
 		487BF3841D9A0A1B0082D6FC /* Bracket List */ = {
 			isa = PBXGroup;
 			children = (
-				487BF3871D9A0B630082D6FC /* BracketListViewController.swift */,
 				487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */,
+				487BF3871D9A0B630082D6FC /* BracketListViewController.swift */,
 			);
 			name = "Bracket List";
+			path = "Bracket List";
 			sourceTree = "<group>";
 		};
 		48A2E70E1DA49CF200B7B422 /* Settings */ = {
@@ -410,21 +422,23 @@
 			children = (
 				48A2E71C1DA4B54700B7B422 /* Acknowledgement */,
 				48A2E7171DA4AFF800B7B422 /* Acknowledgement List */,
-				48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */,
+				487876FE1DDCD8A6008789A0 /* SettingsCell.swift */,
 				48A2E7111DA49E1800B7B422 /* SettingsDataSource.swift */,
 				486797281DE63F5A00C70324 /* SettingsHeaderView.swift */,
-				487876FE1DDCD8A6008789A0 /* SettingsCell.swift */,
+				48A2E70F1DA49D2300B7B422 /* SettingsViewController.swift */,
 			);
 			name = Settings;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		48A2E7171DA4AFF800B7B422 /* Acknowledgement List */ = {
 			isa = PBXGroup;
 			children = (
-				48A2E7181DA4B01600B7B422 /* AcknowledgementListViewController.swift */,
 				48A2E71A1DA4B02200B7B422 /* AcknowledgementListDataSource.swift */,
+				48A2E7181DA4B01600B7B422 /* AcknowledgementListViewController.swift */,
 			);
 			name = "Acknowledgement List";
+			path = "Acknowledgement List";
 			sourceTree = "<group>";
 		};
 		48A2E71C1DA4B54700B7B422 /* Acknowledgement */ = {
@@ -433,6 +447,7 @@
 				48A2E71D1DA4B55900B7B422 /* AcknowledgementViewController.swift */,
 			);
 			name = Acknowledgement;
+			path = Acknowledgement;
 			sourceTree = "<group>";
 		};
 		68A0FF57993D076C9C493638 /* iOS */ = {
@@ -461,14 +476,14 @@
 		8C9462C06DBD76CB33CD55E2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				48400E921D8F573300927EB6 /* TabBarController.swift */,
-				0680347F1D3F140A006BD4C1 /* BaseNavigationController.swift */,
 				483453C61D8DBB4C00F0918A /* BackAnimationController.swift */,
 				485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */,
+				0680347F1D3F140A006BD4C1 /* BaseNavigationController.swift */,
 				485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */,
 				4815808A1DC86A50008F141B /* NavigationButton.swift */,
-				4815808C1DC86A5A008F141B /* NavigationItemView.swift */,
 				4815808E1DC86A66008F141B /* NavigationItemButtonView.swift */,
+				4815808C1DC86A5A008F141B /* NavigationItemView.swift */,
+				48400E921D8F573300927EB6 /* TabBarController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -493,23 +508,23 @@
 		BDCB23798C38F5C0642B2160 /* ScoreReporter */ = {
 			isa = PBXGroup;
 			children = (
-				4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */,
 				E2E5ED9D04AACD67F94ABF4E /* Application */,
-				48400E891D8EF94F00927EB6 /* Login */,
-				483453BD1D8D8A0D00F0918A /* Home */,
-				486797171DE5459400C70324 /* Events */,
-				482E43C91DD04E11005790F2 /* Teams */,
-				48A2E70E1DA49CF200B7B422 /* Settings */,
-				483453BE1D8D8A3700F0918A /* Event Details */,
-				484951731D9649D700C95F2F /* Group Details */,
-				480D9B3F1DFBDC0700DF1536 /* Group Team Details */,
-				4812A1661DFD085900587173 /* Game Details */,
-				487877051DDD4A66008789A0 /* Team Details */,
-				484951781D9653D600C95F2F /* Pools */,
-				487BF3721D9856760082D6FC /* Game List */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
 				8C9462C06DBD76CB33CD55E2 /* Controllers */,
+				483453BE1D8D8A3700F0918A /* Event Details */,
+				486797171DE5459400C70324 /* Events */,
+				4812A1661DFD085900587173 /* Game Details */,
+				487BF3721D9856760082D6FC /* Game List */,
+				484951731D9649D700C95F2F /* Group Details */,
+				480D9B3F1DFBDC0700DF1536 /* Group Team Details */,
+				483453BD1D8D8A0D00F0918A /* Home */,
+				48400E891D8EF94F00927EB6 /* Login */,
+				484951781D9653D600C95F2F /* Pools */,
 				2E91F1BFF2A58D6F931A75C4 /* Resources */,
+				48A2E70E1DA49CF200B7B422 /* Settings */,
+				487877051DDD4A66008789A0 /* Team Details */,
+				482E43C91DD04E11005790F2 /* Teams */,
+				4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */,
 			);
 			path = ScoreReporter;
 			sourceTree = "<group>";
@@ -517,8 +532,8 @@
 		D6765F0F8515402A5393BD58 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				7260F929EC527B6016179664 /* Resources */,
 				8B15EA5848F643DEE4DA2678 /* Helpers */,
+				7260F929EC527B6016179664 /* Resources */,
 				8D5C71E94EB7BB938BEF1C6E /* Tests */,
 			);
 			path = UnitTests;

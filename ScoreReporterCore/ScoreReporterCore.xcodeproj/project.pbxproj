@@ -203,10 +203,10 @@
 		487875781DDBEFFD008789A0 = {
 			isa = PBXGroup;
 			children = (
-				487875841DDBEFFD008789A0 /* ScoreReporterCore */,
-				487875831DDBEFFD008789A0 /* Products */,
-				CFB5605EC9529AB38FB50625 /* Pods */,
 				97AE633B5C59E236324E94C2 /* Frameworks */,
+				CFB5605EC9529AB38FB50625 /* Pods */,
+				487875831DDBEFFD008789A0 /* Products */,
+				487875841DDBEFFD008789A0 /* ScoreReporterCore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -221,14 +221,14 @@
 		487875841DDBEFFD008789A0 /* ScoreReporterCore */ = {
 			isa = PBXGroup;
 			children = (
-				487877001DDCD8C6008789A0 /* View Models */,
-				487876D71DDC063D008789A0 /* Search */,
+				487876551DDBF83D008789A0 /* Extensions */,
 				487876C81DDBFB74008789A0 /* Interface */,
 				487876961DDBFACA008789A0 /* Models */,
-				487876551DDBF83D008789A0 /* Extensions */,
 				487876401DDBF7FD008789A0 /* Protocols */,
-				487876111DDBF79F008789A0 /* Services */,
 				487875931DDBF3C8008789A0 /* Resources */,
+				487876D71DDC063D008789A0 /* Search */,
+				487876111DDBF79F008789A0 /* Services */,
+				487877001DDCD8C6008789A0 /* View Models */,
 			);
 			path = ScoreReporterCore;
 			sourceTree = "<group>";
@@ -239,24 +239,26 @@
 				487875861DDBEFFD008789A0 /* Info.plist */,
 			);
 			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		487876111DDBF79F008789A0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				486797261DE5726800C70324 /* APIConstants.swift */,
 				487876031DDBF79C008789A0 /* APIClient.swift */,
+				486797261DE5726800C70324 /* APIConstants.swift */,
 				4816893F1E2095300064236B /* APIResult.swift */,
-				487876071DDBF79C008789A0 /* LoginService.swift */,
-				487876051DDBF79C008789A0 /* EventService.swift */,
-				487876091DDBF79C008789A0 /* TeamService.swift */,
-				4812A16D1DFD08EF00587173 /* GameService.swift */,
 				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
 				487876041DDBF79C008789A0 /* DateService.swift */,
+				487876051DDBF79C008789A0 /* EventService.swift */,
+				4812A16D1DFD08EF00587173 /* GameService.swift */,
 				487876061DDBF79C008789A0 /* KeychainService.swift */,
+				487876071DDBF79C008789A0 /* LoginService.swift */,
 				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
+				487876091DDBF79C008789A0 /* TeamService.swift */,
 			);
 			name = Services;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		487876401DDBF7FD008789A0 /* Protocols */ = {
@@ -273,6 +275,7 @@
 				4878764A1DDBF823008789A0 /* Sizable.swift */,
 			);
 			name = Protocols;
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		487876551DDBF83D008789A0 /* Extensions */ = {
@@ -280,97 +283,102 @@
 			children = (
 				487876561DDBF88A008789A0 /* CAAnimation+Extensions.swift */,
 				487876571DDBF88A008789A0 /* CALayer+Extensions.swift */,
-				487876581DDBF88A008789A0 /* KVOController+Extensions.swift */,
 				487876591DDBF88A008789A0 /* Date+Extensions.swift */,
+				48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */,
+				487876581DDBF88A008789A0 /* KVOController+Extensions.swift */,
+				48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */,
+				480486AB1E3081190081609A /* Sequence+Extensions.swift */,
 				4878765A1DDBF88A008789A0 /* String+Extensions.swift */,
 				4878765B1DDBF88A008789A0 /* UICollectionView+Extensions.swift */,
 				4878765C1DDBF88A008789A0 /* UIColor+Extensions.swift */,
 				4878765D1DDBF88A008789A0 /* UITableView+Extensions.swift */,
+				487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */,
 				4878765E1DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift */,
 				4878765F1DDBF88A008789A0 /* UIViewController+Extensions.swift */,
-				487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */,
-				48496D8E1DE9338F00AE5942 /* NSError+Extensions.swift */,
-				48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */,
-				480486AB1E3081190081609A /* Sequence+Extensions.swift */,
 			);
 			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		487876961DDBFACA008789A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
-				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
-				487876971DDBFAF6008789A0 /* Bracket.swift */,
 				487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */,
-				487876991DDBFAF6008789A0 /* Cluster.swift */,
+				487876971DDBFAF6008789A0 /* Bracket.swift */,
 				4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */,
-				4878769C1DDBFAF6008789A0 /* Event.swift */,
+				487876991DDBFAF6008789A0 /* Cluster.swift */,
+				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
 				4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */,
-				4878769E1DDBFAF6008789A0 /* Game.swift */,
+				4878769C1DDBFAF6008789A0 /* Event.swift */,
 				4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */,
-				487876A01DDBFAF6008789A0 /* Group.swift */,
+				4878769E1DDBFAF6008789A0 /* Game.swift */,
 				487876A11DDBFAF6008789A0 /* Group+CoreDataProperties.swift */,
-				487876A21DDBFAF6008789A0 /* Pool.swift */,
+				487876A01DDBFAF6008789A0 /* Group.swift */,
 				487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */,
-				487876A41DDBFAF6008789A0 /* Round.swift */,
+				487876A21DDBFAF6008789A0 /* Pool.swift */,
 				487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */,
-				487876A81DDBFAF6008789A0 /* Stage.swift */,
+				487876A41DDBFAF6008789A0 /* Round.swift */,
+				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
 				487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */,
-				487876AA1DDBFAF6008789A0 /* Standing.swift */,
+				487876A81DDBFAF6008789A0 /* Stage.swift */,
 				487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */,
-				487876AC1DDBFAF6008789A0 /* Team.swift */,
+				487876AA1DDBFAF6008789A0 /* Standing.swift */,
 				487876AD1DDBFAF6008789A0 /* Team+CoreDataProperties.swift */,
-				487876AE1DDBFAF6008789A0 /* User.swift */,
+				487876AC1DDBFAF6008789A0 /* Team.swift */,
 				487876AF1DDBFAF6008789A0 /* User+CoreDataProperties.swift */,
+				487876AE1DDBFAF6008789A0 /* User.swift */,
 			);
 			name = Models;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		487876C81DDBFB74008789A0 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
 				487876F31DDCD6CA008789A0 /* UITableView */,
-				487876EB1DDC0890008789A0 /* SegmentedControl.swift */,
-				48B783C51DE20DDB00A7F796 /* SegmentView.swift */,
-				487876E61DDC07AD008789A0 /* ListDetailAnimationController.swift */,
 				487876C91DDBFBCA008789A0 /* BaselineButton.swift */,
 				487876CA1DDBFBCA008789A0 /* DefaultView.swift */,
+				487876E61DDC07AD008789A0 /* ListDetailAnimationController.swift */,
 				487876CB1DDBFBCA008789A0 /* MessageView.swift */,
-				484FF0701E2302F90002F458 /* VisualEffectButton.swift */,
 				484FF0721E2307270002F458 /* ScorePicker.swift */,
+				48B783C51DE20DDB00A7F796 /* SegmentView.swift */,
+				487876EB1DDC0890008789A0 /* SegmentedControl.swift */,
+				484FF0701E2302F90002F458 /* VisualEffectButton.swift */,
 			);
 			name = Interface;
+			path = Interface;
 			sourceTree = "<group>";
 		};
 		487876D71DDC063D008789A0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				487876DD1DDC064A008789A0 /* SearchViewController.swift */,
-				487876DB1DDC064A008789A0 /* SearchDataSource.swift */,
-				487876DA1DDC064A008789A0 /* SearchCell.swift */,
-				487876DC1DDC064A008789A0 /* SearchInfoView.swift */,
-				487876DE1DDC064A008789A0 /* TableViewProxy.swift */,
 				487876D81DDC064A008789A0 /* CollectionViewProxy.swift */,
 				487876D91DDC064A008789A0 /* SearchBarProxy.swift */,
+				487876DA1DDC064A008789A0 /* SearchCell.swift */,
+				487876DB1DDC064A008789A0 /* SearchDataSource.swift */,
+				487876DC1DDC064A008789A0 /* SearchInfoView.swift */,
+				487876DD1DDC064A008789A0 /* SearchViewController.swift */,
+				487876DE1DDC064A008789A0 /* TableViewProxy.swift */,
 			);
 			name = Search;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		487876F31DDCD6CA008789A0 /* UITableView */ = {
 			isa = PBXGroup;
 			children = (
 				487876F41DDCD720008789A0 /* EventCell.swift */,
-				4878770C1DDD4EC9008789A0 /* TeamCell.swift */,
 				487876F51DDCD720008789A0 /* GameCell.swift */,
 				487876F61DDCD720008789A0 /* GroupCell.swift */,
-				487876F81DDCD720008789A0 /* StandingCell.swift */,
-				480486B81E33217E0081609A /* StageCell.swift */,
 				487876EA1DDC0890008789A0 /* SectionHeaderView.swift */,
+				480486B81E33217E0081609A /* StageCell.swift */,
+				487876F81DDCD720008789A0 /* StandingCell.swift */,
 				487876CC1DDBFBCA008789A0 /* TableViewCell.swift */,
 				487876CD1DDBFBCA008789A0 /* TableViewCellSeparatorView.swift */,
+				4878770C1DDD4EC9008789A0 /* TeamCell.swift */,
 			);
 			name = UITableView;
+			path = UITableView;
 			sourceTree = "<group>";
 		};
 		487877001DDCD8C6008789A0 /* View Models */ = {
@@ -381,6 +389,7 @@
 				480486AD1E30836B0081609A /* TeamViewModel.swift */,
 			);
 			name = "View Models";
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		97AE633B5C59E236324E94C2 /* Frameworks */ = {
@@ -719,7 +728,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ScoreReporterCore/Info.plist;
+				INFOPLIST_FILE = ScoreReporterCore/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -743,7 +752,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ScoreReporterCore/Info.plist;
+				INFOPLIST_FILE = ScoreReporterCore/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
