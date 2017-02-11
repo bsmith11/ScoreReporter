@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ScoreReporterCore
 
 public struct TeamViewModel {
     public let fullName: String?

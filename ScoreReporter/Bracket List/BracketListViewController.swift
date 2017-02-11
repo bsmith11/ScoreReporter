@@ -13,8 +13,7 @@ import ScoreReporterCore
 
 class BracketListViewController: UIViewController {
     fileprivate let dataSource: BracketListDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
     init(dataSource: BracketListDataSource) {
         self.dataSource = dataSource
@@ -73,19 +72,15 @@ private extension BracketListViewController {
         tableView.backgroundColor = UIColor.white
         tableView.alwaysBounceVertical = true
         view.addSubview(tableView)
-
-        view.addSubview(defaultView)
     }
 
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(BracketListDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
+            self?.tableView.empty = empty
         }
     }
 }

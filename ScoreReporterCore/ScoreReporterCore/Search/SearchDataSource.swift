@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public class SearchDataSource<Model: NSManagedObject where Model: Searchable>: NSObject, FetchedDataSource {
+public class SearchDataSource<Model: NSManagedObject>: NSObject, FetchedDataSource where Model: Searchable {
     public typealias ModelType = Model
 
     fileprivate let searchDataSourceHelper = SearchDataSourceHelper()

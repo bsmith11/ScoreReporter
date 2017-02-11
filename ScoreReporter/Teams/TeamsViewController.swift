@@ -14,8 +14,7 @@ import ScoreReporterCore
 class TeamsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: TeamsViewModel
     fileprivate let dataSource: TeamsDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
     fileprivate let searchViewController: SearchViewController<Team>
 
     override var topLayoutGuide: UILayoutSupport {
@@ -94,22 +93,20 @@ private extension TeamsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
-        let emptyTitle = "No Teams"
-        let emptyMessage = "Bookmark teams for easy access"
-        let emptyInfo = DefaultViewStateInfo(image: nil, title: emptyTitle, message: emptyMessage)
-        defaultView.set(info: emptyInfo, state: .empty)
-        view.addSubview(defaultView)
+        let title = "No Teams"
+        let message = "Bookmark teams for easy access"
+        let contentView = EmptyContentView(frame: .zero)
+        contentView.configure(withImage: nil, title: title, message: message)
+        tableView.emptyView.set(contentView: contentView, forState: .empty)
     }
 
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(TeamsDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
+            self?.tableView.empty = empty
         }
     }
 }

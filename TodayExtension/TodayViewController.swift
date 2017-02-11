@@ -16,9 +16,8 @@ import KVOController
 class TodayViewController: UIViewController, NCWidgetProviding {
     fileprivate let viewModel = TodayViewModel()
     fileprivate let dataSource = TodayDataSource()
-    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .plain)
     fileprivate let headerView = TodayTeamHeaderView(frame: .zero)
-    fileprivate let defaultView = DefaultView(frame: .zero)
 
     override func loadView() {
         view = UIView()
@@ -33,11 +32,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         kvoController.observe(tableView, keyPath: #keyPath(UITableView.contentSize)) { [weak self] (contentSize: CGSize) in
             self?.preferredContentSize = contentSize
         }
-        
-        let emptyMessage = dataSource.teams.isEmpty ? "Favorite a team to see their upcoming events and games" : "No upcoming events or games"
-        let emptyInfo = DefaultViewStateInfo(image: nil, title: nil, message: emptyMessage)
-        defaultView.set(info: emptyInfo, state: .empty)
-        defaultView.empty = dataSource.empty
 
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
     }
@@ -82,15 +76,17 @@ private extension TodayViewController {
         tableView.estimatedSectionHeaderHeight = 30.0
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         view.addSubview(tableView)
-
-        defaultView.tintColor = UIColor.darkGray
-        view.addSubview(defaultView)
+        
+        let message = dataSource.teams.isEmpty ? "Favorite a team to see their upcoming events and games" : "No upcoming events or games"
+        let contentView = EmptyContentView(frame: .zero)
+        contentView.configure(withImage: nil, title: nil, message: message)
+        contentView.tintColor = UIColor.darkGray
+        tableView.emptyView.set(contentView: contentView, forState: .empty)
+        tableView.empty = dataSource.empty
     }
 
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
     }
 }
 

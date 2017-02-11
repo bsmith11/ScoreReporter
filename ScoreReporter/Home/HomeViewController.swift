@@ -14,8 +14,7 @@ import ScoreReporterCore
 class HomeViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: HomeViewModel
     fileprivate let dataSource: HomeDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -79,6 +78,7 @@ private extension HomeViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.infiniteScrollDelegate = self
         tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.register(cellClass: EventCell.self)
         tableView.backgroundColor = UIColor.white
@@ -87,22 +87,20 @@ private extension HomeViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
-        let emptyTitle = "No Events"
-        let emptyMessage = "Nothing is happening this week"
-        let emptyInfo = DefaultViewStateInfo(image: nil, title: emptyTitle, message: emptyMessage)
-        defaultView.set(info: emptyInfo, state: .empty)
-        view.addSubview(defaultView)
+        let title = "No Events"
+        let message = "Nothing is happening this week"
+        let contentView = EmptyContentView(frame: .zero)
+        contentView.configure(withImage: nil, title: title, message: message)
+        tableView.emptyView.set(contentView: contentView, forState: .empty)
     }
 
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(HomeDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
+            self?.tableView.empty = empty
         }
 
         kvoController.observe(viewModel, keyPath: #keyPath(HomeViewModel.loading)) { [weak self] (loading: Bool) in
@@ -177,5 +175,22 @@ extension HomeViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
+    }
+}
+
+// MARK: - InfiniteScrollDelegate
+
+extension HomeViewController: InfiniteScrollDelegate {
+    func shouldBatchFetch(in tableView: InfiniteScrollTableView) -> Bool {
+        return true
+    }
+    
+    func performBatchFetch(in tableView: InfiniteScrollTableView) {
+        tableView.setFetching(true, animated: true)
+                
+        let deadline = DispatchTime.now() + 2.0
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            tableView.setFetching(false, animated: true)
+        }
     }
 }

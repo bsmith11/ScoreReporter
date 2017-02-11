@@ -14,8 +14,7 @@ import ScoreReporterCore
 class EventsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: EventsViewModel
     fileprivate let dataSource: EventsDataSource
-    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
     fileprivate let searchViewController: SearchViewController<Event>
 
     override var topLayoutGuide: UILayoutSupport {
@@ -94,22 +93,20 @@ private extension EventsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
-        let emptyTitle = "No Events"
-        let emptyMessage = "Bookmark events for easy access"
-        let emptyInfo = DefaultViewStateInfo(image: nil, title: emptyTitle, message: emptyMessage)
-        defaultView.set(info: emptyInfo, state: .empty)
-        view.addSubview(defaultView)
+        let title = "No Events"
+        let message = "Bookmark events for easy access"
+        let contentView = EmptyContentView(frame: .zero)
+        contentView.configure(withImage: nil, title: title, message: message)
+        tableView.emptyView.set(contentView: contentView, forState: .empty)
     }
 
     func configureLayout() {
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(EventsDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
+            self?.tableView.empty = empty
         }
     }
 }

@@ -19,11 +19,10 @@ public protocol SearchViewControllerDelegate: class {
     func willBeginEditing()
 }
 
-public class SearchViewController<Model: NSManagedObject where Model: Searchable>: UIViewController, KeyboardObservable {
+public class SearchViewController<Model: NSManagedObject>: UIViewController, KeyboardObservable where Model: Searchable {
     fileprivate let dataSource: SearchDataSource<Model>
     fileprivate let visualEffectView = UIVisualEffectView(effect: nil)
-    fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
-    fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
     fileprivate var tableViewProxy: TableViewProxy?
     fileprivate var searchBarProxy: SearchBarProxy?
@@ -157,25 +156,23 @@ private extension SearchViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
 
-        let emptyImage = UIImage(named: "icn-search")
-        let emptyTitle = Model.searchEmptyTitle
-        let emptyMessage = Model.searchEmptyMessage
-        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.set(info: emptyInfo, state: .empty)
-        view.addSubview(defaultView)
+        let image = UIImage(named: "icn-search")
+        let title = Model.searchEmptyTitle
+        let message = Model.searchEmptyMessage
+        let contentView = EmptyContentView(frame: .zero)
+        contentView.configure(withImage: image, title: title, message: message)
+        tableView.emptyView.set(contentView: contentView, forState: .empty)
     }
 
     func configureLayout() {
         visualEffectView.edgeAnchors == edgeAnchors
         
         tableView.edgeAnchors == edgeAnchors
-
-        defaultView.edgeAnchors == tableView.edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: "empty") { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
+            self?.tableView.empty = empty
         }
     }
 }

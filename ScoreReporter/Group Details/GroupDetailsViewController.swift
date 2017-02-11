@@ -16,7 +16,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: GroupDetailsDataSource
     fileprivate let segmentedControl = SegmentedControl(frame: .zero)
     fileprivate let contentView = UIView(frame: .zero)
-    fileprivate let defaultView = DefaultView(frame: .zero)
+    fileprivate let emptyContentView = EmptyContentView(frame: .zero)
 
     fileprivate var segmentedControlHeight: NSLayoutConstraint?
     fileprivate var currentChildViewController: UIViewController?
@@ -83,12 +83,11 @@ private extension GroupDetailsViewController {
 
         view.addSubview(contentView)
 
-        let emptyImage = UIImage(named: "icn-search")
-        let emptyTitle = "No Schedule Available"
-        let emptyMessage = "No pools, crossovers, or brackets have been created for this event"
-        let emptyInfo = DefaultViewStateInfo(image: emptyImage, title: emptyTitle, message: emptyMessage)
-        defaultView.set(info: emptyInfo, state: .empty)
-        view.addSubview(defaultView)
+        let image = UIImage(named: "icn-search")
+        let title = "No Schedule Available"
+        let message = "No pools, crossovers, or brackets have been created for this event"
+        emptyContentView.configure(withImage: image, title: title, message: message)
+        contentView.addSubview(emptyContentView)
     }
 
     func configureLayout() {
@@ -100,13 +99,11 @@ private extension GroupDetailsViewController {
         contentView.topAnchor == segmentedControl.bottomAnchor
         contentView.horizontalAnchors == horizontalAnchors
         contentView.bottomAnchor == bottomLayoutGuide.topAnchor
-
-        defaultView.edgeAnchors == contentView.edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(GroupDetailsDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.defaultView.empty = empty
+            self?.emptyContentView.isHidden = !empty
             self?.segmentedControlHeight?.isActive = empty
         }
     }
