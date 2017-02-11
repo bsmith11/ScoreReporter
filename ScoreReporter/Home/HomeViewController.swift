@@ -78,7 +78,6 @@ private extension HomeViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.infiniteScrollDelegate = self
         tableView.register(headerFooterClass: SectionHeaderView.self)
         tableView.register(cellClass: EventCell.self)
         tableView.backgroundColor = UIColor.white
