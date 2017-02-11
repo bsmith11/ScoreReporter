@@ -177,20 +177,3 @@ extension HomeViewController: UITableViewDelegate {
         return 0.0001
     }
 }
-
-// MARK: - InfiniteScrollDelegate
-
-extension HomeViewController: InfiniteScrollDelegate {
-    func shouldBatchFetch(in tableView: InfiniteScrollTableView) -> Bool {
-        return true
-    }
-    
-    func performBatchFetch(in tableView: InfiniteScrollTableView) {
-        tableView.setFetching(true, animated: true)
-                
-        let deadline = DispatchTime.now() + 2.0
-        DispatchQueue.main.asyncAfter(deadline: deadline) {
-            tableView.setFetching(false, animated: true)
-        }
-    }
-}
