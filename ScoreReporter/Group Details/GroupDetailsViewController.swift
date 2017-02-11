@@ -16,7 +16,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: GroupDetailsDataSource
     fileprivate let segmentedControl = SegmentedControl(frame: .zero)
     fileprivate let contentView = UIView(frame: .zero)
-    fileprivate let emptyContentView = EmptyContentView(frame: .zero)
+    fileprivate let emptyView = EmptyView(frame: .zero)
 
     fileprivate var segmentedControlHeight: NSLayoutConstraint?
     fileprivate var currentChildViewController: UIViewController?
@@ -81,13 +81,16 @@ private extension GroupDetailsViewController {
         segmentedControl.delegate = self
         view.addSubview(segmentedControl)
 
-        view.addSubview(contentView)
-
+        view.addSubview(emptyView)
+        
         let image = UIImage(named: "icn-search")
         let title = "No Schedule Available"
         let message = "No pools, crossovers, or brackets have been created for this event"
+        let emptyContentView = EmptyContentView(frame: .zero)
         emptyContentView.configure(withImage: image, title: title, message: message)
-        contentView.addSubview(emptyContentView)
+        emptyView.set(contentView: emptyContentView, forState: .empty)
+        
+        view.addSubview(contentView)
     }
 
     func configureLayout() {
@@ -99,11 +102,13 @@ private extension GroupDetailsViewController {
         contentView.topAnchor == segmentedControl.bottomAnchor
         contentView.horizontalAnchors == horizontalAnchors
         contentView.bottomAnchor == bottomLayoutGuide.topAnchor
+        
+        emptyView.edgeAnchors == edgeAnchors
     }
 
     func configureObservers() {
         kvoController.observe(dataSource, keyPath: #keyPath(GroupDetailsDataSource.empty)) { [weak self] (empty: Bool) in
-            self?.emptyContentView.isHidden = !empty
+            self?.emptyView.state = empty ? .empty : .none
             self?.segmentedControlHeight?.isActive = empty
         }
     }

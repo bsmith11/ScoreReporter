@@ -87,7 +87,8 @@ private extension EmptyContentView {
     }
 
     func configureLayout() {
-        contentStackView.horizontalAnchors <= horizontalAnchors + 32.0
+        contentStackView.leadingAnchor == (leadingAnchor + 32.0) ~ UILayoutPriorityDefaultHigh
+        contentStackView.trailingAnchor == trailingAnchor - 32.0
         contentStackView.centerYAnchor == centerYAnchor
     }
 }

@@ -21,9 +21,13 @@ open class InfiniteScrollTableView: UITableView {
     fileprivate var batchFetching = false
     
     public let emptyView = EmptyView(frame: .zero)
-    
-    public var empty = false
+
     public var batchFetchThreshold = CGFloat(0.7)
+    public var empty = false {
+        didSet {
+            emptyView.state = empty ? .empty : .none
+        }
+    }
     
     public weak var infiniteScrollDelegate: InfiniteScrollDelegate?
     
