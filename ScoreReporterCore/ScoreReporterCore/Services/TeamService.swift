@@ -8,12 +8,8 @@
 
 import Foundation
 
-public struct TeamService {
-    fileprivate let client: APIClient
+public class TeamService: APIService {
 
-    public init(client: APIClient) {
-        self.client = client
-    }
 }
 
 // MARK: - Public
@@ -143,7 +139,7 @@ class EventImportOperation: AsyncOperation {
 class EventDetailsOperation: AsyncOperation {
     convenience init(eventID: NSNumber) {
         let block = { (completionHandler: @escaping AsyncOperationCompletionHandler) in
-            let eventService = EventService(client: APIClient.sharedInstance)
+            let eventService = EventService()
 
             eventService.downloadDetails(for: eventID, completion: { error in
                 print("Finished downloading \(eventID) with error: \(error)")

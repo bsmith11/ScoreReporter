@@ -30,9 +30,19 @@ extension TeamDetailsViewModel {
         loading = true
 
         teamService.downloadDetails(for: team) { [weak self] result in
-            self?.loading = false
-            self?.error = result.error
-
+            guard let sself = self else {
+                return
+            }
+            
+            sself.loading = false
+            
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                sself.error = error
+            }
+            
             completion?(result)
         }
     }

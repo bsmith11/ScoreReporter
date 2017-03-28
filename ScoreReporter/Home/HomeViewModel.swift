@@ -10,7 +10,7 @@ import Foundation
 import ScoreReporterCore
 
 class HomeViewModel: NSObject {
-    fileprivate let eventService = EventService(client: APIClient.sharedInstance)
+    fileprivate let eventService = EventService()
 
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil
@@ -23,8 +23,18 @@ extension HomeViewModel {
         loading = true
 
         eventService.downloadEventList { [weak self] result in
-            self?.loading = false
-            self?.error = result.error
+            guard let sself = self else {
+                return
+            }
+            
+            sself.loading = false
+            
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                sself.error = error
+            }
         }
     }
 }

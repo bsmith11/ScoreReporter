@@ -42,8 +42,8 @@ public extension Date {
 
         let endDate = startDate?.addingTimeInterval(interval)
 
-        let start = startDate as? Date ?? Date()
-        let end = endDate as? Date ?? Date()
+        let start = startDate as Date? ?? Date()
+        let end = endDate as Date? ?? Date()
 
         return (start, end)
     }

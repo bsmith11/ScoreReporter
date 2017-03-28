@@ -204,8 +204,8 @@ private extension LoginViewController {
 
         let credentials = Credentials(username: username, password: password)
 
-        viewModel.login(with: credentials) { [weak self] error in
-            if let sself = self, error == nil {
+        viewModel.login(with: credentials) { [weak self] success in
+            if let sself = self, success {
                 sself.delegate?.didLogin(in: sself)
                 
                 sself.emailTextField.resignFirstResponder()

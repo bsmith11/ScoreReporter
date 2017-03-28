@@ -18,6 +18,11 @@ public enum APIMethod: String {
     case delete = "DELETE"
 }
 
+public enum APIResult<Value> {
+    case success(Value)
+    case failure(Error)
+}
+
 public class APIClient {
     public static let sharedInstance = APIClient()
 
@@ -41,7 +46,7 @@ public class APIClient {
 // MARK: - Public
 
 public extension APIClient {
-    func request(_ method: APIMethod, path: String, parameters: [String: Any]? = nil, completion: APICompletion?) {
+    func request(method: APIMethod, path: String, parameters: [String: Any]? = nil, completion: APICompletion?) {
         let URL = baseURL.appendingPathComponent(path)
         let httpMethod = HTTPMethod(rawValue: method.rawValue) ?? .get
         

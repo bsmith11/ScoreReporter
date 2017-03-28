@@ -11,7 +11,7 @@
 		480486AE1E30836B0081609A /* TeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486AD1E30836B0081609A /* TeamViewModel.swift */; };
 		480486B91E33217E0081609A /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486B81E33217E0081609A /* StageCell.swift */; };
 		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
-		481689401E2095300064236B /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4816893F1E2095300064236B /* APIResult.swift */; };
+		4836ED5B1E8B1F210035ABA6 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5A1E8B1F210035ABA6 /* APIService.swift */; };
 		484314031E4D553D008E01E5 /* InfiniteScrollTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */; };
 		484314051E4D6F9A008E01E5 /* ProtocolInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */; };
 		484314071E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */; };
@@ -106,7 +106,7 @@
 		480486AD1E30836B0081609A /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
 		480486B81E33217E0081609A /* StageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageCell.swift; sourceTree = "<group>"; };
 		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
-		4816893F1E2095300064236B /* APIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
+		4836ED5A1E8B1F210035ABA6 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableView.swift; sourceTree = "<group>"; };
 		484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolInterceptor.swift; sourceTree = "<group>"; };
 		484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableFooterView.swift; sourceTree = "<group>"; };
@@ -254,7 +254,7 @@
 			children = (
 				487876031DDBF79C008789A0 /* APIClient.swift */,
 				486797261DE5726800C70324 /* APIConstants.swift */,
-				4816893F1E2095300064236B /* APIResult.swift */,
+				4836ED5A1E8B1F210035ABA6 /* APIService.swift */,
 				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
 				487876041DDBF79C008789A0 /* DateService.swift */,
 				487876051DDBF79C008789A0 /* EventService.swift */,
@@ -557,6 +557,7 @@
 				487876621DDBF88A008789A0 /* KVOController+Extensions.swift in Sources */,
 				487876BC1DDBFAF6008789A0 /* Pool+CoreDataProperties.swift in Sources */,
 				487876BE1DDBFAF6008789A0 /* Round+CoreDataProperties.swift in Sources */,
+				4836ED5B1E8B1F210035ABA6 /* APIService.swift in Sources */,
 				487876B31DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift in Sources */,
 				487876C31DDBFAF6008789A0 /* Standing+CoreDataProperties.swift in Sources */,
 				4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */,
@@ -577,7 +578,6 @@
 				487876E01DDC064A008789A0 /* SearchBarProxy.swift in Sources */,
 				487876C21DDBFAF6008789A0 /* Standing.swift in Sources */,
 				487876E51DDC064A008789A0 /* TableViewProxy.swift in Sources */,
-				481689401E2095300064236B /* APIResult.swift in Sources */,
 				48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */,
 				487876BF1DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld in Sources */,
 				487876501DDBF823008789A0 /* Importable.swift in Sources */,

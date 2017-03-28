@@ -120,7 +120,7 @@ extension NSManagedObjectModel {
         let URL = bundle.url(forResource: name, withExtension: "momd") ?? bundle.url(forResource: name, withExtension: "mom")
 
         guard let modelURL = URL else {
-            preconditionFailure("Could not find resource \(name).momd or \(name).mom for path \(URL)")
+            preconditionFailure("Could not find resource \(name).momd or \(name).mom for path \(String(describing: URL))")
         }
 
         guard let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL) else {

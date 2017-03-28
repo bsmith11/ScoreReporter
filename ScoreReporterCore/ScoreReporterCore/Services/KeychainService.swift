@@ -93,7 +93,7 @@ private extension KeychainService {
         var string: String? = nil
         if status == errSecSuccess {
             if let data = result as? Data {
-                string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+                string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
             }
         }
 

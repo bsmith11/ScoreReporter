@@ -33,11 +33,19 @@ extension GameDetailsViewModel {
         loading = true
         
         gameService.update(with: gameUpdate) { [weak self] result in
-            self?.loading = false
-            self?.error = result.error
+            guard let sself = self else {
+                return
+            }
             
-            let success = result.error == nil
-            completion?(success)
+            sself.loading = false
+            
+            switch result {
+            case .success:
+                completion?(true)
+            case .failure(let error):
+                sself.error = error
+                completion?(false)
+            }
         }
     }
 }

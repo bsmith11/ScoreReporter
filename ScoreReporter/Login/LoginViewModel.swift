@@ -9,7 +9,7 @@
 import Foundation
 import ScoreReporterCore
 
-typealias LoginCompletion = (NSError?) -> Void
+typealias LoginCompletion = (Bool) -> Void
 
 class LoginViewModel: NSObject {
     fileprivate let loginService = LoginService(client: APIClient.sharedInstance)
@@ -25,10 +25,19 @@ extension LoginViewModel {
         loading = true
 
         loginService.login(with: credentials) { [weak self] result in
-            self?.loading = false
-            self?.error = result.error
-
-            completion?(result.error)
+            guard let sself = self else {
+                return
+            }
+            
+            sself.loading = false
+            
+            switch result {
+            case .success:
+                completion?(true)
+            case .failure(let error):
+                sself.error = error
+                completion?(false)
+            }
         }
     }
 }

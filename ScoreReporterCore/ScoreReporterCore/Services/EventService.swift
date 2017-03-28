@@ -15,7 +15,7 @@ public enum DownloadResult {
     case failure(NSError)
     
     public init(error: Error?) {
-        if let error = error as? NSError {
+        if let error = error as NSError? {
             self = .failure(error)
         }
         else {
@@ -24,23 +24,8 @@ public enum DownloadResult {
     }
 }
 
-public extension DownloadResult {
-    var error: NSError? {
-        switch self {
-        case .success:
-            return nil
-        case .failure(let error):
-            return error
-        }
-    }
-}
+public class EventService: APIService {
 
-public struct EventService {
-    fileprivate let client: APIClient
-
-    public init(client: APIClient) {
-        self.client = client
-    }
 }
 
 // MARK: - Public
