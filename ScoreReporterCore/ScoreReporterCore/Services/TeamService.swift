@@ -15,33 +15,33 @@ public class TeamService: APIService {
 // MARK: - Public
 
 public extension TeamService {
-    func downloadTeamList(completion: DownloadCompletion?) {
+    func downloadTeamList(completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teams
         ]
         
-        client.request(.get, path: "", parameters: parameters) { result in
+        client.request(method: .get, path: "", parameters: parameters) { result in
             switch result {
             case .success(let value):
                 self.parseTeamList(response: value, completion: completion)
             case .failure(let error):
-                completion?(DownloadResult(error: error))
+                completion?(ServiceResult(error: error))
             }
         }
     }
 
-    func downloadDetails(for team: Team, completion: DownloadCompletion?) {
+    func downloadDetails(for team: Team, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teamDetails,
             APIConstants.Request.Keys.teamID: team.teamID.intValue
         ]
 
-        client.request(.get, path: "", parameters: parameters) { result in
+        client.request(method: .get, path: "", parameters: parameters) { result in
             switch result {
             case .success(let value):
                 self.parseTeam(response: value, team: team, completion: completion)
             case .failure(let error):
-                completion?(DownloadResult(error: error))
+                completion?(ServiceResult(error: error))
             }
         }
     }
@@ -50,22 +50,22 @@ public extension TeamService {
 // MARK: - Private
 
 private extension TeamService {
-    func parseTeamList(response: [String: Any], completion: DownloadCompletion?) {
+    func parseTeamList(response: [String: Any], completion: ServiceCompletion?) {
         guard let teamArray = response[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
             return
         }
 
         Team.teams(from: teamArray) { error in
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
         }
     }
 
-    func parseTeam(response: [String: Any], team: Team, completion: DownloadCompletion?) {
+    func parseTeam(response: [String: Any], team: Team, completion: ServiceCompletion?) {
         guard let responseArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
             return
         }
 
@@ -107,7 +107,7 @@ private extension TeamService {
                     }
                 }
             }, completion: { error in
-                completion?(DownloadResult(error: error))
+                completion?(ServiceResult(error: error))
             })
         }
 

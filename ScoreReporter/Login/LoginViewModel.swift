@@ -24,7 +24,7 @@ extension LoginViewModel {
     func login(with credentials: Credentials, completion: LoginCompletion?) {
         loading = true
 
-        loginService.login(with: credentials) { [weak self] result in
+        loginService.login(withCredentials: credentials) { [weak self] result in
             guard let sself = self else {
                 return
             }

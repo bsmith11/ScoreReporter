@@ -1,5 +1,5 @@
 //
-//  KeychainService.swift
+//  Keychain.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/6/16.
@@ -27,7 +27,7 @@ public enum KeychainValueType {
     }
 }
 
-public class KeychainService: NSObject {
+public class Keychain {
     fileprivate static let userAccount = "authenticatedUser"
 
     fileprivate static let kSecClassValue = kSecClass as String
@@ -42,17 +42,17 @@ public class KeychainService: NSObject {
 
 // MARK: - Public
 
-public extension KeychainService {
+public extension Keychain {
     static func save(_ valueType: KeychainValueType, value: String) {
-        save(valueType.identifier, string: value)
+        save(service: valueType.identifier, string: value)
     }
 
     static func load(_ valueType: KeychainValueType) -> String? {
-        return load(valueType.identifier)
+        return load(service: valueType.identifier)
     }
 
     static func delete(_ valueType: KeychainValueType) {
-        delete(valueType.identifier)
+        delete(service: valueType.identifier)
     }
 
     static func deleteAllStoredValues() {
@@ -63,8 +63,8 @@ public extension KeychainService {
 
 // MARK: - Private
 
-private extension KeychainService {
-    static func save(_ service: String, string: String) {
+private extension Keychain {
+    static func save(service: String, string: String) {
         if let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false) {
             let query: [String: Any] = [
                 kSecClassValue: kSecClassGenericPasswordValue,
@@ -78,7 +78,7 @@ private extension KeychainService {
         }
     }
 
-    static func load(_ service: String) -> String? {
+    static func load(service: String) -> String? {
         let query: [String: Any] = [
             kSecClassValue: kSecClassGenericPasswordValue,
             kSecAttrServiceValue: service,
@@ -100,7 +100,7 @@ private extension KeychainService {
         return string
     }
 
-    static func delete(_ service: String) {
+    static func delete(service: String) {
         let query = [
             kSecClassValue: kSecClassGenericPasswordValue,
             kSecAttrServiceValue: service,

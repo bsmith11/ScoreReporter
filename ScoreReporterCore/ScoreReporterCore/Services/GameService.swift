@@ -8,21 +8,17 @@
 
 import Foundation
 
-public struct GameService {
-    fileprivate let client: APIClient
-    
-    public init(client: APIClient) {
-        self.client = client
-    }
+public class GameService: APIService {
+
 }
 
 // MARK: - Public
 
 public extension GameService {
-    func update(with gameUpdate: GameUpdate, completion: DownloadCompletion?) {
-        guard let userToken = KeychainService.load(.accessToken) else {
+    func update(with gameUpdate: GameUpdate, completion: ServiceCompletion?) {
+        guard let userToken = Keychain.load(.accessToken) else {
             let error = NSError(type: .invalidUserToken)
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
             return
         }
         
@@ -35,12 +31,12 @@ public extension GameService {
             APIConstants.Request.Keys.userToken: userToken
         ]
         
-        client.request(.get, path: "", parameters: parameters) { result in
+        client.request(method: .get, path: "", parameters: parameters) { result in
             switch result {
             case .success(let value):
                 self.parseUpdateGame(response: value, completion: completion)
             case .failure(let error):
-                completion?(DownloadResult(error: error))
+                completion?(ServiceResult(error: error))
             }
         }
     }
@@ -49,16 +45,16 @@ public extension GameService {
 // MARK: - Private
 
 private extension GameService {
-    func parseUpdateGame(response: [String: Any], completion: DownloadCompletion?) {
+    func parseUpdateGame(response: [String: Any], completion: ServiceCompletion?) {
         guard let updateDictionary = response[APIConstants.Response.Keys.updatedGameRecord] as? [String: AnyObject],
               let gameUpdate = GameUpdate(dictionary: updateDictionary) else {
             let error = NSError(type: .invalidResponse)
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
             return
         }
         
         Game.update(with: gameUpdate) { error in
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
         }
     }
 }

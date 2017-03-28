@@ -17,7 +17,7 @@ public class Event: NSManagedObject {
 
 public extension Event {
     var dateRange: String {
-        let dateFormatter = DateService.eventDetailsDateFormatter
+        let dateFormatter = DateFormatter.eventDetailsDateFormatter
         let calendar = Calendar.current
         
         guard let startDate = startDate else {
@@ -165,12 +165,12 @@ extension Event: CoreDataImportable {
 
         if let _ = dictionary.index(forKey: APIConstants.Response.Keys.startDate) {
             let startDate = dictionary <~ APIConstants.Response.Keys.startDate
-            event.startDate = startDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
+            event.startDate = startDate.flatMap { DateFormatter.eventDateFormatter.date(from: $0) }
         }
 
         if let _ = dictionary.index(forKey: APIConstants.Response.Keys.endDate) {
             let endDate = dictionary <~ APIConstants.Response.Keys.endDate
-            event.endDate = endDate.flatMap { DateService.eventDateFormatter.date(from: $0) }
+            event.endDate = endDate.flatMap { DateFormatter.eventDateFormatter.date(from: $0) }
         }
 
         if let _ = dictionary.index(forKey: APIConstants.Response.Keys.eventLogo) {
@@ -236,7 +236,7 @@ extension Event: Searchable {
     }
 
     public var searchSectionTitle: String? {
-        let dateFormatter = DateService.eventSearchDateFormatter
+        let dateFormatter = DateFormatter.eventSearchDateFormatter
 
         return startDate.flatMap { dateFormatter.string(from: $0 as Date) }
     }

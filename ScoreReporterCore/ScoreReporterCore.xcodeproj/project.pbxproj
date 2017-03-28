@@ -12,6 +12,8 @@
 		480486B91E33217E0081609A /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486B81E33217E0081609A /* StageCell.swift */; };
 		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
 		4836ED5B1E8B1F210035ABA6 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5A1E8B1F210035ABA6 /* APIService.swift */; };
+		4836ED5D1E8B22590035ABA6 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */; };
+		4836ED611E8B28B30035ABA6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED601E8B28B30035ABA6 /* Credentials.swift */; };
 		484314031E4D553D008E01E5 /* InfiniteScrollTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */; };
 		484314051E4D6F9A008E01E5 /* ProtocolInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */; };
 		484314071E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */; };
@@ -23,9 +25,8 @@
 		484FF0731E2307270002F458 /* ScorePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FF0721E2307270002F458 /* ScorePicker.swift */; };
 		486797271DE5726800C70324 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797261DE5726800C70324 /* APIConstants.swift */; };
 		4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876031DDBF79C008789A0 /* APIClient.swift */; };
-		4878760B1DDBF79C008789A0 /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876041DDBF79C008789A0 /* DateService.swift */; };
 		4878760C1DDBF79C008789A0 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876051DDBF79C008789A0 /* EventService.swift */; };
-		4878760D1DDBF79C008789A0 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876061DDBF79C008789A0 /* KeychainService.swift */; };
+		4878760D1DDBF79C008789A0 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876061DDBF79C008789A0 /* Keychain.swift */; };
 		4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876071DDBF79C008789A0 /* LoginService.swift */; };
 		4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */; };
 		487876101DDBF79C008789A0 /* TeamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876091DDBF79C008789A0 /* TeamService.swift */; };
@@ -106,7 +107,9 @@
 		480486AD1E30836B0081609A /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
 		480486B81E33217E0081609A /* StageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageCell.swift; sourceTree = "<group>"; };
 		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
-		4836ED5A1E8B1F210035ABA6 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		4836ED5A1E8B1F210035ABA6 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIService.swift; path = Services/APIService.swift; sourceTree = "<group>"; };
+		4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		4836ED601E8B28B30035ABA6 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableView.swift; sourceTree = "<group>"; };
 		484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolInterceptor.swift; sourceTree = "<group>"; };
 		484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableFooterView.swift; sourceTree = "<group>"; };
@@ -116,15 +119,14 @@
 		48496D921DEB72E600AE5942 /* FloatingPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Extensions.swift"; sourceTree = "<group>"; };
 		484FF0701E2302F90002F458 /* VisualEffectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectButton.swift; sourceTree = "<group>"; };
 		484FF0721E2307270002F458 /* ScorePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScorePicker.swift; sourceTree = "<group>"; };
-		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		486797261DE5726800C70324 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIConstants.swift; path = Services/APIConstants.swift; sourceTree = "<group>"; };
 		487875821DDBEFFD008789A0 /* ScoreReporterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ScoreReporterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		487875861DDBEFFD008789A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		487876031DDBF79C008789A0 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		487876041DDBF79C008789A0 /* DateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateService.swift; sourceTree = "<group>"; };
+		487876031DDBF79C008789A0 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIClient.swift; path = Services/APIClient.swift; sourceTree = "<group>"; };
 		487876051DDBF79C008789A0 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
-		487876061DDBF79C008789A0 /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		487876061DDBF79C008789A0 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = Services/Keychain.swift; sourceTree = "<group>"; };
 		487876071DDBF79C008789A0 /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
-		487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
+		487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectObserver.swift; path = Services/ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		487876091DDBF79C008789A0 /* TeamService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamService.swift; sourceTree = "<group>"; };
 		487876411DDBF823008789A0 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		487876421DDBF823008789A0 /* Fetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
@@ -192,7 +194,7 @@
 		487877021DDCD909008789A0 /* GroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		4878770C1DDD4EC9008789A0 /* TeamCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		48B783C51DE20DDB00A7F796 /* SegmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentView.swift; sourceTree = "<group>"; };
-		48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsyncOperation.swift; path = Services/AsyncOperation.swift; sourceTree = "<group>"; };
 		E234148B37990DB186AB163A /* Pods-ScoreReporterCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,6 +210,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4836ED5E1E8B24110035ABA6 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				487876031DDBF79C008789A0 /* APIClient.swift */,
+				4836ED5A1E8B1F210035ABA6 /* APIService.swift */,
+				486797261DE5726800C70324 /* APIConstants.swift */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		4836ED5F1E8B28960035ABA6 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */,
+				487876971DDBFAF6008789A0 /* Bracket.swift */,
+				4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */,
+				487876991DDBFAF6008789A0 /* Cluster.swift */,
+				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
+				4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */,
+				4878769C1DDBFAF6008789A0 /* Event.swift */,
+				4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */,
+				4878769E1DDBFAF6008789A0 /* Game.swift */,
+				487876A11DDBFAF6008789A0 /* Group+CoreDataProperties.swift */,
+				487876A01DDBFAF6008789A0 /* Group.swift */,
+				487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */,
+				487876A21DDBFAF6008789A0 /* Pool.swift */,
+				487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */,
+				487876A41DDBFAF6008789A0 /* Round.swift */,
+				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
+				487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */,
+				487876A81DDBFAF6008789A0 /* Stage.swift */,
+				487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */,
+				487876AA1DDBFAF6008789A0 /* Standing.swift */,
+				487876AD1DDBFAF6008789A0 /* Team+CoreDataProperties.swift */,
+				487876AC1DDBFAF6008789A0 /* Team.swift */,
+				487876AF1DDBFAF6008789A0 /* User+CoreDataProperties.swift */,
+				487876AE1DDBFAF6008789A0 /* User.swift */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
 		487875781DDBEFFD008789A0 = {
 			isa = PBXGroup;
 			children = (
@@ -229,14 +272,18 @@
 		487875841DDBEFFD008789A0 /* ScoreReporterCore */ = {
 			isa = PBXGroup;
 			children = (
+				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
+				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
+				487876061DDBF79C008789A0 /* Keychain.swift */,
+				4836ED5E1E8B24110035ABA6 /* API */,
 				487876551DDBF83D008789A0 /* Extensions */,
 				487876C81DDBFB74008789A0 /* Interface */,
 				487876961DDBFACA008789A0 /* Models */,
 				487876401DDBF7FD008789A0 /* Protocols */,
-				487875931DDBF3C8008789A0 /* Resources */,
 				487876D71DDC063D008789A0 /* Search */,
 				487876111DDBF79F008789A0 /* Services */,
 				487877001DDCD8C6008789A0 /* View Models */,
+				487875931DDBF3C8008789A0 /* Resources */,
 			);
 			path = ScoreReporterCore;
 			sourceTree = "<group>";
@@ -252,16 +299,9 @@
 		487876111DDBF79F008789A0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				487876031DDBF79C008789A0 /* APIClient.swift */,
-				486797261DE5726800C70324 /* APIConstants.swift */,
-				4836ED5A1E8B1F210035ABA6 /* APIService.swift */,
-				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
-				487876041DDBF79C008789A0 /* DateService.swift */,
+				487876071DDBF79C008789A0 /* LoginService.swift */,
 				487876051DDBF79C008789A0 /* EventService.swift */,
 				4812A16D1DFD08EF00587173 /* GameService.swift */,
-				487876061DDBF79C008789A0 /* KeychainService.swift */,
-				487876071DDBF79C008789A0 /* LoginService.swift */,
-				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
 				487876091DDBF79C008789A0 /* TeamService.swift */,
 			);
 			path = Services;
@@ -300,6 +340,7 @@
 				487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */,
 				4878765E1DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift */,
 				4878765F1DDBF88A008789A0 /* UIViewController+Extensions.swift */,
+				4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -307,30 +348,8 @@
 		487876961DDBFACA008789A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */,
-				487876971DDBFAF6008789A0 /* Bracket.swift */,
-				4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */,
-				487876991DDBFAF6008789A0 /* Cluster.swift */,
-				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
-				4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */,
-				4878769C1DDBFAF6008789A0 /* Event.swift */,
-				4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */,
-				4878769E1DDBFAF6008789A0 /* Game.swift */,
-				487876A11DDBFAF6008789A0 /* Group+CoreDataProperties.swift */,
-				487876A01DDBFAF6008789A0 /* Group.swift */,
-				487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */,
-				487876A21DDBFAF6008789A0 /* Pool.swift */,
-				487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */,
-				487876A41DDBFAF6008789A0 /* Round.swift */,
-				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
-				487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */,
-				487876A81DDBFAF6008789A0 /* Stage.swift */,
-				487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */,
-				487876AA1DDBFAF6008789A0 /* Standing.swift */,
-				487876AD1DDBFAF6008789A0 /* Team+CoreDataProperties.swift */,
-				487876AC1DDBFAF6008789A0 /* Team.swift */,
-				487876AF1DDBFAF6008789A0 /* User+CoreDataProperties.swift */,
-				487876AE1DDBFAF6008789A0 /* User.swift */,
+				4836ED5F1E8B28960035ABA6 /* Core Data */,
+				4836ED601E8B28B30035ABA6 /* Credentials.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -539,13 +558,13 @@
 				484FF0731E2307270002F458 /* ScorePicker.swift in Sources */,
 				4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */,
 				487876BD1DDBFAF6008789A0 /* Round.swift in Sources */,
+				4836ED611E8B28B30035ABA6 /* Credentials.swift in Sources */,
 				4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */,
 				487876C11DDBFAF6008789A0 /* Stage+CoreDataProperties.swift in Sources */,
 				487876651DDBF88A008789A0 /* UICollectionView+Extensions.swift in Sources */,
 				487876B11DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift in Sources */,
 				487876E11DDC064A008789A0 /* SearchCell.swift in Sources */,
 				487876E21DDC064A008789A0 /* SearchDataSource.swift in Sources */,
-				4878760B1DDBF79C008789A0 /* DateService.swift in Sources */,
 				487876C51DDBFAF6008789A0 /* Team+CoreDataProperties.swift in Sources */,
 				487876B41DDBFAF6008789A0 /* CoreDataStack.swift in Sources */,
 				487876D21DDBFBCA008789A0 /* TableViewCellSeparatorView.swift in Sources */,
@@ -571,6 +590,7 @@
 				487876C61DDBFAF6008789A0 /* User.swift in Sources */,
 				487876B21DDBFAF6008789A0 /* Cluster.swift in Sources */,
 				480486AE1E30836B0081609A /* TeamViewModel.swift in Sources */,
+				4836ED5D1E8B22590035ABA6 /* DateFormatter+Extensions.swift in Sources */,
 				487877031DDCD909008789A0 /* GameViewModel.swift in Sources */,
 				487876FB1DDCD720008789A0 /* GroupCell.swift in Sources */,
 				487876B61DDBFAF6008789A0 /* Event+CoreDataProperties.swift in Sources */,
@@ -592,7 +612,7 @@
 				487876E81DDC07AD008789A0 /* ListDetailAnimationController.swift in Sources */,
 				487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */,
 				487876541DDBF823008789A0 /* Sizable.swift in Sources */,
-				4878760D1DDBF79C008789A0 /* KeychainService.swift in Sources */,
+				4878760D1DDBF79C008789A0 /* Keychain.swift in Sources */,
 				48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */,
 				487876B01DDBFAF6008789A0 /* Bracket.swift in Sources */,
 				487876531DDBF823008789A0 /* Searchable.swift in Sources */,

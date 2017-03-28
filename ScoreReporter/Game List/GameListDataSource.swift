@@ -62,7 +62,7 @@ extension GameListDataSource {
     func title(for section: Int) -> String? {
         let indexPath = IndexPath(item: 0, section: section)
         let game = item(at: indexPath)
-        let dateFormatter = DateService.gameStartDateFullFormatter
+        let dateFormatter = DateFormatter.gameStartDateFullFormatter
 
         return game?.startDateFull.flatMap { dateFormatter.string(from: $0) }
     }

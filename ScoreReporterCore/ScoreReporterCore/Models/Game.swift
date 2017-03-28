@@ -224,10 +224,10 @@ extension Game: CoreDataImportable {
         game.status = dictionary <~ APIConstants.Response.Keys.gameStatus
 
         let startDate = dictionary <~ APIConstants.Response.Keys.startDate
-        game.startDate = startDate.flatMap { DateService.gameDateFormatter.date(from: $0) }
+        game.startDate = startDate.flatMap { DateFormatter.gameDateFormatter.date(from: $0) }
 
         let startTime = dictionary <~ APIConstants.Response.Keys.startTime
-        game.startTime = startTime.flatMap { DateService.gameTimeFormatter.date(from: $0) }
+        game.startTime = startTime.flatMap { DateFormatter.gameTimeFormatter.date(from: $0) }
 
         game.startDateFull = Date.date(fromDate: game.startDate, time: game.startTime)
 

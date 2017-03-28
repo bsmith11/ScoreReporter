@@ -16,7 +16,7 @@ struct TodayViewModel {
 // MARK: - Public
 
 extension TodayViewModel {
-    func downloadGames(completion: DownloadCompletion?) {
+    func downloadGames(completion: ServiceCompletion?) {
 //        teamService.downloadDetails(for: nil, completion: completion)
     }
 }

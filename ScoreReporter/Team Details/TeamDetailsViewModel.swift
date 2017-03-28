@@ -26,7 +26,7 @@ class TeamDetailsViewModel: NSObject {
 // MARK: - Public
 
 extension TeamDetailsViewModel {
-    func downloadTeamDetails(completion: DownloadCompletion?) {
+    func downloadTeamDetails(completion: ServiceCompletion?) {
         loading = true
 
         teamService.downloadDetails(for: team) { [weak self] result in

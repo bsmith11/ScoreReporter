@@ -8,46 +8,32 @@
 
 import Foundation
 
-public struct Credentials {
-    public let username: String
-    public let password: String
+public class LoginService: APIService {
 
-    public init(username: String, password: String) {
-        self.username = username
-        self.password = password
-    }
-}
-
-public struct LoginService {
-    fileprivate let client: APIClient
-
-    public init(client: APIClient) {
-        self.client = client
-    }
 }
 
 // MARK: - Public
 
 public extension LoginService {
-    func login(with credentials: Credentials, completion: DownloadCompletion?) {
+    func login(withCredentials credentials: Credentials, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.login,
             APIConstants.Request.Keys.username: credentials.username,
             APIConstants.Request.Keys.password: credentials.password
         ]
 
-        client.request(.get, path: "", parameters: parameters) { result in
+        client.request(method: .get, path: "", parameters: parameters) { result in
             switch result {
             case .success(let value):
                 self.parseLogin(response: value, completion: completion)
             case .failure(let error):
-                completion?(DownloadResult(error: error))
+                completion?(ServiceResult(error: error))
             }
         }
     }
 
     func logout() {
-        KeychainService.deleteAllStoredValues()
+        Keychain.deleteAllStoredValues()
         User.deleteAll()
     }
 }
@@ -55,22 +41,22 @@ public extension LoginService {
 // MARK: - Private
 
 private extension LoginService {
-    func parseLogin(response: [String: Any], completion: DownloadCompletion?) {
+    func parseLogin(response: [String: Any], completion: ServiceCompletion?) {
         guard let accessToken = response[APIConstants.Response.Keys.userToken] as? String else {
             let error = NSError(type: .invalidAccessToken)
-            completion?(DownloadResult(error: error))
+            completion?(ServiceResult(error: error))
             return
         }
 
         User.user(from: response) { user in
             guard let userID = user?.userID else {
                 let error = NSError(type: .importFailure)
-                completion?(DownloadResult(error: error))
+                completion?(ServiceResult(error: error))
                 return
             }
 
-            KeychainService.save(.userID, value: userID.stringValue)
-            KeychainService.save(.accessToken, value: accessToken)
+            Keychain.save(.userID, value: userID.stringValue)
+            Keychain.save(.accessToken, value: accessToken)
 
             completion?(.success)
         }

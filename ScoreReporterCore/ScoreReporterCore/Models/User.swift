@@ -17,7 +17,7 @@ public class User: NSManagedObject {
 
 public extension User {
     static var currentUser: User? {
-        guard let userIDString = KeychainService.load(.userID),
+        guard let userIDString = Keychain.load(.userID),
               let userID = Int(userIDString) else {
             return nil
         }

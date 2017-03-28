@@ -37,7 +37,7 @@ public struct GameViewModel {
     public init(game: Game?, state: GameViewState = .normal ) {
         self.game = game
         
-        let dateFormatter = DateService.gameStartDateFullFormatter
+        let dateFormatter = DateFormatter.gameStartDateFullFormatter
         startDate = game?.startDateFull.flatMap { dateFormatter.string(from: $0) }
 
         var homeAttributes = loserAttributes
