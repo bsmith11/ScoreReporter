@@ -15,6 +15,7 @@
 		4836ED5D1E8B22590035ABA6 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */; };
 		4836ED611E8B28B30035ABA6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED601E8B28B30035ABA6 /* Credentials.swift */; };
 		4836ED651E8B4F180035ABA6 /* GameUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED641E8B4F180035ABA6 /* GameUpdate.swift */; };
+		4836ED671E8B61290035ABA6 /* StaticBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED661E8B61290035ABA6 /* StaticBackgroundView.swift */; };
 		484314031E4D553D008E01E5 /* InfiniteScrollTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */; };
 		484314051E4D6F9A008E01E5 /* ProtocolInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */; };
 		484314071E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */; };
@@ -111,6 +112,7 @@
 		4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		4836ED601E8B28B30035ABA6 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		4836ED641E8B4F180035ABA6 /* GameUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUpdate.swift; sourceTree = "<group>"; };
+		4836ED661E8B61290035ABA6 /* StaticBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticBackgroundView.swift; sourceTree = "<group>"; };
 		484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableView.swift; sourceTree = "<group>"; };
 		484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolInterceptor.swift; sourceTree = "<group>"; };
 		484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableFooterView.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */,
 				4843140A1E4EC65E008E01E5 /* EmptyView.swift */,
 				4843140C1E4ECFD5008E01E5 /* EmptyContentView.swift */,
+				4836ED661E8B61290035ABA6 /* StaticBackgroundView.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				487876C41DDBFAF6008789A0 /* Team.swift in Sources */,
 				487876B91DDBFAF6008789A0 /* Group.swift in Sources */,
 				487876101DDBF79C008789A0 /* TeamService.swift in Sources */,
+				4836ED671E8B61290035ABA6 /* StaticBackgroundView.swift in Sources */,
 				487876621DDBF88A008789A0 /* KVOController+Extensions.swift in Sources */,
 				487876BC1DDBFAF6008789A0 /* Pool+CoreDataProperties.swift in Sources */,
 				487876BE1DDBFAF6008789A0 /* Round+CoreDataProperties.swift in Sources */,

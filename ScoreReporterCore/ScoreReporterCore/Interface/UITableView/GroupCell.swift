@@ -11,7 +11,7 @@ import Anchorage
 
 public class GroupCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
-    fileprivate let avatarContainerView = UIView(frame: .zero)
+    fileprivate let avatarContainerView = StaticBackgroundView(frame: .zero)
     fileprivate let avatarLabel = UILabel(frame: .zero)
     fileprivate let titleLabel = UILabel(frame: .zero)
 
