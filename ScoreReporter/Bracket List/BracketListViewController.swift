@@ -46,7 +46,7 @@ class BracketListViewController: UIViewController {
 
         configureObservers()
 
-        dataSource.refreshBlock = { [weak self] in
+        dataSource.reloadBlock = { [weak self] _ in
             self?.tableView.reloadData()
         }
     }
@@ -89,7 +89,7 @@ private extension BracketListViewController {
 
 extension BracketListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return dataSource.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

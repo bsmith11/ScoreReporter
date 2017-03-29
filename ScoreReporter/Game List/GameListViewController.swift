@@ -88,7 +88,7 @@ private extension GameListViewController {
 
 extension GameListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return dataSource.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

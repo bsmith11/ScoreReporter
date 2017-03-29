@@ -115,7 +115,7 @@ private extension TeamsViewController {
 
 extension TeamsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return dataSource.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

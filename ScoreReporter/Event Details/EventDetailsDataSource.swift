@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 enum EventDetailsInfo {
     case division(Group)
@@ -27,14 +28,15 @@ enum EventDetailsInfo {
 
 class EventDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = EventDetailsInfo
+    typealias SectionType = Section<ModelType>
     
     fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<Game>
 
-    fileprivate(set) var sections = [DataSourceSection<ModelType>]()
+    fileprivate(set) var sections = [Section<ModelType>]()
 
     let event: Event
 
-    var refreshBlock: RefreshBlock?
+    var reloadBlock: ReloadBlock?
 
     init(event: Event) {
         self.event = event
@@ -55,11 +57,11 @@ private extension EventDetailsDataSource {
 
         if let groups = (event.groups as? Set<Group>)?.sorted(by: { $0.0.groupID.intValue < $0.1.groupID.intValue }) {
             let divisions = groups.map { EventDetailsInfo.division($0) }
-            sections.append(DataSourceSection(items: divisions, headerTitle: "Divisions"))
+            sections.append(Section(items: divisions, headerTitle: "Divisions"))
         }
 
         if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
-            sections.append(DataSourceSection(items: activeGames.map { .activeGame($0) }, headerTitle: "Active Games"))
+            sections.append(Section(items: activeGames.map { .activeGame($0) }, headerTitle: "Active Games"))
         }
     }
 }
@@ -69,6 +71,6 @@ private extension EventDetailsDataSource {
 extension EventDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        refreshBlock?()
+        reloadBlock?([])
     }
 }

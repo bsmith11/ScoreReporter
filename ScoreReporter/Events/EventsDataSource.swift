@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 class EventsDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Event
@@ -18,6 +19,7 @@ class EventsDataSource: NSObject, FetchedDataSource, FetchedChangable {
     dynamic var empty = false
 
     var fetchedChangeHandler: FetchedChangeHandler?
+    var reloadBlock: ReloadBlock?
 
     override init() {
         super.init()

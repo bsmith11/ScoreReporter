@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Team
@@ -18,6 +19,7 @@ class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
     dynamic var empty = false
 
     var fetchedChangeHandler: FetchedChangeHandler?
+    var reloadBlock: ReloadBlock?
 
     override init() {
         super.init()

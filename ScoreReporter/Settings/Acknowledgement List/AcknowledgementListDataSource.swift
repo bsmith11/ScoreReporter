@@ -8,6 +8,7 @@
 
 import Foundation
 import ScoreReporterCore
+import DataSource
 
 struct Acknowledgement {
     let title: String
@@ -27,10 +28,12 @@ struct Acknowledgement {
     }
 }
 
-class AcknowledgementListDataSource: ArrayDataSource {
+class AcknowledgementListDataSource: ListDataSource {
     typealias ModelType = Acknowledgement
 
     fileprivate(set) var items = [Acknowledgement]()
+    
+    var reloadBlock: ReloadBlock?
 
     init() {
         configureItems()

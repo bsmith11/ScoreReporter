@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     typealias ModelType = Game
@@ -20,7 +21,8 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
     dynamic var empty = false
 
     var fetchedChangeHandler: FetchedChangeHandler?
-
+    var reloadBlock: ReloadBlock?
+    
     init(pool: Pool) {
         title = pool.name
         fetchedResultsController = Game.fetchedGamesFor(pool: pool)

@@ -6,9 +6,9 @@
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import ScoreReporterCore
+import DataSource
 
 enum SettingsItem {
     case acknowledgements
@@ -40,9 +40,12 @@ enum SettingsItem {
 
 class SettingsDataSource: SectionedDataSource {
     typealias ModelType = SettingsItem
+    typealias SectionType = Section<ModelType>
 
-    fileprivate(set) var sections = [DataSourceSection<ModelType>]()
+    fileprivate(set) var sections = [Section<ModelType>]()
 
+    var reloadBlock: ReloadBlock?
+    
     init() {
         configureSections()
     }
@@ -58,6 +61,6 @@ private extension SettingsDataSource {
             .about
         ]
         
-        sections.append(DataSourceSection(items: items))
+        sections.append(Section(items: items))
     }
 }

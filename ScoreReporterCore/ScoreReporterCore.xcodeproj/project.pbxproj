@@ -30,7 +30,6 @@
 		4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876071DDBF79C008789A0 /* LoginService.swift */; };
 		4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */; };
 		487876101DDBF79C008789A0 /* TeamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876091DDBF79C008789A0 /* TeamService.swift */; };
-		4878764B1DDBF823008789A0 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876411DDBF823008789A0 /* DataSource.swift */; };
 		4878764C1DDBF823008789A0 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876421DDBF823008789A0 /* Fetchable.swift */; };
 		4878764D1DDBF823008789A0 /* FetchedChangable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876431DDBF823008789A0 /* FetchedChangable.swift */; };
 		4878764E1DDBF823008789A0 /* FetchedChangeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876441DDBF823008789A0 /* FetchedChangeObject.swift */; };
@@ -128,7 +127,6 @@
 		487876071DDBF79C008789A0 /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectObserver.swift; path = Services/ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		487876091DDBF79C008789A0 /* TeamService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamService.swift; sourceTree = "<group>"; };
-		487876411DDBF823008789A0 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		487876421DDBF823008789A0 /* Fetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
 		487876431DDBF823008789A0 /* FetchedChangable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangable.swift; sourceTree = "<group>"; };
 		487876441DDBF823008789A0 /* FetchedChangeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangeObject.swift; sourceTree = "<group>"; };
@@ -310,7 +308,6 @@
 		487876401DDBF7FD008789A0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				487876411DDBF823008789A0 /* DataSource.swift */,
 				487876421DDBF823008789A0 /* Fetchable.swift */,
 				487876431DDBF823008789A0 /* FetchedChangable.swift */,
 				487876441DDBF823008789A0 /* FetchedChangeObject.swift */,
@@ -604,7 +601,6 @@
 				487876681DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift in Sources */,
 				484314071E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift in Sources */,
 				487876521DDBF823008789A0 /* MessageDisplayable.swift in Sources */,
-				4878764B1DDBF823008789A0 /* DataSource.swift in Sources */,
 				487876DF1DDC064A008789A0 /* CollectionViewProxy.swift in Sources */,
 				487876631DDBF88A008789A0 /* Date+Extensions.swift in Sources */,
 				487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */,

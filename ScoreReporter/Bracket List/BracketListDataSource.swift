@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 //struct BracketSection {
 //    let bracket: Bracket
@@ -25,14 +26,15 @@ import ScoreReporterCore
 
 class BracketListDataSource: NSObject, SectionedDataSource {
     typealias ModelType = Stage
+    typealias SectionType = Section<Stage>
     
     fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Bracket>
     
-    fileprivate(set) var sections = [DataSourceSection<Stage>]()
+    fileprivate(set) var sections = [Section<Stage>]()
 
     fileprivate(set) dynamic var empty = false
     
-    var refreshBlock: RefreshBlock?
+    var reloadBlock: ReloadBlock?
     
     init(group: Group) {
         fetchedResultsController = Bracket.fetchedBracketsFor(group: group)
@@ -55,7 +57,7 @@ private extension BracketListDataSource {
     func configureSections() {
         let brackets = fetchedResultsController.fetchedObjects ?? []
         let stages = brackets.flatMap { $0.stages.allObjects as? [Stage] }
-        sections = stages.map { DataSourceSection(items: $0, headerTitle: $0.first?.bracket?.name) }
+        sections = stages.map { Section(items: $0, headerTitle: $0.first?.bracket?.name) }
         
         empty = sections.isEmpty
     }
@@ -66,6 +68,6 @@ private extension BracketListDataSource {
 extension BracketListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        refreshBlock?()
+        reloadBlock?([])
     }
 }

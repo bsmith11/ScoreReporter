@@ -6,10 +6,10 @@
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 enum TeamDetailsInfo {
     case event(Event)
@@ -18,14 +18,15 @@ enum TeamDetailsInfo {
 
 class TeamDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = TeamDetailsInfo
+    typealias SectionType = Section<ModelType>
     
     fileprivate let gamesFetchedResultsController: NSFetchedResultsController<Game>
 
-    fileprivate(set) var sections = [DataSourceSection<ModelType>]()
+    fileprivate(set) var sections = [Section<ModelType>]()
 
     let team: Team
 
-    var refreshBlock: RefreshBlock?
+    var reloadBlock: ReloadBlock?
 
     init(team: Team) {
         self.team = team
@@ -49,7 +50,7 @@ class TeamDetailsDataSource: NSObject, SectionedDataSource {
 extension TeamDetailsDataSource {
     func refresh() {
         configureSections()
-        refreshBlock?()
+        reloadBlock?([])
     }
 }
 
@@ -64,7 +65,7 @@ private extension TeamDetailsDataSource {
             let eventItems = events.map { TeamDetailsInfo.event($0) }
 
             if !eventItems.isEmpty {
-                sections.append(DataSourceSection(items: eventItems, headerTitle: "Events"))
+                sections.append(Section(items: eventItems, headerTitle: "Events"))
             }
         }
 
@@ -79,6 +80,6 @@ private extension TeamDetailsDataSource {
 extension TeamDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        refreshBlock?()
+        reloadBlock?([])
     }
 }

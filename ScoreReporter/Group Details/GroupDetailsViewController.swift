@@ -61,7 +61,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
 
         configureObservers()
 
-        dataSource.refreshBlock = { [weak self] in
+        dataSource.reloadBlock = { [weak self] _ in
             self?.reloadSegmentedControl()
         }
 

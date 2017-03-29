@@ -67,7 +67,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataSource.refreshBlock = { [weak self] in
+        dataSource.reloadBlock = { [weak self] _ in
             self?.tableView.reloadData()
         }
 
@@ -170,7 +170,7 @@ private extension EventDetailsViewController {
 
 extension EventDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return dataSource.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

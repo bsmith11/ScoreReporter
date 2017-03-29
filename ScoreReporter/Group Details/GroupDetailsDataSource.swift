@@ -6,12 +6,12 @@
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 import ScoreReporterCore
+import DataSource
 
-class GroupDetailsDataSource: NSObject, ArrayDataSource {
+class GroupDetailsDataSource: NSObject, ListDataSource {
     typealias ModelType = UIViewController
 
     fileprivate let groupObserver: ManagedObjectObserver
@@ -22,7 +22,7 @@ class GroupDetailsDataSource: NSObject, ArrayDataSource {
 
     let group: Group
 
-    var refreshBlock: RefreshBlock?
+    var reloadBlock: ReloadBlock?
 
     init(group: Group) {
         self.group = group
@@ -93,6 +93,6 @@ private extension GroupDetailsDataSource {
 extension GroupDetailsDataSource: ManagedObjectObserverDelegate {
     func objectsDidChange(_ objects: [NSManagedObject]) {
         configureItems()
-        refreshBlock?()
+        reloadBlock?([])
     }
 }

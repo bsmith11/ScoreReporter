@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import DataSource
 
 public class SearchDataSource<Model: NSManagedObject>: NSObject, FetchedDataSource where Model: Searchable {
     public typealias ModelType = Model
@@ -18,7 +19,7 @@ public class SearchDataSource<Model: NSManagedObject>: NSObject, FetchedDataSour
 
     fileprivate(set) dynamic var empty = false
 
-    public var refreshBlock: RefreshBlock?
+    public var reloadBlock: ReloadBlock?
 
     public init(fetchedResultsController: NSFetchedResultsController<Model>) {
         self.fetchedResultsController = fetchedResultsController
@@ -52,7 +53,7 @@ public extension SearchDataSource {
 
         empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
 
-        refreshBlock?()
+        reloadBlock?([])
     }
 
     func title(for section: Int) -> String? {
@@ -73,7 +74,7 @@ extension SearchDataSource: SearchDataSourceHelperDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         empty = controller.fetchedObjects?.isEmpty ?? true
 
-        refreshBlock?()
+        reloadBlock?([])
     }
 }
 

@@ -6,24 +6,25 @@
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import CoreData
 import ScoreReporterCore
+import DataSource
 
 class GroupTeamDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = Game
+    typealias SectionType = Section<ModelType>
     
     fileprivate let poolFetchedResultsController: NSFetchedResultsController<Game>
     fileprivate let crossoverFetchedResultsController: NSFetchedResultsController<Game>
     fileprivate let bracketFetchedResultsController: NSFetchedResultsController<Game>
     
-    fileprivate(set) var sections = [DataSourceSection<Game>]()
+    fileprivate(set) var sections = [Section<ModelType>]()
     
     let group: Group
     let teamName: String
     
-    var refreshBlock: RefreshBlock?
+    var reloadBlock: ReloadBlock?
     
     init(group: Group, teamName: String) {
         self.group = group
@@ -56,17 +57,17 @@ private extension GroupTeamDetailsDataSource {
         sections.removeAll()
         
         if let games = poolFetchedResultsController.fetchedObjects, !games.isEmpty {
-            let section = DataSourceSection(items: games, headerTitle: games.first?.pool?.name)
+            let section = Section(items: games, headerTitle: games.first?.pool?.name)
             sections.append(section)
         }
         
         if let games = crossoverFetchedResultsController.fetchedObjects, !games.isEmpty {
-            let section = DataSourceSection(items: games, headerTitle: "Crossovers")
+            let section = Section(items: games, headerTitle: "Crossovers")
             sections.append(section)
         }
         
         if let games = bracketFetchedResultsController.fetchedObjects, !games.isEmpty {
-            let section = DataSourceSection(items: games, headerTitle: "Bracket Play")
+            let section = Section(items: games, headerTitle: "Bracket Play")
             sections.append(section)
         }
     }
@@ -77,6 +78,6 @@ private extension GroupTeamDetailsDataSource {
 extension GroupTeamDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        refreshBlock?()
+        reloadBlock?([])
     }
 }

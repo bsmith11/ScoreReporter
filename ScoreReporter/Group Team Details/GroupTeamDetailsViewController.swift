@@ -45,7 +45,7 @@ class GroupTeamDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource.refreshBlock = { [weak self] in
+        dataSource.reloadBlock = { [weak self] _ in
             self?.tableView.reloadData()
         }
     }
@@ -81,7 +81,7 @@ private extension GroupTeamDetailsViewController {
 
 extension GroupTeamDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return dataSource.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
