@@ -22,7 +22,7 @@ extension EventsViewModel {
     func downloadEvents() {
         loading = true
 
-        eventService.downloadEventList { [weak self] result in
+        eventService.getEventList { [weak self] result in
             guard let sself = self else {
                 return
             }

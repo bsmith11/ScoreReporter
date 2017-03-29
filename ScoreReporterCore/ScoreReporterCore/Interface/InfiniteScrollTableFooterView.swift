@@ -27,6 +27,7 @@ class InfiniteScrollTableFooterView: UIView {
     override init(frame: CGRect) {
         var size = spinner.intrinsicContentSize
         size.height += (2.0 * verticalMargin)
+        
         super.init(frame: CGRect(origin: .zero, size: size))
         
         configureViews()

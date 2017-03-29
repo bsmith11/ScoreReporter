@@ -46,7 +46,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
 
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-//        let teamService = TeamService(client: APIClient.sharedInstance)
+//        let teamService = TeamService()
 //        teamService.downloadDetails(for: team, completion: { error in
 //            let result: NCUpdateResult = (error == nil) ? .newData : .failed
 //            completionHandler(result)

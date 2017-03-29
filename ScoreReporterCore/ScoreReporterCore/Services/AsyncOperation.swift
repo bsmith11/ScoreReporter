@@ -8,8 +8,8 @@
 
 import Foundation
 
-typealias AsyncOperationCompletionHandler = () -> Void
-typealias AsyncOperationBlock = (_ completionHandler: @escaping AsyncOperationCompletionHandler) -> Void
+typealias AsyncOperationCompletion = () -> Void
+typealias AsyncOperationBlock = (@escaping AsyncOperationCompletion) -> Void
 
 class AsyncOperation: Operation {
     fileprivate let block: AsyncOperationBlock
@@ -26,10 +26,10 @@ class AsyncOperation: Operation {
 
     private var _executing = false {
         willSet {
-            willChangeValue(forKey: #keyPath(isExecuting))
+            willChangeValue(forKey: "isExecuting")
         }
         didSet {
-            didChangeValue(forKey: #keyPath(isExecuting))
+            didChangeValue(forKey: "isExecuting")
         }
     }
 
@@ -39,11 +39,11 @@ class AsyncOperation: Operation {
 
     private var _finished = false {
         willSet {
-            willChangeValue(forKey: #keyPath(isFinished))
+            willChangeValue(forKey: "isFinished")
         }
 
         didSet {
-            didChangeValue(forKey: #keyPath(isFinished))
+            didChangeValue(forKey: "isFinished")
         }
     }
 

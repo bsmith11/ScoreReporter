@@ -12,7 +12,7 @@ import ScoreReporterCore
 typealias GameDetailsCompletion = (Bool) -> Void
 
 class GameDetailsViewModel: NSObject {
-    fileprivate let gameService = GameService(client: APIClient.sharedInstance)
+    fileprivate let gameService = GameService()
     
     let game: Game
     

@@ -120,7 +120,7 @@ private extension SettingsViewController {
         let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
             self?.navigationItem.rightBarButtonItem = self?.loginButton
             
-            let loginService = LoginService(client: APIClient.sharedInstance)
+            let loginService = LoginService()
             loginService.logout()
             
             self?.tableView.tableHeaderView = nil

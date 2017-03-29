@@ -12,7 +12,7 @@ import ScoreReporterCore
 typealias LoginCompletion = (Bool) -> Void
 
 class LoginViewModel: NSObject {
-    fileprivate let loginService = LoginService(client: APIClient.sharedInstance)
+    fileprivate let loginService = LoginService()
 
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil

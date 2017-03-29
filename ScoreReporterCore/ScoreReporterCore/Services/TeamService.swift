@@ -15,7 +15,7 @@ public class TeamService: APIService {
 // MARK: - Public
 
 public extension TeamService {
-    func downloadTeamList(completion: ServiceCompletion?) {
+    func getTeamList(completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teams
         ]
@@ -30,7 +30,7 @@ public extension TeamService {
         }
     }
 
-    func downloadDetails(for team: Team, completion: ServiceCompletion?) {
+    func getDetails(forTeam team: Team, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teamDetails,
             APIConstants.Request.Keys.teamID: team.teamID.intValue
@@ -125,10 +125,10 @@ private extension TeamService {
 
 class EventImportOperation: AsyncOperation {
     convenience init(eventDictionary: [String: AnyObject]) {
-        let block = { (completionHandler: @escaping AsyncOperationCompletionHandler) in
+        let block = { (completion: @escaping AsyncOperationCompletion) in
             Event.events(from: [eventDictionary], completion: { _ in
                 print("Finished importing event")
-                completionHandler()
+                completion()
             })
         }
 
@@ -138,13 +138,13 @@ class EventImportOperation: AsyncOperation {
 
 class EventDetailsOperation: AsyncOperation {
     convenience init(eventID: NSNumber) {
-        let block = { (completionHandler: @escaping AsyncOperationCompletionHandler) in
+        let block = { (completion: @escaping AsyncOperationCompletion) in
             let eventService = EventService()
 
-            eventService.downloadDetails(for: eventID, completion: { error in
+            eventService.getDetailsForEvent(withID: eventID, completion: { error in
                 print("Finished downloading \(eventID) with error: \(error)")
 
-                completionHandler()
+                completion()
             })
         }
 

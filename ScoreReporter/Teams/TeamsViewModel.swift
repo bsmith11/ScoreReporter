@@ -10,7 +10,7 @@ import Foundation
 import ScoreReporterCore
 
 class TeamsViewModel: NSObject {
-    fileprivate let teamService = TeamService(client: APIClient.sharedInstance)
+    fileprivate let teamService = TeamService()
 
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil
@@ -22,7 +22,7 @@ extension TeamsViewModel {
     func downloadTeams() {
         loading = true
 
-        teamService.downloadTeamList { [weak self] result in
+        teamService.getTeamList { [weak self] result in
             guard let sself = self else {
                 return
             }

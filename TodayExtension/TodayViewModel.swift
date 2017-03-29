@@ -10,7 +10,7 @@ import Foundation
 import ScoreReporterCore
 
 struct TodayViewModel {
-    fileprivate let teamService = TeamService(client: APIClient.sharedInstance)
+    fileprivate let teamService = TeamService()
 }
 
 // MARK: - Public

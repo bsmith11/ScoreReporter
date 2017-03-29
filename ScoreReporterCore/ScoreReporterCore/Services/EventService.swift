@@ -15,7 +15,7 @@ public class EventService: APIService {
 // MARK: - Public
 
 public extension EventService {
-    func downloadEventList(completion: ServiceCompletion?) {
+    func getEventList(completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.events
         ]
@@ -30,7 +30,7 @@ public extension EventService {
         }
     }
 
-    func downloadDetails(for eventID: NSNumber, completion: ServiceCompletion?) {
+    func getDetailsForEvent(withID eventID: NSNumber, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.eventDetails,
             APIConstants.Request.Keys.eventID: eventID
@@ -46,8 +46,8 @@ public extension EventService {
         }
     }
 
-    func downloadDetails(for event: Event, completion: ServiceCompletion?) {
-        downloadDetails(for: event.eventID, completion: completion)
+    func getDetails(forEvent event: Event, completion: ServiceCompletion?) {
+        getDetailsForEvent(withID: event.eventID, completion: completion)
     }
 }
 

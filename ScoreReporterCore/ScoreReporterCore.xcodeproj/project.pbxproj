@@ -14,6 +14,7 @@
 		4836ED5B1E8B1F210035ABA6 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5A1E8B1F210035ABA6 /* APIService.swift */; };
 		4836ED5D1E8B22590035ABA6 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */; };
 		4836ED611E8B28B30035ABA6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED601E8B28B30035ABA6 /* Credentials.swift */; };
+		4836ED651E8B4F180035ABA6 /* GameUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED641E8B4F180035ABA6 /* GameUpdate.swift */; };
 		484314031E4D553D008E01E5 /* InfiniteScrollTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */; };
 		484314051E4D6F9A008E01E5 /* ProtocolInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */; };
 		484314071E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */; };
@@ -109,6 +110,7 @@
 		4836ED5A1E8B1F210035ABA6 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIService.swift; path = Services/APIService.swift; sourceTree = "<group>"; };
 		4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		4836ED601E8B28B30035ABA6 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		4836ED641E8B4F180035ABA6 /* GameUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUpdate.swift; sourceTree = "<group>"; };
 		484314021E4D553D008E01E5 /* InfiniteScrollTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableView.swift; sourceTree = "<group>"; };
 		484314041E4D6F9A008E01E5 /* ProtocolInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtocolInterceptor.swift; sourceTree = "<group>"; };
 		484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollTableFooterView.swift; sourceTree = "<group>"; };
@@ -125,7 +127,7 @@
 		487876051DDBF79C008789A0 /* EventService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		487876061DDBF79C008789A0 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = Services/Keychain.swift; sourceTree = "<group>"; };
 		487876071DDBF79C008789A0 /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
-		487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectObserver.swift; path = Services/ManagedObjectObserver.swift; sourceTree = "<group>"; };
+		487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectObserver.swift; path = ../Services/ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		487876091DDBF79C008789A0 /* TeamService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamService.swift; sourceTree = "<group>"; };
 		487876421DDBF823008789A0 /* Fetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
 		487876431DDBF823008789A0 /* FetchedChangable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedChangable.swift; sourceTree = "<group>"; };
@@ -221,11 +223,13 @@
 		4836ED5F1E8B28960035ABA6 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
+				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
+				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
 				487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */,
 				487876971DDBFAF6008789A0 /* Bracket.swift */,
 				4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */,
 				487876991DDBFAF6008789A0 /* Cluster.swift */,
-				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
 				4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */,
 				4878769C1DDBFAF6008789A0 /* Event.swift */,
 				4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */,
@@ -236,7 +240,6 @@
 				487876A21DDBFAF6008789A0 /* Pool.swift */,
 				487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */,
 				487876A41DDBFAF6008789A0 /* Round.swift */,
-				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
 				487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */,
 				487876A81DDBFAF6008789A0 /* Stage.swift */,
 				487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */,
@@ -271,7 +274,6 @@
 			isa = PBXGroup;
 			children = (
 				48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */,
-				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
 				487876061DDBF79C008789A0 /* Keychain.swift */,
 				4836ED5E1E8B24110035ABA6 /* API */,
 				487876551DDBF83D008789A0 /* Extensions */,
@@ -347,6 +349,7 @@
 			children = (
 				4836ED5F1E8B28960035ABA6 /* Core Data */,
 				4836ED601E8B28B30035ABA6 /* Credentials.swift */,
+				4836ED641E8B4F180035ABA6 /* GameUpdate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				487876C51DDBFAF6008789A0 /* Team+CoreDataProperties.swift in Sources */,
 				487876B41DDBFAF6008789A0 /* CoreDataStack.swift in Sources */,
 				487876D21DDBFBCA008789A0 /* TableViewCellSeparatorView.swift in Sources */,
+				4836ED651E8B4F180035ABA6 /* GameUpdate.swift in Sources */,
 				4878764D1DDBF823008789A0 /* FetchedChangable.swift in Sources */,
 				484FF0711E2302F90002F458 /* VisualEffectButton.swift in Sources */,
 				487876C41DDBFAF6008789A0 /* Team.swift in Sources */,

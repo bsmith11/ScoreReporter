@@ -29,7 +29,7 @@ extension EventDetailsViewModel {
     func downloadEventDetails() {
         loading = true
 
-        eventService.downloadDetails(for: event) { [weak self] result in
+        eventService.getDetails(forEvent: event) { [weak self] result in
             guard let sself = self else {
                 return
             }
