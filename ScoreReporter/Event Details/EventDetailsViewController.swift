@@ -135,6 +135,8 @@ private extension EventDetailsViewController {
         kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.error)) { [weak self] (error: NSError) in
             self?.display(error: error, animated: true)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
     }
 
     @objc func favoriteButtonTapped() {
@@ -163,6 +165,10 @@ private extension EventDetailsViewController {
         catch let error {
             print("Error: \(error)")
         }
+    }
+    
+    @objc func willEnterForeground() {
+        headerView.resetBlurAnimation()
     }
 }
 
