@@ -65,14 +65,6 @@ class PoolsDataSource: NSObject, SectionedDataSource {
 // MARK: - Public
 
 extension PoolsDataSource {
-//    func title(for section: Int) -> String? {
-//        guard section < sections.count else {
-//            return nil
-//        }
-//
-//        return sections[section].title
-//    }
-
     func pool(for section: Int) -> Pool? {
         guard section < sections.count else {
             return nil
@@ -90,30 +82,6 @@ private extension PoolsDataSource {
         sections = pools.map { PoolSection(pool: $0) }
     }
 }
-
-//// MARK: - DataSource
-//
-//extension PoolsDataSource {
-//    func numberOfSections() -> Int {
-//        return sections.count
-//    }
-//
-//    func numberOfItems(in section: Int) -> Int {
-//        guard section < sections.count else {
-//            return 0
-//        }
-//
-//        return sections[section].standings.count
-//    }
-//
-//    func item(at indexPath: IndexPath) -> Standing? {
-//        guard indexPath.section < sections.count && indexPath.item < sections[indexPath.section].standings.count else {
-//            return nil
-//        }
-//
-//        return sections[indexPath.section].standings[indexPath.item]
-//    }
-//}
 
 // MARK: - NSFetchedResultsControllerDelegate
 

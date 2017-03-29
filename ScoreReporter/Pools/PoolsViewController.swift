@@ -119,6 +119,7 @@ extension PoolsViewController: UITableViewDelegate {
         
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title, actionButtonTitle: "View")
+        headerView.tag = section
         headerView.delegate = self
         
         return headerView

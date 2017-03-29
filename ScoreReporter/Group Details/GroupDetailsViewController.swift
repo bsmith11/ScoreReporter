@@ -103,7 +103,7 @@ private extension GroupDetailsViewController {
         contentView.horizontalAnchors == horizontalAnchors
         contentView.bottomAnchor == bottomLayoutGuide.topAnchor
         
-        emptyView.edgeAnchors == edgeAnchors
+        emptyView.edgeAnchors == contentView.edgeAnchors
     }
 
     func configureObservers() {
