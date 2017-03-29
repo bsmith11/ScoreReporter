@@ -41,7 +41,7 @@ class BaseNavigationController: UINavigationController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.white
-        view.addGestureRecognizer(interactionController.panGestureRecognizer)
+//        view.addGestureRecognizer(interactionController.panGestureRecognizer)
     }
 }
 
