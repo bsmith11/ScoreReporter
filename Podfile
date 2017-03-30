@@ -13,6 +13,7 @@ pod 'Anchorage', '~> 3.0'
 pod 'PINRemoteImage', '~> 2.1'
 pod 'KVOController', '~> 1.2'
 pod 'DataSource'
+pod 'IGListKit', '~> 2.1'
 #pod 'MapSnap'
 
 target 'ScoreReporter' do
