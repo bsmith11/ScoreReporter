@@ -166,11 +166,13 @@ public extension Game {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedActiveGamesFor(event: Event) -> NSFetchedResultsController<Game> {
+    static func fetchedActiveGames(forEventID eventID: Int) -> NSFetchedResultsController<Game> {
+        let eventIDNumber = NSNumber(integerLiteral: eventID)
+        
         let gamePredicates = [
-            NSPredicate(format: "%K == %@", #keyPath(Game.pool.round.group.event), event),
-            NSPredicate(format: "%K == %@", #keyPath(Game.cluster.round.group.event), event),
-            NSPredicate(format: "%K == %@", #keyPath(Game.stage.bracket.round.group.event), event)
+            NSPredicate(format: "%K == %@", #keyPath(Game.pool.round.group.event.eventID), eventIDNumber),
+            NSPredicate(format: "%K == %@", #keyPath(Game.cluster.round.group.event.eventID), eventIDNumber),
+            NSPredicate(format: "%K == %@", #keyPath(Game.stage.bracket.round.group.event.eventID), eventIDNumber)
         ]
 
         let gamePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: gamePredicates)

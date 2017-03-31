@@ -28,14 +28,12 @@ class TabBarController: UITabBarController {
 
 private extension TabBarController {
     func configureViewControllers() {
-        let homeViewModel = HomeViewModel()
         let homeDataSource = HomeDataSource()
-        let homeViewController = HomeViewController(viewModel: homeViewModel, dataSource: homeDataSource)
+        let homeViewController = HomeViewController(dataSource: homeDataSource)
         let homeNavigationController = BaseNavigationController(rootViewController: homeViewController)
 
-        let eventsViewModel = EventsViewModel()
         let eventsDataSource = EventsDataSource()
-        let eventsViewController = EventsViewController(viewModel: eventsViewModel, dataSource: eventsDataSource)
+        let eventsViewController = EventsViewController(dataSource: eventsDataSource)
         let eventsNavigationController = BaseNavigationController(rootViewController: eventsViewController)
 
         let teamsViewModel = TeamsViewModel()
@@ -54,7 +52,7 @@ private extension TabBarController {
             settingsNavigationController
         ]
 
-        eventsViewModel.downloadEvents()
+//        eventsViewModel.downloadEvents()
         teamsViewModel.downloadTeams()
 
         setViewControllers(navigationControllers, animated: false)

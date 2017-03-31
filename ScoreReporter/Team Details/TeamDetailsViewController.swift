@@ -214,9 +214,9 @@ extension TeamDetailsViewController: UITableViewDelegate {
 
         switch item {
         case .event(let event):
-            let eventDetailsViewModel = EventDetailsViewModel(event: event)
-            let eventDetailsDataSource = EventDetailsDataSource(event: event)
-            let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+            let eventViewModel = EventViewModel(event: event)
+            let eventDetailsDataSource = EventDetailsDataSource(viewModel: eventViewModel)
+            let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
             navigationController?.pushViewController(eventDetailsViewController, animated: true)
         case .game(let game):
             tableView.deselectRow(at: indexPath, animated: true)

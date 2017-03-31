@@ -89,13 +89,13 @@
 		487876EC1DDC0890008789A0 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EA1DDC0890008789A0 /* SectionHeaderView.swift */; };
 		487876ED1DDC0890008789A0 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EB1DDC0890008789A0 /* SegmentedControl.swift */; };
 		487876EF1DDC08EF008789A0 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */; };
-		487876F91DDCD720008789A0 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F41DDCD720008789A0 /* EventCell.swift */; };
 		487876FA1DDCD720008789A0 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F51DDCD720008789A0 /* GameCell.swift */; };
 		487876FB1DDCD720008789A0 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F61DDCD720008789A0 /* GroupCell.swift */; };
 		487876FD1DDCD720008789A0 /* StandingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876F81DDCD720008789A0 /* StandingCell.swift */; };
 		487877031DDCD909008789A0 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877011DDCD909008789A0 /* GameViewModel.swift */; };
 		487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877021DDCD909008789A0 /* GroupViewModel.swift */; };
 		4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878770C1DDD4EC9008789A0 /* TeamCell.swift */; };
+		488350761E8E22DF0008C558 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350751E8E22DF0008C558 /* EventViewModel.swift */; };
 		48B783C61DE20DDB00A7F796 /* SegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B783C51DE20DDB00A7F796 /* SegmentView.swift */; };
 		48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */; };
 		5F989BFFF2808B4231D32CC9 /* Pods_ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */; };
@@ -188,13 +188,14 @@
 		487876EA1DDC0890008789A0 /* SectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		487876EB1DDC0890008789A0 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		487876EE1DDC08EF008789A0 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
-		487876F41DDCD720008789A0 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		487876F51DDCD720008789A0 /* GameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
 		487876F61DDCD720008789A0 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		487876F81DDCD720008789A0 /* StandingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingCell.swift; sourceTree = "<group>"; };
 		487877011DDCD909008789A0 /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		487877021DDCD909008789A0 /* GroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		4878770C1DDD4EC9008789A0 /* TeamCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
+		488350751E8E22DF0008C558 /* EventViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
+		4883507F1E8ED4D60008C558 /* SearchPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPresentable.swift; sourceTree = "<group>"; };
 		48B783C51DE20DDB00A7F796 /* SegmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentView.swift; sourceTree = "<group>"; };
 		48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsyncOperation.swift; path = Services/AsyncOperation.swift; sourceTree = "<group>"; };
 		E234148B37990DB186AB163A /* Pods-ScoreReporterCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.debug.xcconfig"; sourceTree = "<group>"; };
@@ -319,6 +320,7 @@
 				487876471DDBF823008789A0 /* KeyboardObservable.swift */,
 				487876481DDBF823008789A0 /* MessageDisplayable.swift */,
 				487876491DDBF823008789A0 /* Searchable.swift */,
+				4883507F1E8ED4D60008C558 /* SearchPresentable.swift */,
 				4878764A1DDBF823008789A0 /* Sizable.swift */,
 			);
 			path = Protocols;
@@ -380,12 +382,12 @@
 		487876D71DDC063D008789A0 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				487876D81DDC064A008789A0 /* CollectionViewProxy.swift */,
-				487876D91DDC064A008789A0 /* SearchBarProxy.swift */,
-				487876DA1DDC064A008789A0 /* SearchCell.swift */,
-				487876DB1DDC064A008789A0 /* SearchDataSource.swift */,
-				487876DC1DDC064A008789A0 /* SearchInfoView.swift */,
 				487876DD1DDC064A008789A0 /* SearchViewController.swift */,
+				487876DB1DDC064A008789A0 /* SearchDataSource.swift */,
+				487876DA1DDC064A008789A0 /* SearchCell.swift */,
+				487876D91DDC064A008789A0 /* SearchBarProxy.swift */,
+				487876DC1DDC064A008789A0 /* SearchInfoView.swift */,
+				487876D81DDC064A008789A0 /* CollectionViewProxy.swift */,
 				487876DE1DDC064A008789A0 /* TableViewProxy.swift */,
 			);
 			path = Search;
@@ -394,7 +396,6 @@
 		487876F31DDCD6CA008789A0 /* UITableView */ = {
 			isa = PBXGroup;
 			children = (
-				487876F41DDCD720008789A0 /* EventCell.swift */,
 				487876F51DDCD720008789A0 /* GameCell.swift */,
 				487876F61DDCD720008789A0 /* GroupCell.swift */,
 				487876EA1DDC0890008789A0 /* SectionHeaderView.swift */,
@@ -410,8 +411,9 @@
 		487877001DDCD8C6008789A0 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				487877011DDCD909008789A0 /* GameViewModel.swift */,
+				488350751E8E22DF0008C558 /* EventViewModel.swift */,
 				487877021DDCD909008789A0 /* GroupViewModel.swift */,
+				487877011DDCD909008789A0 /* GameViewModel.swift */,
 				480486AD1E30836B0081609A /* TeamViewModel.swift */,
 			);
 			path = "View Models";
@@ -606,6 +608,7 @@
 				48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */,
 				487876BF1DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld in Sources */,
 				487876501DDBF823008789A0 /* Importable.swift in Sources */,
+				488350761E8E22DF0008C558 /* EventViewModel.swift in Sources */,
 				487876681DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift in Sources */,
 				484314071E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift in Sources */,
 				487876521DDBF823008789A0 /* MessageDisplayable.swift in Sources */,
@@ -625,7 +628,6 @@
 				487876BB1DDBFAF6008789A0 /* Pool.swift in Sources */,
 				487876601DDBF88A008789A0 /* CAAnimation+Extensions.swift in Sources */,
 				484314051E4D6F9A008E01E5 /* ProtocolInterceptor.swift in Sources */,
-				487876F91DDCD720008789A0 /* EventCell.swift in Sources */,
 				4878764C1DDBF823008789A0 /* Fetchable.swift in Sources */,
 				487876C71DDBFAF6008789A0 /* User+CoreDataProperties.swift in Sources */,
 				487876D01DDBFBCA008789A0 /* MessageView.swift in Sources */,

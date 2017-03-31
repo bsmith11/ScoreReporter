@@ -141,7 +141,7 @@ class EventDetailsOperation: AsyncOperation {
         let block = { (completion: @escaping AsyncOperationCompletion) in
             let eventService = EventService()
 
-            eventService.getDetailsForEvent(withID: eventID, completion: { error in
+            eventService.getDetailsForEvent(withID: eventID.intValue, completion: { error in
                 print("Finished downloading \(eventID) with error: \(error)")
 
                 completion()

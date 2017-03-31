@@ -12,20 +12,25 @@ import KVOController
 import ScoreReporterCore
 
 class EventsViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: EventsViewModel
     fileprivate let dataSource: EventsDataSource
-    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
+    fileprivate let dataController: EventsDataController
     fileprivate let searchViewController: SearchViewController<Event>
+    
+    fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
 
         return messageLayoutGuide
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
-    init(viewModel: EventsViewModel, dataSource: EventsDataSource) {
-        self.viewModel = viewModel
+    init(dataSource: EventsDataSource) {
         self.dataSource = dataSource
+        self.dataController = EventsDataController(dataSource: dataSource)
 
         let searchDataSource = SearchDataSource(fetchedResultsController: Event.searchFetchedResultsController)
         searchViewController = SearchViewController(dataSource: searchDataSource)
@@ -49,10 +54,6 @@ class EventsViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-
     override func loadView() {
         view = UIView()
 
@@ -65,8 +66,8 @@ class EventsViewController: UIViewController, MessageDisplayable {
 
         configureObservers()
 
-        dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+        dataSource.reloadBlock = { [weak self] _ in
+            self?.tableView.reloadData()
         }
 
         navigationItem.titleView = searchViewController.searchBar
@@ -123,9 +124,12 @@ extension EventsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let event = dataSource.item(at: indexPath)
+        guard let viewModel = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueCell(for: indexPath) as EventCell
-        cell.configure(with: event)
+        cell.configure(withViewModel: viewModel)
         cell.separatorHidden = indexPath.item == 0
 
         return cell
@@ -136,19 +140,19 @@ extension EventsViewController: UITableViewDataSource {
 
 extension EventsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let event = dataSource.item(at: indexPath) else {
+        guard let viewModel = dataSource.item(at: indexPath) else {
             return
         }
 
-        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-
-        navigationController?.pushViewController(eventDetailsViewController, animated: true)
+//        let eventDetailsViewModel = EventDetailsViewModel(event: event)
+//        let eventDetailsDataSource = EventDetailsDataSource(event: event)
+//        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+//
+//        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.title(for: section) else {
+        guard let title = dataSource.headerTitle(for: section) else {
             return nil
         }
 
@@ -159,7 +163,7 @@ extension EventsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
+        guard let _ = dataSource.headerTitle(for: section) else {
             return 0.0001
         }
         
@@ -179,10 +183,10 @@ extension EventsViewController: SearchViewControllerDelegate {
             return
         }
 
-        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-        navigationController?.pushViewController(eventDetailsViewController, animated: true)
+//        let eventDetailsViewModel = EventDetailsViewModel(event: event)
+//        let eventDetailsDataSource = EventDetailsDataSource(event: event)
+//        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+//        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 
     func didSelectCancel() {

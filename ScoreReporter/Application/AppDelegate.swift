@@ -61,11 +61,11 @@ private extension AppDelegate {
                 return
             }
             
-            let eventDetailsViewModel = EventDetailsViewModel(event: event)
-            let eventDetailsDataSource = EventDetailsDataSource(event: event)
-            let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+            let viewModel = EventViewModel(event: event)
+            let dataSource = EventDetailsDataSource(viewModel: viewModel)
+            let viewController = EventDetailsViewController(dataSource: dataSource)
             
-            navigationController.pushViewController(eventDetailsViewController, animated: false)
+            navigationController.pushViewController(viewController, animated: false)
         case "games":
             break
         default:

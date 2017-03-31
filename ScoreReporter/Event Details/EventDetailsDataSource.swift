@@ -12,15 +12,14 @@ import ScoreReporterCore
 import DataSource
 
 enum EventDetailsInfo {
-    case division(Group)
-    case activeGame(Game)
+    case division(GroupViewModel)
+    case activeGame(GameViewModel)
 
     var title: String {
         switch self {
-        case .division(let group):
-            let groupViewModel = GroupViewModel(group: group)
-            return groupViewModel.fullName
-        default:
+        case .division(let viewModel):
+            return viewModel.fullName
+        case .activeGame:
             return ""
         }
     }
@@ -28,24 +27,30 @@ enum EventDetailsInfo {
 
 class EventDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = EventDetailsInfo
-    typealias SectionType = Section<ModelType>
+    typealias SectionType = Section<EventDetailsInfo>
     
-    fileprivate let activeGamesFetchedResultsController: NSFetchedResultsController<Game>
+    fileprivate let activeGamesFRC: NSFetchedResultsController<Game>
 
-    fileprivate(set) var sections = [Section<ModelType>]()
+    fileprivate(set) var sections = [Section<EventDetailsInfo>]()
 
-    let event: Event
-
+    let viewModel: EventViewModel
+    
     var reloadBlock: ReloadBlock?
 
-    init(event: Event) {
-        self.event = event
+    init(viewModel: EventViewModel) {
+        self.viewModel = viewModel
 
-        activeGamesFetchedResultsController = Game.fetchedActiveGamesFor(event: event)
-
+        activeGamesFRC = Game.fetchedActiveGames(forEventID: viewModel.eventID)
+        
         super.init()
+        
+        activeGamesFRC.delegate = self
 
         configureSections()
+    }
+    
+    deinit {
+        activeGamesFRC.delegate = nil
     }
 }
 
@@ -54,14 +59,18 @@ class EventDetailsDataSource: NSObject, SectionedDataSource {
 private extension EventDetailsDataSource {
     func configureSections() {
         sections.removeAll()
-
-        if let groups = (event.groups as? Set<Group>)?.sorted(by: { $0.0.groupID.intValue < $0.1.groupID.intValue }) {
-            let divisions = groups.map { EventDetailsInfo.division($0) }
-            sections.append(Section(items: divisions, headerTitle: "Divisions"))
+        
+        if !viewModel.groups.isEmpty {
+            let groupViewModels = viewModel.groups.sorted(by: { $0.0.groupID < $0.1.groupID })
+            let divisions = groupViewModels.map { EventDetailsInfo.division($0) }
+            let section = Section(items: divisions, headerTitle: "Divisions")
+            sections.append(section)
         }
 
-        if let activeGames = activeGamesFetchedResultsController.fetchedObjects, !activeGames.isEmpty {
-            sections.append(Section(items: activeGames.map { .activeGame($0) }, headerTitle: "Active Games"))
+        if let games = activeGamesFRC.fetchedObjects, !games.isEmpty {
+            let items = games.map { GameViewModel(game: $0) }.map { EventDetailsInfo.activeGame($0) }
+            let section = Section(items: items, headerTitle: "Active Games")
+            sections.append(section)
         }
     }
 }

@@ -66,10 +66,10 @@ class EventDetailsHeaderView: UIView, Sizable {
 // MARK: - Public
 
 extension EventDetailsHeaderView {
-    func configure(with event: Event) {
-        backgroundImageView.pin_setImage(from: event.searchLogoURL)
+    func configure(withViewModel viewModel: EventViewModel) {
+        backgroundImageView.pin_setImage(from: viewModel.logoURL)
         
-        infoView.configure(with: event)
+        infoView.configure(withViewModel: viewModel)
     }
     
     func resetBlurAnimation() {

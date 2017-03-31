@@ -10,11 +10,14 @@ import Foundation
 import UIKit
 
 public struct GroupViewModel {
+    public let groupID: Int
     public let fullName: String
     public let divisionIdentifier: String
     public let divisionColor: UIColor
 
     public init(group: Group?) {
+        self.groupID = group?.groupID.intValue ?? 0
+        
         let strings = [
             group?.type,
             group?.division,
@@ -43,5 +46,15 @@ public struct GroupViewModel {
             divisionIdentifier = "?"
             divisionColor = UIColor.black
         }
+    }
+}
+
+extension GroupViewModel: Hashable {
+    public var hashValue: Int {
+        return groupID
+    }
+    
+    public static func ==(lhs: GroupViewModel, rhs: GroupViewModel) -> Bool {
+        return lhs.groupID == rhs.groupID
     }
 }

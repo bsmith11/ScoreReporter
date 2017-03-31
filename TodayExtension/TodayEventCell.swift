@@ -55,8 +55,14 @@ public extension TodayEventCell {
         monthLabel.text = month
         rangeLabel.text = range
         
-        titleLabel.text = event?.searchTitle
-        subtitleLabel.text = event?.searchSubtitle
+        guard let event = event else {
+            return
+        }
+        
+        let viewModel = EventViewModel(event: event)
+        
+        titleLabel.text = viewModel.searchTitle
+        subtitleLabel.text = viewModel.searchSubtitle
     }
 }
 

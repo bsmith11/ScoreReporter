@@ -11,37 +11,52 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class HomeDataSource: NSObject, FetchedDataSource, FetchedChangable {
-    typealias ModelType = Event
+class HomeDataSource: NSObject, SectionedDataSource {
+    typealias ModelType = EventViewModel
+    typealias SectionType = Section<EventViewModel>
 
-    fileprivate(set) var fetchedResultsController = Event.fetchedEventsThisWeek()
+    fileprivate let fetchedResultsController = Event.fetchedEventsThisWeek()
 
+    fileprivate(set) var sections = [Section<EventViewModel>]()
+    
     dynamic var empty = false
 
-    var fetchedChangeHandler: FetchedChangeHandler?
     var reloadBlock: ReloadBlock?
 
     override init() {
         super.init()
 
-        register(fetchedResultsController: fetchedResultsController)
-
-        empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
+        fetchedResultsController.delegate = self
+        
+        configureSections()
     }
 
     deinit {
-        unregister(fetchedResultsController: fetchedResultsController)
+        fetchedResultsController.delegate = nil
     }
 }
 
-// MARK: - Public
+// MARK: - Private
 
-extension HomeDataSource {
-    func title(for section: Int) -> String? {
-        guard !(fetchedResultsController.fetchedObjects?.isEmpty ?? true) else {
-            return nil
+private extension HomeDataSource {
+    func configureSections() {
+        sections.removeAll()
+        
+        if let fetchedObjects = fetchedResultsController.fetchedObjects, !fetchedObjects.isEmpty {
+            let viewModels = fetchedObjects.map { EventViewModel(event: $0) }
+            let section = Section(items: viewModels, headerTitle: "This Week")
+            sections.append(section)
         }
+        
+        empty = sections.isEmpty
+    }
+}
 
-        return "This Week"
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension HomeDataSource: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        configureSections()
+        reloadBlock?([])
     }
 }

@@ -10,35 +10,12 @@ import Foundation
 import CoreData
 
 public class Event: NSManagedObject {
-
+    
 }
 
 // MARK: - Public
 
 public extension Event {
-    var dateRange: String {
-        let dateFormatter = DateFormatter.eventDetailsDateFormatter
-        let calendar = Calendar.current
-        
-        guard let startDate = startDate else {
-             return "No dates"
-        }
-        
-        let startDateString = dateFormatter.string(from: startDate)
-        
-        guard let endDate = endDate else {
-            return startDateString
-        }
-        
-        guard calendar.compare(startDate, to: endDate, toGranularity: .day) != .orderedSame else {
-            return startDateString
-        }
-        
-        let endDateString = dateFormatter.string(from: endDate)
-        
-        return "\(startDateString) - \(endDateString)"
-    }
-    
     static func events(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
             Event.objects(from: array, context: context)

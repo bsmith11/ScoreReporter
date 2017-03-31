@@ -2,32 +2,33 @@
 //  EventCell.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 11/9/16.
-//  Copyright © 2016 Brad Smith. All rights reserved.
+//  Created by Brad Smith on 3/31/17.
+//  Copyright © 2017 Brad Smith. All rights reserved.
 //
 
 import UIKit
 import Anchorage
 import PINRemoteImage
+import ScoreReporterCore
 
 public class EventCell: TableViewCell {
-    fileprivate let searchInfoView = SearchInfoView(frame: .zero)
-
+    fileprivate let listContentView = ListContentView(frame: .zero)
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         configureViews()
         configureLayout()
     }
-
+    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     public override func prepareForReuse() {
         super.prepareForReuse()
-
-        searchInfoView.cancelImageDownload()
+        
+        listContentView.cancelImageDownload()
     }
 }
 
@@ -35,7 +36,16 @@ public class EventCell: TableViewCell {
 
 public extension EventCell {
     func configure(with event: Event?) {
-        searchInfoView.configure(with: event)
+        guard let event = event else {
+            return
+        }
+        
+        let viewModel = EventViewModel(event: event)
+        listContentView.configure(withViewModel: viewModel)
+    }
+    
+    func configure(withViewModel viewModel: EventViewModel) {
+        listContentView.configure(withViewModel: viewModel)
     }
 }
 
@@ -43,10 +53,10 @@ public extension EventCell {
 
 private extension EventCell {
     func configureViews() {
-        contentView.addSubview(searchInfoView)
+        contentView.addSubview(listContentView)
     }
-
+    
     func configureLayout() {
-        searchInfoView.edgeAnchors == contentView.edgeAnchors + 16.0
+        listContentView.edgeAnchors == contentView.edgeAnchors + 16.0
     }
 }

@@ -14,8 +14,8 @@ import ScoreReporterCore
 typealias TransitionCoordinatorBlock = (UIViewControllerTransitionCoordinatorContext) -> Void
 
 class EventDetailsViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: EventDetailsViewModel
     fileprivate let dataSource: EventDetailsDataSource
+    fileprivate let dataController: EventDetailsDataController
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let headerView = EventDetailsHeaderView(frame: .zero)
 
@@ -27,10 +27,14 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
 
         return messageLayoutGuide
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
-    init(viewModel: EventDetailsViewModel, dataSource: EventDetailsDataSource) {
-        self.viewModel = viewModel
+    init(dataSource: EventDetailsDataSource) {
         self.dataSource = dataSource
+        self.dataController = EventDetailsDataController(dataSource: dataSource)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -42,7 +46,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         let unfavoriteImage = UIImage(named: "icn-star-selected")
         unfavoriteButton = UIBarButtonItem(image: unfavoriteImage, style: .plain, target: self, action: #selector(unfavoriteButtonTapped))
 
-        navigationItem.rightBarButtonItem = dataSource.event.bookmarked.boolValue ? unfavoriteButton : favoriteButton
+        navigationItem.rightBarButtonItem = dataSource.viewModel.bookmarked ? unfavoriteButton : favoriteButton
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -50,10 +54,6 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
 
     override func loadView() {
@@ -71,7 +71,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
             self?.tableView.reloadData()
         }
 
-        viewModel.downloadEventDetails()
+        dataController.getEventDetails()
     }
     
     override func viewDidLayoutSubviews() {
@@ -114,7 +114,7 @@ private extension EventDetailsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
-        headerView.configure(with: dataSource.event)
+        headerView.configure(withViewModel: dataSource.viewModel)
         headerView.delegate = self
     }
 
@@ -123,7 +123,7 @@ private extension EventDetailsViewController {
     }
 
     func configureObservers() {
-        kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.loading)) { [weak self] (loading: Bool) in
+        kvoController.observe(dataController, keyPath: #keyPath(EventDetailsDataController.loading)) { [weak self] (loading: Bool) in
             if loading {
                 self?.display(message: "Loading...", animated: true)
             }
@@ -132,7 +132,7 @@ private extension EventDetailsViewController {
             }
         }
 
-        kvoController.observe(viewModel, keyPath: #keyPath(EventDetailsViewModel.error)) { [weak self] (error: NSError) in
+        kvoController.observe(dataController, keyPath: #keyPath(EventDetailsDataController.error)) { [weak self] (error: NSError) in
             self?.display(error: error, animated: true)
         }
         
@@ -142,29 +142,29 @@ private extension EventDetailsViewController {
     @objc func favoriteButtonTapped() {
         navigationItem.setRightBarButton(unfavoriteButton, animated: true)
 
-        let event = dataSource.event
-        event.bookmarked = true
-
-        do {
-            try event.managedObjectContext?.save()
-        }
-        catch let error {
-            print("Error: \(error)")
-        }
+//        let event = dataSource.event
+//        event.bookmarked = true
+//
+//        do {
+//            try event.managedObjectContext?.save()
+//        }
+//        catch let error {
+//            print("Error: \(error)")
+//        }
     }
 
     @objc func unfavoriteButtonTapped() {
         navigationItem.setRightBarButton(favoriteButton, animated: true)
 
-        let event = dataSource.event
-        event.bookmarked = false
-
-        do {
-            try event.managedObjectContext?.save()
-        }
-        catch let error {
-            print("Error: \(error)")
-        }
+//        let event = dataSource.event
+//        event.bookmarked = false
+//
+//        do {
+//            try event.managedObjectContext?.save()
+//        }
+//        catch let error {
+//            print("Error: \(error)")
+//        }
     }
     
     @objc func willEnterForeground() {
@@ -189,16 +189,14 @@ extension EventDetailsViewController: UITableViewDataSource {
         }
 
         switch item {
-        case .division(let group):
-            let groupViewModel = GroupViewModel(group: group)
+        case .division(let viewModel):
             let cell = tableView.dequeueCell(for: indexPath) as GroupCell
-            cell.configure(with: groupViewModel)
+            cell.configure(with: viewModel)
             cell.separatorHidden = indexPath.item == 0
             return cell
-        case .activeGame(let game):
-            let gameViewModel = GameViewModel(game: game, state: .full)
+        case .activeGame(let viewModel):
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
-            cell.configure(with: gameViewModel)
+            cell.configure(with: viewModel)
             cell.separatorHidden = indexPath.item == 0
             return cell
         }
@@ -209,25 +207,25 @@ extension EventDetailsViewController: UITableViewDataSource {
 
 extension EventDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = dataSource.item(at: indexPath) else {
-            return
-        }
-
-        switch item {
-        case .division(let group):
-            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
-            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
-            navigationController?.pushViewController(groupDetailsViewController, animated: true)
-        case .activeGame(let game):
-            tableView.deselectRow(at: indexPath, animated: true)
-            
-            let gameDetailsViewModel = GameDetailsViewModel(game: game)
-            let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
-            
-            DispatchQueue.main.async {
-                self.present(gameDetailsViewController, animated: true, completion: nil)
-            }
-        }
+//        guard let item = dataSource.item(at: indexPath) else {
+//            return
+//        }
+//
+//        switch item {
+//        case .division(let viewModel):
+//            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
+//            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
+//            navigationController?.pushViewController(groupDetailsViewController, animated: true)
+//        case .activeGame(let viewModel):
+//            tableView.deselectRow(at: indexPath, animated: true)
+//            
+//            let gameDetailsViewModel = GameDetailsViewModel(game: game)
+//            let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
+//            
+//            DispatchQueue.main.async {
+//                self.present(gameDetailsViewController, animated: true, completion: nil)
+//            }
+//        }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -270,15 +268,15 @@ extension EventDetailsViewController {
 
 extension EventDetailsViewController: EventDetailsHeaderViewDelegate {
     func didSelectMaps(in headerView: EventDetailsHeaderView) {
-        guard var urlComponenets = URLComponents(string: "http://maps.apple.com/"),
-              let address = dataSource.event.searchSubtitle else {
-            return
-        }
-        
-        urlComponenets.queryItems = [URLQueryItem(name: "q", value: address)]
-        
-        if let url = urlComponenets.url, UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+//        guard var urlComponenets = URLComponents(string: "http://maps.apple.com/"),
+//              let address = dataSource.event.searchSubtitle else {
+//            return
+//        }
+//        
+//        urlComponenets.queryItems = [URLQueryItem(name: "q", value: address)]
+//        
+//        if let url = urlComponenets.url, UIApplication.shared.canOpenURL(url) {
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
     }
 }

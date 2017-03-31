@@ -12,8 +12,8 @@ import KVOController
 import ScoreReporterCore
 
 class HomeViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: HomeViewModel
     fileprivate let dataSource: HomeDataSource
+    fileprivate let dataController: HomeDataController
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
     override var topLayoutGuide: UILayoutSupport {
@@ -22,10 +22,10 @@ class HomeViewController: UIViewController, MessageDisplayable {
         return messageLayoutGuide
     }
 
-    init(viewModel: HomeViewModel, dataSource: HomeDataSource) {
-        self.viewModel = viewModel
+    init(dataSource: HomeDataSource) {
         self.dataSource = dataSource
-
+        self.dataController = HomeDataController(dataSource: dataSource)
+        
         super.init(nibName: nil, bundle: nil)
 
         title = "Home"
@@ -60,8 +60,8 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
         configureObservers()
 
-        dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+        dataSource.reloadBlock = { [weak self] _ in
+            self?.tableView.reloadData()
         }
     }
     
@@ -102,7 +102,7 @@ private extension HomeViewController {
             self?.tableView.empty = empty
         }
 
-        kvoController.observe(viewModel, keyPath: #keyPath(HomeViewModel.loading)) { [weak self] (loading: Bool) in
+        kvoController.observe(dataController, keyPath: #keyPath(HomeDataController.loading)) { [weak self] (loading: Bool) in
             if loading {
                 self?.display(message: "Loading...", animated: true)
             }
@@ -111,7 +111,7 @@ private extension HomeViewController {
             }
         }
 
-        kvoController.observe(viewModel, keyPath: #keyPath(HomeViewModel.error)) { [weak self] (error: NSError) in
+        kvoController.observe(dataController, keyPath: #keyPath(HomeDataController.error)) { [weak self] (error: NSError) in
             self?.display(error: error, animated: true)
         }
     }
@@ -129,9 +129,12 @@ extension HomeViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let event = dataSource.item(at: indexPath)
+        guard let viewModel = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueCell(for: indexPath) as EventCell
-        cell.configure(with: event)
+        cell.configure(withViewModel: viewModel)
         cell.separatorHidden = indexPath.item == 0
 
         return cell
@@ -142,19 +145,18 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let event = dataSource.item(at: indexPath) else {
+        guard let viewModel = dataSource.item(at: indexPath) else {
             return
         }
 
-        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
+        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
+        let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
 
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.title(for: section) else {
+        guard let title = dataSource.headerTitle(for: section) else {
             return nil
         }
         
@@ -165,7 +167,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
+        guard let _ = dataSource.headerTitle(for: section) else {
             return 0.0001
         }
         
