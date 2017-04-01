@@ -21,6 +21,10 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
         return messageLayoutGuide
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     init(dataSource: HomeDataSource) {
         self.dataSource = dataSource
@@ -43,10 +47,6 @@ class HomeViewController: UIViewController, MessageDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-
     override func loadView() {
         view = UIView()
         view.backgroundColor = UIColor.white
@@ -63,6 +63,8 @@ class HomeViewController: UIViewController, MessageDisplayable {
         dataSource.reloadBlock = { [weak self] _ in
             self?.tableView.reloadData()
         }
+        
+        dataController.getEvents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,7 +138,6 @@ extension HomeViewController: UITableViewDataSource {
         let cell = tableView.dequeueCell(for: indexPath) as EventCell
         cell.configure(withViewModel: viewModel)
         cell.separatorHidden = indexPath.item == 0
-
         return cell
     }
 }
@@ -151,7 +152,6 @@ extension HomeViewController: UITableViewDelegate {
 
         let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
         let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
-
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 
@@ -162,7 +162,6 @@ extension HomeViewController: UITableViewDelegate {
         
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
-
         return headerView
     }
     

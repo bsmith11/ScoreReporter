@@ -26,7 +26,6 @@ public extension Event {
 
     static func fetchedUpcomingEventsFor(team: Team) -> NSFetchedResultsController<Event> {
         let predicates = [
-            NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament),
             NSPredicate(format: "%K > %@", #keyPath(Event.startDate), NSDate()),
             NSPredicate(format: "SUBQUERY(%K, $x, $x in %@).@count > 0", #keyPath(Event.groups), team.groups)
         ]
@@ -43,13 +42,7 @@ public extension Event {
 
     static func fetchedEventsThisWeek() -> NSFetchedResultsController<Event> {
         let datesTuple = Date.enclosingDatesForCurrentWeek
-
-        let predicates = [
-            NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament),
-            NSPredicate(format: "%K > %@ AND %K < %@", #keyPath(Event.startDate), datesTuple.0 as NSDate, #keyPath(Event.startDate), datesTuple.1 as NSDate)
-        ]
-
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        let predicate = NSPredicate(format: "%K > %@ AND %K < %@", #keyPath(Event.startDate), datesTuple.0 as NSDate, #keyPath(Event.startDate), datesTuple.1 as NSDate)
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
@@ -60,12 +53,7 @@ public extension Event {
     }
 
     static func fetchedBookmarkedEvents() -> NSFetchedResultsController<Event> {
-        let predicates = [
-            NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament),
-            NSPredicate(format: "%K == YES", #keyPath(Event.bookmarked))
-        ]
-
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        let predicate = NSPredicate(format: "%K == YES", #keyPath(Event.bookmarked))
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
@@ -76,25 +64,21 @@ public extension Event {
     }
 
     static func fetchedEvents() -> NSFetchedResultsController<Event> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament)
-
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
             NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
 
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
+        return fetchedResultsController(predicate: nil, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
     }
 
     public static var searchFetchedResultsController: NSFetchedResultsController<Event> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament)
-
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
             NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
         ]
 
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
+        return fetchedResultsController(predicate: nil, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
     }
 }
 
@@ -110,7 +94,10 @@ extension Event: Fetchable {
 
 extension Event: CoreDataImportable {
     public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Event? {
-        guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber else {
+        guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber,
+              let name = dictionary <~ APIConstants.Response.Keys.eventName,
+              let type = dictionary <~ APIConstants.Response.Keys.eventType,
+              type == APIConstants.Response.Values.tournament else {
             return nil
         }
 
@@ -119,18 +106,7 @@ extension Event: CoreDataImportable {
         }
 
         event.eventID = eventID
-
-        if let _ = dictionary.index(forKey: APIConstants.Response.Keys.eventName) {
-            event.name = dictionary <~ APIConstants.Response.Keys.eventName
-        }
-
-        if let _ = dictionary.index(forKey: APIConstants.Response.Keys.eventType) {
-            event.type = dictionary <~ APIConstants.Response.Keys.eventType
-        }
-
-        if let _ = dictionary.index(forKey: APIConstants.Response.Keys.eventTypeName) {
-            event.typeName = dictionary <~ APIConstants.Response.Keys.eventTypeName
-        }
+        event.name = name
 
         if let _ = dictionary.index(forKey: APIConstants.Response.Keys.city) {
             event.city = dictionary <~ APIConstants.Response.Keys.city
@@ -198,18 +174,11 @@ extension Event: Searchable {
     }
 
     public static func predicate(with searchText: String?) -> NSPredicate? {
-        let typePredicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament)
-
         guard let searchText = searchText, !searchText.isEmpty else {
-            return typePredicate
+            return nil
         }
 
-        let predicates = [
-            typePredicate,
-            NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
-        ]
-
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        return NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
     }
 
     public var searchSectionTitle: String? {
@@ -225,7 +194,7 @@ extension Event: Searchable {
     }
 
     public var searchTitle: String? {
-        return name ?? "No Name"
+        return name
     }
 
     public var searchSubtitle: String? {

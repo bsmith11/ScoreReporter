@@ -1,5 +1,5 @@
 //
-//  MyEventsDataSource.swift
+//  EventListDataSource.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/22/16.
@@ -11,7 +11,7 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class EventsDataSource: NSObject, SectionedDataSource {
+class EventListDataSource: NSObject, SectionedDataSource {
     typealias ModelType = EventViewModel
     typealias SectionType = Section<EventViewModel>
 
@@ -38,7 +38,7 @@ class EventsDataSource: NSObject, SectionedDataSource {
 
 // MARK: - Private
 
-private extension EventsDataSource {
+private extension EventListDataSource {
     func configureSections() {
         sections.removeAll()
         
@@ -54,7 +54,7 @@ private extension EventsDataSource {
 
 // MARK: - NSFetchedResultsControllerDelegate
 
-extension EventsDataSource: NSFetchedResultsControllerDelegate {
+extension EventListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
         reloadBlock?([])

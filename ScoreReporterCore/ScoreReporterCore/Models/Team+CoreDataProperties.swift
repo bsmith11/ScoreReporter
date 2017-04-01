@@ -22,7 +22,8 @@ public extension Team {
     @NSManaged var state: String?
     @NSManaged var stateFull: String?
     @NSManaged var teamID: NSNumber
-    @NSManaged var games: NSSet
     @NSManaged var groups: NSSet
+    @NSManaged var homeGames: NSSet
+    @NSManaged var awayGames: NSSet
 
 }

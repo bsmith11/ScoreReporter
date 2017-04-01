@@ -27,6 +27,7 @@ public extension Game {
     @NSManaged var cluster: Cluster?
     @NSManaged var pool: Pool?
     @NSManaged var stage: Stage?
-    @NSManaged var teams: NSSet
+    @NSManaged var homeTeam: Team?
+    @NSManaged var awayTeam: Team?
 
 }

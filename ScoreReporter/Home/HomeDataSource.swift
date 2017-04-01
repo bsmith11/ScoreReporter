@@ -19,7 +19,7 @@ class HomeDataSource: NSObject, SectionedDataSource {
 
     fileprivate(set) var sections = [Section<EventViewModel>]()
     
-    dynamic var empty = false
+    fileprivate(set) dynamic var empty = false
 
     var reloadBlock: ReloadBlock?
 

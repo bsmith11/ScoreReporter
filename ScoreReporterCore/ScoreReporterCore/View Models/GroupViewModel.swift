@@ -11,6 +11,17 @@ import UIKit
 
 public struct GroupViewModel {
     public let groupID: Int
+//    public let name: String
+//    public let teamCount: Int
+//    public let divisionName: String?
+    
+//    public let division: String?
+//    public let type: String?
+    
+//    public let event: Event
+//    public let rounds: Set<Round>
+//    public let teams: Set<Team>
+    
     public let fullName: String
     public let divisionIdentifier: String
     public let divisionColor: UIColor
@@ -54,7 +65,7 @@ extension GroupViewModel: Hashable {
         return groupID
     }
     
-    public static func ==(lhs: GroupViewModel, rhs: GroupViewModel) -> Bool {
+    public static func == (lhs: GroupViewModel, rhs: GroupViewModel) -> Bool {
         return lhs.groupID == rhs.groupID
     }
 }

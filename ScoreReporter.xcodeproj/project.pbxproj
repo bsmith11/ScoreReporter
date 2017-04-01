@@ -37,9 +37,9 @@
 		485562291DC6F7620011C53D /* NavigationBarAnimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485562281DC6F7620011C53D /* NavigationBarAnimatorView.swift */; };
 		485AEEF01DCC20F900F11029 /* BackInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */; };
 		4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */; };
-		486797191DE5464000C70324 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797181DE5464000C70324 /* EventsViewController.swift */; };
-		4867971B1DE5465200C70324 /* EventsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971A1DE5465200C70324 /* EventsDataController.swift */; };
-		4867971D1DE5465E00C70324 /* EventsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971C1DE5465E00C70324 /* EventsDataSource.swift */; };
+		486797191DE5464000C70324 /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797181DE5464000C70324 /* EventListViewController.swift */; };
+		4867971B1DE5465200C70324 /* EventListDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971A1DE5465200C70324 /* EventListDataController.swift */; };
+		4867971D1DE5465E00C70324 /* EventListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971C1DE5465E00C70324 /* EventListDataSource.swift */; };
 		4867971F1DE54B0900C70324 /* TeamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4867971E1DE54B0900C70324 /* TeamsViewController.swift */; };
 		486797211DE54B1300C70324 /* TeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797201DE54B1300C70324 /* TeamsViewModel.swift */; };
 		486797231DE54B1A00C70324 /* TeamsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486797221DE54B1A00C70324 /* TeamsDataSource.swift */; };
@@ -62,6 +62,8 @@
 		488033CA1E2F28900085A631 /* TeamDetailsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488033C91E2F28900085A631 /* TeamDetailsInfoView.swift */; };
 		488350781E8EA93A0008C558 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350771E8EA93A0008C558 /* EventCell.swift */; };
 		4883507A1E8EAA9F0008C558 /* ListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350791E8EAA9F0008C558 /* ListContentView.swift */; };
+		488350821E8F26130008C558 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350811E8F26130008C558 /* Appearance.swift */; };
+		488350841E8F26E70008C558 /* DeepLinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350831E8F26E70008C558 /* DeepLinkCoordinator.swift */; };
 		488CAA641D7E367600C3E597 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA631D7E367600C3E597 /* HomeViewController.swift */; };
 		488CAA6C1D7E4A5E00C3E597 /* HomeDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488CAA6B1D7E4A5E00C3E597 /* HomeDataController.swift */; };
 		489E007E1DFBDD62001268FA /* GroupTeamDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489E007D1DFBDD62001268FA /* GroupTeamDetailsViewController.swift */; };
@@ -152,9 +154,9 @@
 		485AEEEF1DCC20F900F11029 /* BackInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackInteractionController.swift; sourceTree = "<group>"; };
 		4864A8B01DCFA99C001561D4 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		4864A8BA1DCFBAE1001561D4 /* ScoreReporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScoreReporter.entitlements; sourceTree = "<group>"; };
-		486797181DE5464000C70324 /* EventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
-		4867971A1DE5465200C70324 /* EventsDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsDataController.swift; sourceTree = "<group>"; };
-		4867971C1DE5465E00C70324 /* EventsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsDataSource.swift; sourceTree = "<group>"; };
+		486797181DE5464000C70324 /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
+		4867971A1DE5465200C70324 /* EventListDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDataController.swift; sourceTree = "<group>"; };
+		4867971C1DE5465E00C70324 /* EventListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDataSource.swift; sourceTree = "<group>"; };
 		4867971E1DE54B0900C70324 /* TeamsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsViewController.swift; sourceTree = "<group>"; };
 		486797201DE54B1300C70324 /* TeamsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsViewModel.swift; sourceTree = "<group>"; };
 		486797221DE54B1A00C70324 /* TeamsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamsDataSource.swift; sourceTree = "<group>"; };
@@ -179,6 +181,8 @@
 		488033C91E2F28900085A631 /* TeamDetailsInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamDetailsInfoView.swift; sourceTree = "<group>"; };
 		488350771E8EA93A0008C558 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		488350791E8EAA9F0008C558 /* ListContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListContentView.swift; sourceTree = "<group>"; };
+		488350811E8F26130008C558 /* Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		488350831E8F26E70008C558 /* DeepLinkCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkCoordinator.swift; sourceTree = "<group>"; };
 		488CAA631D7E367600C3E597 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		488CAA6B1D7E4A5E00C3E597 /* HomeDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeDataController.swift; sourceTree = "<group>"; };
 		489E007D1DFBDD62001268FA /* GroupTeamDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTeamDetailsViewController.swift; sourceTree = "<group>"; };
@@ -308,8 +312,8 @@
 		483453BD1D8D8A0D00F0918A /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				483453B71D8D009200F0918A /* HomeDataSource.swift */,
 				488CAA631D7E367600C3E597 /* HomeViewController.swift */,
+				483453B71D8D009200F0918A /* HomeDataSource.swift */,
 				488CAA6B1D7E4A5E00C3E597 /* HomeDataController.swift */,
 			);
 			path = Home;
@@ -354,15 +358,16 @@
 			path = Pools;
 			sourceTree = "<group>";
 		};
-		486797171DE5459400C70324 /* Events */ = {
+		486797171DE5459400C70324 /* Event List */ = {
 			isa = PBXGroup;
 			children = (
-				486797181DE5464000C70324 /* EventsViewController.swift */,
-				4867971C1DE5465E00C70324 /* EventsDataSource.swift */,
-				4867971A1DE5465200C70324 /* EventsDataController.swift */,
+				486797181DE5464000C70324 /* EventListViewController.swift */,
+				4867971C1DE5465E00C70324 /* EventListDataSource.swift */,
+				4867971A1DE5465200C70324 /* EventListDataController.swift */,
 				488350771E8EA93A0008C558 /* EventCell.swift */,
 				488350791E8EAA9F0008C558 /* ListContentView.swift */,
 			);
+			name = "Event List";
 			path = Events;
 			sourceTree = "<group>";
 		};
@@ -499,16 +504,18 @@
 		BDCB23798C38F5C0642B2160 /* ScoreReporter */ = {
 			isa = PBXGroup;
 			children = (
+				488350811E8F26130008C558 /* Appearance.swift */,
+				488350831E8F26E70008C558 /* DeepLinkCoordinator.swift */,
 				E2E5ED9D04AACD67F94ABF4E /* Application */,
+				483453BD1D8D8A0D00F0918A /* Home */,
+				486797171DE5459400C70324 /* Event List */,
+				483453BE1D8D8A3700F0918A /* Event Details */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
 				8C9462C06DBD76CB33CD55E2 /* Controllers */,
-				483453BE1D8D8A3700F0918A /* Event Details */,
-				486797171DE5459400C70324 /* Events */,
 				4812A1661DFD085900587173 /* Game Details */,
 				487BF3721D9856760082D6FC /* Game List */,
 				484951731D9649D700C95F2F /* Group Details */,
 				480D9B3F1DFBDC0700DF1536 /* Group Team Details */,
-				483453BD1D8D8A0D00F0918A /* Home */,
 				48400E891D8EF94F00927EB6 /* Login */,
 				484951781D9653D600C95F2F /* Pools */,
 				2E91F1BFF2A58D6F931A75C4 /* Resources */,
@@ -855,6 +862,7 @@
 				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
 				068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */,
+				488350821E8F26130008C558 /* Appearance.swift in Sources */,
 				4864A8B11DCFA99C001561D4 /* LoginViewModel.swift in Sources */,
 				48496D911DE94CE800AE5942 /* EventDetailsHeaderView.swift in Sources */,
 				480D9B411DFBDC1F00DF1536 /* GroupTeamDetailsDataSource.swift in Sources */,
@@ -864,17 +872,18 @@
 				488033C81E2F28530085A631 /* TeamDetailsHeaderView.swift in Sources */,
 				48400E8B1D8EFAB400927EB6 /* LoginViewController.swift in Sources */,
 				483453C71D8DBB4C00F0918A /* BackAnimationController.swift in Sources */,
-				486797191DE5464000C70324 /* EventsViewController.swift in Sources */,
+				486797191DE5464000C70324 /* EventListViewController.swift in Sources */,
 				48A2E7191DA4B01600B7B422 /* AcknowledgementListViewController.swift in Sources */,
 				488CAA6C1D7E4A5E00C3E597 /* HomeDataController.swift in Sources */,
 				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
-				4867971D1DE5465E00C70324 /* EventsDataSource.swift in Sources */,
-				4867971B1DE5465200C70324 /* EventsDataController.swift in Sources */,
+				4867971D1DE5465E00C70324 /* EventListDataSource.swift in Sources */,
+				4867971B1DE5465200C70324 /* EventListDataController.swift in Sources */,
 				484EBC301E22117B00B7A61B /* GameDetailsPresentationController.swift in Sources */,
 				487876D41DDBFFC4008789A0 /* GameListDataSource.swift in Sources */,
 				4883507A1E8EAA9F0008C558 /* ListContentView.swift in Sources */,
 				484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */,
 				487BF3761D985A230082D6FC /* GameListViewController.swift in Sources */,
+				488350841E8F26E70008C558 /* DeepLinkCoordinator.swift in Sources */,
 				487BF3881D9A0B630082D6FC /* BracketListViewController.swift in Sources */,
 				48400EA01D90DC4800927EB6 /* EventDetailsDataController.swift in Sources */,
 				48400E8F1D8F4B5D00927EB6 /* EventDetailsDataSource.swift in Sources */,

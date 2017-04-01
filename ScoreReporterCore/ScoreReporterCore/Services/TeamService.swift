@@ -50,7 +50,7 @@ public extension TeamService {
 // MARK: - Private
 
 private extension TeamService {
-    func parseTeamList(response: [String: Any], completion: ServiceCompletion?) {
+    func parseTeamList(response: [String: Any], completion: ServiceCompletion?) {        
         guard let teamArray = response[APIConstants.Response.Keys.teams] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
             completion?(ServiceResult(error: error))
@@ -68,6 +68,8 @@ private extension TeamService {
             completion?(ServiceResult(error: error))
             return
         }
+        
+        let gameIDs = self.gameIDs(fromResponseArray: responseArray)
 
         let partialEventDictionaries = responseArray.flatMap { dictionary -> [String: AnyObject]? in
             guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber else {
@@ -98,13 +100,14 @@ private extension TeamService {
         let terminalOperation = BlockOperation {
             Group.coreDataStack.performBlockUsingBackgroundContext({ context in
                 if let contextualTeam = context.object(with: team.objectID) as? Team {
-                    groupEventTuples.forEach { (groupID, eventID) in
-                        let group = Group.object(primaryKey: groupID, context: context)
-                        let event = Event.object(primaryKey: eventID, context: context)
+                    Game.objects(withPrimaryKeys: gameIDs, context: context).forEach { $0.add(team: contextualTeam) }
+                }
+                
+                groupEventTuples.forEach { (groupID, eventID) in
+                    let group = Group.object(primaryKey: groupID, context: context)
+                    let event = Event.object(primaryKey: eventID, context: context)
 
-                        group?.add(team: contextualTeam)
-                        group?.event = event
-                    }
+                    group?.event = event
                 }
             }, completion: { error in
                 completion?(ServiceResult(error: error))
@@ -120,6 +123,58 @@ private extension TeamService {
         queue.addOperations(eventImportOperations, waitUntilFinished: false)
         queue.addOperations(eventDetailsOperations, waitUntilFinished: false)
         queue.addOperation(terminalOperation)
+    }
+    
+    func gameIDs(fromResponseArray responseArray: [[String: AnyObject]]) -> [NSNumber] {
+        var gameIDs = [NSNumber]()
+        
+        responseArray.forEach { group in
+            if let rounds = group["EventRounds"] as? [[String: AnyObject]] {
+                rounds.forEach { round in
+                    if let brackets = round["Brackets"] as? [[String: AnyObject]] {
+                        brackets.forEach { bracket in
+                            if let stages = bracket["Stage"] as? [[String: AnyObject]] {
+                                stages.forEach { stage in
+                                    if let games = stage["Games"] as? [[String: AnyObject]] {
+                                        games.forEach { game in
+                                            if let gameID = game["EventGameId"] as? NSNumber {
+                                                gameIDs.append(gameID)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let clusters = round["Clusters"] as? [[String: AnyObject]] {
+                        clusters.forEach { cluster in
+                            if let games = cluster["Games"] as? [[String: AnyObject]] {
+                                games.forEach { game in
+                                    if let gameID = game["EventGameId"] as? NSNumber {
+                                        gameIDs.append(gameID)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let pools = round["Pools"] as? [[String: AnyObject]] {
+                        pools.forEach { pool in
+                            if let games = pool["Games"] as? [[String: AnyObject]] {
+                                games.forEach { game in
+                                    if let gameID = game["EventGameId"] as? NSNumber {
+                                        gameIDs.append(gameID)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return gameIDs
     }
 }
 

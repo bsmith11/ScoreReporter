@@ -21,11 +21,9 @@
         <attribute name="latitude" optional="YES" attributeType="Double" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="logoPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="typeName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="groups" toMany="YES" deletionRule="Cascade" destinationEntity="Group" inverseName="event" inverseEntity="Group" syncable="YES"/>
     </entity>
     <entity name="Game" representedClassName=".Game" syncable="YES">
@@ -42,10 +40,11 @@
         <attribute name="startDateFull" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="awayTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="awayGames" inverseEntity="Team" syncable="YES"/>
         <relationship name="cluster" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cluster" inverseName="games" inverseEntity="Cluster" syncable="YES"/>
+        <relationship name="homeTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="homeGames" inverseEntity="Team" syncable="YES"/>
         <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pool" inverseName="games" inverseEntity="Pool" syncable="YES"/>
         <relationship name="stage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stage" inverseName="games" inverseEntity="Stage" syncable="YES"/>
-        <relationship name="teams" toMany="YES" deletionRule="Nullify" destinationEntity="Team" inverseName="games" inverseEntity="Team" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName=".Group" syncable="YES">
         <attribute name="division" optional="YES" attributeType="String" syncable="YES"/>
@@ -98,8 +97,9 @@
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stateFull" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="teamID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="games" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="teams" inverseEntity="Game" syncable="YES"/>
+        <relationship name="awayGames" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="awayTeam" inverseEntity="Game" syncable="YES"/>
         <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="teams" inverseEntity="Group" syncable="YES"/>
+        <relationship name="homeGames" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="homeTeam" inverseEntity="Game" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
@@ -108,14 +108,14 @@
     <elements>
         <element name="Bracket" positionX="-18" positionY="81" width="128" height="120"/>
         <element name="Cluster" positionX="0" positionY="90" width="128" height="105"/>
-        <element name="Event" positionX="-63" positionY="-18" width="128" height="240"/>
-        <element name="Game" positionX="-9" positionY="54" width="128" height="300"/>
+        <element name="Event" positionX="-63" positionY="-18" width="128" height="210"/>
+        <element name="Game" positionX="-9" positionY="54" width="128" height="315"/>
         <element name="Group" positionX="-54" positionY="63" width="128" height="180"/>
         <element name="Pool" positionX="18" positionY="99" width="128" height="120"/>
         <element name="Round" positionX="-36" positionY="72" width="128" height="120"/>
         <element name="Stage" positionX="36" positionY="108" width="128" height="105"/>
         <element name="Standing" positionX="0" positionY="63" width="128" height="135"/>
-        <element name="Team" positionX="-9" positionY="144" width="128" height="240"/>
+        <element name="Team" positionX="-9" positionY="144" width="128" height="255"/>
         <element name="User" positionX="-18" positionY="135" width="128" height="75"/>
     </elements>
 </model>

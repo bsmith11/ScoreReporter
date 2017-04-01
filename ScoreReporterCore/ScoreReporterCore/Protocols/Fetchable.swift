@@ -34,6 +34,13 @@ public extension Fetchable where Self: NSManagedObject {
             return object
         }
     }
+    
+    static func objects(withPrimaryKeys primaryKeys: [NSNumber], context: NSManagedObjectContext) -> [FetchType] {
+        let predicate = NSPredicate(format: "%K in %@", self.primaryKey, primaryKeys)
+        let objects = self.objects(in: context, predicate: predicate)
+        
+        return objects
+    }
 
     static func object(in context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> FetchType? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
@@ -47,6 +54,20 @@ public extension Fetchable where Self: NSManagedObject {
         catch let error {
             print("Failed to fetch objects of type: \(self) with error: \(error)")
             return nil
+        }
+    }
+    
+    static func objects(in context: NSManagedObjectContext, predicate: NSPredicate? = nil) -> [FetchType] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let objects = try context.fetch(fetchRequest) as? [FetchType] ?? []
+            return objects
+        }
+        catch let error {
+            print("Failed to fetch objects of type: \(self) with error: \(error)")
+            return []
         }
     }
 

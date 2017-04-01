@@ -35,14 +35,6 @@ public extension Pool {
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
-
-    func add(team: Team) {
-        guard let games = games.allObjects as? [Game] else {
-            return
-        }
-
-        games.forEach { $0.add(team: team) }
-    }
 }
 
 // MARK: - Fetchable

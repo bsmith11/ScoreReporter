@@ -53,7 +53,6 @@ struct APIConstants {
             static let eventID = "EventId"
             static let eventName = "EventName"
             static let eventType = "EventType"
-            static let eventTypeName = "EventTypeName"
             static let city = "City"
             static let state = "State"
             static let startDate = "StartDate"

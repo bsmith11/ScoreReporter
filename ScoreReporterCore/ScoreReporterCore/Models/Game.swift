@@ -19,28 +19,29 @@ public extension Game {
     var group: Group? {
         return cluster?.round?.group ?? pool?.round?.group ?? stage?.bracket?.round?.group
     }
-
+    
     func add(team: Team) {
-        if contains(team: team) {
-            var mutableTeams = teams as? Set<Team> ?? []
-            mutableTeams.insert(team)
-            teams = NSSet(set: mutableTeams)
+        if let name = team.name {
+            if let homeTeamName = homeTeamName, homeTeamName == name {
+                homeTeam = team
+                return
+            }
+            else if let awayTeamName = awayTeamName, awayTeamName == name {
+                awayTeam = team
+                return
+            }
         }
-    }
-
-    func contains(team: Team) -> Bool {
-        var isHomeTeam = false
-        var isAwayTeam = false
-
-        if let homeTeamName = homeTeamName {
-            isHomeTeam = homeTeamName == team.name || homeTeamName == team.school
+        
+        if let school = team.school {
+            if let homeTeamName = homeTeamName, homeTeamName == school {
+                homeTeam = team
+                return
+            }
+            else if let awayTeamName = awayTeamName, awayTeamName == school {
+                awayTeam = team
+                return
+            }
         }
-
-        if let awayTeamName = awayTeamName {
-            isAwayTeam = awayTeamName == team.name || awayTeamName == team.school
-        }
-
-        return isHomeTeam || isAwayTeam
     }
     
     static func update(with gameUpdate: GameUpdate, completion: ImportCompletion?) {
@@ -143,8 +144,13 @@ public extension Game {
     }
 
     static func fetchedGamesFor(team: Team) -> NSFetchedResultsController<Game> {
-        let predicate = NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams))
-
+        let predicates = [
+            NSPredicate(format: "%K == %@", #keyPath(Game.homeTeam), team),
+            NSPredicate(format: "%K == %@", #keyPath(Game.awayTeam), team)
+        ]
+        
+        let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)
         ]
@@ -154,10 +160,11 @@ public extension Game {
 
     static func fetchedActiveGamesFor(team: Team) -> NSFetchedResultsController<Game> {
         let predicates = [
-            NSPredicate(format: "%@ in %K", team, #keyPath(Game.teams))
+            NSPredicate(format: "%K == %@", #keyPath(Game.homeTeam), team),
+            NSPredicate(format: "%K == %@", #keyPath(Game.awayTeam), team)
         ]
-
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        
+        let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Game.startDateFull), ascending: true)

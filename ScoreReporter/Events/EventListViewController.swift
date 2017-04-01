@@ -1,5 +1,5 @@
 //
-//  EventsViewController.swift
+//  EventListViewController.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/22/16.
@@ -11,9 +11,9 @@ import Anchorage
 import KVOController
 import ScoreReporterCore
 
-class EventsViewController: UIViewController, MessageDisplayable {
-    fileprivate let dataSource: EventsDataSource
-    fileprivate let dataController: EventsDataController
+class EventListViewController: UIViewController, MessageDisplayable {
+    fileprivate let dataSource: EventListDataSource
+    fileprivate let dataController: EventListDataController
     fileprivate let searchViewController: SearchViewController<Event>
     
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
@@ -28,9 +28,9 @@ class EventsViewController: UIViewController, MessageDisplayable {
         return .lightContent
     }
 
-    init(dataSource: EventsDataSource) {
+    init(dataSource: EventListDataSource) {
         self.dataSource = dataSource
-        self.dataController = EventsDataController(dataSource: dataSource)
+        self.dataController = EventListDataController(dataSource: dataSource)
 
         let searchDataSource = SearchDataSource(fetchedResultsController: Event.searchFetchedResultsController)
         searchViewController = SearchViewController(dataSource: searchDataSource)
@@ -82,7 +82,7 @@ class EventsViewController: UIViewController, MessageDisplayable {
 
 // MARK: - Private
 
-private extension EventsViewController {
+private extension EventListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -106,7 +106,7 @@ private extension EventsViewController {
     }
 
     func configureObservers() {
-        kvoController.observe(dataSource, keyPath: #keyPath(EventsDataSource.empty)) { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: #keyPath(EventListDataSource.empty)) { [weak self] (empty: Bool) in
             self?.tableView.empty = empty
         }
     }
@@ -114,7 +114,7 @@ private extension EventsViewController {
 
 // MARK: - UITableViewDataSource
 
-extension EventsViewController: UITableViewDataSource {
+extension EventListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections
     }
@@ -131,24 +131,21 @@ extension EventsViewController: UITableViewDataSource {
         let cell = tableView.dequeueCell(for: indexPath) as EventCell
         cell.configure(withViewModel: viewModel)
         cell.separatorHidden = indexPath.item == 0
-
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
 
-extension EventsViewController: UITableViewDelegate {
+extension EventListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let viewModel = dataSource.item(at: indexPath) else {
             return
         }
 
-//        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-//        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-//        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-//
-//        navigationController?.pushViewController(eventDetailsViewController, animated: true)
+        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
+        let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
+        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -158,7 +155,6 @@ extension EventsViewController: UITableViewDelegate {
 
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
-
         return headerView
     }
 
@@ -177,16 +173,16 @@ extension EventsViewController: UITableViewDelegate {
 
 // MARK: - SearchViewControllerDelegate
 
-extension EventsViewController: SearchViewControllerDelegate {
+extension EventListViewController: SearchViewControllerDelegate {
     func didSelect(item: Searchable) {
         guard let event = item as? Event else {
             return
         }
 
-//        let eventDetailsViewModel = EventDetailsViewModel(event: event)
-//        let eventDetailsDataSource = EventDetailsDataSource(event: event)
-//        let eventDetailsViewController = EventDetailsViewController(viewModel: eventDetailsViewModel, dataSource: eventDetailsDataSource)
-//        navigationController?.pushViewController(eventDetailsViewController, animated: true)
+        let viewModel = EventViewModel(event: event)
+        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
+        let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
+        navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
 
     func didSelectCancel() {

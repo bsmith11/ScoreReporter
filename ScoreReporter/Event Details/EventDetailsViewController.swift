@@ -207,25 +207,30 @@ extension EventDetailsViewController: UITableViewDataSource {
 
 extension EventDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let item = dataSource.item(at: indexPath) else {
-//            return
-//        }
-//
-//        switch item {
-//        case .division(let viewModel):
-//            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
-//            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
-//            navigationController?.pushViewController(groupDetailsViewController, animated: true)
-//        case .activeGame(let viewModel):
-//            tableView.deselectRow(at: indexPath, animated: true)
-//            
+        guard let item = dataSource.item(at: indexPath) else {
+            return
+        }
+
+        switch item {
+        case .division(let viewModel):
+            let primaryKey = NSNumber(integerLiteral: viewModel.groupID)
+            guard let group = Group.object(primaryKey: primaryKey, context: CoreDataStack.sharedInstance.mainContext) else {
+                return
+            }
+            
+            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
+            let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
+            navigationController?.pushViewController(groupDetailsViewController, animated: true)
+        case .activeGame:
+            tableView.deselectRow(at: indexPath, animated: true)
+
 //            let gameDetailsViewModel = GameDetailsViewModel(game: game)
 //            let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
 //            
 //            DispatchQueue.main.async {
 //                self.present(gameDetailsViewController, animated: true, completion: nil)
 //            }
-//        }
+        }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

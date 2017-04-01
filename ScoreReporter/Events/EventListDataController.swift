@@ -1,5 +1,5 @@
 //
-//  EventsDataController.swift
+//  EventListDataController.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/22/16.
@@ -9,21 +9,21 @@
 import Foundation
 import ScoreReporterCore
 
-class EventsDataController: NSObject {
-    fileprivate let dataSource: EventsDataSource
+class EventListDataController: NSObject {
+    fileprivate let dataSource: EventListDataSource
     fileprivate let eventService = EventService()
 
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil
     
-    init(dataSource: EventsDataSource) {
+    init(dataSource: EventListDataSource) {
         self.dataSource = dataSource
     }
 }
 
 // MARK: - Public
 
-extension EventsDataController {
+extension EventListDataController {
     func getEvents() {
         loading = true
 

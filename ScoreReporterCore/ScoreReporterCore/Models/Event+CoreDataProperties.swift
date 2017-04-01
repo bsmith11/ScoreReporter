@@ -18,11 +18,9 @@ public extension Event {
     @NSManaged var latitude: NSNumber?
     @NSManaged var logoPath: String?
     @NSManaged var longitude: NSNumber?
-    @NSManaged var name: String?
+    @NSManaged var name: String
     @NSManaged var startDate: Date?
     @NSManaged var state: String?
-    @NSManaged var type: String?
-    @NSManaged var typeName: String?
     @NSManaged var groups: NSSet
 
 }

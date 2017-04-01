@@ -18,14 +18,12 @@ public struct EventViewModel {
     public let latitude: Double?
     public let longitude: Double?
     public let logoURL: URL?
-    public let type: String?
-    public let typeName: String?
     public let bookmarked: Bool
     public let groups: Set<GroupViewModel>
     
     public init(event: Event) {
         self.eventID = event.eventID.intValue
-        self.name = event.name ?? "No Name"
+        self.name = event.name
         self.city = event.city ?? "No City"
         self.state = event.state ?? "No State"
         self.startDate = event.startDate
@@ -36,8 +34,6 @@ public struct EventViewModel {
         let baseURL = APIConstants.Path.baseURL
         self.logoURL = event.logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
         
-        self.type = event.type
-        self.typeName = event.typeName
         self.bookmarked = event.bookmarked.boolValue
         
         let groups = event.groups as? Set<Group> ?? []
@@ -92,18 +88,11 @@ extension EventViewModel: Searchable {
     }
     
     public static func predicate(with searchText: String?) -> NSPredicate? {
-        let typePredicate = NSPredicate(format: "%K == %@", #keyPath(Event.type), APIConstants.Response.Values.tournament)
-        
         guard let searchText = searchText, !searchText.isEmpty else {
-            return typePredicate
+            return nil
         }
         
-        let predicates = [
-            typePredicate,
-            NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
-        ]
-        
-        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        return NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
     }
     
     public var searchSectionTitle: String? {
