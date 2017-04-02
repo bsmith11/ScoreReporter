@@ -12,7 +12,6 @@ import KVOController
 import ScoreReporterCore
 
 class GroupDetailsViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: GroupViewModel
     fileprivate let dataSource: GroupDetailsDataSource
     fileprivate let segmentedControl = SegmentedControl(frame: .zero)
     fileprivate let contentView = UIView(frame: .zero)
@@ -30,11 +29,9 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
     init(dataSource: GroupDetailsDataSource) {
         self.dataSource = dataSource
 
-        viewModel = GroupViewModel(group: dataSource.group)
-
         super.init(nibName: nil, bundle: nil)
 
-        title = viewModel.fullName
+        title = dataSource.viewModel.fullName
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton

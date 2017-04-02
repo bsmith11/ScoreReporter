@@ -96,6 +96,8 @@
 		487877041DDCD909008789A0 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487877021DDCD909008789A0 /* GroupViewModel.swift */; };
 		4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878770C1DDD4EC9008789A0 /* TeamCell.swift */; };
 		488350761E8E22DF0008C558 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350751E8E22DF0008C558 /* EventViewModel.swift */; };
+		488350861E90C71F0008C558 /* PoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350851E90C71F0008C558 /* PoolViewModel.swift */; };
+		488350881E90C7670008C558 /* StandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350871E90C7670008C558 /* StandingViewModel.swift */; };
 		48B783C61DE20DDB00A7F796 /* SegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B783C51DE20DDB00A7F796 /* SegmentView.swift */; };
 		48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */; };
 		5F989BFFF2808B4231D32CC9 /* Pods_ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */; };
@@ -196,6 +198,8 @@
 		4878770C1DDD4EC9008789A0 /* TeamCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCell.swift; sourceTree = "<group>"; };
 		488350751E8E22DF0008C558 /* EventViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		4883507F1E8ED4D60008C558 /* SearchPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPresentable.swift; sourceTree = "<group>"; };
+		488350851E90C71F0008C558 /* PoolViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolViewModel.swift; sourceTree = "<group>"; };
+		488350871E90C7670008C558 /* StandingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingViewModel.swift; sourceTree = "<group>"; };
 		48B783C51DE20DDB00A7F796 /* SegmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentView.swift; sourceTree = "<group>"; };
 		48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsyncOperation.swift; path = Services/AsyncOperation.swift; sourceTree = "<group>"; };
 		E234148B37990DB186AB163A /* Pods-ScoreReporterCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.debug.xcconfig"; sourceTree = "<group>"; };
@@ -415,6 +419,8 @@
 				487877021DDCD909008789A0 /* GroupViewModel.swift */,
 				487877011DDCD909008789A0 /* GameViewModel.swift */,
 				480486AD1E30836B0081609A /* TeamViewModel.swift */,
+				488350851E90C71F0008C558 /* PoolViewModel.swift */,
+				488350871E90C7670008C558 /* StandingViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -633,8 +639,10 @@
 				487876D01DDBFBCA008789A0 /* MessageView.swift in Sources */,
 				480486B91E33217E0081609A /* StageCell.swift in Sources */,
 				4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */,
+				488350881E90C7670008C558 /* StandingViewModel.swift in Sources */,
 				487876D11DDBFBCA008789A0 /* TableViewCell.swift in Sources */,
 				487876EF1DDC08EF008789A0 /* UIView+Extensions.swift in Sources */,
+				488350861E90C71F0008C558 /* PoolViewModel.swift in Sources */,
 				487876661DDBF88A008789A0 /* UIColor+Extensions.swift in Sources */,
 				48B783C61DE20DDB00A7F796 /* SegmentView.swift in Sources */,
 				487876E31DDC064A008789A0 /* SearchInfoView.swift in Sources */,

@@ -13,27 +13,30 @@ import DataSource
 
 class GroupDetailsDataSource: NSObject, ListDataSource {
     typealias ModelType = UIViewController
-
-    fileprivate let groupObserver: ManagedObjectObserver
+    
+    fileprivate let fetchedResultsController: NSFetchedResultsController<Round>
 
     fileprivate(set) var items = [UIViewController]()
 
     fileprivate(set) dynamic var empty = false
 
-    let group: Group
+    let viewModel: GroupViewModel
 
     var reloadBlock: ReloadBlock?
 
-    init(group: Group) {
-        self.group = group
-
-        groupObserver = ManagedObjectObserver(objects: [group])
+    init(viewModel: GroupViewModel) {
+        self.viewModel = viewModel
+        self.fetchedResultsController = Round.fetchedRoundsForGroup(withId: viewModel.groupID)
 
         super.init()
 
-        groupObserver.delegate = self
+        fetchedResultsController.delegate = self
 
         configureItems()
+    }
+    
+    deinit {
+        fetchedResultsController.delegate = nil
     }
 }
 
@@ -43,35 +46,35 @@ private extension GroupDetailsDataSource {
     func configureItems() {
         items.removeAll()
 
-        let rounds = group.rounds.allObjects as? [Round]
-        let sortedRounds = rounds.flatMap { $0 }?.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue }) ?? []
+        let rounds = fetchedResultsController.fetchedObjects ?? []
+        let sortedRounds = rounds.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue })
 
-        var poolsViewController: UIViewController?
-        var bracketsViewController: UIViewController?
+        var poolListViewController: UIViewController?
+        var bracketListViewController: UIViewController?
 
         var clusters = [Cluster]()
 
         sortedRounds.forEach { round in
             switch round.type {
             case .pools:
-                if poolsViewController == nil {
-                    let poolsDataSource = PoolsDataSource(group: group)
-                    poolsViewController = PoolsViewController(dataSource: poolsDataSource)
+                if poolListViewController == nil {
+                    let poolListDataSource = PoolListDataSource(viewModel: viewModel)
+                    poolListViewController = PoolListViewController(dataSource: poolListDataSource)
                 }
             case .clusters:
                 if let clusterObjects = round.clusters.allObjects as? [Cluster] {
                     clusters.append(contentsOf: clusterObjects)
                 }
             case .brackets:
-                if bracketsViewController == nil {
-                    let bracketListDataSource = BracketListDataSource(group: group)
-                    bracketsViewController = BracketListViewController(dataSource: bracketListDataSource)
+                if bracketListViewController == nil {
+                    let bracketListDataSource = BracketListDataSource(viewModel: viewModel)
+                    bracketListViewController = BracketListViewController(dataSource: bracketListDataSource)
                 }
             }
         }
 
-        if let poolsViewController = poolsViewController {
-            items.append(poolsViewController)
+        if let poolListViewController = poolListViewController {
+            items.append(poolListViewController)
         }
 
         if !clusters.isEmpty {
@@ -80,18 +83,18 @@ private extension GroupDetailsDataSource {
             items.append(gameListViewController)
         }
 
-        if let bracketsViewController = bracketsViewController {
-            items.append(bracketsViewController)
+        if let bracketListViewController = bracketListViewController {
+            items.append(bracketListViewController)
         }
 
         empty = items.isEmpty
     }
 }
 
-// MARK: - ManagedObjectObserverDelegate
+// MARK: - NSFetchedResultsControllerDelegate
 
-extension GroupDetailsDataSource: ManagedObjectObserverDelegate {
-    func objectsDidChange(_ objects: [NSManagedObject]) {
+extension GroupDetailsDataSource: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureItems()
         reloadBlock?([])
     }

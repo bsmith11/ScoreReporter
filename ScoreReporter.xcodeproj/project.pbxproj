@@ -29,8 +29,8 @@
 		48400EA01D90DC4800927EB6 /* EventDetailsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48400E9F1D90DC4800927EB6 /* EventDetailsDataController.swift */; };
 		484951751D964A6600C95F2F /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951741D964A6600C95F2F /* GroupDetailsViewController.swift */; };
 		484951771D964BCE00C95F2F /* GroupDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */; };
-		4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951791D9653E600C95F2F /* PoolsDataSource.swift */; };
-		4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517B1D9657AA00C95F2F /* PoolsViewController.swift */; };
+		4849517A1D9653E600C95F2F /* PoolListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484951791D9653E600C95F2F /* PoolListDataSource.swift */; };
+		4849517C1D9657AA00C95F2F /* PoolListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4849517B1D9657AA00C95F2F /* PoolListViewController.swift */; };
 		48496D911DE94CE800AE5942 /* EventDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */; };
 		48496D951DEB8CF300AE5942 /* EventDetailsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48496D941DEB8CF300AE5942 /* EventDetailsInfoView.swift */; };
 		484EBC301E22117B00B7A61B /* GameDetailsPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484EBC2F1E22117B00B7A61B /* GameDetailsPresentationController.swift */; };
@@ -145,8 +145,8 @@
 		48400E9F1D90DC4800927EB6 /* EventDetailsDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsDataController.swift; sourceTree = "<group>"; };
 		484951741D964A6600C95F2F /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailsDataSource.swift; sourceTree = "<group>"; };
-		484951791D9653E600C95F2F /* PoolsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsDataSource.swift; sourceTree = "<group>"; };
-		4849517B1D9657AA00C95F2F /* PoolsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolsViewController.swift; sourceTree = "<group>"; };
+		484951791D9653E600C95F2F /* PoolListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolListDataSource.swift; sourceTree = "<group>"; };
+		4849517B1D9657AA00C95F2F /* PoolListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolListViewController.swift; sourceTree = "<group>"; };
 		48496D901DE94CE800AE5942 /* EventDetailsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsHeaderView.swift; sourceTree = "<group>"; };
 		48496D941DEB8CF300AE5942 /* EventDetailsInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsInfoView.swift; sourceTree = "<group>"; };
 		484EBC2F1E22117B00B7A61B /* GameDetailsPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDetailsPresentationController.swift; sourceTree = "<group>"; };
@@ -343,18 +343,19 @@
 		484951731D9649D700C95F2F /* Group Details */ = {
 			isa = PBXGroup;
 			children = (
-				484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */,
 				484951741D964A6600C95F2F /* GroupDetailsViewController.swift */,
+				484951761D964BCE00C95F2F /* GroupDetailsDataSource.swift */,
 			);
 			path = "Group Details";
 			sourceTree = "<group>";
 		};
-		484951781D9653D600C95F2F /* Pools */ = {
+		484951781D9653D600C95F2F /* Pool List */ = {
 			isa = PBXGroup;
 			children = (
-				484951791D9653E600C95F2F /* PoolsDataSource.swift */,
-				4849517B1D9657AA00C95F2F /* PoolsViewController.swift */,
+				4849517B1D9657AA00C95F2F /* PoolListViewController.swift */,
+				484951791D9653E600C95F2F /* PoolListDataSource.swift */,
 			);
+			name = "Pool List";
 			path = Pools;
 			sourceTree = "<group>";
 		};
@@ -410,8 +411,8 @@
 		487BF3841D9A0A1B0082D6FC /* Bracket List */ = {
 			isa = PBXGroup;
 			children = (
-				487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */,
 				487BF3871D9A0B630082D6FC /* BracketListViewController.swift */,
+				487BF3851D9A0A340082D6FC /* BracketListDataSource.swift */,
 			);
 			path = "Bracket List";
 			sourceTree = "<group>";
@@ -510,14 +511,14 @@
 				483453BD1D8D8A0D00F0918A /* Home */,
 				486797171DE5459400C70324 /* Event List */,
 				483453BE1D8D8A3700F0918A /* Event Details */,
+				484951731D9649D700C95F2F /* Group Details */,
+				484951781D9653D600C95F2F /* Pool List */,
 				487BF3841D9A0A1B0082D6FC /* Bracket List */,
 				8C9462C06DBD76CB33CD55E2 /* Controllers */,
 				4812A1661DFD085900587173 /* Game Details */,
 				487BF3721D9856760082D6FC /* Game List */,
-				484951731D9649D700C95F2F /* Group Details */,
 				480D9B3F1DFBDC0700DF1536 /* Group Team Details */,
 				48400E891D8EF94F00927EB6 /* Login */,
-				484951781D9653D600C95F2F /* Pools */,
 				2E91F1BFF2A58D6F931A75C4 /* Resources */,
 				48A2E70E1DA49CF200B7B422 /* Settings */,
 				487877051DDD4A66008789A0 /* Team Details */,
@@ -859,7 +860,7 @@
 				48A2E71B1DA4B02200B7B422 /* AcknowledgementListDataSource.swift in Sources */,
 				48496D951DEB8CF300AE5942 /* EventDetailsInfoView.swift in Sources */,
 				489E007E1DFBDD62001268FA /* GroupTeamDetailsViewController.swift in Sources */,
-				4849517C1D9657AA00C95F2F /* PoolsViewController.swift in Sources */,
+				4849517C1D9657AA00C95F2F /* PoolListViewController.swift in Sources */,
 				5F1F056AF317FD3844411674 /* AppDelegate.swift in Sources */,
 				068034801D3F140A006BD4C1 /* BaseNavigationController.swift in Sources */,
 				488350821E8F26130008C558 /* Appearance.swift in Sources */,
@@ -875,7 +876,7 @@
 				486797191DE5464000C70324 /* EventListViewController.swift in Sources */,
 				48A2E7191DA4B01600B7B422 /* AcknowledgementListViewController.swift in Sources */,
 				488CAA6C1D7E4A5E00C3E597 /* HomeDataController.swift in Sources */,
-				4849517A1D9653E600C95F2F /* PoolsDataSource.swift in Sources */,
+				4849517A1D9653E600C95F2F /* PoolListDataSource.swift in Sources */,
 				4867971D1DE5465E00C70324 /* EventListDataSource.swift in Sources */,
 				4867971B1DE5465200C70324 /* EventListDataController.swift in Sources */,
 				484EBC301E22117B00B7A61B /* GameDetailsPresentationController.swift in Sources */,

@@ -69,9 +69,9 @@ private extension TeamDetailsDataSource {
             }
         }
 
-//        if let games = gamesFetchedResultsController.fetchedObjects, !games.isEmpty {
-//            sections.append(DataSourceSection(items: games.map { .game($0) }, headerTitle: "Active Games"))
-//        }
+        if let games = gamesFetchedResultsController.fetchedObjects, !games.isEmpty {
+            sections.append(Section(items: games.map { .game($0) }, headerTitle: "Active Games"))
+        }
     }
 }
 

@@ -213,12 +213,7 @@ extension EventDetailsViewController: UITableViewDelegate {
 
         switch item {
         case .division(let viewModel):
-            let primaryKey = NSNumber(integerLiteral: viewModel.groupID)
-            guard let group = Group.object(primaryKey: primaryKey, context: CoreDataStack.sharedInstance.mainContext) else {
-                return
-            }
-            
-            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
+            let groupDetailsDataSource = GroupDetailsDataSource(viewModel: viewModel)
             let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
             navigationController?.pushViewController(groupDetailsViewController, animated: true)
         case .activeGame:

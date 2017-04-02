@@ -1,5 +1,5 @@
 //
-//  PoolsDataSource.swift
+//  PoolListDataSource.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 9/24/16.
@@ -12,16 +12,16 @@ import ScoreReporterCore
 import DataSource
 
 class PoolSection: Section<Standing> {
-    let pool: Pool
+    let viewModel: PoolViewModel
 
-    init(pool: Pool) {
-        self.pool = pool
+    init(viewModel: PoolViewModel) {
+        self.viewModel = viewModel
 
-        let headerTitle = pool.name ?? "Pool"
-        let items = (pool.standings.allObjects as? [Standing] ?? []).sorted(by: { (lhs, rhs) -> Bool in
+        let headerTitle = viewModel.name
+        let items = viewModel.standings.sorted(by: { (lhs, rhs) -> Bool in
             let leftSortOrder = lhs.sortOrder?.intValue ?? 0
             let rightSortOrder = rhs.sortOrder?.intValue ?? 0
-
+            
             if leftSortOrder == rightSortOrder {
                 return lhs.seed?.intValue ?? 0 < rhs.seed?.intValue ?? 0
             }
@@ -34,7 +34,7 @@ class PoolSection: Section<Standing> {
     }
 }
 
-class PoolsDataSource: NSObject, SectionedDataSource {
+class PoolListDataSource: NSObject, SectionedDataSource {
     typealias ModelType = Standing
     typealias SectionType = PoolSection
 
@@ -46,14 +46,13 @@ class PoolsDataSource: NSObject, SectionedDataSource {
     
     var reloadBlock: ReloadBlock?
 
-    init(group: Group) {
-        fetchedResultsController = Pool.fetchedPoolsFor(group: group)
+    init(viewModel: GroupViewModel) {
+        fetchedResultsController = Pool.fetchedPoolsForGroup(withId: viewModel.groupID)
 
         super.init()
 
         fetchedResultsController.delegate = self
 
-        empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
         configureSections()
     }
 
@@ -64,29 +63,36 @@ class PoolsDataSource: NSObject, SectionedDataSource {
 
 // MARK: - Public
 
-extension PoolsDataSource {
-    func pool(for section: Int) -> Pool? {
+extension PoolListDataSource {
+    func viewModel(for section: Int) -> PoolViewModel? {
         guard section < sections.count else {
             return nil
         }
 
-        return sections[section].pool
+        return sections[section].viewModel
     }
 }
 
 // MARK: - Private
 
-private extension PoolsDataSource {
+private extension PoolListDataSource {
     func configureSections() {
-        let pools = fetchedResultsController.fetchedObjects ?? []
-        sections = pools.map { PoolSection(pool: $0) }
+        sections.removeAll()
+        
+        if let pools = fetchedResultsController.fetchedObjects {
+            let poolSections = pools.flatMap { PoolViewModel(pool: $0) }.map { PoolSection(viewModel: $0) }
+            sections.append(contentsOf: poolSections)
+        }
+        
+        empty = sections.isEmpty
     }
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
 
-extension PoolsDataSource: NSFetchedResultsControllerDelegate {
+extension PoolListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
+        reloadBlock?([])
     }
 }

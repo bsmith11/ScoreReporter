@@ -36,8 +36,8 @@ class BracketListDataSource: NSObject, SectionedDataSource {
     
     var reloadBlock: ReloadBlock?
     
-    init(group: Group) {
-        fetchedResultsController = Bracket.fetchedBracketsFor(group: group)
+    init(viewModel: GroupViewModel) {
+        fetchedResultsController = Bracket.fetchedBracketsForGroup(withId: viewModel.groupID)
 
         super.init()
 

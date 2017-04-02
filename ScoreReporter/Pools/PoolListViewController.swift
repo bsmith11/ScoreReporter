@@ -1,5 +1,5 @@
 //
-//  PoolsViewController.swift
+//  PoolListViewController.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 9/24/16.
@@ -11,11 +11,11 @@ import Anchorage
 import KVOController
 import ScoreReporterCore
 
-class PoolsViewController: UIViewController {
-    fileprivate let dataSource: PoolsDataSource
+class PoolListViewController: UIViewController {
+    fileprivate let dataSource: PoolListDataSource
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
-    init(dataSource: PoolsDataSource) {
+    init(dataSource: PoolListDataSource) {
         self.dataSource = dataSource
 
         super.init(nibName: nil, bundle: nil)
@@ -52,7 +52,7 @@ class PoolsViewController: UIViewController {
 
 // MARK: - Private
 
-private extension PoolsViewController {
+private extension PoolListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -70,7 +70,7 @@ private extension PoolsViewController {
     }
 
     func configureObservers() {
-        kvoController.observe(dataSource, keyPath: #keyPath(PoolsDataSource.empty)) { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: #keyPath(PoolListDataSource.empty)) { [weak self] (empty: Bool) in
             self?.tableView.empty = empty
         }
     }
@@ -78,7 +78,7 @@ private extension PoolsViewController {
 
 // MARK: - UITableViewDataSource
 
-extension PoolsViewController: UITableViewDataSource {
+extension PoolListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections
     }
@@ -99,7 +99,7 @@ extension PoolsViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension PoolsViewController: UITableViewDelegate {
+extension PoolListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let standing = dataSource.item(at: indexPath),
               let group = standing.pool?.round?.group,
@@ -140,14 +140,14 @@ extension PoolsViewController: UITableViewDelegate {
 
 // MARK: - SectionHeaderViewDelegate
 
-extension PoolsViewController: SectionHeaderViewDelegate {
+extension PoolListViewController: SectionHeaderViewDelegate {
     func didSelectActionButton(in headerView: SectionHeaderView) {
-        guard let pool = dataSource.pool(for: headerView.tag) else {
+        guard let viewModel = dataSource.viewModel(for: headerView.tag) else {
             return
         }
 
-        let gameListDataSource = GameListDataSource(pool: pool)
-        let gameListViewController = GameListViewController(dataSource: gameListDataSource)
-        navigationController?.pushViewController(gameListViewController, animated: true)
+//        let gameListDataSource = GameListDataSource(pool: pool)
+//        let gameListViewController = GameListViewController(dataSource: gameListDataSource)
+//        navigationController?.pushViewController(gameListViewController, animated: true)
     }
 }

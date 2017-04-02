@@ -44,6 +44,17 @@ public extension Round {
             return .brackets
         }
     }
+    
+    static func fetchedRoundsForGroup(withId groupId: Int) -> NSFetchedResultsController<Round> {
+        let primaryKey = NSNumber(integerLiteral: groupId)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Round.group.groupID), primaryKey)
+        
+        let sortDescriptors = [
+            NSSortDescriptor(key: #keyPath(Round.roundID), ascending: true)
+        ]
+        
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
+    }
 }
 
 // MARK: - Fetchable

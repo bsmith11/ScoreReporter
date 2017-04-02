@@ -26,8 +26,9 @@ public extension Pool {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedPoolsFor(group: Group) -> NSFetchedResultsController<Pool> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round.group), group)
+    static func fetchedPoolsForGroup(withId groupId: Int) -> NSFetchedResultsController<Pool> {
+        let primaryKey = NSNumber(integerLiteral: groupId)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round.group.groupID), primaryKey)
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true)
