@@ -11,26 +11,22 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-//struct BracketSection {
-//    let bracket: Bracket
-//    let title: String
-//    let stages: [Stage]
-//    
-//    init(bracket: Bracket) {
-//        self.bracket = bracket
-//        
-//        title = bracket.name ?? "Bracket"
-//        stages = bracket.stages.allObjects as? [Stage] ?? []
-//    }
-//}
+class BracketSection: Section<StageViewModel> {
+    init(viewModel: BracketViewModel) {
+        let headerTitle = viewModel.name
+        let items = viewModel.stages.flatMap { StageViewModel(stage: $0) }.sorted(by: { $0.0.stageId < $0.1.stageId })
+        
+        super.init(items: items, headerTitle: headerTitle)
+    }
+}
 
 class BracketListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = Stage
-    typealias SectionType = Section<Stage>
+    typealias ModelType = StageViewModel
+    typealias SectionType = BracketSection
     
     fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Bracket>
     
-    fileprivate(set) var sections = [Section<Stage>]()
+    fileprivate(set) var sections = [BracketSection]()
 
     fileprivate(set) dynamic var empty = false
     
@@ -55,9 +51,12 @@ class BracketListDataSource: NSObject, SectionedDataSource {
 
 private extension BracketListDataSource {
     func configureSections() {
-        let brackets = fetchedResultsController.fetchedObjects ?? []
-        let stages = brackets.flatMap { $0.stages.allObjects as? [Stage] }
-        sections = stages.map { Section(items: $0, headerTitle: $0.first?.bracket?.name) }
+        sections.removeAll()
+        
+        if let brackets = fetchedResultsController.fetchedObjects {
+            let bracketSections = brackets.flatMap { BracketViewModel(bracket: $0) }.flatMap { BracketSection(viewModel: $0) }
+            sections.append(contentsOf: bracketSections)
+        }
         
         empty = sections.isEmpty
     }

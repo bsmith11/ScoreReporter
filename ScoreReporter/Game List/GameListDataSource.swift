@@ -11,26 +11,33 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
-    typealias ModelType = Game
+class GameSection: Section<GameViewModel> {
+    init(viewModels: [GameViewModel]) {
+        let headerTitle = viewModels.first?.startDate
+        super.init(items: viewModels, headerTitle: headerTitle)
+    }
+}
 
+class GameListDataSource: NSObject, SectionedDataSource {
+    typealias ModelType = GameViewModel
+    typealias SectionType = GameSection
+
+    fileprivate(set) var sections = [GameSection]()
     fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Game>
 
     let title: String?
 
     dynamic var empty = false
 
-    var fetchedChangeHandler: FetchedChangeHandler?
     var reloadBlock: ReloadBlock?
     
-    init(pool: Pool) {
-        title = pool.name
-        fetchedResultsController = Game.fetchedGamesFor(pool: pool)
+    init(viewModel: PoolViewModel) {
+        title = viewModel.name
+        fetchedResultsController = Game.fetchedGamesForPool(withId: viewModel.poolID)
 
         super.init()
-
-        register(fetchedResultsController: fetchedResultsController)
-        empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
+        
+        commonInit()
     }
 
     init(clusters: [Cluster]) {
@@ -39,33 +46,49 @@ class GameListDataSource: NSObject, FetchedDataSource, FetchedChangable {
 
         super.init()
 
-        register(fetchedResultsController: fetchedResultsController)
-        empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
+        commonInit()
     }
     
-    init(stage: Stage) {
-        title = stage.name
-        fetchedResultsController = Game.fetchedGamesFor(stage: stage)
+    init(viewModel: StageViewModel) {
+        title = viewModel.name
+        fetchedResultsController = Game.fetchedGamesForStage(withId: viewModel.stageId)
                 
         super.init()
         
-        register(fetchedResultsController: fetchedResultsController)
-        empty = fetchedResultsController.fetchedObjects?.isEmpty ?? true
+        commonInit()
     }
 
     deinit {
-        unregister(fetchedResultsController: fetchedResultsController)
+        fetchedResultsController.delegate = nil
     }
 }
 
-// MARK: - Public
+// MARK: - Private
 
-extension GameListDataSource {
-    func title(for section: Int) -> String? {
-        let indexPath = IndexPath(item: 0, section: section)
-        let game = item(at: indexPath)
-        let dateFormatter = DateFormatter.gameStartDateFullFormatter
+private extension GameListDataSource {
+    func commonInit() {
+        fetchedResultsController.delegate = self
+        configureSections()
+    }
+    
+    func configureSections() {
+        sections.removeAll()
+        
+        if let fetchedSections = fetchedResultsController.sections {
+            let viewModelsList = fetchedSections.flatMap { $0.objects as? [Game] }.map { $0.map { GameViewModel(game: $0) } }
+            let gameSections = viewModelsList.map { GameSection(viewModels: $0) }
+            sections.append(contentsOf: gameSections)
+        }
+        
+        empty = sections.isEmpty
+    }
+}
 
-        return game?.startDateFull.flatMap { dateFormatter.string(from: $0) }
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension GameListDataSource: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        configureSections()
+        reloadBlock?([])
     }
 }

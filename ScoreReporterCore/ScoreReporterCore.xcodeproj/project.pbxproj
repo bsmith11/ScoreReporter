@@ -98,6 +98,8 @@
 		488350761E8E22DF0008C558 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350751E8E22DF0008C558 /* EventViewModel.swift */; };
 		488350861E90C71F0008C558 /* PoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350851E90C71F0008C558 /* PoolViewModel.swift */; };
 		488350881E90C7670008C558 /* StandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350871E90C7670008C558 /* StandingViewModel.swift */; };
+		4883508A1E9180240008C558 /* BracketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488350891E9180240008C558 /* BracketViewModel.swift */; };
+		4883508C1E91812F0008C558 /* StageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4883508B1E91812F0008C558 /* StageViewModel.swift */; };
 		48B783C61DE20DDB00A7F796 /* SegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B783C51DE20DDB00A7F796 /* SegmentView.swift */; };
 		48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */; };
 		5F989BFFF2808B4231D32CC9 /* Pods_ScoreReporterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BEC2FEC3D8D29EA15E02B8F /* Pods_ScoreReporterCore.framework */; };
@@ -200,6 +202,8 @@
 		4883507F1E8ED4D60008C558 /* SearchPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPresentable.swift; sourceTree = "<group>"; };
 		488350851E90C71F0008C558 /* PoolViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoolViewModel.swift; sourceTree = "<group>"; };
 		488350871E90C7670008C558 /* StandingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandingViewModel.swift; sourceTree = "<group>"; };
+		488350891E9180240008C558 /* BracketViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BracketViewModel.swift; sourceTree = "<group>"; };
+		4883508B1E91812F0008C558 /* StageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageViewModel.swift; sourceTree = "<group>"; };
 		48B783C51DE20DDB00A7F796 /* SegmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentView.swift; sourceTree = "<group>"; };
 		48E9F0B51DE154BC00F8197B /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsyncOperation.swift; path = Services/AsyncOperation.swift; sourceTree = "<group>"; };
 		E234148B37990DB186AB163A /* Pods-ScoreReporterCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScoreReporterCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ScoreReporterCore/Pods-ScoreReporterCore.debug.xcconfig"; sourceTree = "<group>"; };
@@ -417,10 +421,12 @@
 			children = (
 				488350751E8E22DF0008C558 /* EventViewModel.swift */,
 				487877021DDCD909008789A0 /* GroupViewModel.swift */,
-				487877011DDCD909008789A0 /* GameViewModel.swift */,
-				480486AD1E30836B0081609A /* TeamViewModel.swift */,
 				488350851E90C71F0008C558 /* PoolViewModel.swift */,
 				488350871E90C7670008C558 /* StandingViewModel.swift */,
+				488350891E9180240008C558 /* BracketViewModel.swift */,
+				4883508B1E91812F0008C558 /* StageViewModel.swift */,
+				487877011DDCD909008789A0 /* GameViewModel.swift */,
+				480486AD1E30836B0081609A /* TeamViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -578,12 +584,14 @@
 				487876E21DDC064A008789A0 /* SearchDataSource.swift in Sources */,
 				487876C51DDBFAF6008789A0 /* Team+CoreDataProperties.swift in Sources */,
 				487876B41DDBFAF6008789A0 /* CoreDataStack.swift in Sources */,
+				4883508A1E9180240008C558 /* BracketViewModel.swift in Sources */,
 				487876D21DDBFBCA008789A0 /* TableViewCellSeparatorView.swift in Sources */,
 				4836ED651E8B4F180035ABA6 /* GameUpdate.swift in Sources */,
 				4878764D1DDBF823008789A0 /* FetchedChangable.swift in Sources */,
 				484FF0711E2302F90002F458 /* VisualEffectButton.swift in Sources */,
 				487876C41DDBFAF6008789A0 /* Team.swift in Sources */,
 				487876B91DDBFAF6008789A0 /* Group.swift in Sources */,
+				4883508C1E91812F0008C558 /* StageViewModel.swift in Sources */,
 				487876101DDBF79C008789A0 /* TeamService.swift in Sources */,
 				4836ED671E8B61290035ABA6 /* StaticBackgroundView.swift in Sources */,
 				487876621DDBF88A008789A0 /* KVOController+Extensions.swift in Sources */,

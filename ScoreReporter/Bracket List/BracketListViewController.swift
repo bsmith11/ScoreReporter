@@ -97,10 +97,12 @@ extension BracketListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let viewModel = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueCell(for: indexPath) as StageCell
-        let stage = dataSource.item(at: indexPath)
-
-        cell.configure(with: stage?.name)
+        cell.configure(with: viewModel.name)
         cell.separatorHidden = indexPath.item == 0
 
         return cell
@@ -111,11 +113,11 @@ extension BracketListViewController: UITableViewDataSource {
 
 extension BracketListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let stage = dataSource.item(at: indexPath) else {
+        guard let viewModel = dataSource.item(at: indexPath) else {
             return
         }
         
-        let gameListDataSource = GameListDataSource(stage: stage)
+        let gameListDataSource = GameListDataSource(viewModel: viewModel)
         let gameListViewController = GameListViewController(dataSource: gameListDataSource)
         navigationController?.pushViewController(gameListViewController, animated: true)
     }

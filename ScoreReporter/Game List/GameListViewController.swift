@@ -46,8 +46,8 @@ class GameListViewController: UIViewController {
 
         configureObservers()
 
-        dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+        dataSource.reloadBlock = { [weak self] _ in
+            self?.tableView.reloadData()
         }
     }
     
@@ -96,13 +96,13 @@ extension GameListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let game = dataSource.item(at: indexPath)
-        let gameViewModel = GameViewModel(game: game)
-
+        guard let viewModel = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueCell(for: indexPath) as GameCell
-        cell.configure(with: gameViewModel)
+        cell.configure(with: viewModel)
         cell.separatorHidden = indexPath.item == 0
-
         return cell
     }
 }
@@ -111,33 +111,32 @@ extension GameListViewController: UITableViewDataSource {
 
 extension GameListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard let game = dataSource.item(at: indexPath) else {
-            return
-        }
-        
-        let gameDetailsViewModel = GameDetailsViewModel(game: game)
-        let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
-        
-        DispatchQueue.main.async {
-            self.present(gameDetailsViewController, animated: true, completion: nil)
-        }
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        
+//        guard let game = dataSource.item(at: indexPath) else {
+//            return
+//        }
+//        
+//        let gameDetailsViewModel = GameDetailsViewModel(game: game)
+//        let gameDetailsViewController = GameDetailsViewController(viewModel: gameDetailsViewModel)
+//        
+//        DispatchQueue.main.async {
+//            self.present(gameDetailsViewController, animated: true, completion: nil)
+//        }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.title(for: section) else {
+        guard let title = dataSource.headerTitle(for: section) else {
             return nil
         }
         
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
-
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
+        guard let _ = dataSource.headerTitle(for: section) else {
             return 0.0001
         }
         

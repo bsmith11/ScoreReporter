@@ -11,31 +11,28 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class PoolSection: Section<Standing> {
+class PoolSection: Section<StandingViewModel> {
     let viewModel: PoolViewModel
 
     init(viewModel: PoolViewModel) {
         self.viewModel = viewModel
 
         let headerTitle = viewModel.name
-        let items = viewModel.standings.sorted(by: { (lhs, rhs) -> Bool in
-            let leftSortOrder = lhs.sortOrder?.intValue ?? 0
-            let rightSortOrder = rhs.sortOrder?.intValue ?? 0
-            
-            if leftSortOrder == rightSortOrder {
-                return lhs.seed?.intValue ?? 0 < rhs.seed?.intValue ?? 0
+        let items = viewModel.standings.flatMap { StandingViewModel(standing: $0) }.sorted { (lhs, rhs) -> Bool in
+            if lhs.sortOrder == rhs.sortOrder {
+                return lhs.seed < rhs.seed
             }
             else {
-                return leftSortOrder < rightSortOrder
+                return lhs.sortOrder < rhs.sortOrder
             }
-        })
+        }
         
         super.init(items: items, headerTitle: headerTitle)
     }
 }
 
 class PoolListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = Standing
+    typealias ModelType = StandingViewModel
     typealias SectionType = PoolSection
 
     fileprivate let fetchedResultsController: NSFetchedResultsController<Pool>

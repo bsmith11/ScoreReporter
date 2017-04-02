@@ -283,8 +283,8 @@
 		480D9B3F1DFBDC0700DF1536 /* Group Team Details */ = {
 			isa = PBXGroup;
 			children = (
-				480D9B401DFBDC1F00DF1536 /* GroupTeamDetailsDataSource.swift */,
 				489E007D1DFBDD62001268FA /* GroupTeamDetailsViewController.swift */,
+				480D9B401DFBDC1F00DF1536 /* GroupTeamDetailsDataSource.swift */,
 			);
 			path = "Group Team Details";
 			sourceTree = "<group>";
@@ -402,8 +402,8 @@
 		487BF3721D9856760082D6FC /* Game List */ = {
 			isa = PBXGroup;
 			children = (
-				487876D31DDBFFC4008789A0 /* GameListDataSource.swift */,
 				487BF3751D985A230082D6FC /* GameListViewController.swift */,
+				487876D31DDBFFC4008789A0 /* GameListDataSource.swift */,
 			);
 			path = "Game List";
 			sourceTree = "<group>";

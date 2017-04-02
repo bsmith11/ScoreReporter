@@ -88,9 +88,12 @@ extension PoolListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let standing = dataSource.item(at: indexPath)
+        guard let viewModel = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueCell(for: indexPath) as StandingCell
-        cell.configure(with: standing)
+        cell.configure(withViewModel: viewModel)
         cell.separatorHidden = indexPath.item == 0
 
         return cell
@@ -101,13 +104,12 @@ extension PoolListViewController: UITableViewDataSource {
 
 extension PoolListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let standing = dataSource.item(at: indexPath),
-              let group = standing.pool?.round?.group,
-              let teamName = standing.teamName else {
+        guard let viewModel = dataSource.item(at: indexPath),
+              let group = viewModel.pool.round?.group else {
             return
         }
         
-        let groupTeamDetailsDataSource = GroupTeamDetailsDataSource(group: group, teamName: teamName)
+        let groupTeamDetailsDataSource = GroupTeamDetailsDataSource(group: group, teamName: viewModel.teamName)
         let groupTeamDetailsViewController = GroupTeamDetailsViewController(dataSource: groupTeamDetailsDataSource)
         navigationController?.pushViewController(groupTeamDetailsViewController, animated: true)
     }
@@ -146,8 +148,8 @@ extension PoolListViewController: SectionHeaderViewDelegate {
             return
         }
 
-//        let gameListDataSource = GameListDataSource(pool: pool)
-//        let gameListViewController = GameListViewController(dataSource: gameListDataSource)
-//        navigationController?.pushViewController(gameListViewController, animated: true)
+        let gameListDataSource = GameListDataSource(viewModel: viewModel)
+        let gameListViewController = GameListViewController(dataSource: gameListDataSource)
+        navigationController?.pushViewController(gameListViewController, animated: true)
     }
 }
