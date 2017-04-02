@@ -11,10 +11,10 @@ import Foundation
 public struct StageViewModel {
     public let stageId: Int
     public let name: String
-    public let bracket: Bracket
-    public let games: Set<Game>
+    public let bracket: ManagedBracket
+    public let games: Set<ManagedGame>
     
-    public init?(stage: Stage) {
+    public init?(stage: ManagedStage) {
         guard let bracket = stage.bracket else {
             return nil
         }
@@ -22,6 +22,6 @@ public struct StageViewModel {
         self.stageId = stage.stageID.intValue
         self.name = stage.name ?? "No Name"
         self.bracket = bracket
-        self.games = stage.games as? Set<Game> ?? []
+        self.games = stage.games as? Set<ManagedGame> ?? []
     }
 }

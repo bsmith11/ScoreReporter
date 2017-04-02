@@ -15,7 +15,7 @@ class EventListDataSource: NSObject, SectionedDataSource {
     typealias ModelType = EventViewModel
     typealias SectionType = Section<EventViewModel>
 
-    fileprivate let fetchedResultsController = Event.fetchedBookmarkedEvents()
+    fileprivate let fetchedResultsController = ManagedEvent.fetchedBookmarkedEvents()
 
     fileprivate(set) var sections = [Section<EventViewModel>]()
     

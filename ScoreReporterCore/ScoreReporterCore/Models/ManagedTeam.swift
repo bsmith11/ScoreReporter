@@ -1,5 +1,5 @@
 //
-//  Team.swift
+//  ManagedTeam.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/6/16.
@@ -11,51 +11,51 @@ import CoreData
 
 public typealias ImportCompletion = (NSError?) -> Void
 
-public class Team: NSManagedObject {
+public class ManagedTeam: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension Team {
+public extension ManagedTeam {
     static func teams(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Team.objects(from: array, context: context)
+            ManagedTeam.objects(from: array, context: context)
         }
 
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
 
-    static func fetchedBookmarkedTeams() -> NSFetchedResultsController<Team> {
-        let predicate = NSPredicate(format: "%K == YES", #keyPath(Team.bookmarked))
+    static func fetchedBookmarkedTeams() -> NSFetchedResultsController<ManagedTeam> {
+        let predicate = NSPredicate(format: "%K == YES", #keyPath(ManagedTeam.bookmarked))
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedTeam.name), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedTeams() -> NSFetchedResultsController<Team> {
-        let predicate = NSPredicate(format: "%K != %@", #keyPath(Team.state), "")
+    static func fetchedTeams() -> NSFetchedResultsController<ManagedTeam> {
+        let predicate = NSPredicate(format: "%K != %@", #keyPath(ManagedTeam.state), "")
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Team.state), ascending: true),
-            NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedTeam.state), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedTeam.name), ascending: true)
         ]
 
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Team.state))
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedTeam.state))
     }
 
-    public static var searchFetchedResultsController: NSFetchedResultsController<Team> {
-        let predicate = NSPredicate(format: "%K != nil", #keyPath(Team.state))
+    public static var searchFetchedResultsController: NSFetchedResultsController<ManagedTeam> {
+        let predicate = NSPredicate(format: "%K != nil", #keyPath(ManagedTeam.state))
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Team.state), ascending: true),
-            NSSortDescriptor(key: #keyPath(Team.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedTeam.state), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedTeam.name), ascending: true)
         ]
 
-        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Team.state))
+        return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedTeam.state))
     }
 
     static func stateName(fromAbbreviation abbreviation: String?) -> String? {
@@ -137,16 +137,16 @@ public extension Team {
 
 // MARK: - Fetchable
 
-extension Team: Fetchable {
+extension ManagedTeam: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Team.teamID)
+        return #keyPath(ManagedTeam.teamID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Team: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Team? {
+extension ManagedTeam: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedTeam? {
         guard let teamID = dictionary[APIConstants.Response.Keys.teamID] as? NSNumber else {
             return nil
         }
@@ -160,7 +160,7 @@ extension Team: CoreDataImportable {
         team.logoPath = dictionary <~ APIConstants.Response.Keys.teamLogo
         team.city = dictionary <~ APIConstants.Response.Keys.city
         team.state = dictionary <~ APIConstants.Response.Keys.state
-        team.stateFull = Team.stateName(fromAbbreviation: team.state) ?? team.state
+        team.stateFull = ManagedTeam.stateName(fromAbbreviation: team.state) ?? team.state
         team.school = dictionary <~ APIConstants.Response.Keys.schoolName
         team.division = dictionary <~ APIConstants.Response.Keys.divisionName
         team.competitionLevel = dictionary <~ APIConstants.Response.Keys.competitionLevel
@@ -189,7 +189,7 @@ func <~ (lhs: [String: Any], rhs: String) -> String? {
 
 // MARK: - Searchable
 
-extension Team: Searchable {
+extension ManagedTeam: Searchable {
     public static var searchBarPlaceholder: String? {
         return "Find teams"
     }
@@ -203,15 +203,15 @@ extension Team: Searchable {
     }
 
     public static func predicate(with searchText: String?) -> NSPredicate? {
-        let statePredicate = NSPredicate(format: "%K != nil", #keyPath(Team.state))
+        let statePredicate = NSPredicate(format: "%K != nil", #keyPath(ManagedTeam.state))
 
         guard let searchText = searchText, !searchText.isEmpty else {
             return statePredicate
         }
 
         let orPredicates = [
-            NSPredicate(format: "%K contains[cd] %@", #keyPath(Team.name), searchText),
-            NSPredicate(format: "%K contains[cd] %@", #keyPath(Team.school), searchText)
+            NSPredicate(format: "%K contains[cd] %@", #keyPath(ManagedTeam.name), searchText),
+            NSPredicate(format: "%K contains[cd] %@", #keyPath(ManagedTeam.school), searchText)
         ]
 
         let predicates = [

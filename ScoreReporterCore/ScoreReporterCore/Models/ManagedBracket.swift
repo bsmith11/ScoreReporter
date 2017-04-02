@@ -1,5 +1,5 @@
 //
-//  Bracket.swift
+//  ManagedBracket.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,19 +9,19 @@
 import Foundation
 import CoreData
 
-public class Bracket: NSManagedObject {
+public class ManagedBracket: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension Bracket {
-    static func fetchedBracketsForGroup(withId groupId: Int) -> NSFetchedResultsController<Bracket> {
+public extension ManagedBracket {
+    static func fetchedBracketsForGroup(withId groupId: Int) -> NSFetchedResultsController<ManagedBracket> {
         let primaryKey = NSNumber(integerLiteral: groupId)
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Bracket.round.group.groupID), primaryKey)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedBracket.round.group.groupID), primaryKey)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Bracket.bracketID), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedBracket.bracketID), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -30,16 +30,16 @@ public extension Bracket {
 
 // MARK: - Fetchable
 
-extension Bracket: Fetchable {
+extension ManagedBracket: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Bracket.bracketID)
+        return #keyPath(ManagedBracket.bracketID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Bracket: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Bracket? {
+extension ManagedBracket: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedBracket? {
         guard let bracketID = dictionary[APIConstants.Response.Keys.bracketID] as? NSNumber else {
             return nil
         }
@@ -52,7 +52,7 @@ extension Bracket: CoreDataImportable {
         bracket.name = dictionary <~ APIConstants.Response.Keys.bracketName
 
         let stages = dictionary[APIConstants.Response.Keys.stage] as? [[String: AnyObject]] ?? []
-        bracket.stages = NSSet(array: Stage.objects(from: stages, context: context))
+        bracket.stages = NSSet(array: ManagedStage.objects(from: stages, context: context))
 
         if !bracket.hasPersistentChangedValues {
             context.refresh(bracket, mergeChanges: false)

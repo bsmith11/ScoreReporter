@@ -1,5 +1,5 @@
 //
-//  Round+CoreDataProperties.swift
+//  ManagedRound+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,12 +9,12 @@
 import Foundation
 import CoreData
 
-public extension Round {
+public extension ManagedRound {
 
     @NSManaged var roundID: NSNumber
     @NSManaged var brackets: NSSet
     @NSManaged var clusters: NSSet
-    @NSManaged var group: Group?
+    @NSManaged var group: ManagedGroup?
     @NSManaged var pools: NSSet
 
 }

@@ -14,7 +14,7 @@ import ScoreReporterCore
 class EventListViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: EventListDataSource
     fileprivate let dataController: EventListDataController
-    fileprivate let searchViewController: SearchViewController<Event>
+    fileprivate let searchViewController: SearchViewController<ManagedEvent>
     
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
@@ -32,7 +32,7 @@ class EventListViewController: UIViewController, MessageDisplayable {
         self.dataSource = dataSource
         self.dataController = EventListDataController(dataSource: dataSource)
 
-        let searchDataSource = SearchDataSource(fetchedResultsController: Event.searchFetchedResultsController)
+        let searchDataSource = SearchDataSource(fetchedResultsController: ManagedEvent.searchFetchedResultsController)
         searchViewController = SearchViewController(dataSource: searchDataSource)
 
         super.init(nibName: nil, bundle: nil)
@@ -175,7 +175,7 @@ extension EventListViewController: UITableViewDelegate {
 
 extension EventListViewController: SearchViewControllerDelegate {
     func didSelect(item: Searchable) {
-        guard let event = item as? Event else {
+        guard let event = item as? ManagedEvent else {
             return
         }
 

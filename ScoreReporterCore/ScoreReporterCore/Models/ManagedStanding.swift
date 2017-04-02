@@ -1,5 +1,5 @@
 //
-//  Standing.swift
+//  ManagedStanding.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,18 +9,18 @@
 import Foundation
 import CoreData
 
-public class Standing: NSManagedObject {
+public class ManagedStanding: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension Standing {
-    static func fetchedStandingsFor(pool: Pool) -> NSFetchedResultsController<Standing> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Standing.pool), pool)
+public extension ManagedStanding {
+    static func fetchedStandingsFor(pool: ManagedPool) -> NSFetchedResultsController<ManagedStanding> {
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedStanding.pool), pool)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Standing.sortOrder), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedStanding.sortOrder), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -29,7 +29,7 @@ public extension Standing {
 
 // MARK: - Fetchable
 
-extension Standing: Fetchable {
+extension ManagedStanding: Fetchable {
     public static var primaryKey: String {
         return ""
     }
@@ -37,8 +37,8 @@ extension Standing: Fetchable {
 
 // MARK: - CoreDataImportable
 
-extension Standing: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Standing? {
+extension ManagedStanding: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedStanding? {
         guard let standing = createObject(in: context) else {
             return nil
         }

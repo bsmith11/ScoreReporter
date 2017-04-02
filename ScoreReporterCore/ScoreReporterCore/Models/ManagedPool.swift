@@ -1,5 +1,5 @@
 //
-//  Pool.swift
+//  ManagedPool.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,29 +9,29 @@
 import Foundation
 import CoreData
 
-public class Pool: NSManagedObject {
+public class ManagedPool: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension Pool {
-    static func fetchedPoolsFor(round: Round) -> NSFetchedResultsController<Pool> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round), round)
+public extension ManagedPool {
+    static func fetchedPoolsFor(round: ManagedRound) -> NSFetchedResultsController<ManagedPool> {
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedPool.round), round)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedPool.poolID), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedPoolsForGroup(withId groupId: Int) -> NSFetchedResultsController<Pool> {
+    static func fetchedPoolsForGroup(withId groupId: Int) -> NSFetchedResultsController<ManagedPool> {
         let primaryKey = NSNumber(integerLiteral: groupId)
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Pool.round.group.groupID), primaryKey)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedPool.round.group.groupID), primaryKey)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Pool.poolID), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedPool.poolID), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -40,16 +40,16 @@ public extension Pool {
 
 // MARK: - Fetchable
 
-extension Pool: Fetchable {
+extension ManagedPool: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Pool.poolID)
+        return #keyPath(ManagedPool.poolID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Pool: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Pool? {
+extension ManagedPool: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedPool? {
         guard let poolID = dictionary[APIConstants.Response.Keys.poolID] as? NSNumber else {
             return nil
         }
@@ -62,7 +62,7 @@ extension Pool: CoreDataImportable {
         pool.name = dictionary <~ APIConstants.Response.Keys.name
 
         let games = dictionary[APIConstants.Response.Keys.games] as? [[String: AnyObject]] ?? []
-        let gamesArray = Game.objects(from: games, context: context)
+        let gamesArray = ManagedGame.objects(from: games, context: context)
 
         for (index, game) in gamesArray.enumerated() {
             game.sortOrder = index as NSNumber
@@ -71,7 +71,7 @@ extension Pool: CoreDataImportable {
         pool.games = NSSet(array: gamesArray)
 
         let standings = dictionary[APIConstants.Response.Keys.standings] as? [[String: AnyObject]] ?? []
-        pool.standings = NSSet(array: Standing.objects(from: standings, context: context))
+        pool.standings = NSSet(array: ManagedStanding.objects(from: standings, context: context))
 
         if !pool.hasPersistentChangedValues {
             context.refresh(pool, mergeChanges: false)

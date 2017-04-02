@@ -1,5 +1,5 @@
 //
-//  User+CoreDataProperties.swift
+//  ManagedUser+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/6/16.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public extension User {
+public extension ManagedUser {
 
     @NSManaged var accountID: NSNumber
     @NSManaged var userID: NSNumber

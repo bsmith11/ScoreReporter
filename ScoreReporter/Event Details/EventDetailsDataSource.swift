@@ -29,7 +29,7 @@ class EventDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = EventDetailsInfo
     typealias SectionType = Section<EventDetailsInfo>
     
-    fileprivate let activeGamesFRC: NSFetchedResultsController<Game>
+    fileprivate let activeGamesFRC: NSFetchedResultsController<ManagedGame>
 
     fileprivate(set) var sections = [Section<EventDetailsInfo>]()
 
@@ -40,7 +40,7 @@ class EventDetailsDataSource: NSObject, SectionedDataSource {
     init(viewModel: EventViewModel) {
         self.viewModel = viewModel
 
-        activeGamesFRC = Game.fetchedActiveGames(forEventID: viewModel.eventID)
+        activeGamesFRC = ManagedGame.fetchedActiveGames(forEventID: viewModel.eventID)
         
         super.init()
         

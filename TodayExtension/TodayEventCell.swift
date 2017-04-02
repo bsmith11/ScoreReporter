@@ -38,7 +38,7 @@ public class TodayEventCell: TableViewCell {
 // MARK: - Public
 
 public extension TodayEventCell {
-    func configure(with event: Event?) {
+    func configure(with event: ManagedEvent?) {
         let monthDateFormatter = DateFormatter()
         monthDateFormatter.dateFormat = "MMM"
         

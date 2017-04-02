@@ -21,7 +21,7 @@ public struct EventViewModel {
     public let bookmarked: Bool
     public let groups: Set<GroupViewModel>
     
-    public init(event: Event) {
+    public init(event: ManagedEvent) {
         self.eventID = event.eventID.intValue
         self.name = event.name
         self.city = event.city ?? "No City"
@@ -36,7 +36,7 @@ public struct EventViewModel {
         
         self.bookmarked = event.bookmarked.boolValue
         
-        let groups = event.groups as? Set<Group> ?? []
+        let groups = event.groups as? Set<ManagedGroup> ?? []
         self.groups = Set(groups.map { GroupViewModel(group: $0) })
     }
 }
@@ -92,7 +92,7 @@ extension EventViewModel: Searchable {
             return nil
         }
         
-        return NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
+        return NSPredicate(format: "%K contains[cd] %@", #keyPath(ManagedEvent.name), searchText)
     }
     
     public var searchSectionTitle: String? {

@@ -1,5 +1,5 @@
 //
-//  Stage+CoreDataProperties.swift
+//  ManagedPool+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,11 +9,12 @@
 import Foundation
 import CoreData
 
-public extension Stage {
+public extension ManagedPool {
 
     @NSManaged var name: String?
-    @NSManaged var stageID: NSNumber
-    @NSManaged var bracket: Bracket?
+    @NSManaged var poolID: NSNumber
     @NSManaged var games: NSSet
+    @NSManaged var round: ManagedRound?
+    @NSManaged var standings: NSSet
 
 }

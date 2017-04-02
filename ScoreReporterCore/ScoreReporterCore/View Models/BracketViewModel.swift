@@ -12,10 +12,10 @@ public struct BracketViewModel {
     public let bracketId: Int
     public let name: String
     public let sortOrder: Int
-    public let round: Round
-    public let stages: Set<Stage>
+    public let round: ManagedRound
+    public let stages: Set<ManagedStage>
     
-    public init?(bracket: Bracket) {
+    public init?(bracket: ManagedBracket) {
         guard let round = bracket.round else {
             return nil
         }
@@ -24,6 +24,6 @@ public struct BracketViewModel {
         self.name = bracket.name ?? "No Name"
         self.sortOrder = bracket.sortOrder?.intValue ?? 0
         self.round = round
-        self.stages = bracket.stages as? Set<Stage> ?? []
+        self.stages = bracket.stages as? Set<ManagedStage> ?? []
     }
 }

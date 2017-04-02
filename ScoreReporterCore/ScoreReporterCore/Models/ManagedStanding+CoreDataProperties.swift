@@ -1,5 +1,5 @@
 //
-//  Standing+CoreDataProperties.swift
+//  ManagedStanding+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,13 +9,13 @@
 import Foundation
 import CoreData
 
-public extension Standing {
+public extension ManagedStanding {
 
     @NSManaged var losses: NSNumber?
     @NSManaged var seed: NSNumber?
     @NSManaged var sortOrder: NSNumber?
     @NSManaged var teamName: String?
     @NSManaged var wins: NSNumber?
-    @NSManaged var pool: Pool?
+    @NSManaged var pool: ManagedPool?
 
 }

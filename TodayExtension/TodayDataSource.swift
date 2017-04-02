@@ -12,19 +12,19 @@ import ScoreReporterCore
 import DataSource
 
 enum TodayItem {
-    case game(Game)
-    case event(Event)
+    case game(ManagedGame)
+    case event(ManagedEvent)
 }
 
 class TodayGameSection: Section<TodayItem> {
-    let team: Team
-    let event: Event
-    let games: [Game]
+    let team: ManagedTeam
+    let event: ManagedEvent
+    let games: [ManagedGame]
 
     fileprivate(set) var title: String?
 
-    init?(team: Team) {
-        let currentGames = Game.gamesToday(for: team)
+    init?(team: ManagedTeam) {
+        let currentGames = ManagedGame.gamesToday(for: team)
 
         guard let event = currentGames.first?.group?.event else {
             return nil
@@ -41,11 +41,11 @@ class TodayGameSection: Section<TodayItem> {
 }
 
 class TodayEventSection: Section<TodayItem> {
-    let team: Team
-    let events: [Event]
+    let team: ManagedTeam
+    let events: [ManagedEvent]
 
-    init?(team: Team) {
-        guard let events = Event.fetchedUpcomingEventsFor(team: team).fetchedObjects, !events.isEmpty else {
+    init?(team: ManagedTeam) {
+        guard let events = ManagedEvent.fetchedUpcomingEventsFor(team: team).fetchedObjects, !events.isEmpty else {
             return nil
         }
 
@@ -66,7 +66,7 @@ class TodayDataSource: NSObject, SectionedDataSource {
     fileprivate(set) var sections = [TodayEventSection]()
 
     fileprivate(set) var empty = false
-    fileprivate(set) var teams = [Team]()
+    fileprivate(set) var teams = [ManagedTeam]()
     
     var reloadBlock: ReloadBlock?
 
@@ -81,7 +81,7 @@ class TodayDataSource: NSObject, SectionedDataSource {
 
 private extension TodayDataSource {
     func configureSections() {
-        teams = Team.fetchedBookmarkedTeams().fetchedObjects ?? []
+        teams = ManagedTeam.fetchedBookmarkedTeams().fetchedObjects ?? []
 
         sections = teams.map { TodayEventSection(team: $0) }.flatMap { $0 }
         empty = sections.isEmpty

@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  ManagedUser.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/6/16.
@@ -9,24 +9,24 @@
 import Foundation
 import CoreData
 
-public class User: NSManagedObject {
+public class ManagedUser: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension User {
-    static var currentUser: User? {
+public extension ManagedUser {
+    static var currentUser: ManagedUser? {
         guard let userIDString = Keychain.load(.userID),
               let userID = Int(userIDString) else {
             return nil
         }
 
-        return object(primaryKey: NSNumber(value: userID), context: User.coreDataStack.mainContext)
+        return object(primaryKey: NSNumber(value: userID), context: ManagedUser.coreDataStack.mainContext)
     }
     
     static func deleteAll() {
-        let fetchRequest = NSFetchRequest<User>(entityName: entityName)
+        let fetchRequest = NSFetchRequest<ManagedUser>(entityName: entityName)
         
         do {
             let context = coreDataStack.mainContext
@@ -45,16 +45,16 @@ public extension User {
         }
     }
 
-    static func user(from dictionary: [String: Any], completion: ((User?) -> Void)?) {
+    static func user(from dictionary: [String: Any], completion: ((ManagedUser?) -> Void)?) {
         var userID: NSNumber?
 
         let block = { (context: NSManagedObjectContext) -> Void in
-            userID = User.object(from: dictionary, context: context)?.userID
+            userID = ManagedUser.object(from: dictionary, context: context)?.userID
         }
 
         coreDataStack.performBlockUsingBackgroundContext(block) { _ in
             if let userID = userID {
-                let user = User.object(primaryKey: userID, context: User.coreDataStack.mainContext)
+                let user = ManagedUser.object(primaryKey: userID, context: ManagedUser.coreDataStack.mainContext)
                 completion?(user)
             }
             else {
@@ -66,16 +66,16 @@ public extension User {
 
 // MARK: - Fetchable
 
-extension User: Fetchable {
+extension ManagedUser: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(User.userID)
+        return #keyPath(ManagedUser.userID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension User: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> User? {
+extension ManagedUser: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedUser? {
         guard let userID = dictionary[APIConstants.Response.Keys.memberID] as? NSNumber,
               let accountID = dictionary[APIConstants.Response.Keys.accountID] as? NSNumber else {
             return nil

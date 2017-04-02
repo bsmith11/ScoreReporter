@@ -28,7 +28,7 @@ class SettingsHeaderView: UIView, Sizable {
 // MARK: - Public
 
 extension SettingsHeaderView {
-    func configure(with user: User) {
+    func configure(with user: ManagedUser) {
         titleLabel.text = "USAU ID: \(user.accountID.intValue)"
     }
 }

@@ -12,26 +12,26 @@ import ScoreReporterCore
 import DataSource
 
 enum TeamDetailsInfo {
-    case event(Event)
-    case game(Game)
+    case event(ManagedEvent)
+    case game(ManagedGame)
 }
 
 class TeamDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = TeamDetailsInfo
     typealias SectionType = Section<ModelType>
     
-    fileprivate let gamesFetchedResultsController: NSFetchedResultsController<Game>
+    fileprivate let gamesFetchedResultsController: NSFetchedResultsController<ManagedGame>
 
     fileprivate(set) var sections = [Section<ModelType>]()
 
-    let team: Team
+    let team: ManagedTeam
 
     var reloadBlock: ReloadBlock?
 
-    init(team: Team) {
+    init(team: ManagedTeam) {
         self.team = team
 
-        gamesFetchedResultsController = Game.fetchedGamesFor(team: team)
+        gamesFetchedResultsController = ManagedGame.fetchedGamesFor(team: team)
 
         super.init()
 
@@ -60,7 +60,7 @@ private extension TeamDetailsDataSource {
     func configureSections() {
         sections.removeAll()
 
-        if let groups = team.groups as? Set<Group> {
+        if let groups = team.groups as? Set<ManagedGroup> {
             let events = groups.flatMap { $0.event }.sorted(by: { $0.0.name < $0.1.name })
             let eventItems = events.map { TeamDetailsInfo.event($0) }
 

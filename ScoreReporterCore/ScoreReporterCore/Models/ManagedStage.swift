@@ -1,5 +1,5 @@
 //
-//  Stage.swift
+//  ManagedStage.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,22 +9,22 @@
 import Foundation
 import CoreData
 
-public class Stage: NSManagedObject {
+public class ManagedStage: NSManagedObject {
 
 }
 
 // MARK: - Fetchable
 
-extension Stage: Fetchable {
+extension ManagedStage: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Stage.stageID)
+        return #keyPath(ManagedStage.stageID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Stage: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Stage? {
+extension ManagedStage: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedStage? {
         guard let stageID = dictionary[APIConstants.Response.Keys.stageID] as? NSNumber else {
             return nil
         }
@@ -37,7 +37,7 @@ extension Stage: CoreDataImportable {
         stage.name = dictionary <~ APIConstants.Response.Keys.stageName
 
         let games = dictionary[APIConstants.Response.Keys.games] as? [[String: AnyObject]] ?? []
-        let gamesArray = Game.objects(from: games, context: context)
+        let gamesArray = ManagedGame.objects(from: games, context: context)
 
         for (index, game) in gamesArray.enumerated() {
             game.sortOrder = index as NSNumber

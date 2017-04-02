@@ -23,7 +23,7 @@ class GameListDataSource: NSObject, SectionedDataSource {
     typealias SectionType = GameSection
 
     fileprivate(set) var sections = [GameSection]()
-    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Game>
+    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<ManagedGame>
 
     let title: String?
 
@@ -33,16 +33,16 @@ class GameListDataSource: NSObject, SectionedDataSource {
     
     init(viewModel: PoolViewModel) {
         title = viewModel.name
-        fetchedResultsController = Game.fetchedGamesForPool(withId: viewModel.poolID)
+        fetchedResultsController = ManagedGame.fetchedGamesForPool(withId: viewModel.poolID)
 
         super.init()
         
         commonInit()
     }
 
-    init(clusters: [Cluster]) {
+    init(clusters: [ManagedCluster]) {
         title = "Crossovers"
-        fetchedResultsController = Game.fetchedGamesFor(clusters: clusters)
+        fetchedResultsController = ManagedGame.fetchedGamesFor(clusters: clusters)
 
         super.init()
 
@@ -51,7 +51,7 @@ class GameListDataSource: NSObject, SectionedDataSource {
     
     init(viewModel: StageViewModel) {
         title = viewModel.name
-        fetchedResultsController = Game.fetchedGamesForStage(withId: viewModel.stageId)
+        fetchedResultsController = ManagedGame.fetchedGamesForStage(withId: viewModel.stageId)
                 
         super.init()
         
@@ -75,7 +75,7 @@ private extension GameListDataSource {
         sections.removeAll()
         
         if let fetchedSections = fetchedResultsController.sections {
-            let viewModelsList = fetchedSections.flatMap { $0.objects as? [Game] }.map { $0.map { GameViewModel(game: $0) } }
+            let viewModelsList = fetchedSections.flatMap { $0.objects as? [ManagedGame] }.map { $0.map { GameViewModel(game: $0) } }
             let gameSections = viewModelsList.map { GameSection(viewModels: $0) }
             sections.append(contentsOf: gameSections)
         }

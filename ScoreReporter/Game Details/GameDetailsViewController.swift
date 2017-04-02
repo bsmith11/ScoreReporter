@@ -118,7 +118,7 @@ private extension GameDetailsViewController {
     }
     
     @objc func updateButtonTapped() {
-        if let _ = User.currentUser {
+        if let _ = ManagedUser.currentUser {
             presentUpdateAlert()
         }
         else {

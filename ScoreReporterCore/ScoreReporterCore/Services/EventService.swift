@@ -61,7 +61,7 @@ private extension EventService {
             return
         }
 
-        Event.events(from: eventArray) { error in
+        ManagedEvent.events(from: eventArray) { error in
             completion?(ServiceResult(error: error))
         }
     }
@@ -83,7 +83,7 @@ private extension EventService {
             return
         }
 
-        Group.groups(from: groupArray) { error in
+        ManagedGroup.groups(from: groupArray) { error in
             completion?(ServiceResult(error: error))
         }
     }

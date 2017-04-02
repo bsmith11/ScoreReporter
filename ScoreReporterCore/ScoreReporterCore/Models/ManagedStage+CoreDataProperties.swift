@@ -1,5 +1,5 @@
 //
-//  Cluster+CoreDataProperties.swift
+//  ManagedStage+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
-public extension Cluster {
+public extension ManagedStage {
 
-    @NSManaged var clusterID: NSNumber
     @NSManaged var name: String?
+    @NSManaged var stageID: NSNumber
+    @NSManaged var bracket: ManagedBracket?
     @NSManaged var games: NSSet
-    @NSManaged var round: Round?
 
 }

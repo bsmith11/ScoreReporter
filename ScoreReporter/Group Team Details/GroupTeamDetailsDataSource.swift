@@ -12,27 +12,27 @@ import ScoreReporterCore
 import DataSource
 
 class GroupTeamDetailsDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = Game
+    typealias ModelType = ManagedGame
     typealias SectionType = Section<ModelType>
     
-    fileprivate let poolFetchedResultsController: NSFetchedResultsController<Game>
-    fileprivate let crossoverFetchedResultsController: NSFetchedResultsController<Game>
-    fileprivate let bracketFetchedResultsController: NSFetchedResultsController<Game>
+    fileprivate let poolFetchedResultsController: NSFetchedResultsController<ManagedGame>
+    fileprivate let crossoverFetchedResultsController: NSFetchedResultsController<ManagedGame>
+    fileprivate let bracketFetchedResultsController: NSFetchedResultsController<ManagedGame>
     
     fileprivate(set) var sections = [Section<ModelType>]()
     
-    let group: Group
+    let group: ManagedGroup
     let teamName: String
     
     var reloadBlock: ReloadBlock?
     
-    init(group: Group, teamName: String) {
+    init(group: ManagedGroup, teamName: String) {
         self.group = group
         self.teamName = teamName
         
-        poolFetchedResultsController = Game.fetchedPoolGamesFor(group: group, teamName: teamName)
-        crossoverFetchedResultsController = Game.fetchedCrossoverGamesFor(group: group, teamName: teamName)
-        bracketFetchedResultsController = Game.fetchedBracketGamesFor(group: group, teamName: teamName)
+        poolFetchedResultsController = ManagedGame.fetchedPoolGamesFor(group: group, teamName: teamName)
+        crossoverFetchedResultsController = ManagedGame.fetchedCrossoverGamesFor(group: group, teamName: teamName)
+        bracketFetchedResultsController = ManagedGame.fetchedBracketGamesFor(group: group, teamName: teamName)
         
         super.init()
         

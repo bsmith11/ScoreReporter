@@ -1,5 +1,5 @@
 //
-//  Pool+CoreDataProperties.swift
+//  ManagedCluster+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,12 +9,11 @@
 import Foundation
 import CoreData
 
-public extension Pool {
+public extension ManagedCluster {
 
+    @NSManaged var clusterID: NSNumber
     @NSManaged var name: String?
-    @NSManaged var poolID: NSNumber
     @NSManaged var games: NSSet
-    @NSManaged var round: Round?
-    @NSManaged var standings: NSSet
+    @NSManaged var round: ManagedRound?
 
 }

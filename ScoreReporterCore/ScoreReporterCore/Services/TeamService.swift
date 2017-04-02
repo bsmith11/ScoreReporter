@@ -30,7 +30,7 @@ public extension TeamService {
         }
     }
 
-    func getDetails(forTeam team: Team, completion: ServiceCompletion?) {
+    func getDetails(forTeam team: ManagedTeam, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teamDetails,
             APIConstants.Request.Keys.teamID: team.teamID.intValue
@@ -57,12 +57,12 @@ private extension TeamService {
             return
         }
 
-        Team.teams(from: teamArray) { error in
+        ManagedTeam.teams(from: teamArray) { error in
             completion?(ServiceResult(error: error))
         }
     }
 
-    func parseTeam(response: [String: Any], team: Team, completion: ServiceCompletion?) {
+    func parseTeam(response: [String: Any], team: ManagedTeam, completion: ServiceCompletion?) {
         guard let responseArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
             completion?(ServiceResult(error: error))
@@ -98,14 +98,14 @@ private extension TeamService {
         let eventDetailsOperations = eventIDs.map { EventDetailsOperation(eventID: $0) }
 
         let terminalOperation = BlockOperation {
-            Group.coreDataStack.performBlockUsingBackgroundContext({ context in
-                if let contextualTeam = context.object(with: team.objectID) as? Team {
-                    Game.objects(withPrimaryKeys: gameIDs, context: context).forEach { $0.add(team: contextualTeam) }
+            ManagedGroup.coreDataStack.performBlockUsingBackgroundContext({ context in
+                if let contextualTeam = context.object(with: team.objectID) as? ManagedTeam {
+                    ManagedGame.objects(withPrimaryKeys: gameIDs, context: context).forEach { $0.add(team: contextualTeam) }
                 }
                 
                 groupEventTuples.forEach { (groupID, eventID) in
-                    let group = Group.object(primaryKey: groupID, context: context)
-                    let event = Event.object(primaryKey: eventID, context: context)
+                    let group = ManagedGroup.object(primaryKey: groupID, context: context)
+                    let event = ManagedEvent.object(primaryKey: eventID, context: context)
 
                     group?.event = event
                 }
@@ -181,7 +181,7 @@ private extension TeamService {
 class EventImportOperation: AsyncOperation {
     convenience init(eventDictionary: [String: AnyObject]) {
         let block = { (completion: @escaping AsyncOperationCompletion) in
-            Event.events(from: [eventDictionary], completion: { _ in
+            ManagedEvent.events(from: [eventDictionary], completion: { _ in
                 print("Finished importing event")
                 completion()
             })

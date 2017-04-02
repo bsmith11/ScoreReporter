@@ -35,7 +35,7 @@ class PoolListDataSource: NSObject, SectionedDataSource {
     typealias ModelType = StandingViewModel
     typealias SectionType = PoolSection
 
-    fileprivate let fetchedResultsController: NSFetchedResultsController<Pool>
+    fileprivate let fetchedResultsController: NSFetchedResultsController<ManagedPool>
 
     fileprivate(set) var sections = [PoolSection]()
 
@@ -44,7 +44,7 @@ class PoolListDataSource: NSObject, SectionedDataSource {
     var reloadBlock: ReloadBlock?
 
     init(viewModel: GroupViewModel) {
-        fetchedResultsController = Pool.fetchedPoolsForGroup(withId: viewModel.groupID)
+        fetchedResultsController = ManagedPool.fetchedPoolsForGroup(withId: viewModel.groupID)
 
         super.init()
 

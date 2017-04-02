@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16D32" minimumToolsVersion="Xcode 7.0" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
-    <entity name="Bracket" representedClassName=".Bracket" syncable="YES">
+    <entity name="ManagedBracket" representedClassName=".ManagedBracket" syncable="YES">
         <attribute name="bracketID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sortOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="brackets" inverseEntity="Round" syncable="YES"/>
-        <relationship name="stages" toMany="YES" deletionRule="Cascade" destinationEntity="Stage" inverseName="bracket" inverseEntity="Stage" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedRound" inverseName="brackets" inverseEntity="ManagedRound" syncable="YES"/>
+        <relationship name="stages" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedStage" inverseName="bracket" inverseEntity="ManagedStage" syncable="YES"/>
     </entity>
-    <entity name="Cluster" representedClassName=".Cluster" syncable="YES">
+    <entity name="ManagedCluster" representedClassName=".ManagedCluster" syncable="YES">
         <attribute name="clusterID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="Game" inverseName="cluster" inverseEntity="Game" syncable="YES"/>
-        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="clusters" inverseEntity="Round" syncable="YES"/>
+        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedGame" inverseName="cluster" inverseEntity="ManagedGame" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedRound" inverseName="clusters" inverseEntity="ManagedRound" syncable="YES"/>
     </entity>
-    <entity name="Event" representedClassName=".Event" syncable="YES">
+    <entity name="ManagedEvent" representedClassName=".ManagedEvent" syncable="YES">
         <attribute name="bookmarked" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -24,9 +24,9 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="groups" toMany="YES" deletionRule="Cascade" destinationEntity="Group" inverseName="event" inverseEntity="Group" syncable="YES"/>
+        <relationship name="groups" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedGroup" inverseName="event" inverseEntity="ManagedGroup" syncable="YES"/>
     </entity>
-    <entity name="Game" representedClassName=".Game" syncable="YES">
+    <entity name="ManagedGame" representedClassName=".ManagedGame" syncable="YES">
         <attribute name="awayTeamName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="awayTeamScore" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="awayTeamSeed" optional="YES" attributeType="String" syncable="YES"/>
@@ -40,52 +40,52 @@
         <attribute name="startDateFull" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="awayTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="awayGames" inverseEntity="Team" syncable="YES"/>
-        <relationship name="cluster" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cluster" inverseName="games" inverseEntity="Cluster" syncable="YES"/>
-        <relationship name="homeTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="homeGames" inverseEntity="Team" syncable="YES"/>
-        <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pool" inverseName="games" inverseEntity="Pool" syncable="YES"/>
-        <relationship name="stage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stage" inverseName="games" inverseEntity="Stage" syncable="YES"/>
+        <relationship name="awayTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedTeam" inverseName="awayGames" inverseEntity="ManagedTeam" syncable="YES"/>
+        <relationship name="cluster" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedCluster" inverseName="games" inverseEntity="ManagedCluster" syncable="YES"/>
+        <relationship name="homeTeam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedTeam" inverseName="homeGames" inverseEntity="ManagedTeam" syncable="YES"/>
+        <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedPool" inverseName="games" inverseEntity="ManagedPool" syncable="YES"/>
+        <relationship name="stage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedStage" inverseName="games" inverseEntity="ManagedStage" syncable="YES"/>
     </entity>
-    <entity name="Group" representedClassName=".Group" syncable="YES">
+    <entity name="ManagedGroup" representedClassName=".ManagedGroup" syncable="YES">
         <attribute name="division" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="divisionName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="groupID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="teamCount" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="groups" inverseEntity="Event" syncable="YES"/>
-        <relationship name="rounds" toMany="YES" deletionRule="Cascade" destinationEntity="Round" inverseName="group" inverseEntity="Round" syncable="YES"/>
-        <relationship name="teams" toMany="YES" deletionRule="Nullify" destinationEntity="Team" inverseName="groups" inverseEntity="Team" syncable="YES"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedEvent" inverseName="groups" inverseEntity="ManagedEvent" syncable="YES"/>
+        <relationship name="rounds" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedRound" inverseName="group" inverseEntity="ManagedRound" syncable="YES"/>
+        <relationship name="teams" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedTeam" inverseName="groups" inverseEntity="ManagedTeam" syncable="YES"/>
     </entity>
-    <entity name="Pool" representedClassName=".Pool" syncable="YES">
+    <entity name="ManagedPool" representedClassName=".ManagedPool" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poolID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="Game" inverseName="pool" inverseEntity="Game" syncable="YES"/>
-        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="pools" inverseEntity="Round" syncable="YES"/>
-        <relationship name="standings" toMany="YES" deletionRule="Cascade" destinationEntity="Standing" inverseName="pool" inverseEntity="Standing" syncable="YES"/>
+        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedGame" inverseName="pool" inverseEntity="ManagedGame" syncable="YES"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedRound" inverseName="pools" inverseEntity="ManagedRound" syncable="YES"/>
+        <relationship name="standings" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedStanding" inverseName="pool" inverseEntity="ManagedStanding" syncable="YES"/>
     </entity>
-    <entity name="Round" representedClassName=".Round" syncable="YES">
+    <entity name="ManagedRound" representedClassName=".ManagedRound" syncable="YES">
         <attribute name="roundID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="brackets" toMany="YES" deletionRule="Cascade" destinationEntity="Bracket" inverseName="round" inverseEntity="Bracket" syncable="YES"/>
-        <relationship name="clusters" toMany="YES" deletionRule="Cascade" destinationEntity="Cluster" inverseName="round" inverseEntity="Cluster" syncable="YES"/>
-        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="rounds" inverseEntity="Group" syncable="YES"/>
-        <relationship name="pools" toMany="YES" deletionRule="Cascade" destinationEntity="Pool" inverseName="round" inverseEntity="Pool" syncable="YES"/>
+        <relationship name="brackets" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedBracket" inverseName="round" inverseEntity="ManagedBracket" syncable="YES"/>
+        <relationship name="clusters" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedCluster" inverseName="round" inverseEntity="ManagedCluster" syncable="YES"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedGroup" inverseName="rounds" inverseEntity="ManagedGroup" syncable="YES"/>
+        <relationship name="pools" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedPool" inverseName="round" inverseEntity="ManagedPool" syncable="YES"/>
     </entity>
-    <entity name="Stage" representedClassName=".Stage" syncable="YES">
+    <entity name="ManagedStage" representedClassName=".ManagedStage" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stageID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="bracket" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bracket" inverseName="stages" inverseEntity="Bracket" syncable="YES"/>
-        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="Game" inverseName="stage" inverseEntity="Game" syncable="YES"/>
+        <relationship name="bracket" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedBracket" inverseName="stages" inverseEntity="ManagedBracket" syncable="YES"/>
+        <relationship name="games" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedGame" inverseName="stage" inverseEntity="ManagedGame" syncable="YES"/>
     </entity>
-    <entity name="Standing" representedClassName=".Standing" syncable="YES">
+    <entity name="ManagedStanding" representedClassName=".ManagedStanding" syncable="YES">
         <attribute name="losses" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="seed" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="sortOrder" optional="YES" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="teamName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wins" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pool" inverseName="standings" inverseEntity="Pool" syncable="YES"/>
+        <relationship name="pool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedPool" inverseName="standings" inverseEntity="ManagedPool" syncable="YES"/>
     </entity>
-    <entity name="Team" representedClassName=".Team" syncable="YES">
+    <entity name="ManagedTeam" representedClassName=".ManagedTeam" syncable="YES">
         <attribute name="bookmarked" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="competitionLevel" optional="YES" attributeType="String" syncable="YES"/>
@@ -97,25 +97,25 @@
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stateFull" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="teamID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="awayGames" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="awayTeam" inverseEntity="Game" syncable="YES"/>
-        <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="teams" inverseEntity="Group" syncable="YES"/>
-        <relationship name="homeGames" toMany="YES" deletionRule="Nullify" destinationEntity="Game" inverseName="homeTeam" inverseEntity="Game" syncable="YES"/>
+        <relationship name="awayGames" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedGame" inverseName="awayTeam" inverseEntity="ManagedGame" syncable="YES"/>
+        <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedGroup" inverseName="teams" inverseEntity="ManagedGroup" syncable="YES"/>
+        <relationship name="homeGames" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedGame" inverseName="homeTeam" inverseEntity="ManagedGame" syncable="YES"/>
     </entity>
-    <entity name="User" representedClassName=".User" syncable="YES">
+    <entity name="ManagedUser" representedClassName=".ManagedUser" syncable="YES">
         <attribute name="accountID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="userID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Bracket" positionX="-18" positionY="81" width="128" height="120"/>
-        <element name="Cluster" positionX="0" positionY="90" width="128" height="105"/>
-        <element name="Event" positionX="-63" positionY="-18" width="128" height="210"/>
-        <element name="Game" positionX="-9" positionY="54" width="128" height="315"/>
-        <element name="Group" positionX="-54" positionY="63" width="128" height="180"/>
-        <element name="Pool" positionX="18" positionY="99" width="128" height="120"/>
-        <element name="Round" positionX="-36" positionY="72" width="128" height="120"/>
-        <element name="Stage" positionX="36" positionY="108" width="128" height="105"/>
-        <element name="Standing" positionX="0" positionY="63" width="128" height="135"/>
-        <element name="Team" positionX="-9" positionY="144" width="128" height="255"/>
-        <element name="User" positionX="-18" positionY="135" width="128" height="75"/>
+        <element name="ManagedBracket" positionX="-18" positionY="81" width="128" height="120"/>
+        <element name="ManagedCluster" positionX="0" positionY="90" width="128" height="105"/>
+        <element name="ManagedEvent" positionX="-63" positionY="-18" width="128" height="210"/>
+        <element name="ManagedGame" positionX="-9" positionY="54" width="128" height="315"/>
+        <element name="ManagedGroup" positionX="-54" positionY="63" width="128" height="180"/>
+        <element name="ManagedPool" positionX="18" positionY="99" width="128" height="120"/>
+        <element name="ManagedRound" positionX="-36" positionY="72" width="128" height="120"/>
+        <element name="ManagedStage" positionX="36" positionY="108" width="128" height="105"/>
+        <element name="ManagedStanding" positionX="0" positionY="63" width="128" height="135"/>
+        <element name="ManagedTeam" positionX="-9" positionY="144" width="128" height="255"/>
+        <element name="ManagedUser" positionX="-18" positionY="135" width="128" height="75"/>
     </elements>
 </model>

@@ -12,9 +12,9 @@ import ScoreReporterCore
 import DataSource
 
 class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
-    typealias ModelType = Team
+    typealias ModelType = ManagedTeam
 
-    fileprivate(set) var fetchedResultsController = Team.fetchedBookmarkedTeams()
+    fileprivate(set) var fetchedResultsController = ManagedTeam.fetchedBookmarkedTeams()
 
     dynamic var empty = false
 

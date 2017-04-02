@@ -1,5 +1,5 @@
 //
-//  Team+CoreDataProperties.swift
+//  ManagedTeam+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/6/16.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public extension Team {
+public extension ManagedTeam {
 
     @NSManaged var bookmarked: NSNumber
     @NSManaged var city: String?

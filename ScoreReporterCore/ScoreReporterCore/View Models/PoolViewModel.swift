@@ -12,11 +12,11 @@ public struct PoolViewModel {
     public let poolID: Int
     public let name: String
     
-    public let round: Round
-    public let games: Set<Game>
-    public let standings: Set<Standing>
+    public let round: ManagedRound
+    public let games: Set<ManagedGame>
+    public let standings: Set<ManagedStanding>
     
-    public init?(pool: Pool) {
+    public init?(pool: ManagedPool) {
         guard let round = pool.round else {
             return nil
         }
@@ -25,7 +25,7 @@ public struct PoolViewModel {
         self.name = pool.name ?? "Pool"
         
         self.round = round
-        self.games = pool.games as? Set<Game> ?? []
-        self.standings = pool.standings as? Set<Standing> ?? []
+        self.games = pool.games as? Set<ManagedGame> ?? []
+        self.standings = pool.standings as? Set<ManagedStanding> ?? []
     }
 }

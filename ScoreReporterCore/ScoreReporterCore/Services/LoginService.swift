@@ -34,7 +34,7 @@ public extension LoginService {
 
     func logout() {
         Keychain.deleteAllStoredValues()
-        User.deleteAll()
+        ManagedUser.deleteAll()
     }
 }
 
@@ -48,7 +48,7 @@ private extension LoginService {
             return
         }
 
-        User.user(from: response) { user in
+        ManagedUser.user(from: response) { user in
             guard let userID = user?.userID else {
                 let error = NSError(type: .importFailure)
                 completion?(ServiceResult(error: error))

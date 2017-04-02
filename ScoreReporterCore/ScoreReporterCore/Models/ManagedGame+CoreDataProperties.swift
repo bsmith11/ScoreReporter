@@ -1,5 +1,5 @@
 //
-//  Game+CoreDataProperties.swift
+//  ManagedGame+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public extension Game {
+public extension ManagedGame {
 
     @NSManaged var awayTeamName: String?
     @NSManaged var awayTeamSeed: String?
@@ -24,10 +24,10 @@ public extension Game {
     @NSManaged var startDateFull: Date?
     @NSManaged var startTime: Date?
     @NSManaged var status: String?
-    @NSManaged var cluster: Cluster?
-    @NSManaged var pool: Pool?
-    @NSManaged var stage: Stage?
-    @NSManaged var homeTeam: Team?
-    @NSManaged var awayTeam: Team?
+    @NSManaged var cluster: ManagedCluster?
+    @NSManaged var pool: ManagedPool?
+    @NSManaged var stage: ManagedStage?
+    @NSManaged var homeTeam: ManagedTeam?
+    @NSManaged var awayTeam: ManagedTeam?
 
 }

@@ -24,7 +24,7 @@ class BracketListDataSource: NSObject, SectionedDataSource {
     typealias ModelType = StageViewModel
     typealias SectionType = BracketSection
     
-    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Bracket>
+    fileprivate(set) var fetchedResultsController: NSFetchedResultsController<ManagedBracket>
     
     fileprivate(set) var sections = [BracketSection]()
 
@@ -33,7 +33,7 @@ class BracketListDataSource: NSObject, SectionedDataSource {
     var reloadBlock: ReloadBlock?
     
     init(viewModel: GroupViewModel) {
-        fetchedResultsController = Bracket.fetchedBracketsForGroup(withId: viewModel.groupID)
+        fetchedResultsController = ManagedBracket.fetchedBracketsForGroup(withId: viewModel.groupID)
 
         super.init()
 

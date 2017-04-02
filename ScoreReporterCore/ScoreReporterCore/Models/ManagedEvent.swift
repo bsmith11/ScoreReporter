@@ -1,5 +1,5 @@
 //
-//  Event.swift
+//  ManagedEvent.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,91 +9,91 @@
 import Foundation
 import CoreData
 
-public class Event: NSManagedObject {
+public class ManagedEvent: NSManagedObject {
     
 }
 
 // MARK: - Public
 
-public extension Event {
+public extension ManagedEvent {
     static func events(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Event.objects(from: array, context: context)
+            ManagedEvent.objects(from: array, context: context)
         }
 
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
 
-    static func fetchedUpcomingEventsFor(team: Team) -> NSFetchedResultsController<Event> {
+    static func fetchedUpcomingEventsFor(team: ManagedTeam) -> NSFetchedResultsController<ManagedEvent> {
         let predicates = [
-            NSPredicate(format: "%K > %@", #keyPath(Event.startDate), NSDate()),
-            NSPredicate(format: "SUBQUERY(%K, $x, $x in %@).@count > 0", #keyPath(Event.groups), team.groups)
+            NSPredicate(format: "%K > %@", #keyPath(ManagedEvent.startDate), NSDate()),
+            NSPredicate(format: "SUBQUERY(%K, $x, $x in %@).@count > 0", #keyPath(ManagedEvent.groups), team.groups)
         ]
 
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
-            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedEvent.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedEvent.name), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedEventsThisWeek() -> NSFetchedResultsController<Event> {
+    static func fetchedEventsThisWeek() -> NSFetchedResultsController<ManagedEvent> {
         let datesTuple = Date.enclosingDatesForCurrentWeek
-        let predicate = NSPredicate(format: "%K > %@ AND %K < %@", #keyPath(Event.startDate), datesTuple.0 as NSDate, #keyPath(Event.startDate), datesTuple.1 as NSDate)
+        let predicate = NSPredicate(format: "%K > %@ AND %K < %@", #keyPath(ManagedEvent.startDate), datesTuple.0 as NSDate, #keyPath(ManagedEvent.startDate), datesTuple.1 as NSDate)
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
-            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedEvent.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedEvent.name), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedBookmarkedEvents() -> NSFetchedResultsController<Event> {
-        let predicate = NSPredicate(format: "%K == YES", #keyPath(Event.bookmarked))
+    static func fetchedBookmarkedEvents() -> NSFetchedResultsController<ManagedEvent> {
+        let predicate = NSPredicate(format: "%K == YES", #keyPath(ManagedEvent.bookmarked))
 
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
-            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedEvent.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedEvent.name), ascending: true)
         ]
 
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedEvents() -> NSFetchedResultsController<Event> {
+    static func fetchedEvents() -> NSFetchedResultsController<ManagedEvent> {
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
-            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedEvent.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedEvent.name), ascending: true)
         ]
 
-        return fetchedResultsController(predicate: nil, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
+        return fetchedResultsController(predicate: nil, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedEvent.startDate))
     }
 
-    public static var searchFetchedResultsController: NSFetchedResultsController<Event> {
+    public static var searchFetchedResultsController: NSFetchedResultsController<ManagedEvent> {
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Event.startDate), ascending: true),
-            NSSortDescriptor(key: #keyPath(Event.name), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedEvent.startDate), ascending: true),
+            NSSortDescriptor(key: #keyPath(ManagedEvent.name), ascending: true)
         ]
 
-        return fetchedResultsController(predicate: nil, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(Event.startDate))
+        return fetchedResultsController(predicate: nil, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedEvent.startDate))
     }
 }
 
 // MARK: - Fetchable
 
-extension Event: Fetchable {
+extension ManagedEvent: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Event.eventID)
+        return #keyPath(ManagedEvent.eventID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Event: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Event? {
+extension ManagedEvent: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedEvent? {
         guard let eventID = dictionary[APIConstants.Response.Keys.eventID] as? NSNumber,
               let name = dictionary <~ APIConstants.Response.Keys.eventName,
               let type = dictionary <~ APIConstants.Response.Keys.eventType,
@@ -133,7 +133,7 @@ extension Event: CoreDataImportable {
 
         if let _ = dictionary.index(forKey: APIConstants.Response.Keys.competitionGroup) {
             let groups = dictionary[APIConstants.Response.Keys.competitionGroup] as? [[String: AnyObject]] ?? []
-            event.groups = NSSet(array: Group.objects(from: groups, context: context))
+            event.groups = NSSet(array: ManagedGroup.objects(from: groups, context: context))
         }
 
         if !event.hasPersistentChangedValues {
@@ -160,7 +160,7 @@ extension Event: CoreDataImportable {
 
 // MARK: - Searchable
 
-extension Event: Searchable {
+extension ManagedEvent: Searchable {
     public static var searchBarPlaceholder: String? {
         return "Find events"
     }
@@ -178,7 +178,7 @@ extension Event: Searchable {
             return nil
         }
 
-        return NSPredicate(format: "%K contains[cd] %@", #keyPath(Event.name), searchText)
+        return NSPredicate(format: "%K contains[cd] %@", #keyPath(ManagedEvent.name), searchText)
     }
 
     public var searchSectionTitle: String? {

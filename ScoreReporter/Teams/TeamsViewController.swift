@@ -15,7 +15,7 @@ class TeamsViewController: UIViewController, MessageDisplayable {
     fileprivate let viewModel: TeamsViewModel
     fileprivate let dataSource: TeamsDataSource
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
-    fileprivate let searchViewController: SearchViewController<Team>
+    fileprivate let searchViewController: SearchViewController<ManagedTeam>
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -27,7 +27,7 @@ class TeamsViewController: UIViewController, MessageDisplayable {
         self.viewModel = viewModel
         self.dataSource = dataSource
 
-        let searchDataSource = SearchDataSource(fetchedResultsController: Team.searchFetchedResultsController)
+        let searchDataSource = SearchDataSource(fetchedResultsController: ManagedTeam.searchFetchedResultsController)
         searchViewController = SearchViewController(dataSource: searchDataSource)
 
         super.init(nibName: nil, bundle: nil)
@@ -174,7 +174,7 @@ extension TeamsViewController: UITableViewDelegate {
 
 extension TeamsViewController: SearchViewControllerDelegate {
     func didSelect(item: Searchable) {
-        guard let team = item as? Team else {
+        guard let team = item as? ManagedTeam else {
             return
         }
 

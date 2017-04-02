@@ -50,30 +50,30 @@
 		487876671DDBF88A008789A0 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878765D1DDBF88A008789A0 /* UITableView+Extensions.swift */; };
 		487876681DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878765E1DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift */; };
 		487876691DDBF88A008789A0 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878765F1DDBF88A008789A0 /* UIViewController+Extensions.swift */; };
-		487876B01DDBFAF6008789A0 /* Bracket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876971DDBFAF6008789A0 /* Bracket.swift */; };
-		487876B11DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */; };
-		487876B21DDBFAF6008789A0 /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876991DDBFAF6008789A0 /* Cluster.swift */; };
-		487876B31DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */; };
+		487876B01DDBFAF6008789A0 /* ManagedBracket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876971DDBFAF6008789A0 /* ManagedBracket.swift */; };
+		487876B11DDBFAF6008789A0 /* ManagedBracket+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876981DDBFAF6008789A0 /* ManagedBracket+CoreDataProperties.swift */; };
+		487876B21DDBFAF6008789A0 /* ManagedCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876991DDBFAF6008789A0 /* ManagedCluster.swift */; };
+		487876B31DDBFAF6008789A0 /* ManagedCluster+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769A1DDBFAF6008789A0 /* ManagedCluster+CoreDataProperties.swift */; };
 		487876B41DDBFAF6008789A0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */; };
-		487876B51DDBFAF6008789A0 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769C1DDBFAF6008789A0 /* Event.swift */; };
-		487876B61DDBFAF6008789A0 /* Event+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */; };
-		487876B71DDBFAF6008789A0 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769E1DDBFAF6008789A0 /* Game.swift */; };
-		487876B81DDBFAF6008789A0 /* Game+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */; };
-		487876B91DDBFAF6008789A0 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A01DDBFAF6008789A0 /* Group.swift */; };
-		487876BA1DDBFAF6008789A0 /* Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A11DDBFAF6008789A0 /* Group+CoreDataProperties.swift */; };
-		487876BB1DDBFAF6008789A0 /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A21DDBFAF6008789A0 /* Pool.swift */; };
-		487876BC1DDBFAF6008789A0 /* Pool+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */; };
-		487876BD1DDBFAF6008789A0 /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A41DDBFAF6008789A0 /* Round.swift */; };
-		487876BE1DDBFAF6008789A0 /* Round+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */; };
+		487876B51DDBFAF6008789A0 /* ManagedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769C1DDBFAF6008789A0 /* ManagedEvent.swift */; };
+		487876B61DDBFAF6008789A0 /* ManagedEvent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769D1DDBFAF6008789A0 /* ManagedEvent+CoreDataProperties.swift */; };
+		487876B71DDBFAF6008789A0 /* ManagedGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769E1DDBFAF6008789A0 /* ManagedGame.swift */; };
+		487876B81DDBFAF6008789A0 /* ManagedGame+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4878769F1DDBFAF6008789A0 /* ManagedGame+CoreDataProperties.swift */; };
+		487876B91DDBFAF6008789A0 /* ManagedGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A01DDBFAF6008789A0 /* ManagedGroup.swift */; };
+		487876BA1DDBFAF6008789A0 /* ManagedGroup+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A11DDBFAF6008789A0 /* ManagedGroup+CoreDataProperties.swift */; };
+		487876BB1DDBFAF6008789A0 /* ManagedPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A21DDBFAF6008789A0 /* ManagedPool.swift */; };
+		487876BC1DDBFAF6008789A0 /* ManagedPool+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A31DDBFAF6008789A0 /* ManagedPool+CoreDataProperties.swift */; };
+		487876BD1DDBFAF6008789A0 /* ManagedRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A41DDBFAF6008789A0 /* ManagedRound.swift */; };
+		487876BE1DDBFAF6008789A0 /* ManagedRound+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A51DDBFAF6008789A0 /* ManagedRound+CoreDataProperties.swift */; };
 		487876BF1DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */; };
-		487876C01DDBFAF6008789A0 /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A81DDBFAF6008789A0 /* Stage.swift */; };
-		487876C11DDBFAF6008789A0 /* Stage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */; };
-		487876C21DDBFAF6008789A0 /* Standing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AA1DDBFAF6008789A0 /* Standing.swift */; };
-		487876C31DDBFAF6008789A0 /* Standing+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */; };
-		487876C41DDBFAF6008789A0 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AC1DDBFAF6008789A0 /* Team.swift */; };
-		487876C51DDBFAF6008789A0 /* Team+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AD1DDBFAF6008789A0 /* Team+CoreDataProperties.swift */; };
-		487876C61DDBFAF6008789A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AE1DDBFAF6008789A0 /* User.swift */; };
-		487876C71DDBFAF6008789A0 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AF1DDBFAF6008789A0 /* User+CoreDataProperties.swift */; };
+		487876C01DDBFAF6008789A0 /* ManagedStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A81DDBFAF6008789A0 /* ManagedStage.swift */; };
+		487876C11DDBFAF6008789A0 /* ManagedStage+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876A91DDBFAF6008789A0 /* ManagedStage+CoreDataProperties.swift */; };
+		487876C21DDBFAF6008789A0 /* ManagedStanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AA1DDBFAF6008789A0 /* ManagedStanding.swift */; };
+		487876C31DDBFAF6008789A0 /* ManagedStanding+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AB1DDBFAF6008789A0 /* ManagedStanding+CoreDataProperties.swift */; };
+		487876C41DDBFAF6008789A0 /* ManagedTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AC1DDBFAF6008789A0 /* ManagedTeam.swift */; };
+		487876C51DDBFAF6008789A0 /* ManagedTeam+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AD1DDBFAF6008789A0 /* ManagedTeam+CoreDataProperties.swift */; };
+		487876C61DDBFAF6008789A0 /* ManagedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AE1DDBFAF6008789A0 /* ManagedUser.swift */; };
+		487876C71DDBFAF6008789A0 /* ManagedUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876AF1DDBFAF6008789A0 /* ManagedUser+CoreDataProperties.swift */; };
 		487876CE1DDBFBCA008789A0 /* BaselineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876C91DDBFBCA008789A0 /* BaselineButton.swift */; };
 		487876D01DDBFBCA008789A0 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876CB1DDBFBCA008789A0 /* MessageView.swift */; };
 		487876D11DDBFBCA008789A0 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487876CC1DDBFBCA008789A0 /* TableViewCell.swift */; };
@@ -153,30 +153,30 @@
 		4878765D1DDBF88A008789A0 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		4878765E1DDBF88A008789A0 /* UIView+KeyboardLayoutGuide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+KeyboardLayoutGuide.swift"; sourceTree = "<group>"; };
 		4878765F1DDBF88A008789A0 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
-		487876971DDBFAF6008789A0 /* Bracket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bracket.swift; sourceTree = "<group>"; };
-		487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bracket+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876991DDBFAF6008789A0 /* Cluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cluster.swift; sourceTree = "<group>"; };
-		4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cluster+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876971DDBFAF6008789A0 /* ManagedBracket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedBracket.swift; sourceTree = "<group>"; };
+		487876981DDBFAF6008789A0 /* ManagedBracket+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedBracket+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876991DDBFAF6008789A0 /* ManagedCluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedCluster.swift; sourceTree = "<group>"; };
+		4878769A1DDBFAF6008789A0 /* ManagedCluster+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedCluster+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		4878769C1DDBFAF6008789A0 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		4878769E1DDBFAF6008789A0 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Game+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876A01DDBFAF6008789A0 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
-		487876A11DDBFAF6008789A0 /* Group+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876A21DDBFAF6008789A0 /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
-		487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pool+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876A41DDBFAF6008789A0 /* Round.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
-		487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Round+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4878769C1DDBFAF6008789A0 /* ManagedEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedEvent.swift; sourceTree = "<group>"; };
+		4878769D1DDBFAF6008789A0 /* ManagedEvent+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedEvent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4878769E1DDBFAF6008789A0 /* ManagedGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedGame.swift; sourceTree = "<group>"; };
+		4878769F1DDBFAF6008789A0 /* ManagedGame+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedGame+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876A01DDBFAF6008789A0 /* ManagedGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedGroup.swift; sourceTree = "<group>"; };
+		487876A11DDBFAF6008789A0 /* ManagedGroup+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedGroup+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876A21DDBFAF6008789A0 /* ManagedPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedPool.swift; sourceTree = "<group>"; };
+		487876A31DDBFAF6008789A0 /* ManagedPool+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedPool+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876A41DDBFAF6008789A0 /* ManagedRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedRound.swift; sourceTree = "<group>"; };
+		487876A51DDBFAF6008789A0 /* ManagedRound+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedRound+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		487876A71DDBFAF6008789A0 /* ScoreReporter.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScoreReporter.xcdatamodel; sourceTree = "<group>"; };
-		487876A81DDBFAF6008789A0 /* Stage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
-		487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Stage+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876AA1DDBFAF6008789A0 /* Standing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Standing.swift; sourceTree = "<group>"; };
-		487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Standing+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876AC1DDBFAF6008789A0 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
-		487876AD1DDBFAF6008789A0 /* Team+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Team+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		487876AE1DDBFAF6008789A0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		487876AF1DDBFAF6008789A0 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876A81DDBFAF6008789A0 /* ManagedStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedStage.swift; sourceTree = "<group>"; };
+		487876A91DDBFAF6008789A0 /* ManagedStage+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedStage+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876AA1DDBFAF6008789A0 /* ManagedStanding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedStanding.swift; sourceTree = "<group>"; };
+		487876AB1DDBFAF6008789A0 /* ManagedStanding+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedStanding+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876AC1DDBFAF6008789A0 /* ManagedTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedTeam.swift; sourceTree = "<group>"; };
+		487876AD1DDBFAF6008789A0 /* ManagedTeam+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedTeam+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		487876AE1DDBFAF6008789A0 /* ManagedUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedUser.swift; sourceTree = "<group>"; };
+		487876AF1DDBFAF6008789A0 /* ManagedUser+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		487876C91DDBFBCA008789A0 /* BaselineButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaselineButton.swift; sourceTree = "<group>"; };
 		487876CB1DDBFBCA008789A0 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		487876CC1DDBFBCA008789A0 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -237,28 +237,28 @@
 				4878769B1DDBFAF6008789A0 /* CoreDataStack.swift */,
 				487876A61DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld */,
 				487876081DDBF79C008789A0 /* ManagedObjectObserver.swift */,
-				487876981DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift */,
-				487876971DDBFAF6008789A0 /* Bracket.swift */,
-				4878769A1DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift */,
-				487876991DDBFAF6008789A0 /* Cluster.swift */,
-				4878769D1DDBFAF6008789A0 /* Event+CoreDataProperties.swift */,
-				4878769C1DDBFAF6008789A0 /* Event.swift */,
-				4878769F1DDBFAF6008789A0 /* Game+CoreDataProperties.swift */,
-				4878769E1DDBFAF6008789A0 /* Game.swift */,
-				487876A11DDBFAF6008789A0 /* Group+CoreDataProperties.swift */,
-				487876A01DDBFAF6008789A0 /* Group.swift */,
-				487876A31DDBFAF6008789A0 /* Pool+CoreDataProperties.swift */,
-				487876A21DDBFAF6008789A0 /* Pool.swift */,
-				487876A51DDBFAF6008789A0 /* Round+CoreDataProperties.swift */,
-				487876A41DDBFAF6008789A0 /* Round.swift */,
-				487876A91DDBFAF6008789A0 /* Stage+CoreDataProperties.swift */,
-				487876A81DDBFAF6008789A0 /* Stage.swift */,
-				487876AB1DDBFAF6008789A0 /* Standing+CoreDataProperties.swift */,
-				487876AA1DDBFAF6008789A0 /* Standing.swift */,
-				487876AD1DDBFAF6008789A0 /* Team+CoreDataProperties.swift */,
-				487876AC1DDBFAF6008789A0 /* Team.swift */,
-				487876AF1DDBFAF6008789A0 /* User+CoreDataProperties.swift */,
-				487876AE1DDBFAF6008789A0 /* User.swift */,
+				487876981DDBFAF6008789A0 /* ManagedBracket+CoreDataProperties.swift */,
+				487876971DDBFAF6008789A0 /* ManagedBracket.swift */,
+				4878769A1DDBFAF6008789A0 /* ManagedCluster+CoreDataProperties.swift */,
+				487876991DDBFAF6008789A0 /* ManagedCluster.swift */,
+				4878769D1DDBFAF6008789A0 /* ManagedEvent+CoreDataProperties.swift */,
+				4878769C1DDBFAF6008789A0 /* ManagedEvent.swift */,
+				4878769F1DDBFAF6008789A0 /* ManagedGame+CoreDataProperties.swift */,
+				4878769E1DDBFAF6008789A0 /* ManagedGame.swift */,
+				487876A11DDBFAF6008789A0 /* ManagedGroup+CoreDataProperties.swift */,
+				487876A01DDBFAF6008789A0 /* ManagedGroup.swift */,
+				487876A31DDBFAF6008789A0 /* ManagedPool+CoreDataProperties.swift */,
+				487876A21DDBFAF6008789A0 /* ManagedPool.swift */,
+				487876A51DDBFAF6008789A0 /* ManagedRound+CoreDataProperties.swift */,
+				487876A41DDBFAF6008789A0 /* ManagedRound.swift */,
+				487876A91DDBFAF6008789A0 /* ManagedStage+CoreDataProperties.swift */,
+				487876A81DDBFAF6008789A0 /* ManagedStage.swift */,
+				487876AB1DDBFAF6008789A0 /* ManagedStanding+CoreDataProperties.swift */,
+				487876AA1DDBFAF6008789A0 /* ManagedStanding.swift */,
+				487876AD1DDBFAF6008789A0 /* ManagedTeam+CoreDataProperties.swift */,
+				487876AC1DDBFAF6008789A0 /* ManagedTeam.swift */,
+				487876AF1DDBFAF6008789A0 /* ManagedUser+CoreDataProperties.swift */,
+				487876AE1DDBFAF6008789A0 /* ManagedUser.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -568,56 +568,56 @@
 				4843140D1E4ECFD5008E01E5 /* EmptyContentView.swift in Sources */,
 				487876671DDBF88A008789A0 /* UITableView+Extensions.swift in Sources */,
 				487876EC1DDC0890008789A0 /* SectionHeaderView.swift in Sources */,
-				487876B51DDBFAF6008789A0 /* Event.swift in Sources */,
+				487876B51DDBFAF6008789A0 /* ManagedEvent.swift in Sources */,
 				4878760C1DDBF79C008789A0 /* EventService.swift in Sources */,
 				487876FD1DDCD720008789A0 /* StandingCell.swift in Sources */,
 				4812A16E1DFD08EF00587173 /* GameService.swift in Sources */,
 				484FF0731E2307270002F458 /* ScorePicker.swift in Sources */,
 				4878760E1DDBF79C008789A0 /* LoginService.swift in Sources */,
-				487876BD1DDBFAF6008789A0 /* Round.swift in Sources */,
+				487876BD1DDBFAF6008789A0 /* ManagedRound.swift in Sources */,
 				4836ED611E8B28B30035ABA6 /* Credentials.swift in Sources */,
 				4878760F1DDBF79C008789A0 /* ManagedObjectObserver.swift in Sources */,
-				487876C11DDBFAF6008789A0 /* Stage+CoreDataProperties.swift in Sources */,
+				487876C11DDBFAF6008789A0 /* ManagedStage+CoreDataProperties.swift in Sources */,
 				487876651DDBF88A008789A0 /* UICollectionView+Extensions.swift in Sources */,
-				487876B11DDBFAF6008789A0 /* Bracket+CoreDataProperties.swift in Sources */,
+				487876B11DDBFAF6008789A0 /* ManagedBracket+CoreDataProperties.swift in Sources */,
 				487876E11DDC064A008789A0 /* SearchCell.swift in Sources */,
 				487876E21DDC064A008789A0 /* SearchDataSource.swift in Sources */,
-				487876C51DDBFAF6008789A0 /* Team+CoreDataProperties.swift in Sources */,
+				487876C51DDBFAF6008789A0 /* ManagedTeam+CoreDataProperties.swift in Sources */,
 				487876B41DDBFAF6008789A0 /* CoreDataStack.swift in Sources */,
 				4883508A1E9180240008C558 /* BracketViewModel.swift in Sources */,
 				487876D21DDBFBCA008789A0 /* TableViewCellSeparatorView.swift in Sources */,
 				4836ED651E8B4F180035ABA6 /* GameUpdate.swift in Sources */,
 				4878764D1DDBF823008789A0 /* FetchedChangable.swift in Sources */,
 				484FF0711E2302F90002F458 /* VisualEffectButton.swift in Sources */,
-				487876C41DDBFAF6008789A0 /* Team.swift in Sources */,
-				487876B91DDBFAF6008789A0 /* Group.swift in Sources */,
+				487876C41DDBFAF6008789A0 /* ManagedTeam.swift in Sources */,
+				487876B91DDBFAF6008789A0 /* ManagedGroup.swift in Sources */,
 				4883508C1E91812F0008C558 /* StageViewModel.swift in Sources */,
 				487876101DDBF79C008789A0 /* TeamService.swift in Sources */,
 				4836ED671E8B61290035ABA6 /* StaticBackgroundView.swift in Sources */,
 				487876621DDBF88A008789A0 /* KVOController+Extensions.swift in Sources */,
-				487876BC1DDBFAF6008789A0 /* Pool+CoreDataProperties.swift in Sources */,
-				487876BE1DDBFAF6008789A0 /* Round+CoreDataProperties.swift in Sources */,
+				487876BC1DDBFAF6008789A0 /* ManagedPool+CoreDataProperties.swift in Sources */,
+				487876BE1DDBFAF6008789A0 /* ManagedRound+CoreDataProperties.swift in Sources */,
 				4836ED5B1E8B1F210035ABA6 /* APIService.swift in Sources */,
-				487876B31DDBFAF6008789A0 /* Cluster+CoreDataProperties.swift in Sources */,
-				487876C31DDBFAF6008789A0 /* Standing+CoreDataProperties.swift in Sources */,
+				487876B31DDBFAF6008789A0 /* ManagedCluster+CoreDataProperties.swift in Sources */,
+				487876C31DDBFAF6008789A0 /* ManagedStanding+CoreDataProperties.swift in Sources */,
 				4878770D1DDD4EC9008789A0 /* TeamCell.swift in Sources */,
 				480486AC1E3081190081609A /* Sequence+Extensions.swift in Sources */,
-				487876C01DDBFAF6008789A0 /* Stage.swift in Sources */,
+				487876C01DDBFAF6008789A0 /* ManagedStage.swift in Sources */,
 				487876691DDBF88A008789A0 /* UIViewController+Extensions.swift in Sources */,
 				487876611DDBF88A008789A0 /* CALayer+Extensions.swift in Sources */,
-				487876B71DDBFAF6008789A0 /* Game.swift in Sources */,
-				487876B81DDBFAF6008789A0 /* Game+CoreDataProperties.swift in Sources */,
+				487876B71DDBFAF6008789A0 /* ManagedGame.swift in Sources */,
+				487876B81DDBFAF6008789A0 /* ManagedGame+CoreDataProperties.swift in Sources */,
 				487876511DDBF823008789A0 /* KeyboardObservable.swift in Sources */,
-				487876C61DDBFAF6008789A0 /* User.swift in Sources */,
-				487876B21DDBFAF6008789A0 /* Cluster.swift in Sources */,
+				487876C61DDBFAF6008789A0 /* ManagedUser.swift in Sources */,
+				487876B21DDBFAF6008789A0 /* ManagedCluster.swift in Sources */,
 				480486AE1E30836B0081609A /* TeamViewModel.swift in Sources */,
 				4836ED5D1E8B22590035ABA6 /* DateFormatter+Extensions.swift in Sources */,
 				487877031DDCD909008789A0 /* GameViewModel.swift in Sources */,
 				487876FB1DDCD720008789A0 /* GroupCell.swift in Sources */,
-				487876B61DDBFAF6008789A0 /* Event+CoreDataProperties.swift in Sources */,
+				487876B61DDBFAF6008789A0 /* ManagedEvent+CoreDataProperties.swift in Sources */,
 				4843140B1E4EC65E008E01E5 /* EmptyView.swift in Sources */,
 				487876E01DDC064A008789A0 /* SearchBarProxy.swift in Sources */,
-				487876C21DDBFAF6008789A0 /* Standing.swift in Sources */,
+				487876C21DDBFAF6008789A0 /* ManagedStanding.swift in Sources */,
 				487876E51DDC064A008789A0 /* TableViewProxy.swift in Sources */,
 				48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */,
 				487876BF1DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld in Sources */,
@@ -635,15 +635,15 @@
 				487876541DDBF823008789A0 /* Sizable.swift in Sources */,
 				4878760D1DDBF79C008789A0 /* Keychain.swift in Sources */,
 				48496D8F1DE9338F00AE5942 /* NSError+Extensions.swift in Sources */,
-				487876B01DDBFAF6008789A0 /* Bracket.swift in Sources */,
+				487876B01DDBFAF6008789A0 /* ManagedBracket.swift in Sources */,
 				487876531DDBF823008789A0 /* Searchable.swift in Sources */,
-				487876BA1DDBFAF6008789A0 /* Group+CoreDataProperties.swift in Sources */,
+				487876BA1DDBFAF6008789A0 /* ManagedGroup+CoreDataProperties.swift in Sources */,
 				4878764E1DDBF823008789A0 /* FetchedChangeObject.swift in Sources */,
-				487876BB1DDBFAF6008789A0 /* Pool.swift in Sources */,
+				487876BB1DDBFAF6008789A0 /* ManagedPool.swift in Sources */,
 				487876601DDBF88A008789A0 /* CAAnimation+Extensions.swift in Sources */,
 				484314051E4D6F9A008E01E5 /* ProtocolInterceptor.swift in Sources */,
 				4878764C1DDBF823008789A0 /* Fetchable.swift in Sources */,
-				487876C71DDBFAF6008789A0 /* User+CoreDataProperties.swift in Sources */,
+				487876C71DDBFAF6008789A0 /* ManagedUser+CoreDataProperties.swift in Sources */,
 				487876D01DDBFBCA008789A0 /* MessageView.swift in Sources */,
 				480486B91E33217E0081609A /* StageCell.swift in Sources */,
 				4878760A1DDBF79C008789A0 /* APIClient.swift in Sources */,

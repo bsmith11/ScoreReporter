@@ -34,7 +34,7 @@ extension DeepLinkCoordinator {
         switch host {
         case "events":
             guard let eventID = url.pathComponents.last.flatMap({ Int($0) }),
-                let event = Event.object(primaryKey: NSNumber(value: eventID), context: Event.coreDataStack.mainContext),
+                let event = ManagedEvent.object(primaryKey: NSNumber(value: eventID), context: ManagedEvent.coreDataStack.mainContext),
                 let navigationController = tabBarController.selectedViewController as? UINavigationController else {
                     return
             }

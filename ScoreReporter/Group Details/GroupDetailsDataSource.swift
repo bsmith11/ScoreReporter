@@ -14,7 +14,7 @@ import DataSource
 class GroupDetailsDataSource: NSObject, ListDataSource {
     typealias ModelType = UIViewController
     
-    fileprivate let fetchedResultsController: NSFetchedResultsController<Round>
+    fileprivate let fetchedResultsController: NSFetchedResultsController<ManagedRound>
 
     fileprivate(set) var items = [UIViewController]()
 
@@ -26,7 +26,7 @@ class GroupDetailsDataSource: NSObject, ListDataSource {
 
     init(viewModel: GroupViewModel) {
         self.viewModel = viewModel
-        self.fetchedResultsController = Round.fetchedRoundsForGroup(withId: viewModel.groupID)
+        self.fetchedResultsController = ManagedRound.fetchedRoundsForGroup(withId: viewModel.groupID)
 
         super.init()
 
@@ -52,7 +52,7 @@ private extension GroupDetailsDataSource {
         var poolListViewController: UIViewController?
         var bracketListViewController: UIViewController?
 
-        var clusters = [Cluster]()
+        var clusters = [ManagedCluster]()
 
         sortedRounds.forEach { round in
             switch round.type {
@@ -62,7 +62,7 @@ private extension GroupDetailsDataSource {
                     poolListViewController = PoolListViewController(dataSource: poolListDataSource)
                 }
             case .clusters:
-                if let clusterObjects = round.clusters.allObjects as? [Cluster] {
+                if let clusterObjects = round.clusters.allObjects as? [ManagedCluster] {
                     clusters.append(contentsOf: clusterObjects)
                 }
             case .brackets:

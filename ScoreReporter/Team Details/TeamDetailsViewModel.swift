@@ -10,13 +10,13 @@ import Foundation
 import ScoreReporterCore
 
 class TeamDetailsViewModel: NSObject {
-    fileprivate let team: Team
+    fileprivate let team: ManagedTeam
     fileprivate let teamService = TeamService()
 
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError?
 
-    init(team: Team) {
+    init(team: ManagedTeam) {
         self.team = team
 
         super.init()

@@ -35,7 +35,7 @@ public class EventCell: TableViewCell {
 // MARK: - Public
 
 public extension EventCell {
-    func configure(with event: Event?) {
+    func configure(with event: ManagedEvent?) {
         guard let event = event else {
             return
         }

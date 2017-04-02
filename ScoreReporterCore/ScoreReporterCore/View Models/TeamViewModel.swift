@@ -14,7 +14,7 @@ public struct TeamViewModel {
     public let location: String?
     public let logoURL: URL?
     
-    public init(team: Team?) {
+    public init(team: ManagedTeam?) {
         fullName = [team?.school, team?.name].joined(by: " ")
         
         competitionDivision = [team?.competitionLevel, team?.division].joined(by: " ")

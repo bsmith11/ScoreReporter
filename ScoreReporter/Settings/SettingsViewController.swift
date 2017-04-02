@@ -42,7 +42,7 @@ class SettingsViewController: UIViewController, MessageDisplayable {
         loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginButtonPressed))
         logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonPressed))
         
-        if let _ = User.currentUser {
+        if let _ = ManagedUser.currentUser {
             navigationItem.rightBarButtonItem = logoutButton
         }
         else {
@@ -68,7 +68,7 @@ class SettingsViewController: UIViewController, MessageDisplayable {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if let _ = User.currentUser {
+        if let _ = ManagedUser.currentUser {
             let size = headerView.size(with: tableView.bounds.width)
             headerView.frame = CGRect(origin: .zero, size: size)
             tableView.tableHeaderView = headerView
@@ -96,7 +96,7 @@ private extension SettingsViewController {
         tableView.alwaysBounceVertical = true
         view.addSubview(tableView)
         
-        if let user = User.currentUser {
+        if let user = ManagedUser.currentUser {
             headerView.configure(with: user)
         }
     }
@@ -179,7 +179,7 @@ extension SettingsViewController: LoginViewControllerDelegate {
     func didLogin(in controller: LoginViewController) {
         navigationItem.rightBarButtonItem = logoutButton
         
-        if let user = User.currentUser {
+        if let user = ManagedUser.currentUser {
             headerView.configure(with: user)
             
             view.setNeedsLayout()

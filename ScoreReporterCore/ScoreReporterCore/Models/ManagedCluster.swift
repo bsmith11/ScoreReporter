@@ -1,5 +1,5 @@
 //
-//  Cluster.swift
+//  ManagedCluster.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,22 +9,22 @@
 import Foundation
 import CoreData
 
-public class Cluster: NSManagedObject {
+public class ManagedCluster: NSManagedObject {
 
 }
 
 // MARK: - Fetchable
 
-extension Cluster: Fetchable {
+extension ManagedCluster: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Cluster.clusterID)
+        return #keyPath(ManagedCluster.clusterID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Cluster: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Cluster? {
+extension ManagedCluster: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedCluster? {
         guard let clusterID = dictionary[APIConstants.Response.Keys.clusterID] as? NSNumber else {
             return nil
         }
@@ -37,7 +37,7 @@ extension Cluster: CoreDataImportable {
         cluster.name = dictionary <~ APIConstants.Response.Keys.name
 
         let games = dictionary[APIConstants.Response.Keys.games] as? [[String: AnyObject]] ?? []
-        let gamesArray = Game.objects(from: games, context: context)
+        let gamesArray = ManagedGame.objects(from: games, context: context)
 
         for (index, game) in gamesArray.enumerated() {
             game.sortOrder = index as NSNumber

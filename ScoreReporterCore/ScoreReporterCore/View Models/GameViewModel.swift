@@ -16,7 +16,7 @@ public enum GameViewState {
 }
 
 public struct GameViewModel {
-    public let game: Game?
+    public let game: ManagedGame?
     public let startDate: String?
     public let homeTeamName: NSAttributedString
     public let homeTeamScore: NSAttributedString?
@@ -34,7 +34,7 @@ public struct GameViewModel {
         NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
     ]
 
-    public init(game: Game?, state: GameViewState = .normal ) {
+    public init(game: ManagedGame?, state: GameViewState = .normal ) {
         self.game = game
         
         let dateFormatter = DateFormatter.gameStartDateFullFormatter

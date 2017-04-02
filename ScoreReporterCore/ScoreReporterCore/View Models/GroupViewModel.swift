@@ -26,7 +26,7 @@ public struct GroupViewModel {
     public let divisionIdentifier: String
     public let divisionColor: UIColor
 
-    public init(group: Group?) {
+    public init(group: ManagedGroup?) {
         self.groupID = group?.groupID.intValue ?? 0
         
         let strings = [

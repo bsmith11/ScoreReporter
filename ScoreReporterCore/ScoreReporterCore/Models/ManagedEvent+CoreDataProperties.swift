@@ -1,5 +1,5 @@
 //
-//  Event+CoreDataProperties.swift
+//  ManagedEvent+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public extension Event {
+public extension ManagedEvent {
 
     @NSManaged var bookmarked: NSNumber
     @NSManaged var city: String?

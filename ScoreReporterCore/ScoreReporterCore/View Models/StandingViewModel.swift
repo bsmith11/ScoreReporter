@@ -14,9 +14,9 @@ public struct StandingViewModel {
     public let wins: Int
     public let losses: Int
     public let sortOrder: Int
-    public let pool: Pool
+    public let pool: ManagedPool
     
-    public init?(standing: Standing) {
+    public init?(standing: ManagedStanding) {
         guard let pool = standing.pool else {
             return nil
         }

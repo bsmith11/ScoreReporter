@@ -1,5 +1,5 @@
 //
-//  Round.swift
+//  ManagedRound.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -26,13 +26,13 @@ public enum RoundType: Int {
     }
 }
 
-public class Round: NSManagedObject {
+public class ManagedRound: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension Round {
+public extension ManagedRound {
     var type: RoundType {
         if pools.count > 0 {
             return .pools
@@ -45,12 +45,12 @@ public extension Round {
         }
     }
     
-    static func fetchedRoundsForGroup(withId groupId: Int) -> NSFetchedResultsController<Round> {
+    static func fetchedRoundsForGroup(withId groupId: Int) -> NSFetchedResultsController<ManagedRound> {
         let primaryKey = NSNumber(integerLiteral: groupId)
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(Round.group.groupID), primaryKey)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedRound.group.groupID), primaryKey)
         
         let sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(Round.roundID), ascending: true)
+            NSSortDescriptor(key: #keyPath(ManagedRound.roundID), ascending: true)
         ]
         
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
@@ -59,16 +59,16 @@ public extension Round {
 
 // MARK: - Fetchable
 
-extension Round: Fetchable {
+extension ManagedRound: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Round.roundID)
+        return #keyPath(ManagedRound.roundID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Round: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Round? {
+extension ManagedRound: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedRound? {
         guard let roundID = dictionary[APIConstants.Response.Keys.roundID] as? NSNumber else {
             return nil
         }
@@ -80,7 +80,7 @@ extension Round: CoreDataImportable {
         round.roundID = roundID
 
         let brackets = dictionary[APIConstants.Response.Keys.brackets] as? [[String: AnyObject]] ?? []
-        let bracketsArray = Bracket.objects(from: brackets, context: context)
+        let bracketsArray = ManagedBracket.objects(from: brackets, context: context)
 
         for (index, bracket) in bracketsArray.enumerated() {
             bracket.sortOrder = index as NSNumber
@@ -89,10 +89,10 @@ extension Round: CoreDataImportable {
         round.brackets = NSSet(array: bracketsArray)
 
         let clusters = dictionary[APIConstants.Response.Keys.clusters] as? [[String: AnyObject]] ?? []
-        round.clusters = NSSet(array: Cluster.objects(from: clusters, context: context))
+        round.clusters = NSSet(array: ManagedCluster.objects(from: clusters, context: context))
 
         let pools = dictionary[APIConstants.Response.Keys.pools] as? [[String: AnyObject]] ?? []
-        round.pools = NSSet(array: Pool.objects(from: pools, context: context))
+        round.pools = NSSet(array: ManagedPool.objects(from: pools, context: context))
 
         if !round.hasPersistentChangedValues {
             context.refresh(round, mergeChanges: false)

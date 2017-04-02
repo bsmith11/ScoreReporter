@@ -53,7 +53,7 @@ private extension GameService {
             return
         }
         
-        Game.update(with: gameUpdate) { error in
+        ManagedGame.update(with: gameUpdate) { error in
             completion?(ServiceResult(error: error))
         }
     }

@@ -1,5 +1,5 @@
 //
-//  Group.swift
+//  ManagedGroup.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,16 +9,16 @@
 import Foundation
 import CoreData
 
-public class Group: NSManagedObject {
+public class ManagedGroup: NSManagedObject {
 
 }
 
 // MARK: - Public
 
-public extension Group {
+public extension ManagedGroup {
     static func groups(from array: [[String: AnyObject]], completion: ImportCompletion?) {
         let block = { (context: NSManagedObjectContext) -> Void in
-            Group.objects(from: array, context: context)
+            ManagedGroup.objects(from: array, context: context)
         }
 
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
@@ -27,16 +27,16 @@ public extension Group {
 
 // MARK: - Fetchable
 
-extension Group: Fetchable {
+extension ManagedGroup: Fetchable {
     public static var primaryKey: String {
-        return #keyPath(Group.groupID)
+        return #keyPath(ManagedGroup.groupID)
     }
 }
 
 // MARK: - CoreDataImportable
 
-extension Group: CoreDataImportable {
-    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> Group? {
+extension ManagedGroup: CoreDataImportable {
+    public static func object(from dictionary: [String: Any], context: NSManagedObjectContext) -> ManagedGroup? {
         guard let groupID = dictionary[APIConstants.Response.Keys.groupID] as? NSNumber else {
             return nil
         }
@@ -64,7 +64,7 @@ extension Group: CoreDataImportable {
 
         if let rounds = dictionary[APIConstants.Response.Keys.eventRounds] {
             let roundsArray = rounds as? [[String: AnyObject]] ?? []
-            group.rounds = NSSet(array: Round.objects(from: roundsArray, context: context))
+            group.rounds = NSSet(array: ManagedRound.objects(from: roundsArray, context: context))
         }
 
         if !group.hasPersistentChangedValues {

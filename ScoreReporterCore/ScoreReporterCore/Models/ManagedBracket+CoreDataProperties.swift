@@ -1,5 +1,5 @@
 //
-//  Bracket+CoreDataProperties.swift
+//  ManagedBracket+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,12 +9,12 @@
 import Foundation
 import CoreData
 
-public extension Bracket {
+public extension ManagedBracket {
 
     @NSManaged var bracketID: NSNumber
     @NSManaged var name: String?
     @NSManaged var sortOrder: NSNumber?
-    @NSManaged var round: Round?
+    @NSManaged var round: ManagedRound?
     @NSManaged var stages: NSSet
 
 }

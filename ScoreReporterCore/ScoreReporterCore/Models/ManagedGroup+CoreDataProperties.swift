@@ -1,5 +1,5 @@
 //
-//  Group+CoreDataProperties.swift
+//  ManagedGroup+CoreDataProperties.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 7/18/16.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public extension Group {
+public extension ManagedGroup {
 
     @NSManaged var division: String?
     @NSManaged var divisionName: String?
@@ -17,7 +17,7 @@ public extension Group {
     @NSManaged var name: String?
     @NSManaged var teamCount: String?
     @NSManaged var type: String?
-    @NSManaged var event: Event?
+    @NSManaged var event: ManagedEvent?
     @NSManaged var rounds: NSSet
     @NSManaged var teams: NSSet
 
