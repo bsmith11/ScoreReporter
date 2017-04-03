@@ -30,10 +30,10 @@ public extension TeamService {
         }
     }
 
-    func getDetails(forTeam team: ManagedTeam, completion: ServiceCompletion?) {
+    func getDetails(forTeam team: Team, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.teamDetails,
-            APIConstants.Request.Keys.teamID: team.teamID.intValue
+            APIConstants.Request.Keys.teamID: team.id
         ]
 
         client.request(method: .get, path: "", parameters: parameters) { result in
@@ -62,7 +62,7 @@ private extension TeamService {
         }
     }
 
-    func parseTeam(response: [String: Any], team: ManagedTeam, completion: ServiceCompletion?) {
+    func parseTeam(response: [String: Any], team: Team, completion: ServiceCompletion?) {
         guard let responseArray = response[APIConstants.Response.Keys.groups] as? [[String: AnyObject]] else {
             let error = NSError(type: .invalidResponse)
             completion?(ServiceResult(error: error))
@@ -99,7 +99,8 @@ private extension TeamService {
 
         let terminalOperation = BlockOperation {
             ManagedGroup.coreDataStack.performBlockUsingBackgroundContext({ context in
-                if let contextualTeam = context.object(with: team.objectID) as? ManagedTeam {
+                let primaryKey = NSNumber(integerLiteral: team.id)
+                if let contextualTeam = ManagedTeam.object(primaryKey: primaryKey, context: context) {
                     ManagedGame.objects(withPrimaryKeys: gameIDs, context: context).forEach { $0.add(team: contextualTeam) }
                 }
                 
@@ -196,7 +197,7 @@ class EventDetailsOperation: AsyncOperation {
         let block = { (completion: @escaping AsyncOperationCompletion) in
             let eventService = EventService()
 
-            eventService.getDetailsForEvent(withID: eventID.intValue, completion: { error in
+            eventService.getDetailsForEvent(withId: eventID.intValue, completion: { error in
                 print("Finished downloading \(eventID) with error: \(error)")
 
                 completion()

@@ -14,12 +14,12 @@ typealias GameDetailsCompletion = (Bool) -> Void
 class GameDetailsViewModel: NSObject {
     fileprivate let gameService = GameService()
     
-    let game: ManagedGame
+    let game: Game
     
     fileprivate(set) dynamic var loading = false
     fileprivate(set) dynamic var error: NSError? = nil
     
-    init(game: ManagedGame) {
+    init(game: Game) {
         self.game = game
         
         super.init()

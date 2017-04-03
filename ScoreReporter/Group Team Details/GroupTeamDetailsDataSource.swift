@@ -12,27 +12,29 @@ import ScoreReporterCore
 import DataSource
 
 class GroupTeamDetailsDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = ManagedGame
-    typealias SectionType = Section<ModelType>
+    typealias ModelType = Game
+    typealias SectionType = Section<Game>
     
     fileprivate let poolFetchedResultsController: NSFetchedResultsController<ManagedGame>
     fileprivate let crossoverFetchedResultsController: NSFetchedResultsController<ManagedGame>
     fileprivate let bracketFetchedResultsController: NSFetchedResultsController<ManagedGame>
     
-    fileprivate(set) var sections = [Section<ModelType>]()
+    fileprivate(set) var sections = [Section<Game>]()
     
-    let group: ManagedGroup
+    let group: Group
     let teamName: String
     
     var reloadBlock: ReloadBlock?
     
-    init(group: ManagedGroup, teamName: String) {
+    dynamic var empty = false
+    
+    init(group: Group, teamName: String) {
         self.group = group
         self.teamName = teamName
         
-        poolFetchedResultsController = ManagedGame.fetchedPoolGamesFor(group: group, teamName: teamName)
-        crossoverFetchedResultsController = ManagedGame.fetchedCrossoverGamesFor(group: group, teamName: teamName)
-        bracketFetchedResultsController = ManagedGame.fetchedBracketGamesFor(group: group, teamName: teamName)
+        poolFetchedResultsController = ManagedGame.fetchedPoolGames(forGroup: group, teamName: teamName)
+        crossoverFetchedResultsController = ManagedGame.fetchedCrossoverGames(forGroup: group, teamName: teamName)
+        bracketFetchedResultsController = ManagedGame.fetchedBracketGames(forGroup: group, teamName: teamName)
         
         super.init()
         
@@ -56,20 +58,25 @@ private extension GroupTeamDetailsDataSource {
     func configureSections() {
         sections.removeAll()
         
-        if let games = poolFetchedResultsController.fetchedObjects, !games.isEmpty {
-            let section = Section(items: games, headerTitle: games.first?.pool?.name)
+        if let managedGames = poolFetchedResultsController.fetchedObjects, !managedGames.isEmpty {
+            let games = managedGames.flatMap { Game(game: $0) }
+            let section = Section(items: games, headerTitle: games.first?.container.name)
             sections.append(section)
         }
         
-        if let games = crossoverFetchedResultsController.fetchedObjects, !games.isEmpty {
+        if let managedGames = crossoverFetchedResultsController.fetchedObjects, !managedGames.isEmpty {
+            let games = managedGames.flatMap { Game(game: $0) }
             let section = Section(items: games, headerTitle: "Crossovers")
             sections.append(section)
         }
         
-        if let games = bracketFetchedResultsController.fetchedObjects, !games.isEmpty {
+        if let managedGames = bracketFetchedResultsController.fetchedObjects, !managedGames.isEmpty {
+            let games = managedGames.flatMap { Game(game: $0) }
             let section = Section(items: games, headerTitle: "Bracket Play")
             sections.append(section)
         }
+        
+        empty = sections.isEmpty
     }
 }
 

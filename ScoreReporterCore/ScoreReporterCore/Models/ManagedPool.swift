@@ -16,8 +16,9 @@ public class ManagedPool: NSManagedObject {
 // MARK: - Public
 
 public extension ManagedPool {
-    static func fetchedPoolsFor(round: ManagedRound) -> NSFetchedResultsController<ManagedPool> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedPool.round), round)
+    static func fetchedPools(forRound round: Round) -> NSFetchedResultsController<ManagedPool> {
+        let primaryKey = NSNumber(integerLiteral: round.id)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedPool.round.roundID), primaryKey)
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(ManagedPool.poolID), ascending: true)
@@ -26,8 +27,8 @@ public extension ManagedPool {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedPoolsForGroup(withId groupId: Int) -> NSFetchedResultsController<ManagedPool> {
-        let primaryKey = NSNumber(integerLiteral: groupId)
+    static func fetchedPools(forGroup group: Group) -> NSFetchedResultsController<ManagedPool> {
+        let primaryKey = NSNumber(integerLiteral: group.id)
         let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedPool.round.group.groupID), primaryKey)
 
         let sortDescriptors = [

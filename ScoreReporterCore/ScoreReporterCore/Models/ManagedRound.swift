@@ -9,23 +9,6 @@
 import Foundation
 import CoreData
 
-public enum RoundType: Int {
-    case pools
-    case clusters
-    case brackets
-
-    var title: String {
-        switch self {
-        case .pools:
-            return "Pools"
-        case .clusters:
-            return "Crossovers"
-        case .brackets:
-            return "Bracket"
-        }
-    }
-}
-
 public class ManagedRound: NSManagedObject {
 
 }
@@ -33,20 +16,8 @@ public class ManagedRound: NSManagedObject {
 // MARK: - Public
 
 public extension ManagedRound {
-    var type: RoundType {
-        if pools.count > 0 {
-            return .pools
-        }
-        else if clusters.count > 0 {
-            return .clusters
-        }
-        else {
-            return .brackets
-        }
-    }
-    
-    static func fetchedRoundsForGroup(withId groupId: Int) -> NSFetchedResultsController<ManagedRound> {
-        let primaryKey = NSNumber(integerLiteral: groupId)
+    static func fetchedRounds(forGroup group: Group) -> NSFetchedResultsController<ManagedRound> {
+        let primaryKey = NSNumber(integerLiteral: group.id)
         let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedRound.group.groupID), primaryKey)
         
         let sortDescriptors = [

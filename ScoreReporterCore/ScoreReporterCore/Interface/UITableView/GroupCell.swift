@@ -30,10 +30,10 @@ public class GroupCell: TableViewCell {
 // MARK: - Public
 
 public extension GroupCell {
-    func configure(with viewModel: GroupViewModel?) {
-        avatarLabel.text = viewModel?.divisionIdentifier
-        avatarContainerView.backgroundColor = viewModel?.divisionColor
-        titleLabel.text = viewModel?.fullName        
+    func configure(withGroup group: Group) {
+        avatarLabel.text = group.divisionIdentifier
+        avatarContainerView.backgroundColor = group.divisionColor
+        titleLabel.text = group.fullName        
     }
 }
 

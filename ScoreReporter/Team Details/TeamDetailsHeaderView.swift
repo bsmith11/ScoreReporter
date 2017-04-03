@@ -62,10 +62,10 @@ class TeamDetailsHeaderView: UIView, Sizable {
 // MARK: - Public
 
 extension TeamDetailsHeaderView {
-    func configure(with viewModel: TeamViewModel) {
-        backgroundImageView.pin_setImage(from: viewModel.logoURL)
+    func configure(withTeam team: Team) {
+        backgroundImageView.pin_setImage(from: team.logoUrl)
         
-        infoView.configure(with: viewModel)
+        infoView.configure(withTeam: team)
     }
     
     func resetBlurAnimation() {

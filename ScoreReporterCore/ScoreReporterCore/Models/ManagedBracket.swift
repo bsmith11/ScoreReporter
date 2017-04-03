@@ -16,8 +16,8 @@ public class ManagedBracket: NSManagedObject {
 // MARK: - Public
 
 public extension ManagedBracket {
-    static func fetchedBracketsForGroup(withId groupId: Int) -> NSFetchedResultsController<ManagedBracket> {
-        let primaryKey = NSNumber(integerLiteral: groupId)
+    static func fetchedBrackets(forGroup group: Group) -> NSFetchedResultsController<ManagedBracket> {
+        let primaryKey = NSNumber(integerLiteral: group.id)
         let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedBracket.round.group.groupID), primaryKey)
 
         let sortDescriptors = [

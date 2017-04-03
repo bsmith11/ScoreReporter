@@ -28,8 +28,8 @@ public struct GameUpdate {
         self.gameStatus = gameStatus
     }
     
-    public init(game: ManagedGame, homeTeamScore: String, awayTeamScore: String, gameStatus: String) {
-        self.gameID = game.gameID
+    public init(game: Game, homeTeamScore: String, awayTeamScore: String, gameStatus: String) {
+        self.gameID = NSNumber(integerLiteral: game.id)
         self.homeTeamScore = homeTeamScore
         self.awayTeamScore = awayTeamScore
         self.gameStatus = gameStatus

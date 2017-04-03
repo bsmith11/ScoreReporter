@@ -12,26 +12,26 @@ import ScoreReporterCore
 import DataSource
 
 enum TeamDetailsInfo {
-    case event(ManagedEvent)
-    case game(ManagedGame)
+    case event(Event)
+    case game(Game)
 }
 
 class TeamDetailsDataSource: NSObject, SectionedDataSource {
     typealias ModelType = TeamDetailsInfo
-    typealias SectionType = Section<ModelType>
+    typealias SectionType = Section<TeamDetailsInfo>
     
     fileprivate let gamesFetchedResultsController: NSFetchedResultsController<ManagedGame>
 
-    fileprivate(set) var sections = [Section<ModelType>]()
+    fileprivate(set) var sections = [Section<TeamDetailsInfo>]()
 
-    let team: ManagedTeam
+    let team: Team
 
     var reloadBlock: ReloadBlock?
 
-    init(team: ManagedTeam) {
+    init(team: Team) {
         self.team = team
 
-        gamesFetchedResultsController = ManagedGame.fetchedGamesFor(team: team)
+        gamesFetchedResultsController = ManagedGame.fetchedGames(forTeam: team)
 
         super.init()
 
@@ -60,17 +60,20 @@ private extension TeamDetailsDataSource {
     func configureSections() {
         sections.removeAll()
 
-        if let groups = team.groups as? Set<ManagedGroup> {
-            let events = groups.flatMap { $0.event }.sorted(by: { $0.0.name < $0.1.name })
-            let eventItems = events.map { TeamDetailsInfo.event($0) }
+//        //TODO - Fix
+//        if let groups = team.groups as? Set<ManagedGroup> {
+//            let events = groups.flatMap { $0.event }.sorted(by: { $0.0.name < $0.1.name })
+//            let eventItems = events.map { TeamDetailsInfo.event($0) }
+//
+//            if !eventItems.isEmpty {
+//                sections.append(Section(items: eventItems, headerTitle: "Events"))
+//            }
+//        }
 
-            if !eventItems.isEmpty {
-                sections.append(Section(items: eventItems, headerTitle: "Events"))
-            }
-        }
-
-        if let games = gamesFetchedResultsController.fetchedObjects, !games.isEmpty {
-            sections.append(Section(items: games.map { .game($0) }, headerTitle: "Active Games"))
+        if let managedGames = gamesFetchedResultsController.fetchedObjects, !managedGames.isEmpty {
+            let items = managedGames.flatMap { Game(game: $0) }.map { TeamDetailsInfo.game($0) }
+            let gameSection = Section(items: items, headerTitle: "Active Games")
+            sections.append(gameSection)
         }
     }
 }

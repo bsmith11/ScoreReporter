@@ -55,8 +55,8 @@ class GameDetailsViewController: UIViewController, MessageDisplayable {
         scorePicker.set(name: viewModel.game.homeTeamName, for: .home)
         scorePicker.set(name: viewModel.game.awayTeamName, for: .away)
         
-        let homeScore = viewModel.game.homeTeamScore.flatMap { Int($0) } ?? 0
-        let awayScore = viewModel.game.awayTeamScore.flatMap { Int($0) } ?? 0
+        let homeScore = Int(viewModel.game.homeTeamScore) ?? 0
+        let awayScore = Int(viewModel.game.awayTeamScore) ?? 0
         
         scorePicker.select(score: homeScore, for: .home)
         scorePicker.select(score: awayScore, for: .away)
@@ -145,7 +145,7 @@ private extension GameDetailsViewController {
             
             let homeTeamScore = String(sself.scorePicker.score(for: .home))
             let awayTeamScore = String(sself.scorePicker.score(for: .away))
-            let gameStatus = sself.viewModel.game.status ?? "Scheduled"
+            let gameStatus = sself.viewModel.game.status.displayValue
             let gameUpdate = GameUpdate(game: sself.viewModel.game, homeTeamScore: homeTeamScore, awayTeamScore: awayTeamScore, gameStatus: gameStatus)
             
             sself.viewModel.update(with: gameUpdate) { [weak self] success in

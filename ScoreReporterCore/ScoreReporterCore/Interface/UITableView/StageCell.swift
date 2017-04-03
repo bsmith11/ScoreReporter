@@ -27,8 +27,8 @@ public class StageCell: TableViewCell {
 // MARK: - Public
 
 public extension StageCell {
-    func configure(with title: String?) {
-        titleLabel.text = title
+    func configure(withStage stage: Stage) {
+        titleLabel.text = stage.name
     }
 }
 

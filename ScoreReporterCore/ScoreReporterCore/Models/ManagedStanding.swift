@@ -16,8 +16,9 @@ public class ManagedStanding: NSManagedObject {
 // MARK: - Public
 
 public extension ManagedStanding {
-    static func fetchedStandingsFor(pool: ManagedPool) -> NSFetchedResultsController<ManagedStanding> {
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedStanding.pool), pool)
+    static func fetchedStandings(forPool pool: Pool) -> NSFetchedResultsController<ManagedStanding> {
+        let primaryKey = NSNumber(integerLiteral: pool.id)
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedStanding.pool.poolID), primaryKey)
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(ManagedStanding.sortOrder), ascending: true)

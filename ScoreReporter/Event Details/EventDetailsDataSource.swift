@@ -12,13 +12,13 @@ import ScoreReporterCore
 import DataSource
 
 enum EventDetailsInfo {
-    case division(GroupViewModel)
-    case activeGame(GameViewModel)
+    case division(Group)
+    case activeGame(Game)
 
     var title: String {
         switch self {
-        case .division(let viewModel):
-            return viewModel.fullName
+        case .division(let group):
+            return group.fullName
         case .activeGame:
             return ""
         }
@@ -33,14 +33,14 @@ class EventDetailsDataSource: NSObject, SectionedDataSource {
 
     fileprivate(set) var sections = [Section<EventDetailsInfo>]()
 
-    let viewModel: EventViewModel
+    let event: Event
     
     var reloadBlock: ReloadBlock?
 
-    init(viewModel: EventViewModel) {
-        self.viewModel = viewModel
+    init(event: Event) {
+        self.event = event
 
-        activeGamesFRC = ManagedGame.fetchedActiveGames(forEventID: viewModel.eventID)
+        activeGamesFRC = ManagedGame.fetchedActiveGames(forEvent: event)
         
         super.init()
         
@@ -60,15 +60,15 @@ private extension EventDetailsDataSource {
     func configureSections() {
         sections.removeAll()
         
-        if !viewModel.groups.isEmpty {
-            let groupViewModels = viewModel.groups.sorted(by: { $0.0.groupID < $0.1.groupID })
+        if !event.groups.isEmpty {
+            let groupViewModels = event.groups.sorted(by: { $0.0.id < $0.1.id })
             let divisions = groupViewModels.map { EventDetailsInfo.division($0) }
             let section = Section(items: divisions, headerTitle: "Divisions")
             sections.append(section)
         }
 
         if let games = activeGamesFRC.fetchedObjects, !games.isEmpty {
-            let items = games.map { GameViewModel(game: $0) }.map { EventDetailsInfo.activeGame($0) }
+            let items = games.flatMap { Game(game: $0) }.map { EventDetailsInfo.activeGame($0) }
             let section = Section(items: items, headerTitle: "Active Games")
             sections.append(section)
         }

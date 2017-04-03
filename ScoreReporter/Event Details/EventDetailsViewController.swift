@@ -46,7 +46,7 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
         let unfavoriteImage = UIImage(named: "icn-star-selected")
         unfavoriteButton = UIBarButtonItem(image: unfavoriteImage, style: .plain, target: self, action: #selector(unfavoriteButtonTapped))
 
-        navigationItem.rightBarButtonItem = dataSource.viewModel.bookmarked ? unfavoriteButton : favoriteButton
+        navigationItem.rightBarButtonItem = dataSource.event.bookmarked ? unfavoriteButton : favoriteButton
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -114,7 +114,7 @@ private extension EventDetailsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
-        headerView.configure(withViewModel: dataSource.viewModel)
+        headerView.configure(withEvent: dataSource.event)
         headerView.delegate = self
     }
 
@@ -189,14 +189,14 @@ extension EventDetailsViewController: UITableViewDataSource {
         }
 
         switch item {
-        case .division(let viewModel):
+        case .division(let group):
             let cell = tableView.dequeueCell(for: indexPath) as GroupCell
-            cell.configure(with: viewModel)
+            cell.configure(withGroup: group)
             cell.separatorHidden = indexPath.item == 0
             return cell
-        case .activeGame(let viewModel):
+        case .activeGame(let game):
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
-            cell.configure(with: viewModel)
+            cell.configure(withGame: game, state: .full)
             cell.separatorHidden = indexPath.item == 0
             return cell
         }
@@ -212,8 +212,8 @@ extension EventDetailsViewController: UITableViewDelegate {
         }
 
         switch item {
-        case .division(let viewModel):
-            let groupDetailsDataSource = GroupDetailsDataSource(viewModel: viewModel)
+        case .division(let group):
+            let groupDetailsDataSource = GroupDetailsDataSource(group: group)
             let groupDetailsViewController = GroupDetailsViewController(dataSource: groupDetailsDataSource)
             navigationController?.pushViewController(groupDetailsViewController, animated: true)
         case .activeGame:
@@ -268,15 +268,15 @@ extension EventDetailsViewController {
 
 extension EventDetailsViewController: EventDetailsHeaderViewDelegate {
     func didSelectMaps(in headerView: EventDetailsHeaderView) {
-//        guard var urlComponenets = URLComponents(string: "http://maps.apple.com/"),
-//              let address = dataSource.event.searchSubtitle else {
-//            return
-//        }
-//        
-//        urlComponenets.queryItems = [URLQueryItem(name: "q", value: address)]
-//        
-//        if let url = urlComponenets.url, UIApplication.shared.canOpenURL(url) {
-//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//        }
+        guard var urlComponenets = URLComponents(string: "http://maps.apple.com/"),
+              let address = dataSource.event.searchSubtitle else {
+            return
+        }
+        
+        urlComponenets.queryItems = [URLQueryItem(name: "q", value: address)]
+        
+        if let url = urlComponenets.url, UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }

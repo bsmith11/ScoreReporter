@@ -1,35 +1,33 @@
 //
-//  TeamDetailsViewModel.swift
+//  TeamListDataController.swift
 //  ScoreReporter
 //
-//  Created by Bradley Smith on 11/16/16.
+//  Created by Bradley Smith on 11/22/16.
 //  Copyright © 2016 Brad Smith. All rights reserved.
 //
 
 import Foundation
 import ScoreReporterCore
 
-class TeamDetailsViewModel: NSObject {
-    fileprivate let team: ManagedTeam
+class TeamListDataController: NSObject {
+    fileprivate let dataSource: TeamListDataSource
     fileprivate let teamService = TeamService()
 
     fileprivate(set) dynamic var loading = false
-    fileprivate(set) dynamic var error: NSError?
-
-    init(team: ManagedTeam) {
-        self.team = team
-
-        super.init()
+    fileprivate(set) dynamic var error: NSError? = nil
+    
+    init(dataSource: TeamListDataSource) {
+        self.dataSource = dataSource
     }
 }
 
 // MARK: - Public
 
-extension TeamDetailsViewModel {
-    func downloadTeamDetails(completion: ServiceCompletion?) {
+extension TeamListDataController {
+    func getTeams() {
         loading = true
 
-        teamService.getDetails(forTeam: team) { [weak self] result in
+        teamService.getTeamList { [weak self] result in
             guard let sself = self else {
                 return
             }
@@ -42,8 +40,6 @@ extension TeamDetailsViewModel {
             case .failure(let error):
                 sself.error = error
             }
-            
-            completion?(result)
         }
     }
 }

@@ -89,12 +89,13 @@ extension GroupTeamDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let game = dataSource.item(at: indexPath)
-        let cell = tableView.dequeueCell(for: indexPath) as GameCell
-        let gameViewModel = GameViewModel(game: game, state: .full)
-        cell.configure(with: gameViewModel)
-        cell.separatorHidden = indexPath.item == 0
+        guard let game = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
         
+        let cell = tableView.dequeueCell(for: indexPath) as GameCell
+        cell.configure(withGame: game, state: .full)
+        cell.separatorHidden = indexPath.item == 0
         return cell
     }
 }

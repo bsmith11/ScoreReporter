@@ -36,13 +36,13 @@ class TeamDetailsInfoView: UIView {
 // MARK: - Public
 
 extension TeamDetailsInfoView {
-    func configure(with viewModel: TeamViewModel) {
-        nameLabel.text = viewModel.fullName
+    func configure(withTeam team: Team) {
+        nameLabel.text = team.fullName
         
-        locationLabel.text = viewModel.location
+        locationLabel.text = team.location
         locationLabel.isHidden = locationLabel.text == nil
         
-        competitionLabel.text = viewModel.competitionDivision
+        competitionLabel.text = team.competitionDivision
         competitionLabel.isHidden = competitionLabel.text == nil
     }
 }

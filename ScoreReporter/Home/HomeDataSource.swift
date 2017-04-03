@@ -12,12 +12,12 @@ import ScoreReporterCore
 import DataSource
 
 class HomeDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = EventViewModel
-    typealias SectionType = Section<EventViewModel>
+    typealias ModelType = Event
+    typealias SectionType = Section<Event>
 
     fileprivate let fetchedResultsController = ManagedEvent.fetchedEventsThisWeek()
 
-    fileprivate(set) var sections = [Section<EventViewModel>]()
+    fileprivate(set) var sections = [Section<Event>]()
     
     fileprivate(set) dynamic var empty = false
 
@@ -43,8 +43,8 @@ private extension HomeDataSource {
         sections.removeAll()
         
         if let fetchedObjects = fetchedResultsController.fetchedObjects, !fetchedObjects.isEmpty {
-            let viewModels = fetchedObjects.map { EventViewModel(event: $0) }
-            let section = Section(items: viewModels, headerTitle: "This Week")
+            let events = fetchedObjects.map { Event(event: $0) }
+            let section = Section(items: events, headerTitle: "This Week")
             sections.append(section)
         }
         

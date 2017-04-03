@@ -20,13 +20,13 @@ class GroupDetailsDataSource: NSObject, ListDataSource {
 
     fileprivate(set) dynamic var empty = false
 
-    let viewModel: GroupViewModel
+    let group: Group
 
     var reloadBlock: ReloadBlock?
 
-    init(viewModel: GroupViewModel) {
-        self.viewModel = viewModel
-        self.fetchedResultsController = ManagedRound.fetchedRoundsForGroup(withId: viewModel.groupID)
+    init(group: Group) {
+        self.group = group
+        self.fetchedResultsController = ManagedRound.fetchedRounds(forGroup: group)
 
         super.init()
 
@@ -46,28 +46,26 @@ private extension GroupDetailsDataSource {
     func configureItems() {
         items.removeAll()
 
-        let rounds = fetchedResultsController.fetchedObjects ?? []
-        let sortedRounds = rounds.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue })
+        let managedRounds = fetchedResultsController.fetchedObjects ?? []
+        let rounds = managedRounds.flatMap { Round(round: $0) }.sorted(by: { $0.0.type.rawValue < $0.1.type.rawValue })
 
         var poolListViewController: UIViewController?
         var bracketListViewController: UIViewController?
 
-        var clusters = [ManagedCluster]()
+        var clusters = [Cluster]()
 
-        sortedRounds.forEach { round in
+        rounds.forEach { round in
             switch round.type {
             case .pools:
                 if poolListViewController == nil {
-                    let poolListDataSource = PoolListDataSource(viewModel: viewModel)
+                    let poolListDataSource = PoolListDataSource(group: group)
                     poolListViewController = PoolListViewController(dataSource: poolListDataSource)
                 }
             case .clusters:
-                if let clusterObjects = round.clusters.allObjects as? [ManagedCluster] {
-                    clusters.append(contentsOf: clusterObjects)
-                }
+                clusters.append(contentsOf: round.clusters)
             case .brackets:
                 if bracketListViewController == nil {
-                    let bracketListDataSource = BracketListDataSource(viewModel: viewModel)
+                    let bracketListDataSource = BracketListDataSource(group: group)
                     bracketListViewController = BracketListViewController(dataSource: bracketListDataSource)
                 }
             }

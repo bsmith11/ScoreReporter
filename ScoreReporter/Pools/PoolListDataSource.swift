@@ -11,14 +11,14 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class PoolSection: Section<StandingViewModel> {
-    let viewModel: PoolViewModel
+class PoolSection: Section<Standing> {
+    let pool: Pool
 
-    init(viewModel: PoolViewModel) {
-        self.viewModel = viewModel
+    init(pool: Pool) {
+        self.pool = pool
 
-        let headerTitle = viewModel.name
-        let items = viewModel.standings.flatMap { StandingViewModel(standing: $0) }.sorted { (lhs, rhs) -> Bool in
+        let headerTitle = pool.name
+        let items = pool.standings.sorted { (lhs, rhs) -> Bool in
             if lhs.sortOrder == rhs.sortOrder {
                 return lhs.seed < rhs.seed
             }
@@ -32,7 +32,7 @@ class PoolSection: Section<StandingViewModel> {
 }
 
 class PoolListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = StandingViewModel
+    typealias ModelType = Standing
     typealias SectionType = PoolSection
 
     fileprivate let fetchedResultsController: NSFetchedResultsController<ManagedPool>
@@ -43,8 +43,8 @@ class PoolListDataSource: NSObject, SectionedDataSource {
     
     var reloadBlock: ReloadBlock?
 
-    init(viewModel: GroupViewModel) {
-        fetchedResultsController = ManagedPool.fetchedPoolsForGroup(withId: viewModel.groupID)
+    init(group: Group) {
+        fetchedResultsController = ManagedPool.fetchedPools(forGroup: group)
 
         super.init()
 
@@ -61,12 +61,12 @@ class PoolListDataSource: NSObject, SectionedDataSource {
 // MARK: - Public
 
 extension PoolListDataSource {
-    func viewModel(for section: Int) -> PoolViewModel? {
+    func pool(for section: Int) -> Pool? {
         guard section < sections.count else {
             return nil
         }
 
-        return sections[section].viewModel
+        return sections[section].pool
     }
 }
 
@@ -76,8 +76,8 @@ private extension PoolListDataSource {
     func configureSections() {
         sections.removeAll()
         
-        if let pools = fetchedResultsController.fetchedObjects {
-            let poolSections = pools.flatMap { PoolViewModel(pool: $0) }.map { PoolSection(viewModel: $0) }
+        if let managedPools = fetchedResultsController.fetchedObjects {
+            let poolSections = managedPools.flatMap { Pool(pool: $0) }.map { PoolSection(pool: $0) }
             sections.append(contentsOf: poolSections)
         }
         

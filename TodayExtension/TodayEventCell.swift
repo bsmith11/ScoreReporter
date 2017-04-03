@@ -38,31 +38,25 @@ public class TodayEventCell: TableViewCell {
 // MARK: - Public
 
 public extension TodayEventCell {
-    func configure(with event: ManagedEvent?) {
+    func configure(withEvent event: Event) {
         let monthDateFormatter = DateFormatter()
         monthDateFormatter.dateFormat = "MMM"
         
         let rangeDateFormatter = DateIntervalFormatter()
         rangeDateFormatter.dateTemplate = "d"
         
-        let month = event?.startDate.flatMap { monthDateFormatter.string(from: $0) }
+        let month = event.startDate.flatMap { monthDateFormatter.string(from: $0) }
         
         var range: String?
-        if let from = event?.startDate, let to = event?.endDate {
+        if let from = event.startDate, let to = event.endDate {
             range = rangeDateFormatter.string(from: from, to: to)
         }
         
         monthLabel.text = month
         rangeLabel.text = range
         
-        guard let event = event else {
-            return
-        }
-        
-        let viewModel = EventViewModel(event: event)
-        
-        titleLabel.text = viewModel.searchTitle
-        subtitleLabel.text = viewModel.searchSubtitle
+        titleLabel.text = event.searchTitle
+        subtitleLabel.text = event.searchSubtitle
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  EventListDataSource.swift
+//  TeamListDataSource.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/22/16.
@@ -11,23 +11,22 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class EventListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = Event
-    typealias SectionType = Section<Event>
+class TeamListDataSource: NSObject, SectionedDataSource {
+    typealias ModelType = Team
+    typealias SectionType = Section<Team>
 
-    fileprivate let fetchedResultsController = ManagedEvent.fetchedBookmarkedEvents()
+    fileprivate(set) var sections = [Section<Team>]()
+    fileprivate(set) var fetchedResultsController = ManagedTeam.fetchedBookmarkedTeams()
 
-    fileprivate(set) var sections = [Section<Event>]()
-    
     dynamic var empty = false
 
     var reloadBlock: ReloadBlock?
 
     override init() {
         super.init()
-        
+
         fetchedResultsController.delegate = self
-        
+
         configureSections()
     }
 
@@ -38,13 +37,13 @@ class EventListDataSource: NSObject, SectionedDataSource {
 
 // MARK: - Private
 
-private extension EventListDataSource {
+private extension TeamListDataSource {
     func configureSections() {
         sections.removeAll()
         
         if let fetchedObjects = fetchedResultsController.fetchedObjects, !fetchedObjects.isEmpty {
-            let events = fetchedObjects.map { Event(event: $0) }
-            let section = Section(items: events, headerTitle: "My Events")
+            let teams = fetchedObjects.map { Team(team: $0) }.sorted(by: { $0.0.id < $0.1.id })
+            let section = Section(items: teams, headerTitle: "My Teams")
             sections.append(section)
         }
         
@@ -54,7 +53,7 @@ private extension EventListDataSource {
 
 // MARK: - NSFetchedResultsControllerDelegate
 
-extension EventListDataSource: NSFetchedResultsControllerDelegate {
+extension TeamListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
         reloadBlock?([])

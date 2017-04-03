@@ -14,7 +14,7 @@ import ScoreReporterCore
 class EventListViewController: UIViewController, MessageDisplayable {
     fileprivate let dataSource: EventListDataSource
     fileprivate let dataController: EventListDataController
-    fileprivate let searchViewController: SearchViewController<ManagedEvent>
+//    fileprivate let searchViewController: SearchViewController<ManagedEvent>
     
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
 
@@ -32,12 +32,12 @@ class EventListViewController: UIViewController, MessageDisplayable {
         self.dataSource = dataSource
         self.dataController = EventListDataController(dataSource: dataSource)
 
-        let searchDataSource = SearchDataSource(fetchedResultsController: ManagedEvent.searchFetchedResultsController)
-        searchViewController = SearchViewController(dataSource: searchDataSource)
+//        let searchDataSource = SearchDataSource(fetchedResultsController: ManagedEvent.searchFetchedResultsController)
+//        searchViewController = SearchViewController(dataSource: searchDataSource)
 
         super.init(nibName: nil, bundle: nil)
 
-        searchViewController.delegate = self
+//        searchViewController.delegate = self
 
         title = "Events"
 
@@ -70,7 +70,7 @@ class EventListViewController: UIViewController, MessageDisplayable {
             self?.tableView.reloadData()
         }
 
-        navigationItem.titleView = searchViewController.searchBar
+//        navigationItem.titleView = searchViewController.searchBar
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,12 +124,12 @@ extension EventListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let viewModel = dataSource.item(at: indexPath) else {
+        guard let event = dataSource.item(at: indexPath) else {
             return UITableViewCell()
         }
         
         let cell = tableView.dequeueCell(for: indexPath) as EventCell
-        cell.configure(withViewModel: viewModel)
+        cell.configure(withEvent: event)
         cell.separatorHidden = indexPath.item == 0
         return cell
     }
@@ -139,11 +139,11 @@ extension EventListViewController: UITableViewDataSource {
 
 extension EventListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let viewModel = dataSource.item(at: indexPath) else {
+        guard let event = dataSource.item(at: indexPath) else {
             return
         }
 
-        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
+        let eventDetailsDataSource = EventDetailsDataSource(event: event)
         let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }
@@ -171,46 +171,46 @@ extension EventListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - SearchViewControllerDelegate
-
-extension EventListViewController: SearchViewControllerDelegate {
-    func didSelect(item: Searchable) {
-        guard let event = item as? ManagedEvent else {
-            return
-        }
-
-        let viewModel = EventViewModel(event: event)
-        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
-        let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
-        navigationController?.pushViewController(eventDetailsViewController, animated: true)
-    }
-
-    func didSelectCancel() {
-        guard childViewControllers.contains(searchViewController) else {
-            return
-        }
-        
-        searchViewController.beginDisappearanceAnimation { [weak self] in
-            self?.searchViewController.willMove(toParentViewController: nil)
-            self?.searchViewController.view.removeFromSuperview()
-            self?.searchViewController.removeFromParentViewController()
-        }
-    }
-
-    func willBeginEditing() {
-        guard !childViewControllers.contains(searchViewController) else {
-            return
-        }
-        
-        addChildViewController(searchViewController)
-        view.addSubview(searchViewController.view)
-        
-        searchViewController.view.frame = view.bounds
-        searchViewController.view.setNeedsLayout()
-        searchViewController.view.layoutIfNeeded()
-        
-        searchViewController.didMove(toParentViewController: self)
-        
-        searchViewController.beginAppearanceAnimation(completion: nil)
-    }
-}
+//// MARK: - SearchViewControllerDelegate
+//
+//extension EventListViewController: SearchViewControllerDelegate {
+//    func didSelect(item: Searchable) {
+//        guard let event = item as? ManagedEvent else {
+//            return
+//        }
+//
+//        let viewModel = EventViewModel(event: event)
+//        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
+//        let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
+//        navigationController?.pushViewController(eventDetailsViewController, animated: true)
+//    }
+//
+//    func didSelectCancel() {
+//        guard childViewControllers.contains(searchViewController) else {
+//            return
+//        }
+//        
+//        searchViewController.beginDisappearanceAnimation { [weak self] in
+//            self?.searchViewController.willMove(toParentViewController: nil)
+//            self?.searchViewController.view.removeFromSuperview()
+//            self?.searchViewController.removeFromParentViewController()
+//        }
+//    }
+//
+//    func willBeginEditing() {
+//        guard !childViewControllers.contains(searchViewController) else {
+//            return
+//        }
+//        
+//        addChildViewController(searchViewController)
+//        view.addSubview(searchViewController.view)
+//        
+//        searchViewController.view.frame = view.bounds
+//        searchViewController.view.setNeedsLayout()
+//        searchViewController.view.layoutIfNeeded()
+//        
+//        searchViewController.didMove(toParentViewController: self)
+//        
+//        searchViewController.beginAppearanceAnimation(completion: nil)
+//    }
+//}

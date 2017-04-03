@@ -55,7 +55,6 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedEvent" inverseName="groups" inverseEntity="ManagedEvent" syncable="YES"/>
         <relationship name="rounds" toMany="YES" deletionRule="Cascade" destinationEntity="ManagedRound" inverseName="group" inverseEntity="ManagedRound" syncable="YES"/>
-        <relationship name="teams" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedTeam" inverseName="groups" inverseEntity="ManagedTeam" syncable="YES"/>
     </entity>
     <entity name="ManagedPool" representedClassName=".ManagedPool" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -95,10 +94,8 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="school" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="stateFull" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="teamID" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="awayGames" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedGame" inverseName="awayTeam" inverseEntity="ManagedGame" syncable="YES"/>
-        <relationship name="groups" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedGroup" inverseName="teams" inverseEntity="ManagedGroup" syncable="YES"/>
         <relationship name="homeGames" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedGame" inverseName="homeTeam" inverseEntity="ManagedGame" syncable="YES"/>
     </entity>
     <entity name="ManagedUser" representedClassName=".ManagedUser" syncable="YES">
@@ -110,12 +107,12 @@
         <element name="ManagedCluster" positionX="0" positionY="90" width="128" height="105"/>
         <element name="ManagedEvent" positionX="-63" positionY="-18" width="128" height="210"/>
         <element name="ManagedGame" positionX="-9" positionY="54" width="128" height="315"/>
-        <element name="ManagedGroup" positionX="-54" positionY="63" width="128" height="180"/>
+        <element name="ManagedGroup" positionX="-54" positionY="63" width="128" height="165"/>
         <element name="ManagedPool" positionX="18" positionY="99" width="128" height="120"/>
         <element name="ManagedRound" positionX="-36" positionY="72" width="128" height="120"/>
         <element name="ManagedStage" positionX="36" positionY="108" width="128" height="105"/>
         <element name="ManagedStanding" positionX="0" positionY="63" width="128" height="135"/>
-        <element name="ManagedTeam" positionX="-9" positionY="144" width="128" height="255"/>
+        <element name="ManagedTeam" positionX="-9" positionY="144" width="128" height="225"/>
         <element name="ManagedUser" positionX="-18" positionY="135" width="128" height="75"/>
     </elements>
 </model>

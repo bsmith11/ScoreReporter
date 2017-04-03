@@ -34,8 +34,8 @@ public class TeamCell: TableViewCell {
 // MARK: - Public
 
 public extension TeamCell {
-    func configure(with team: ManagedTeam?) {
-        searchInfoView.configure(with: team)
+    func configure(withTeam team: Team) {
+//        searchInfoView.configure(with: team)
     }
 }
 

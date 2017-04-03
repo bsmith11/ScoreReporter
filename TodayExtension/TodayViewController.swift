@@ -108,14 +108,13 @@ extension TodayViewController: UITableViewDataSource {
 
         switch item {
         case .game(let game):
-            let gameViewModel = GameViewModel(game: game, state: .minimal)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
-            cell.configure(with: gameViewModel)
+            cell.configure(withGame: game, state: .minimal)
             cell.separatorHidden = indexPath.item == 0
             return cell
         case .event(let event):
             let cell = tableView.dequeueCell(for: indexPath) as TodayEventCell
-            cell.configure(with: event)
+            cell.configure(withEvent: event)
             cell.separatorHidden = indexPath.item == 0
             return cell
         }
@@ -132,11 +131,11 @@ extension TodayViewController: UITableViewDelegate {
         
         switch item {
         case .event(let event):
-            if let url = URL(string: "scrreporter://events/\(event.eventID.intValue)") {
+            if let url = URL(string: "scrreporter://events/\(event.id)") {
                 extensionContext?.open(url, completionHandler: nil)
             }
         case .game(let game):
-            if let url = URL(string: "scrreporter://games/\(game.gameID.intValue)") {
+            if let url = URL(string: "scrreporter://games/\(game.id)") {
                 extensionContext?.open(url, completionHandler: nil)
             }
         }

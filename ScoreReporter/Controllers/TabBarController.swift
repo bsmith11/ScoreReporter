@@ -36,10 +36,9 @@ private extension TabBarController {
         let eventListViewController = EventListViewController(dataSource: eventListDataSource)
         let eventListNavigationController = BaseNavigationController(rootViewController: eventListViewController)
 
-        let teamsViewModel = TeamsViewModel()
-        let teamsDataSource = TeamsDataSource()
-        let teamsViewController = TeamsViewController(viewModel: teamsViewModel, dataSource: teamsDataSource)
-        let teamsNavigationController = BaseNavigationController(rootViewController: teamsViewController)
+        let teamListDataSource = TeamListDataSource()
+        let teamListViewController = TeamListViewController(dataSource: teamListDataSource)
+        let teamListNavigationController = BaseNavigationController(rootViewController: teamListViewController)
 
         let settingsDataSource = SettingsDataSource()
         let settingsViewController = SettingsViewController(dataSource: settingsDataSource)
@@ -48,12 +47,12 @@ private extension TabBarController {
         let navigationControllers = [
             homeNavigationController,
             eventListNavigationController,
-            teamsNavigationController,
+            teamListNavigationController,
             settingsNavigationController
         ]
 
 //        eventsViewModel.downloadEvents()
-        teamsViewModel.downloadTeams()
+//        teamsViewModel.downloadTeams()
 
         setViewControllers(navigationControllers, animated: false)
     }

@@ -11,15 +11,16 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class GameSection: Section<GameViewModel> {
-    init(viewModels: [GameViewModel]) {
-        let headerTitle = viewModels.first?.startDate
-        super.init(items: viewModels, headerTitle: headerTitle)
+class GameSection: Section<Game> {
+    init(games: [Game]) {
+        //TODO: - Fix this
+//        let headerTitle = games.first?.startDate
+        super.init(items: games, headerTitle: nil)
     }
 }
 
 class GameListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = GameViewModel
+    typealias ModelType = Game
     typealias SectionType = GameSection
 
     fileprivate(set) var sections = [GameSection]()
@@ -31,27 +32,27 @@ class GameListDataSource: NSObject, SectionedDataSource {
 
     var reloadBlock: ReloadBlock?
     
-    init(viewModel: PoolViewModel) {
-        title = viewModel.name
-        fetchedResultsController = ManagedGame.fetchedGamesForPool(withId: viewModel.poolID)
+    init(pool: Pool) {
+        title = pool.name
+        fetchedResultsController = ManagedGame.fetchedGames(forPool: pool)
 
         super.init()
         
         commonInit()
     }
 
-    init(clusters: [ManagedCluster]) {
+    init(clusters: [Cluster]) {
         title = "Crossovers"
-        fetchedResultsController = ManagedGame.fetchedGamesFor(clusters: clusters)
+        fetchedResultsController = ManagedGame.fetchedGames(forClusters: clusters)
 
         super.init()
 
         commonInit()
     }
     
-    init(viewModel: StageViewModel) {
-        title = viewModel.name
-        fetchedResultsController = ManagedGame.fetchedGamesForStage(withId: viewModel.stageId)
+    init(stage: Stage) {
+        title = stage.name
+        fetchedResultsController = ManagedGame.fetchedGames(forStage: stage)
                 
         super.init()
         
@@ -75,8 +76,8 @@ private extension GameListDataSource {
         sections.removeAll()
         
         if let fetchedSections = fetchedResultsController.sections {
-            let viewModelsList = fetchedSections.flatMap { $0.objects as? [ManagedGame] }.map { $0.map { GameViewModel(game: $0) } }
-            let gameSections = viewModelsList.map { GameSection(viewModels: $0) }
+            let gamesList = fetchedSections.flatMap { $0.objects as? [ManagedGame] }.map { $0.flatMap { Game(game: $0) } }
+            let gameSections = gamesList.map { GameSection(games: $0) }
             sections.append(contentsOf: gameSections)
         }
         

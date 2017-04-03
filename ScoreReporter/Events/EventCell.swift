@@ -35,17 +35,8 @@ public class EventCell: TableViewCell {
 // MARK: - Public
 
 public extension EventCell {
-    func configure(with event: ManagedEvent?) {
-        guard let event = event else {
-            return
-        }
-        
-        let viewModel = EventViewModel(event: event)
-        listContentView.configure(withViewModel: viewModel)
-    }
-    
-    func configure(withViewModel viewModel: EventViewModel) {
-        listContentView.configure(withViewModel: viewModel)
+    func configure(withEvent event: Event) {
+        listContentView.configure(withEvent: event)
     }
 }
 

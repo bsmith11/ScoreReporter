@@ -30,10 +30,10 @@ public extension EventService {
         }
     }
 
-    func getDetailsForEvent(withID eventID: Int, completion: ServiceCompletion?) {
+    func getDetailsForEvent(withId eventId: Int, completion: ServiceCompletion?) {
         let parameters: [String: Any] = [
             APIConstants.Path.Keys.function: APIConstants.Path.Values.eventDetails,
-            APIConstants.Request.Keys.eventID: eventID
+            APIConstants.Request.Keys.eventID: eventId
         ]
 
         client.request(method: .get, path: "", parameters: parameters) { result in
@@ -46,9 +46,9 @@ public extension EventService {
         }
     }
 
-//    func getDetails(forEvent event: Event, completion: ServiceCompletion?) {
-//        getDetailsForEvent(withID: event.eventID, completion: completion)
-//    }
+    func getDetails(forEvent event: Event, completion: ServiceCompletion?) {
+        getDetailsForEvent(withId: event.id, completion: completion)
+    }
 }
 
 // MARK: - Private

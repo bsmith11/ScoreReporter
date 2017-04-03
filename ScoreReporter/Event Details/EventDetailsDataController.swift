@@ -29,7 +29,7 @@ extension EventDetailsDataController {
     func getEventDetails() {
         loading = true
 
-        eventService.getDetailsForEvent(withID: dataSource.viewModel.eventID) { [weak self] result in
+        eventService.getDetails(forEvent: dataSource.event) { [weak self] result in
             guard let sself = self else {
                 return
             }

@@ -11,17 +11,17 @@ import CoreData
 import ScoreReporterCore
 import DataSource
 
-class BracketSection: Section<StageViewModel> {
-    init(viewModel: BracketViewModel) {
-        let headerTitle = viewModel.name
-        let items = viewModel.stages.flatMap { StageViewModel(stage: $0) }.sorted(by: { $0.0.stageId < $0.1.stageId })
+class BracketSection: Section<Stage> {
+    init(bracket: Bracket) {
+        let headerTitle = bracket.name
+        let items = bracket.stages.sorted(by: { $0.0.id < $0.1.id })
         
         super.init(items: items, headerTitle: headerTitle)
     }
 }
 
 class BracketListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = StageViewModel
+    typealias ModelType = Stage
     typealias SectionType = BracketSection
     
     fileprivate(set) var fetchedResultsController: NSFetchedResultsController<ManagedBracket>
@@ -32,8 +32,8 @@ class BracketListDataSource: NSObject, SectionedDataSource {
     
     var reloadBlock: ReloadBlock?
     
-    init(viewModel: GroupViewModel) {
-        fetchedResultsController = ManagedBracket.fetchedBracketsForGroup(withId: viewModel.groupID)
+    init(group: Group) {
+        fetchedResultsController = ManagedBracket.fetchedBrackets(forGroup: group)
 
         super.init()
 
@@ -53,8 +53,8 @@ private extension BracketListDataSource {
     func configureSections() {
         sections.removeAll()
         
-        if let brackets = fetchedResultsController.fetchedObjects {
-            let bracketSections = brackets.flatMap { BracketViewModel(bracket: $0) }.flatMap { BracketSection(viewModel: $0) }
+        if let managedBrackets = fetchedResultsController.fetchedObjects {
+            let bracketSections = managedBrackets.flatMap { Bracket(bracket: $0) }.map { BracketSection(bracket: $0) }
             sections.append(contentsOf: bracketSections)
         }
         

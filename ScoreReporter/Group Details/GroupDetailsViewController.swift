@@ -31,7 +31,7 @@ class GroupDetailsViewController: UIViewController, MessageDisplayable {
 
         super.init(nibName: nil, bundle: nil)
 
-        title = dataSource.viewModel.fullName
+        title = dataSource.group.fullName
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton

@@ -29,11 +29,11 @@ public class StandingCell: TableViewCell {
 // MARK: - Public
 
 public extension StandingCell {
-    func configure(withViewModel viewModel: StandingViewModel) {
-        let seed = "(\(viewModel.seed))"
-        nameLabel.text = [viewModel.teamName, seed].joined(separator: " ")
+    func configure(withStanding standing: Standing) {
+        let seed = "(\(standing.seed))"
+        nameLabel.text = [standing.teamName, seed].joined(separator: " ")
 
-        resultsLabel.text = "\(viewModel.wins) - \(viewModel.losses)"
+        resultsLabel.text = "\(standing.wins) - \(standing.losses)"
         
         contentStackView.layoutIfNeeded()
     }

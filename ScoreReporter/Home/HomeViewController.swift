@@ -131,12 +131,12 @@ extension HomeViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let viewModel = dataSource.item(at: indexPath) else {
+        guard let event = dataSource.item(at: indexPath) else {
             return UITableViewCell()
         }
         
         let cell = tableView.dequeueCell(for: indexPath) as EventCell
-        cell.configure(withViewModel: viewModel)
+        cell.configure(withEvent: event)
         cell.separatorHidden = indexPath.item == 0
         return cell
     }
@@ -146,11 +146,11 @@ extension HomeViewController: UITableViewDataSource {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let viewModel = dataSource.item(at: indexPath) else {
+        guard let event = dataSource.item(at: indexPath) else {
             return
         }
 
-        let eventDetailsDataSource = EventDetailsDataSource(viewModel: viewModel)
+        let eventDetailsDataSource = EventDetailsDataSource(event: event)
         let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
         navigationController?.pushViewController(eventDetailsViewController, animated: true)
     }

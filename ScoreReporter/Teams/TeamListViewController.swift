@@ -1,5 +1,5 @@
 //
-//  TeamsViewController.swift
+//  TeamListViewController.swift
 //  ScoreReporter
 //
 //  Created by Bradley Smith on 11/22/16.
@@ -11,11 +11,11 @@ import Anchorage
 import KVOController
 import ScoreReporterCore
 
-class TeamsViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: TeamsViewModel
-    fileprivate let dataSource: TeamsDataSource
+class TeamListViewController: UIViewController, MessageDisplayable {
+    fileprivate let dataSource: TeamListDataSource
+    fileprivate let dataController: TeamListDataController
     fileprivate let tableView = InfiniteScrollTableView(frame: .zero, style: .grouped)
-    fileprivate let searchViewController: SearchViewController<ManagedTeam>
+//    fileprivate let searchViewController: SearchViewController<Team>
 
     override var topLayoutGuide: UILayoutSupport {
         configureMessageView(super.topLayoutGuide)
@@ -23,16 +23,16 @@ class TeamsViewController: UIViewController, MessageDisplayable {
         return messageLayoutGuide
     }
 
-    init(viewModel: TeamsViewModel, dataSource: TeamsDataSource) {
-        self.viewModel = viewModel
+    init(dataSource: TeamListDataSource) {
         self.dataSource = dataSource
+        self.dataController = TeamListDataController(dataSource: dataSource)
 
-        let searchDataSource = SearchDataSource(fetchedResultsController: ManagedTeam.searchFetchedResultsController)
-        searchViewController = SearchViewController(dataSource: searchDataSource)
+//        let searchDataSource = SearchDataSource(fetchedResultsController: ManagedTeam.searchFetchedResultsController)
+//        searchViewController = SearchViewController(dataSource: searchDataSource)
 
         super.init(nibName: nil, bundle: nil)
 
-        searchViewController.delegate = self
+//        searchViewController.delegate = self
         
         title = "Teams"
 
@@ -65,11 +65,11 @@ class TeamsViewController: UIViewController, MessageDisplayable {
 
         configureObservers()
 
-        dataSource.fetchedChangeHandler = { [weak self] changes in
-            self?.tableView.handle(changes: changes)
+        dataSource.reloadBlock = { [weak self] _ in
+            self?.tableView.reloadData()
         }
 
-        navigationItem.titleView = searchViewController.searchBar
+//        navigationItem.titleView = searchViewController.searchBar
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +81,7 @@ class TeamsViewController: UIViewController, MessageDisplayable {
 
 // MARK: - Private
 
-private extension TeamsViewController {
+private extension TeamListViewController {
     func configureViews() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -105,7 +105,7 @@ private extension TeamsViewController {
     }
 
     func configureObservers() {
-        kvoController.observe(dataSource, keyPath: #keyPath(TeamsDataSource.empty)) { [weak self] (empty: Bool) in
+        kvoController.observe(dataSource, keyPath: #keyPath(TeamListDataSource.empty)) { [weak self] (empty: Bool) in
             self?.tableView.empty = empty
         }
     }
@@ -113,7 +113,7 @@ private extension TeamsViewController {
 
 // MARK: - UITableViewDataSource
 
-extension TeamsViewController: UITableViewDataSource {
+extension TeamListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections
     }
@@ -123,9 +123,12 @@ extension TeamsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let team = dataSource.item(at: indexPath)
+        guard let team = dataSource.item(at: indexPath) else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueCell(for: indexPath) as TeamCell
-        cell.configure(with: team)
+        cell.configure(withTeam: team)
         cell.separatorHidden = indexPath.item == 0
 
         return cell
@@ -134,31 +137,29 @@ extension TeamsViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension TeamsViewController: UITableViewDelegate {
+extension TeamListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let team = dataSource.item(at: indexPath) else {
             return
         }
 
-        let teamDetailsViewModel = TeamDetailsViewModel(team: team)
         let teamDetailsDataSource = TeamDetailsDataSource(team: team)
-        let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
+        let teamDetailsViewController = TeamDetailsViewController(dataSource: teamDetailsDataSource)
         navigationController?.pushViewController(teamDetailsViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let title = dataSource.title(for: section) else {
+        guard let title = dataSource.headerTitle(for: section) else {
             return nil
         }
 
         let headerView = tableView.dequeueHeaderFooterView() as SectionHeaderView
         headerView.configure(with: title)
-
         return headerView
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let _ = dataSource.title(for: section) else {
+        guard let _ = dataSource.headerTitle(for: section) else {
             return 0.0001
         }
         
@@ -170,46 +171,46 @@ extension TeamsViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - SearchViewControllerDelegate
-
-extension TeamsViewController: SearchViewControllerDelegate {
-    func didSelect(item: Searchable) {
-        guard let team = item as? ManagedTeam else {
-            return
-        }
-
-        let teamDetailsViewModel = TeamDetailsViewModel(team: team)
-        let teamDetailsDataSource = TeamDetailsDataSource(team: team)
-        let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
-        navigationController?.pushViewController(teamDetailsViewController, animated: true)
-    }
-
-    func didSelectCancel() {
-        guard childViewControllers.contains(searchViewController) else {
-            return
-        }
-        
-        searchViewController.beginDisappearanceAnimation { [weak self] in
-            self?.searchViewController.willMove(toParentViewController: nil)
-            self?.searchViewController.view.removeFromSuperview()
-            self?.searchViewController.removeFromParentViewController()
-        }
-    }
-
-    func willBeginEditing() {
-        guard !childViewControllers.contains(searchViewController) else {
-            return
-        }
-
-        addChildViewController(searchViewController)
-        view.addSubview(searchViewController.view)
-        
-        searchViewController.view.frame = view.bounds
-        searchViewController.view.setNeedsLayout()
-        searchViewController.view.layoutIfNeeded()
-        
-        searchViewController.didMove(toParentViewController: self)
-        
-        searchViewController.beginAppearanceAnimation(completion: nil)
-    }
-}
+//// MARK: - SearchViewControllerDelegate
+//
+//extension TeamListViewController: SearchViewControllerDelegate {
+//    func didSelect(item: Searchable) {
+//        guard let team = item as? ManagedTeam else {
+//            return
+//        }
+//
+//        let teamDetailsViewModel = TeamDetailsViewModel(team: team)
+//        let teamDetailsDataSource = TeamDetailsDataSource(team: team)
+//        let teamDetailsViewController = TeamDetailsViewController(viewModel: teamDetailsViewModel, dataSource: teamDetailsDataSource)
+//        navigationController?.pushViewController(teamDetailsViewController, animated: true)
+//    }
+//
+//    func didSelectCancel() {
+//        guard childViewControllers.contains(searchViewController) else {
+//            return
+//        }
+//        
+//        searchViewController.beginDisappearanceAnimation { [weak self] in
+//            self?.searchViewController.willMove(toParentViewController: nil)
+//            self?.searchViewController.view.removeFromSuperview()
+//            self?.searchViewController.removeFromParentViewController()
+//        }
+//    }
+//
+//    func willBeginEditing() {
+//        guard !childViewControllers.contains(searchViewController) else {
+//            return
+//        }
+//
+//        addChildViewController(searchViewController)
+//        view.addSubview(searchViewController.view)
+//        
+//        searchViewController.view.frame = view.bounds
+//        searchViewController.view.setNeedsLayout()
+//        searchViewController.view.layoutIfNeeded()
+//        
+//        searchViewController.didMove(toParentViewController: self)
+//        
+//        searchViewController.beginAppearanceAnimation(completion: nil)
+//    }
+//}

@@ -33,10 +33,10 @@ public class ListContentView: UIView {
 // MARK: - Public
 
 public extension ListContentView {
-    func configure(withViewModel viewModel: EventViewModel) {
-        logoImageView.pin_setImage(from: viewModel.logoURL)
-        titleLabel.text = viewModel.name
-        subtitleLabel.text = viewModel.cityState
+    func configure(withEvent event: Event) {
+        logoImageView.pin_setImage(from: event.logoUrl)
+        titleLabel.text = event.name
+        subtitleLabel.text = event.cityState
     }
     
     func configure(with searchable: Searchable?) {

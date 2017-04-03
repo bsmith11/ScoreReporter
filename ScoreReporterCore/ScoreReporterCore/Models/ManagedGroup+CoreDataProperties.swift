@@ -19,6 +19,5 @@ public extension ManagedGroup {
     @NSManaged var type: String?
     @NSManaged var event: ManagedEvent?
     @NSManaged var rounds: NSSet
-    @NSManaged var teams: NSSet
 
 }

@@ -24,10 +24,11 @@ public extension ManagedEvent {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
 
-    static func fetchedUpcomingEventsFor(team: ManagedTeam) -> NSFetchedResultsController<ManagedEvent> {
+    static func fetchedUpcomingEvents(forTeam team: Team) -> NSFetchedResultsController<ManagedEvent> {
         let predicates = [
             NSPredicate(format: "%K > %@", #keyPath(ManagedEvent.startDate), NSDate()),
-            NSPredicate(format: "SUBQUERY(%K, $x, $x in %@).@count > 0", #keyPath(ManagedEvent.groups), team.groups)
+            //TODO: - Figure this out
+//            NSPredicate(format: "SUBQUERY(%K, $x, $x in %@).@count > 0", #keyPath(ManagedEvent.groups), team.groups)
         ]
 
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -155,52 +156,5 @@ extension ManagedEvent: CoreDataImportable {
         }
 
         return components.joined(separator: "/")
-    }
-}
-
-// MARK: - Searchable
-
-extension ManagedEvent: Searchable {
-    public static var searchBarPlaceholder: String? {
-        return "Find events"
-    }
-
-    public static var searchEmptyTitle: String? {
-        return "No Events"
-    }
-
-    public static var searchEmptyMessage: String? {
-        return "No events exist by that name"
-    }
-
-    public static func predicate(with searchText: String?) -> NSPredicate? {
-        guard let searchText = searchText, !searchText.isEmpty else {
-            return nil
-        }
-
-        return NSPredicate(format: "%K contains[cd] %@", #keyPath(ManagedEvent.name), searchText)
-    }
-
-    public var searchSectionTitle: String? {
-        let dateFormatter = DateFormatter.eventSearchDateFormatter
-
-        return startDate.flatMap { dateFormatter.string(from: $0 as Date) }
-    }
-
-    public var searchLogoURL: URL? {
-        let baseURL = APIConstants.Path.baseURL
-
-        return logoPath.flatMap { URL(string: "\(baseURL)\($0)") }
-    }
-
-    public var searchTitle: String? {
-        return name
-    }
-
-    public var searchSubtitle: String? {
-        let cityValue = city ?? "City"
-        let stateValue = state ?? "State"
-
-        return "\(cityValue), \(stateValue)"
     }
 }

@@ -43,13 +43,13 @@ class EventDetailsInfoView: UIView {
 // MARK: - Public
 
 extension EventDetailsInfoView {
-    func configure(withViewModel viewModel: EventViewModel) {
-        titleLabel.text = viewModel.name
+    func configure(withEvent event: Event) {
+        titleLabel.text = event.name
         
-        locationLabel.text = viewModel.cityState
+        locationLabel.text = event.cityState
         locationLabel.isHidden = locationLabel.text == nil
         
-        dateLabel.text = viewModel.dateRange
+        dateLabel.text = event.dateRange
         dateLabel.isHidden = dateLabel.text == nil
     }
 }

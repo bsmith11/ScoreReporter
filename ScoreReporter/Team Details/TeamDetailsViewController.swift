@@ -12,8 +12,8 @@ import KVOController
 import ScoreReporterCore
 
 class TeamDetailsViewController: UIViewController, MessageDisplayable {
-    fileprivate let viewModel: TeamDetailsViewModel
     fileprivate let dataSource: TeamDetailsDataSource
+    fileprivate let dataController: TeamDetailsDataController
     fileprivate let tableView = UITableView(frame: .zero, style: .grouped)
     fileprivate let headerView = TeamDetailsHeaderView(frame: .zero)
 
@@ -26,9 +26,9 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
         return messageLayoutGuide
     }
 
-    init(viewModel: TeamDetailsViewModel, dataSource: TeamDetailsDataSource) {
-        self.viewModel = viewModel
+    init(dataSource: TeamDetailsDataSource) {
         self.dataSource = dataSource
+        self.dataController = TeamDetailsDataController(dataSource: dataSource)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -40,7 +40,7 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
         let unfavoriteImage = UIImage(named: "icn-star-selected")
         unfavoriteButton = UIBarButtonItem(image: unfavoriteImage, style: .plain, target: self, action: #selector(unfavoriteButtonTapped))
 
-        navigationItem.rightBarButtonItem = dataSource.team.bookmarked.boolValue ? unfavoriteButton : favoriteButton
+        navigationItem.rightBarButtonItem = dataSource.team.bookmarked ? unfavoriteButton : favoriteButton
 
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButton
@@ -69,7 +69,7 @@ class TeamDetailsViewController: UIViewController, MessageDisplayable {
             self?.tableView.reloadData()
         }
 
-        viewModel.downloadTeamDetails { [weak self] _ in
+        dataController.getTeamDetails { [weak self] _ in
             self?.dataSource.refresh()
         }
     }
@@ -114,8 +114,7 @@ private extension TeamDetailsViewController {
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         
-        let teamViewModel = TeamViewModel(team: dataSource.team)
-        headerView.configure(with: teamViewModel)
+        headerView.configure(withTeam: dataSource.team)
     }
 
     func configureLayout() {
@@ -123,7 +122,7 @@ private extension TeamDetailsViewController {
     }
 
     func configureObservers() {
-        kvoController.observe(viewModel, keyPath: #keyPath(TeamDetailsViewModel.loading)) { [weak self] (loading: Bool) in
+        kvoController.observe(dataController, keyPath: #keyPath(TeamDetailsDataController.loading)) { [weak self] (loading: Bool) in
             if loading {
                 self?.display(message: "Loading...", animated: true)
             }
@@ -132,7 +131,7 @@ private extension TeamDetailsViewController {
             }
         }
 
-        kvoController.observe(viewModel, keyPath: #keyPath(TeamDetailsViewModel.error)) { [weak self] (error: NSError) in
+        kvoController.observe(dataController, keyPath: #keyPath(TeamDetailsDataController.error)) { [weak self] (error: NSError) in
             self?.display(error: error, animated: true)
         }
         
@@ -142,29 +141,29 @@ private extension TeamDetailsViewController {
     @objc func favoriteButtonTapped() {
         navigationItem.setRightBarButton(unfavoriteButton, animated: true)
 
-        let team = dataSource.team
-        team.bookmarked = true
-
-        do {
-            try team.managedObjectContext?.save()
-        }
-        catch let error {
-            print("Error: \(error)")
-        }
+//        let team = dataSource.team
+//        team.bookmarked = true
+//
+//        do {
+//            try team.managedObjectContext?.save()
+//        }
+//        catch let error {
+//            print("Error: \(error)")
+//        }
     }
 
     @objc func unfavoriteButtonTapped() {
         navigationItem.setRightBarButton(favoriteButton, animated: true)
 
-        let team = dataSource.team
-        team.bookmarked = false
-
-        do {
-            try team.managedObjectContext?.save()
-        }
-        catch let error {
-            print("Error: \(error)")
-        }
+//        let team = dataSource.team
+//        team.bookmarked = false
+//
+//        do {
+//            try team.managedObjectContext?.save()
+//        }
+//        catch let error {
+//            print("Error: \(error)")
+//        }
     }
     
     @objc func willEnterForeground() {
@@ -191,13 +190,12 @@ extension TeamDetailsViewController: UITableViewDataSource {
         switch item {
         case .event(let event):
             let cell = tableView.dequeueCell(for: indexPath) as EventCell
-            cell.configure(with: event)
+            cell.configure(withEvent: event)
             cell.separatorHidden = indexPath.item == 0
             return cell
         case .game(let game):
-            let gameViewModel = GameViewModel(game: game, state: .full)
             let cell = tableView.dequeueCell(for: indexPath) as GameCell
-            cell.configure(with: gameViewModel)
+            cell.configure(withGame: game, state: .full)
             cell.separatorHidden = indexPath.item == 0
             return cell
         }
@@ -214,8 +212,7 @@ extension TeamDetailsViewController: UITableViewDelegate {
 
         switch item {
         case .event(let event):
-            let eventViewModel = EventViewModel(event: event)
-            let eventDetailsDataSource = EventDetailsDataSource(viewModel: eventViewModel)
+            let eventDetailsDataSource = EventDetailsDataSource(event: event)
             let eventDetailsViewController = EventDetailsViewController(dataSource: eventDetailsDataSource)
             navigationController?.pushViewController(eventDetailsViewController, animated: true)
         case .game(let game):

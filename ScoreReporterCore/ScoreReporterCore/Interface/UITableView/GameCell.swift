@@ -9,6 +9,12 @@
 import UIKit
 import Anchorage
 
+public enum GameViewState {
+    case full
+    case normal
+    case minimal
+}
+
 public class GameCell: TableViewCell {
     fileprivate let contentStackView = UIStackView(frame: .zero)
     
@@ -27,6 +33,14 @@ public class GameCell: TableViewCell {
     fileprivate let infoStackView = UIStackView(frame: .zero)
     fileprivate let fieldLabel = UILabel(frame: .zero)
     fileprivate let statusLabel = UILabel(frame: .zero)
+    
+    fileprivate let winnerAttributes = [
+        NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightBlack)
+    ]
+
+    fileprivate let loserAttributes = [
+        NSFontAttributeName: UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightThin)
+    ]
 
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -43,30 +57,48 @@ public class GameCell: TableViewCell {
 // MARK: - Public
 
 public extension GameCell {
-    func configure(with viewModel: GameViewModel) {
-        dateLabel.text = viewModel.startDate
+    func configure(withGame game: Game, state: GameViewState) {
+        let dateFormatter = DateFormatter.gameStartDateFullFormatter
+        dateLabel.text = game.startDateTime.flatMap { dateFormatter.string(from: $0) }
         dateLabel.isHidden = dateLabel.text == nil
         
-        stageLabel.text = viewModel.game?.stage?.name
+        stageLabel.text = game.container.name
         stageLabel.isHidden = stageLabel.text == nil
         
-        homeNameLabel.attributedText = viewModel.homeTeamName
+        var homeAttributes = loserAttributes
+        var awayAttributes = loserAttributes
 
-        homeScoreLabel.attributedText = viewModel.homeTeamScore
+        let homeScore = game.homeTeamScore
+        let awayScore = game.awayTeamScore
+
+        if case .final = game.status {
+            let score1 = Int(homeScore) ?? 0
+            let score2 = Int(awayScore) ?? 0
+
+            if score1 > score2 {
+                homeAttributes = winnerAttributes
+                awayAttributes = loserAttributes
+            }
+            else {
+                homeAttributes = loserAttributes
+                awayAttributes = winnerAttributes
+            }
+        }
+        
+        homeNameLabel.attributedText = NSAttributedString(string: game.homeTeamName, attributes: homeAttributes)
+
+        homeScoreLabel.attributedText = NSAttributedString(string: homeScore, attributes: homeAttributes)
         homeScoreLabel.isHidden = homeScoreLabel.attributedText == nil
 
-        awayNameLabel.attributedText = viewModel.awayTeamName
+        awayNameLabel.attributedText = NSAttributedString(string: game.awayTeamName, attributes: awayAttributes)
 
-        awayScoreLabel.attributedText = viewModel.awayTeamScore
+        awayScoreLabel.attributedText = NSAttributedString(string: awayScore, attributes: awayAttributes)
         awayScoreLabel.isHidden = awayScoreLabel.attributedText == nil
 
-        fieldLabel.text = viewModel.fieldName
-        fieldLabel.isHidden = fieldLabel.text == nil
+        fieldLabel.text = game.fieldName
+        statusLabel.text = game.status.displayValue
 
-        statusLabel.text = viewModel.status
-        statusLabel.isHidden = statusLabel.text == nil
-
-        switch viewModel.state {
+        switch state {
         case .full:
             detailStackView.isHidden = false
             infoStackView.isHidden = false

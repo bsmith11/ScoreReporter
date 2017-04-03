@@ -58,14 +58,14 @@ public extension ManagedGame {
         coreDataStack.performBlockUsingBackgroundContext(block, completion: completion)
     }
 
-    static func gamesToday(for team: ManagedTeam) -> [ManagedGame] {
-        guard let games = ManagedGame.fetchedGamesFor(team: team).fetchedObjects else {
+    static func gamesToday(forTeam team: Team) -> [Game] {
+        guard let managedGames = ManagedGame.fetchedGames(forTeam: team).fetchedObjects else {
             return []
         }
-
+        
         let calendar = Calendar.current
         let today = Date()
-        let currentGames = games.filter { game -> Bool in
+        let games = managedGames.flatMap { Game(game: $0) }.filter { game -> Bool in
             guard let startDate = game.startDate else {
                 return false
             }
@@ -73,28 +73,31 @@ public extension ManagedGame {
             return calendar.compare(startDate, to: today, toGranularity: .day) == .orderedSame
         }
 
-        return currentGames
+        return games
     }
     
-    static func fetchedBracketGamesFor(group: ManagedGroup, teamName: String) -> NSFetchedResultsController<ManagedGame> {
-        let groupPredicates = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.stage.bracket.round.group), group)
+    static func fetchedBracketGames(forGroup group: Group, teamName: String) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: group.id)
+        let groupPredicates = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.stage.bracket.round.group.groupID), primaryKey)
         
-        return fetchedGamesFor(group: group, teamName: teamName, predicate: groupPredicates)
+        return fetchedGames(withTeamName: teamName, predicate: groupPredicates)
     }
     
-    static func fetchedPoolGamesFor(group: ManagedGroup, teamName: String) -> NSFetchedResultsController<ManagedGame> {
-        let groupPredicate = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.pool.round.group), group)
+    static func fetchedPoolGames(forGroup group: Group, teamName: String) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: group.id)
+        let groupPredicate = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.pool.round.group.groupID), primaryKey)
         
-        return fetchedGamesFor(group: group, teamName: teamName, predicate: groupPredicate)
+        return fetchedGames(withTeamName: teamName, predicate: groupPredicate)
     }
     
-    static func fetchedCrossoverGamesFor(group: ManagedGroup, teamName: String) -> NSFetchedResultsController<ManagedGame> {
-        let groupPredicate = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.cluster.round.group), group)
+    static func fetchedCrossoverGames(forGroup group: Group, teamName: String) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: group.id)
+        let groupPredicate = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.cluster.round.group.groupID), primaryKey)
         
-        return fetchedGamesFor(group: group, teamName: teamName, predicate: groupPredicate)
+        return fetchedGames(withTeamName: teamName, predicate: groupPredicate)
     }
     
-    static func fetchedGamesFor(group: ManagedGroup, teamName: String, predicate: NSPredicate) -> NSFetchedResultsController<ManagedGame> {
+    static func fetchedGames(withTeamName teamName: String, predicate: NSPredicate) -> NSFetchedResultsController<ManagedGame> {
         let namePredicates = [
             NSPredicate(format: "%K == %@", #keyPath(ManagedGame.homeTeamName), teamName),
             NSPredicate(format: "%K == %@", #keyPath(ManagedGame.awayTeamName), teamName)
@@ -110,8 +113,8 @@ public extension ManagedGame {
         return fetchedResultsController(predicate: fullPredicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedGamesForPool(withId poolId: Int) -> NSFetchedResultsController<ManagedGame> {
-        let primaryKey = NSNumber(integerLiteral: poolId)
+    static func fetchedGames(forPool pool: Pool) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: pool.id)
         let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.pool.poolID), primaryKey)
 
         let sortDescriptors = [
@@ -122,8 +125,9 @@ public extension ManagedGame {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedGame.startDateFull))
     }
 
-    static func fetchedGamesFor(clusters: [ManagedCluster]) -> NSFetchedResultsController<ManagedGame> {
-        let predicate = NSPredicate(format: "%K IN %@", #keyPath(ManagedGame.cluster), clusters)
+    static func fetchedGames(forClusters clusters: [Cluster]) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKeys = clusters.map { NSNumber(integerLiteral: $0.id) }
+        let predicate = NSPredicate(format: "%K IN %@", #keyPath(ManagedGame.cluster.clusterID), primaryKeys)
 
         let sortDescriptors = [
             NSSortDescriptor(key: #keyPath(ManagedGame.sortOrder), ascending: true),
@@ -133,8 +137,8 @@ public extension ManagedGame {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedGame.startDateFull))
     }
     
-    static func fetchedGamesForStage(withId stageId: Int) -> NSFetchedResultsController<ManagedGame> {
-        let primaryKey = NSNumber(integerLiteral: stageId)
+    static func fetchedGames(forStage stage: Stage) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: stage.id)
         let predicate = NSPredicate(format: "%K == %@", #keyPath(ManagedGame.stage.stageID), primaryKey)
         
         let sortDescriptors = [
@@ -145,10 +149,11 @@ public extension ManagedGame {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors, sectionNameKeyPath: #keyPath(ManagedGame.startDateFull))
     }
 
-    static func fetchedGamesFor(team: ManagedTeam) -> NSFetchedResultsController<ManagedGame> {
+    static func fetchedGames(forTeam team: Team) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: team.id)
         let predicates = [
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.homeTeam), team),
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.awayTeam), team)
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.homeTeam.teamID), primaryKey),
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.awayTeam.teamID), primaryKey)
         ]
         
         let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
@@ -160,10 +165,11 @@ public extension ManagedGame {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedActiveGamesFor(team: ManagedTeam) -> NSFetchedResultsController<ManagedGame> {
+    static func fetchedActiveGames(forTeam team: Team) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: team.id)
         let predicates = [
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.homeTeam), team),
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.awayTeam), team)
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.homeTeam.teamID), primaryKey),
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.awayTeam.teamID), primaryKey)
         ]
         
         let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
@@ -175,13 +181,12 @@ public extension ManagedGame {
         return fetchedResultsController(predicate: predicate, sortDescriptors: sortDescriptors)
     }
 
-    static func fetchedActiveGames(forEventID eventID: Int) -> NSFetchedResultsController<ManagedGame> {
-        let eventIDNumber = NSNumber(integerLiteral: eventID)
-        
+    static func fetchedActiveGames(forEvent event: Event) -> NSFetchedResultsController<ManagedGame> {
+        let primaryKey = NSNumber(integerLiteral: event.id)
         let gamePredicates = [
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.pool.round.group.event.eventID), eventIDNumber),
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.cluster.round.group.event.eventID), eventIDNumber),
-            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.stage.bracket.round.group.event.eventID), eventIDNumber)
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.pool.round.group.event.eventID), primaryKey),
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.cluster.round.group.event.eventID), primaryKey),
+            NSPredicate(format: "%K == %@", #keyPath(ManagedGame.stage.bracket.round.group.event.eventID), primaryKey)
         ]
 
         let gamePredicate = NSCompoundPredicate(orPredicateWithSubpredicates: gamePredicates)
