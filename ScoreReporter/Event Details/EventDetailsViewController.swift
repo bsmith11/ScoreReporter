@@ -67,8 +67,8 @@ class EventDetailsViewController: UIViewController, MessageDisplayable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataSource.reloadBlock = { [weak self] _ in
-            self?.tableView.reloadData()
+        dataSource.reloadBlock = { [weak self] changeSet in
+            self?.tableView.performUpdates(withChangeSet: changeSet)
         }
 
         dataController.getEventDetails()

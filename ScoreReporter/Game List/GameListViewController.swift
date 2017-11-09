@@ -46,8 +46,8 @@ class GameListViewController: UIViewController {
 
         configureObservers()
 
-        dataSource.reloadBlock = { [weak self] _ in
-            self?.tableView.reloadData()
+        dataSource.reloadBlock = { [weak self] changeSet in
+            self?.tableView.performUpdates(withChangeSet: changeSet)
         }
     }
     

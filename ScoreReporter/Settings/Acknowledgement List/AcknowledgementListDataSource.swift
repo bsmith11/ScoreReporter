@@ -8,7 +8,7 @@
 
 import Foundation
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 struct Acknowledgement {
     let title: String
@@ -29,7 +29,7 @@ struct Acknowledgement {
 }
 
 class AcknowledgementListDataSource: ListDataSource {
-    typealias ModelType = Acknowledgement
+    typealias ItemType = Acknowledgement
 
     fileprivate(set) var items = [Acknowledgement]()
     

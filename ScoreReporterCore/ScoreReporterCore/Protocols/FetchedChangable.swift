@@ -12,23 +12,23 @@ import CoreData
 public typealias FetchedChangeHandler = ([FetchedChange]) -> Void
 
 public protocol FetchedChangable: FetchedChangeObjectDelegate {
-    associatedtype ModelType: NSManagedObject
+    associatedtype ItemType: NSManagedObject
 
     var empty: Bool { get set }
     var fetchedChangeHandler: FetchedChangeHandler? { get set }
 
-    func register(fetchedResultsController: NSFetchedResultsController<ModelType>)
-    func unregister(fetchedResultsController: NSFetchedResultsController<ModelType>)
+    func register(fetchedResultsController: NSFetchedResultsController<ItemType>)
+    func unregister(fetchedResultsController: NSFetchedResultsController<ItemType>)
 }
 
 // MARK: - Public
 
 public extension FetchedChangable where Self: NSObject {
-    func register(fetchedResultsController: NSFetchedResultsController<ModelType>) {
+    func register(fetchedResultsController: NSFetchedResultsController<ItemType>) {
         fetchedResultsController.delegate = fetchedChangeObject
     }
 
-    func unregister(fetchedResultsController: NSFetchedResultsController<ModelType>) {
+    func unregister(fetchedResultsController: NSFetchedResultsController<ItemType>) {
         fetchedResultsController.delegate = nil
     }
 }

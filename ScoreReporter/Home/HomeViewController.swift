@@ -60,8 +60,8 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
         configureObservers()
 
-        dataSource.reloadBlock = { [weak self] _ in
-            self?.tableView.reloadData()
+        dataSource.reloadBlock = { [weak self] changeSet in
+            self?.tableView.performUpdates(withChangeSet: changeSet)
         }
         
         dataController.getEvents()
@@ -78,6 +78,7 @@ class HomeViewController: UIViewController, MessageDisplayable {
 
 private extension HomeViewController {
     func configureViews() {
+        tableView.infiniteScrollDelegate = self
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(headerFooterClass: SectionHeaderView.self)
@@ -175,5 +176,20 @@ extension HomeViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.0001
+    }
+}
+
+extension HomeViewController: InfiniteScrollDelegate {
+    func shouldBatchFetch(in tableView: InfiniteScrollTableView) -> Bool {
+        return true
+    }
+
+    func performBatchFetch(in tableView: InfiniteScrollTableView) {
+        tableView.setFetching(true, animated: true)
+        
+        let deadline = DispatchTime.now() + 3.0
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            tableView.setFetching(false, animated: true)
+        }
     }
 }

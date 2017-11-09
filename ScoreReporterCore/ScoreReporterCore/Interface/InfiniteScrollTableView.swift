@@ -52,10 +52,17 @@ open class InfiniteScrollTableView: UITableView {
         super.delegate = interceptor
         
         spinnerTableFooterView.sizeToFit()
+        spinnerTableFooterView.tintColor = tintColor
     }
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    open override func tintColorDidChange() {
+        super.tintColorDidChange()
+        
+        spinnerTableFooterView.tintColor = tintColor
     }
 }
 
@@ -94,19 +101,23 @@ public extension InfiniteScrollTableView {
 // MARK: - UITableViewDelegate
 
 extension InfiniteScrollTableView: UITableViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let infiniteScrollDelegate = infiniteScrollDelegate, !batchFetching, !empty else {
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let infiniteScrollDelegate = infiniteScrollDelegate, infiniteScrollDelegate.shouldBatchFetch(in: self) else {
             return
         }
         
-        let position = scrollView.contentOffset.y + scrollView.bounds.height
+        guard !batchFetching, !empty else {
+            return
+        }
+        
+        let position = targetContentOffset.pointee.y + scrollView.bounds.height
         let threshold = scrollView.contentSize.height * batchFetchThreshold
         
-        if position >= threshold && infiniteScrollDelegate.shouldBatchFetch(in: self) {
+        if position >= threshold {
             infiniteScrollDelegate.performBatchFetch(in: self)
         }
         
-        delegate?.scrollViewDidScroll?(scrollView)
+        delegate?.scrollViewWillEndDragging?(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
 }
 

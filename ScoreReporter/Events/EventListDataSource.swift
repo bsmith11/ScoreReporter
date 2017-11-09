@@ -9,10 +9,10 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class EventListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = EventViewModel
+    typealias ItemType = EventViewModel
     typealias SectionType = Section<EventViewModel>
 
     fileprivate let fetchedResultsController = Event.fetchedBookmarkedEvents()
@@ -57,6 +57,6 @@ private extension EventListDataSource {
 extension EventListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

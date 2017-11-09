@@ -83,8 +83,8 @@ public class SearchViewController<Model: NSManagedObject>: UIViewController, Key
             self?.tableView.scrollIndicatorInsets.bottom = bottomInset
         }
         
-        dataSource.reloadBlock = { [weak self] _ in
-            self?.tableView.reloadData()
+        dataSource.reloadBlock = { [weak self] changeSet in
+            self?.tableView.performUpdates(withChangeSet: changeSet)
         }
     }
 

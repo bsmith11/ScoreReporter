@@ -1,5 +1,4 @@
 source 'https://github.com/CocoaPods/Specs'
-source 'https://github.com/ezcater/iOS-Specs.git'
 
 platform :ios, '9.0'
 
@@ -12,7 +11,7 @@ pod 'Alamofire', '~> 4.0'
 pod 'Anchorage', '~> 3.0'
 pod 'PINRemoteImage', '~> 2.1'
 pod 'KVOController', '~> 1.2'
-pod 'DataSource'
+pod 'EZDataSource'
 pod 'IGListKit', '~> 2.1'
 #pod 'MapSnap'
 

@@ -9,10 +9,10 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class TeamsDataSource: NSObject, FetchedDataSource, FetchedChangable {
-    typealias ModelType = Team
+    typealias ItemType = Team
 
     fileprivate(set) var fetchedResultsController = Team.fetchedBookmarkedTeams()
 

@@ -9,17 +9,17 @@
 import UIKit
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class GroupTeamDetailsDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = Game
-    typealias SectionType = Section<ModelType>
+    typealias ItemType = Game
+    typealias SectionType = Section<ItemType>
     
     fileprivate let poolFetchedResultsController: NSFetchedResultsController<Game>
     fileprivate let crossoverFetchedResultsController: NSFetchedResultsController<Game>
     fileprivate let bracketFetchedResultsController: NSFetchedResultsController<Game>
     
-    fileprivate(set) var sections = [Section<ModelType>]()
+    fileprivate(set) var sections = [Section<ItemType>]()
     
     let group: Group
     let teamName: String
@@ -78,6 +78,6 @@ private extension GroupTeamDetailsDataSource {
 extension GroupTeamDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

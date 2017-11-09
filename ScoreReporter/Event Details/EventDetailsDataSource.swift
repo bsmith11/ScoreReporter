@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 enum EventDetailsInfo {
     case division(GroupViewModel)
@@ -26,7 +26,7 @@ enum EventDetailsInfo {
 }
 
 class EventDetailsDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = EventDetailsInfo
+    typealias ItemType = EventDetailsInfo
     typealias SectionType = Section<EventDetailsInfo>
     
     fileprivate let activeGamesFRC: NSFetchedResultsController<Game>
@@ -80,6 +80,6 @@ private extension EventDetailsDataSource {
 extension EventDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

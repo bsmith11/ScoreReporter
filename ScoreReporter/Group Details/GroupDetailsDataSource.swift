@@ -9,10 +9,10 @@
 import UIKit
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class GroupDetailsDataSource: NSObject, ListDataSource {
-    typealias ModelType = UIViewController
+    typealias ItemType = UIViewController
     
     fileprivate let fetchedResultsController: NSFetchedResultsController<Round>
 
@@ -96,6 +96,6 @@ private extension GroupDetailsDataSource {
 extension GroupDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureItems()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

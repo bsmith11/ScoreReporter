@@ -8,7 +8,7 @@
 
 import UIKit
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 enum SettingsItem {
     case acknowledgements
@@ -39,10 +39,10 @@ enum SettingsItem {
 }
 
 class SettingsDataSource: SectionedDataSource {
-    typealias ModelType = SettingsItem
-    typealias SectionType = Section<ModelType>
+    typealias ItemType = SettingsItem
+    typealias SectionType = Section<ItemType>
 
-    fileprivate(set) var sections = [Section<ModelType>]()
+    fileprivate(set) var sections = [Section<ItemType>]()
 
     var reloadBlock: ReloadBlock?
     

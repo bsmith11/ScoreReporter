@@ -11,6 +11,7 @@
 		480486AE1E30836B0081609A /* TeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486AD1E30836B0081609A /* TeamViewModel.swift */; };
 		480486B91E33217E0081609A /* StageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480486B81E33217E0081609A /* StageCell.swift */; };
 		4812A16E1DFD08EF00587173 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4812A16D1DFD08EF00587173 /* GameService.swift */; };
+		482FACD41EFAA8F300030836 /* EmptyLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482FACD31EFAA8F300030836 /* EmptyLoadingView.swift */; };
 		4836ED5B1E8B1F210035ABA6 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5A1E8B1F210035ABA6 /* APIService.swift */; };
 		4836ED5D1E8B22590035ABA6 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */; };
 		4836ED611E8B28B30035ABA6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4836ED601E8B28B30035ABA6 /* Credentials.swift */; };
@@ -112,6 +113,7 @@
 		480486AD1E30836B0081609A /* TeamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewModel.swift; sourceTree = "<group>"; };
 		480486B81E33217E0081609A /* StageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StageCell.swift; sourceTree = "<group>"; };
 		4812A16D1DFD08EF00587173 /* GameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
+		482FACD31EFAA8F300030836 /* EmptyLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyLoadingView.swift; sourceTree = "<group>"; };
 		4836ED5A1E8B1F210035ABA6 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIService.swift; path = Services/APIService.swift; sourceTree = "<group>"; };
 		4836ED5C1E8B22590035ABA6 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		4836ED601E8B28B30035ABA6 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				484314061E4D7997008E01E5 /* InfiniteScrollTableFooterView.swift */,
 				4843140A1E4EC65E008E01E5 /* EmptyView.swift */,
 				4843140C1E4ECFD5008E01E5 /* EmptyContentView.swift */,
+				482FACD31EFAA8F300030836 /* EmptyLoadingView.swift */,
 				4836ED661E8B61290035ABA6 /* StaticBackgroundView.swift */,
 			);
 			path = Interface;
@@ -553,7 +556,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -620,6 +623,7 @@
 				487876C21DDBFAF6008789A0 /* Standing.swift in Sources */,
 				487876E51DDC064A008789A0 /* TableViewProxy.swift in Sources */,
 				48E9F0B61DE154BC00F8197B /* AsyncOperation.swift in Sources */,
+				482FACD41EFAA8F300030836 /* EmptyLoadingView.swift in Sources */,
 				487876BF1DDBFAF6008789A0 /* ScoreReporter.xcdatamodeld in Sources */,
 				487876501DDBF823008789A0 /* Importable.swift in Sources */,
 				488350761E8E22DF0008C558 /* EventViewModel.swift in Sources */,

@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class BracketSection: Section<StageViewModel> {
     init(viewModel: BracketViewModel) {
@@ -21,7 +21,7 @@ class BracketSection: Section<StageViewModel> {
 }
 
 class BracketListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = StageViewModel
+    typealias ItemType = StageViewModel
     typealias SectionType = BracketSection
     
     fileprivate(set) var fetchedResultsController: NSFetchedResultsController<Bracket>
@@ -67,6 +67,6 @@ private extension BracketListDataSource {
 extension BracketListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

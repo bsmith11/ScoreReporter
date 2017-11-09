@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 enum TodayItem {
     case game(Game)
@@ -60,7 +60,7 @@ class TodayEventSection: Section<TodayItem> {
 }
 
 class TodayDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = TodayItem
+    typealias ItemType = TodayItem
     typealias SectionType = TodayEventSection
     
     fileprivate(set) var sections = [TodayEventSection]()

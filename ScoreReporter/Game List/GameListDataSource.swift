@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class GameSection: Section<GameViewModel> {
     init(viewModels: [GameViewModel]) {
@@ -19,7 +19,7 @@ class GameSection: Section<GameViewModel> {
 }
 
 class GameListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = GameViewModel
+    typealias ItemType = GameViewModel
     typealias SectionType = GameSection
 
     fileprivate(set) var sections = [GameSection]()
@@ -89,6 +89,6 @@ private extension GameListDataSource {
 extension GameListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 enum TeamDetailsInfo {
     case event(Event)
@@ -17,12 +17,12 @@ enum TeamDetailsInfo {
 }
 
 class TeamDetailsDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = TeamDetailsInfo
-    typealias SectionType = Section<ModelType>
+    typealias ItemType = TeamDetailsInfo
+    typealias SectionType = Section<ItemType>
     
     fileprivate let gamesFetchedResultsController: NSFetchedResultsController<Game>
 
-    fileprivate(set) var sections = [Section<ModelType>]()
+    fileprivate(set) var sections = [Section<ItemType>]()
 
     let team: Team
 
@@ -50,7 +50,7 @@ class TeamDetailsDataSource: NSObject, SectionedDataSource {
 extension TeamDetailsDataSource {
     func refresh() {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }
 
@@ -80,6 +80,6 @@ private extension TeamDetailsDataSource {
 extension TeamDetailsDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

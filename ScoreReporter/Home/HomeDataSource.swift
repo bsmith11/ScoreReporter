@@ -9,10 +9,10 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class HomeDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = EventViewModel
+    typealias ItemType = EventViewModel
     typealias SectionType = Section<EventViewModel>
 
     fileprivate let fetchedResultsController = Event.fetchedEventsThisWeek()
@@ -57,6 +57,6 @@ private extension HomeDataSource {
 extension HomeDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }

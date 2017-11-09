@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 import ScoreReporterCore
-import DataSource
+import EZDataSource
 
 class PoolSection: Section<StandingViewModel> {
     let viewModel: PoolViewModel
@@ -32,7 +32,7 @@ class PoolSection: Section<StandingViewModel> {
 }
 
 class PoolListDataSource: NSObject, SectionedDataSource {
-    typealias ModelType = StandingViewModel
+    typealias ItemType = StandingViewModel
     typealias SectionType = PoolSection
 
     fileprivate let fetchedResultsController: NSFetchedResultsController<Pool>
@@ -90,6 +90,6 @@ private extension PoolListDataSource {
 extension PoolListDataSource: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         configureSections()
-        reloadBlock?([])
+        reloadBlock?(.all)
     }
 }
